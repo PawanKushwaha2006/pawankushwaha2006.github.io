@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro Mobile Editor</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+}
+
+/* Top Bar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #020617;
+    padding: 10px;
+    border-bottom: 1px solid #1e293b;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 6px;
+}
+
+.tab {
+    padding: 8px 14px;
+    background: #1e293b;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.tab.active {
+    background: linear-gradient(45deg, #06b6d4, #3b82f6);
+}
+
+/* Run Button */
+button {
+    padding: 8px 14px;
+    border: none;
+    background: #22c55e;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Editor */
+textarea {
+    width: 100%;
+    height: calc(100vh - 60px);
+    border: none;
+    outline: none;
+    padding: 12px;
+    font-size: 15px;
+    background: #020617;
+    color: #e2e8f0;
+    resize: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('html', this)">HTML</div>
+        <div class="tab" onclick="showTab('css', this)">CSS</div>
+        <div class="tab" onclick="showTab('js', this)">JS</div>
+    </div>
+
+    <button onclick="runCode()">▶ Run</button>
+</div>
+
+<textarea id="html">
+<h1>Hello 👋</h1>
+<p>Powerful Editor Ready 🚀</p>
+</textarea>
+
+<textarea id="css" style="display:none;">
+body {
+    background: black;
+    color: lime;
+    text-align: center;
+}
+</textarea>
+
+<textarea id="js" style="display:none;">
+console.log("JS Working");
+</textarea>
+
+<script>
+let active = "html";
+let currentURL = null;
+
+/* Switch Tabs */
+function showTab(tab, el) {
+    document.getElementById(active).style.display = "none";
+    document.getElementById(tab).style.display = "block";
+    active = tab;
+
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    el.classList.add("active");
+}
+
+/* Run Code (Optimized) */
+function runCode() {
+    let html = document.getElementById("html").value;
+    let css = document.getElementById("css").value;
+    let js = document.getElementById("js").value;
+
+    let fullCode = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>${css}</style>
+    </head>
+    <body>
+    ${html}
+    <script>
+    try {
+        ${js}
+    } catch(e) {
+        document.body.innerHTML += "<pre style='color:red'>" + e + "</pre>";
+    }
+    <\/script>
+    </body>
+    </html>
+    `;
+
+    // old URL clear (memory fix)
+    if (currentURL) URL.revokeObjectURL(currentURL);
+
+    let blob = new Blob([fullCode], { type: "text/html" });
+    currentURL = URL.createObjectURL(blob);
+
+    window.open(currentURL);
+}
+</script>
+
+</body>
+</html>
