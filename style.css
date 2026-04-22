@@ -1,0 +1,89 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    text-align: center;
+    background: linear-gradient(135deg, #1e1e2f, #3a3a5a);
+    color: white;
+}
+body {
+    overflow-y: auto;
+}
+html, body {
+    height: auto;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Marquee */
+.marquee {
+    background: black;
+    color: #00ffcc;
+    padding: 12px;
+    font-weight: bold;
+}
+
+/* Editor */
+textarea {
+    width: 90%;
+    height: 200px;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+/* Output */
+iframe {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    border: none;
+    background: white;
+}
+
+
+
+
+/* Buttons */
+button {
+    padding: 10px 18px;
+    margin: 5px;
+    border-radius: 20px;
+    border: none;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* Info */
+.info {
+    width: 90%;
+    margin: 20px auto;
+    text-align: left;
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+/* Footer */
+.footer {
+    background: black;
+    padding: 10px;
+}
+
+.footer span {
+    margin: 0 10px;
+    cursor: pointer;
+    color: #00ffcc;
+}
+.container {
+    min-height: 100vh;
+    overflow-y: auto;
+}
