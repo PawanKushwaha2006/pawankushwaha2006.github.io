@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML Runner</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f4f4f4;
+    text-align: center;
+    margin: 0;
+}
+
+/* Marquee */
+.marquee {
+    background: black;
+    color: white;
+    padding: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee span {
+    position: absolute;
+    white-space: nowrap;
+    animation: scroll 8s linear infinite;
+}
+
+@keyframes scroll {
+    from { left: 100%; }
+    to { left: -100%; }
+}
+
+/* Input */
+textarea {
+    width: 90%;
+    height: 220px;
+    margin: 10px;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 8px;
+}
+
+/* Output */
+iframe {
+    width: 90%;
+    height: 220px;
+    border: 2px solid black;
+    background: white;
+    border-radius: 8px;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    background: #333;
+    color: white;
+}
+
+button:hover {
+    background: #555;
+}
+
+/* Info Section */
+.info {
+    text-align: left;
+    width: 90%;
+    margin: auto;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="marquee">
+    <span>HTML - Hyper Text Markup Language</span>
+</div>
+
+<h2>HTML Code Editor</h2>
+
+<textarea id="htmlCode"></textarea>
+
+<div>
+    <button onclick="runCode()">Run</button>
+    <button onclick="clearCode()">Clear</button>
+    <button onclick="addStructure()">Add HTML Structure</button>
+</div>
+
+<h3>Output</h3>
+<iframe id="output"></iframe>
+
+<br>
+<button onclick="openCalculator()">Open Calculator Page</button>
+
+<script>
+const textarea = document.getElementById("htmlCode");
+const output = document.getElementById("output");
+
+/* Default Code */
+const defaultCode = `<!DOCTYPE html>
+<html>
+<head>
+<title>My Page</title>
+</head>
+<body>
+
+<h1>Hello World 👋</h1>
+<p>Yahan apna code likho</p>
+
+</body>
+</html>`;
+
+/* Load Default */
+textarea.value = defaultCode;
+output.srcdoc = defaultCode;
+
+/* Run */
+function runCode() {
+    output.srcdoc = textarea.value;
+}
+
+/* Clear */
+function clearCode() {
+    textarea.value = "";
+    output.srcdoc = "";
+}
+
+/* Add Structure */
+function addStructure() {
+    textarea.value = defaultCode;
+}
+
+/* Open Calculator Page */
+function openCalculator() {
+    window.location.href = "calculator.html";
+}
+</script>
+
+<!-- Info Section -->
+<div class="info">
+    <h3>What is HTML:</h3>
+    <ul>
+        <li>It's a markup language, not a programming language</li>
+        <li>Used to structure and organize content on web pages</li>
+        <li>Tags like <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;div&gt;</code> define elements</li>
+        <li>Created by Tim Berners-Lee in 1989</li>
+    </ul>
+
+    <h3>Why Learn HTML:</h3>
+    <ol>
+        <li><b>Foundation of Web Development</b></li>
+    </ol>
+    <ul>
+        <li>HTML is the base of every website</li>
+        <li>CSS is used for styling and JavaScript for functionality</li>
+    </ul>
+
+    <ol start="2">
+        <li><b>Easy to Learn</b></li>
+    </ol>
+    <ul>
+        <li>Simple syntax and beginner-friendly</li>
+        <li>
+            Plenty of documentation and learning resources are readily available
+        </li>
+    </ul>
+     <ol start="3">
+        <li><b>Career Opportunities</b></li>
+    </ol>
+    <ul>
+        <li>
+            Essential for web designers, front-end developers, and full-stack developers
+        </li>
+        <li>
+            High demand in the job market with good career prospects
+        </li>
+    </ul>
+     <ol start="4">
+        <li><b>Practical Applications</b></li>
+     </ol>
+        <ul>
+            <li>
+                You can create your own websites, blogs, and personal projects
+            </li>
+            <li>
+                Perfect for building a portfolio to showcase your skills
+            </li>
+        </ul>
+        
+        <li><b>Versatile Use Cases</b></li>
+     </ol>
+     <ul>
+         <li>
+             Useful for static websites, email templates, documentation sites, and even mobile apps
+         </li>
+         <li>
+             Foundation for many other web technologies and frameworks
+         </li>
+         <br>Start with HTML fundamentals, then learn CSS for styling, and finally JavaScript for interactivity - this forms a complete web development learning path. Begin with basic tags and gradually advance to more complex concepts.
+     </ul>
+</div>
+
+</body>
+</html>
