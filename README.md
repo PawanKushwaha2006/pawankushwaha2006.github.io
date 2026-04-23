@@ -1,2 +1,2 @@
-# yaha--html-sikho-
+# yaha--html-seekho-
 My html learning website 
