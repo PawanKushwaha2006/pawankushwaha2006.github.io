@@ -246,7 +246,24 @@ function comingSoon() {
     alert("🚧 Coming Soon!");
 }
 </script>
+<!--firebase add here-->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyDlNsdIFtVeSU6A158G63833_-NeEyZxBE",
+    authDomain: "yaha-html-seekho.firebaseapp.com",
+    projectId: "yaha-html-seekho",
+    storageBucket: "yaha-html-seekho.firebasestorage.app",
+    messagingSenderId: "216871574352",
+    appId: "1:216871574352:web:fe8c83887dce380323ea55"
+  };
 
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>
 </body>  
 </html>
