@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suggestion Page</title>
+
+<style>
+* {
+  box-sizing: border-box; /* Ye important tha bhai */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #3a3a5a, #3a3a5a);
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Container */
+.box {
+  width: 90%;
+  max-width: 700px;
+  margin: 0px auto;
+  padding: 25px;
+  background: #2f3542;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+
+/* Inputs */
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  background: #1e293b;
+  color: white;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 14px;
+  background: #0072ff;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #0056cc;
+  transform: scale(1.02);
+}
+
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+  transform: scale(1);
+}
+
+/* Message */
+#msg {
+  margin-top: 15px;
+  font-size: 15px;
+  min-height: 20px;
+}
+
+.success {
+  color: #00ffcc;
+}
+
+.error {
+  color: #ff4757;
+}
+</style>
+
+</head>
+<body>
+
+<h2>💡 Give Your Suggestion</h2>
+
+<div class="box">
+
+  <input type="text" id="name" placeholder="Your Name">
+
+  <select id="type">
+    <option value="">Select Type</option>
+    <option value="Website Design">Website Design</option>
+    <option value="New Feature">New Feature</option>
+    <option value="Bug Fix">Bug Fix</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <textarea id="suggestion" rows="5" placeholder="Write your suggestion..."></textarea>
+
+  <button id="submitBtn" onclick="submitSuggestion()">Submit</button>
+
+  <p id="msg"></p>
+
+</div>
+
+<script>
+function submitSuggestion() {
+  let name = document.getElementById("name").value.trim();
+  let type = document.getElementById("type").value;
+  let suggestion = document.getElementById("suggestion").value.trim();
+  let msgBox = document.getElementById("msg");
+  let submitBtn = document.getElementById("submitBtn");
+
+  // Reset message
+  msgBox.className = "";
+  
+  // Validation
+  if(name === "" || suggestion === "" || type === "") {
+    msgBox.innerText = "⚠ Please fill all fields";
+    msgBox.className = "error";
+    return;
+  }
+
+  // Disable button
+  submitBtn.disabled = true;
+  submitBtn.innerText = "Submitting...";
+
+  // Fake submit - 1 sec delay
+  setTimeout(() => {
+    msgBox.innerText = "✅ Thank you, " + name + "! Your suggestion is received.";
+    msgBox.className = "success";
+    
+    // Clear fields
+    document.getElementById("name").value = "";
+    document.getElementById("type").value = "";
+    document.getElementById("suggestion").value = "";
+    
+    // Enable button
+    submitBtn.disabled = false;
+    submitBtn.innerText = "Submit";
+    
+    // Message hide after 3 sec
+    setTimeout(() => {
+      msgBox.innerText = "";
+    }, 3000);
+    
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
