@@ -10,7 +10,7 @@ const defaultCode = `<!DOCTYPE html>
 </body>
 </html>`;
 
-/* Load */
+// Load default
 textarea.value = defaultCode;
 output.srcdoc = defaultCode;
 
@@ -31,6 +31,28 @@ function addStructure() {
 function comingSoon() {
     alert("🚧 Coming Soon!");
 }
+
+function openEditor() {
+    window.open("HTML.html", "_blank");
+}
+
+function openGame() {
+    window.location.href = "game.html"; 
+}
+
+function openCalculator() {
+    window.location.href = "calculator.html";
+}
+
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("show");
+  document.getElementById("fabBtn").classList.toggle("active");
+}
+
+function toggleSub(id) {
+  document.getElementById(id).classList.toggle("open");
+}
+
 // Double tap zoom block
 let lastTouch = 0;
 document.addEventListener("touchend", function(e) {
@@ -45,15 +67,3 @@ document.addEventListener("touchend", function(e) {
 document.addEventListener("gesturestart", function(e) {
     e.preventDefault();
 });
-function openGame() {
-    window.location.href = "game.html"; 
-}
-<script>
-function openCalculator() {
-    window.location.href = "calculator.html";
-}
-</script>
-
-
-
-
