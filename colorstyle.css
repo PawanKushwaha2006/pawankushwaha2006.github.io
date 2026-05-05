@@ -1,0 +1,57 @@
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f0f0f0;font-size:13px;color:#222}
+header{background:#1a1a2e;color:white;padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:12px}
+header .logo{font-weight:bold;color:#7ec8e3;font-size:14px}
+.nav-bar{background:#fff;border-bottom:1px solid #ccc;padding:6px 10px;display:flex;justify-content:space-between;align-items:center}
+.nav-bar .title{font-weight:bold;font-size:15px}
+.nav-btns button{background:#e0e0e0;border:1px solid #bbb;border-radius:3px;padding:3px 10px;font-size:11px;cursor:pointer;margin-left:4px}
+.container{padding:10px;max-width:480px;margin:0 auto}
+.card{background:white;border:1px solid #ccc;border-radius:4px;margin-bottom:10px;padding:10px}
+.card h3{font-size:13px;font-weight:bold;margin-bottom:8px;color:#333}
+.wheel-outer{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
+.wheel-container{position:relative;width:200px;height:200px;flex-shrink:0;touch-action:none}
+#colorWheel{display:block;width:200px;height:200px;border-radius:50%;border:2px solid #aaa;cursor:crosshair}
+#dot{position:absolute;width:22px;height:22px;border-radius:50%;border:3px solid #fff;outline:2.5px solid #222;box-shadow:0 2px 8px rgba(0,0,0,0.6);transform:translate(-50%,-50%);pointer-events:none;z-index:10;background:#fff;left:50%;top:50%}
+.wheel-preview{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #ccc;border-radius:20px;padding:6px 16px}
+.preview-circle{width:30px;height:30px;border-radius:50%;border:2px solid #aaa;background:#fff;flex-shrink:0}
+.preview-hex{font-size:14px;font-weight:bold;letter-spacing:1px;color:#333}
+.hex-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.hex-row label{font-size:12px;color:#555;min-width:70px}
+.hex-row input[type="text"]{border:1px solid #aaa;padding:4px 6px;font-size:12px;width:100px;border-radius:3px}
+.hex-row button{background:#5a9;color:white;border:none;padding:4px 10px;border-radius:3px;font-size:12px;cursor:pointer}
+.html5-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.html5-row label{font-size:12px;color:#555;min-width:70px}
+#html5picker{width:40px;height:26px;border:1px solid #aaa;border-radius:3px;cursor:pointer;padding:1px}
+#selectedColorBox{width:100%;height:60px;border-radius:4px;border:1px solid #bbb;margin-bottom:8px;transition:background 0.2s}
+.text-btns{display:flex;gap:6px;margin-bottom:6px}
+.text-btns button{flex:1;padding:5px;font-size:12px;border:1px solid #bbb;border-radius:3px;cursor:pointer;background:#eee}
+.text-btns button.active{background:#555;color:white;border-color:#555}
+#colorInfo{font-size:11px;color:#555;margin-bottom:8px;line-height:1.7}
+.shade-table{width:100%;border-collapse:collapse;font-size:11px}
+.shade-table th{background:#333;color:white;padding:3px 6px;text-align:left}
+.shade-table td{padding:2px 6px;border-bottom:1px solid #eee;cursor:pointer}
+.shade-table td.swatch{width:28px;height:18px}
+.shade-table tr:hover{opacity:0.85}
+.hue-table{width:100%;border-collapse:collapse;font-size:11px}
+.hue-table td{padding:2px 4px;border-bottom:1px solid #eee;cursor:pointer}
+.hue-table td.swatch{width:28px;height:18px}
+.hue-table .hdr td{background:#333;color:white;font-weight:bold;padding:3px 4px}
+.hue-table tr:hover{opacity:0.8}
+.slider-row{display:flex;align-items:center;gap:6px;margin-bottom:3px}
+.slider-row label{font-size:11px;color:#555;width:28px}
+.slider-row input[type="range"]{flex:1}
+.slider-row span{font-size:11px;min-width:30px;text-align:right}
+.rgb-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.rgb-bar-row label{font-size:11px;width:30px;font-weight:bold}
+.rgb-bar-row input[type="range"]{flex:1}
+.rgb-bar-row span{font-size:11px;min-width:24px;text-align:right}
+.rgb-swatch{width:100%;height:28px;border-radius:3px;border:1px solid #bbb;margin-bottom:4px}
+.signin-box{text-align:center;padding:10px 6px;background:white;border:1px solid #ccc;border-radius:4px;margin-bottom:10px}
+.signin-box p{font-size:11px;color:#555;margin-bottom:6px}
+.signin-box button{background:#1a73e8;color:white;border:none;padding:6px 20px;border-radius:20px;font-size:12px;cursor:pointer}
+.social-icons{display:flex;justify-content:center;gap:10px;margin-top:8px}
+.social-icons span{width:28px;height:28px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer}
+footer{background:#1a1a2e;color:#aaa;text-align:center;padding:8px;font-size:11px}
+footer .footer-logo{color:#7ec8e3;font-weight:bold;font-size:14px;margin-bottom:3px}
+.section-title{background:#222;color:white;padding:5px 10px;font-size:13px;font-weight:bold;border-radius:3px 3px 0 0}
+.section-inner{background:white;border:1px solid #ccc;border-top:none;padding:8px;margin-bottom:10px;border-radius:0 0 3px 3px}
