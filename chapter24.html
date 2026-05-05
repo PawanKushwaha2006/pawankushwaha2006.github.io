@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 24: Semantic HTML - Modern Layout</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8}
+   .container{max-width:900px;margin:0 auto;padding:20px}
+    h1{font-size:32px;color:#38bdf8;margin-bottom:15px}
+    h2{font-size:26px;color:#0ea5e9;margin:35px 0 15px;border-bottom:2px solid #334155;padding-bottom:8px}
+    h3{font-size:20px;color:#7dd3fc;margin:25px 0 12px}
+    p{margin-bottom:15px;color:#cbd5e1;font-size:15px}
+    code{background:#1e293b;padding:3px 6px;border-radius:4px;font-family:'Courier New',monospace;color:#f472b6;font-size:14px;border:1px solid #334155}
+    pre{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:15px;overflow-x:auto;margin:20px 0;line-height:1.6}
+    pre code{background:none;border:none;padding:0;color:#94a3b8}
+    
+   .note{background:#1e3a5f;border-left:4px solid #0ea5e9;padding:15px;margin:20px 0;border-radius:6px;color:#bae6fd}
+   .warning{background:#5f1e1e;border-left:4px solid #f87171;padding:15px;margin:20px 0;border-radius:6px;color:#fecaca}
+   .success{background:#1e3a2e;border-left:4px solid #34d399;padding:15px;margin:20px 0;border-radius:6px;color:#6ee7b7}
+   .example{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:18px;margin:20px 0}
+   .example-title{color:#34d399;font-weight:bold;margin-bottom:10px;font-size:14px}
+    
+    /* Table Scrollable */
+   .table-scroll{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border:1px solid #334155;
+      border-radius:8px;
+      margin:20px 0;
+      background:#1e293b;
+    }
+    table{
+      width:100%;
+      min-width:600px;
+      border-collapse:collapse;
+      font-size:14px;
+      margin:0;
+    }
+    th{background:#334155;color:#f1f5f9;padding:12px;text-align:left;font-weight:600;white-space:nowrap}
+    td{padding:12px;border-bottom:1px solid #334155;color:#cbd5e1}
+    tr:last-child td{border-bottom:none}
+    tr:hover{background:#2d3748}
+    
+    /* Demo Semantic Layout */
+   .demo-layout{border:2px dashed #334155;border-radius:8px;margin:20px 0;overflow:hidden}
+   .demo-layout header{background:#1e3a5f;padding:15px;text-align:center;border-bottom:1px solid #334155}
+   .demo-layout nav{background:#1e293b;padding:10px;text-align:center;border-bottom:1px solid #334155}
+   .demo-layout main{display:grid;grid-template-columns:2fr 1fr;gap:0;min-height:200px}
+   .demo-layout article{background:#0f172a;padding:15px}
+   .demo-layout aside{background:#1e293b;padding:15px;border-left:1px solid #334155}
+   .demo-layout footer{background:#1e3a5f;padding:15px;text-align:center;border-top:1px solid #334155}
+   .demo-layout section{background:#1e293b;padding:12px;margin:10px 0;border-radius:6px;border:1px solid #334155}
+   .tag-label{color:#f472b6;font-family:monospace;font-size:13px}
+    
+    @media(max-width:600px){
+      h1{font-size:26px}h2{font-size:22px}
+      table{font-size:13px;min-width:500px}
+      th,td{padding:8px}
+     .demo-layout main{grid-template-columns:1fr}
+     .demo-layout aside{border-left:none;border-top:1px solid #334155}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Chapter 24: Semantic HTML</h1>
+  <p>Semantic tags describe their meaning to browsers, screen readers, and search engines. Replace generic <code>&lt;div&gt;</code> with meaningful tags. Better for SEO, accessibility, and code readability.</p>
+
+  <div class="warning">
+    <b>Old Way vs Modern Way:</b><br>
+    Old: <code>&lt;div id="header"&gt;</code> - No meaning<br>
+    Modern: <code>&lt;header&gt;</code> - Browser knows it's the page header
+  </div>
+
+  <h2>1. <code>&lt;header&gt;</code> - Page or Section Header</h2>
+  <p>Represents introductory content. Can be used for whole page OR inside <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>.</p>
+
+  <h3>Use Cases:</h3>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Location</th><th>Contains</th><th>Example</th></tr>
+      <tr><td><b>Page Header</b></td><td>Logo, site nav, search</td><td>Top of website</td></tr>
+      <tr><td><b>Article Header</b></td><td>Title, author, date</td><td>Blog post heading</td></tr>
+      <tr><td><b>Section Header</b></td><td>Section title</td><td>Inside <code>&lt;section&gt;</code></td></tr>
+    </table>
+  </div>
+
+  <pre><code>&lt;!-- Page Header --&gt;
+&lt;header&gt;
+  &lt;img src="logo.png" alt="Site Logo"&gt;
+  &lt;nav&gt;
+    &lt;a href="/"&gt;Home&lt;/a&gt;
+    &lt;a href="/blog"&gt;Blog&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;!-- Article Header --&gt;
+&lt;article&gt;
+  &lt;header&gt;
+    &lt;h1&gt;How to Learn HTML&lt;/h1&gt;
+    &lt;p&gt;By John Doe | May 1, 2026&lt;/p&gt;
+  &lt;/header&gt;
+  &lt;p&gt;Article content...&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+
+  <div class="note">
+    <b>Rules:</b> You can have multiple <code>&lt;header&gt;</code> tags. Cannot nest <code>&lt;header&gt;</code> inside <code>&lt;header&gt;</code> or <code>&lt;footer&gt;</code>.
+  </div>
+
+  <h2>2. <code>&lt;footer&gt;</code> - Page or Section Footer</h2>
+  <p>Contains info about its section: copyright, links, author info, back-to-top.</p>
+
+  <pre><code>&lt;!-- Page Footer --&gt;
+&lt;footer&gt;
+  &lt;p&gt;&copy; 2026 LearnWebDev. All rights reserved.&lt;/p&gt;
+  &lt;nav&gt;
+    &lt;a href="/privacy"&gt;Privacy&lt;/a&gt;
+    &lt;a href="/terms"&gt;Terms&lt;/a&gt;
+    &lt;a href="/contact"&gt;Contact&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/footer&gt;
+
+&lt;!-- Article Footer --&gt;
+&lt;article&gt;
+  &lt;p&gt;Article content...&lt;/p&gt;
+  &lt;footer&gt;
+    &lt;p&gt;Tags: HTML, CSS, Web&lt;/p&gt;
+    &lt;p&gt;Author: Jane Smith&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;</code></pre>
+
+  <div class="note">
+    <b>Rules:</b> Multiple <code>&lt;footer&gt;</code> tags allowed. Cannot nest inside <code>&lt;header&gt;</code> or another <code>&lt;footer&gt;</code>.
+  </div>
+
+  <h2>3. <code>&lt;article&gt;</code> - Self-Contained Content</h2>
+  <p>Represents content that makes sense on its own. Should be distributable/reusable independently.</p>
+
+  <h3>Use For:</h3>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Good for article</th><th>NOT for article</th></tr>
+      <tr><td>Blog post</td><td>Site header</td></tr>
+      <tr><td>News article</td><td>Sidebar</td></tr>
+      <tr><td>Forum post</td><td>Navigation menu</td></tr>
+      <tr><td>Product card</td><td>Copyright footer</td></tr>
+      <tr><td>User comment</td><td>Banner ad</td></tr>
+    </table>
+  </div>
+
+  <pre><code>&lt;article&gt;
+  &lt;header&gt;
+    &lt;h2&gt;HTML Semantic Tags Explained&lt;/h2&gt;
+    &lt;p&gt;Published: May 1, 2026 by Admin&lt;/p&gt;
+  &lt;/header&gt;
+  
+  &lt;p&gt;Semantic HTML helps search engines understand...&lt;/p&gt;
+  
+  &lt;section&gt;
+    &lt;h3&gt;Why Use Semantic HTML?&lt;/h3&gt;
+    &lt;p&gt;Better SEO, accessibility...&lt;/p&gt;
+  &lt;/section&gt;
+  
+  &lt;footer&gt;
+    &lt;p&gt;Category: HTML | Comments: 24&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;</code></pre>
+
+  <div class="success">
+    <b>SEO Tip:</b> Google treats each <code>&lt;article&gt;</code> as a separate entity. Use one <code>&lt;article&gt;</code> per blog post. Helps with rich snippets and featured snippets.
+  </div>
+
+  <h2>4. <code>&lt;aside&gt;</code> - Sidebar/Tangential Content</h2>
+  <p>Content indirectly related to main content. Like sidebars, pull quotes, ads, related links, author bio.</p>
+
+  <pre><code>&lt;main&gt;
+  &lt;article&gt;
+    &lt;h1&gt;Main Article&lt;/h1&gt;
+    &lt;p&gt;Main content here...&lt;/p&gt;
+  &lt;/article&gt;
+  
+  &lt;aside&gt;
+    &lt;h3&gt;Related Articles&lt;/h3&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="#"&gt;CSS Basics&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;JavaScript Intro&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    
+    &lt;h3&gt;Advertisement&lt;/h3&gt;
+    &lt;img src="ad.jpg" alt="Ad"&gt;
+  &lt;/aside&gt;
+&lt;/main&gt;</code></pre>
+
+  <div class="table-scroll">
+    <table>
+      <tr><th>Use aside for</th><th>Don't use aside for</th></tr>
+      <tr><td>Sidebar with related links</td><td>Main navigation</td></tr>
+      <tr><td>Author bio box</td><td>Article main content</td></tr>
+      <tr><td>Pull quotes</td><td>Page footer</td></tr>
+      <tr><td>Advertisements</td><td>Primary content</td></tr>
+      <tr><td>Table of contents</td><td>Copyright info</td></tr>
+    </table>
+  </div>
+
+  <h2>5. Complete Semantic Layout</h2>
+  <p>This is the modern HTML5 page structure. Replace all divs with semantic tags.</p>
+
+  <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Blog Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;!-- Site Header --&gt;
+  &lt;header&gt;
+    &lt;img src="logo.png" alt="Site Logo"&gt;
+    &lt;nav&gt;
+      &lt;a href="/"&gt;Home&lt;/a&gt;
+      &lt;a href="/blog"&gt;Blog&lt;/a&gt;
+      &lt;a href="/about"&gt;About&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;!-- Main Content Area --&gt;
+  &lt;main&gt;
+    &lt;!-- Blog Post --&gt;
+    &lt;article&gt;
+      &lt;header&gt;
+        &lt;h1&gt;Why Semantic HTML Matters&lt;/h1&gt;
+        &lt;p&gt;By John | May 1, 2026&lt;/p&gt;
+      &lt;/header&gt;
+      
+      &lt;section&gt;
+        &lt;h2&gt;Introduction&lt;/h2&gt;
+        &lt;p&gt;Semantic HTML improves...&lt;/p&gt;
+      &lt;/section&gt;
+      
+      &lt;section&gt;
+        &lt;h2&gt;SEO Benefits&lt;/h2&gt;
+        &lt;p&gt;Google understands structure...&lt;/p&gt;
+      &lt;/section&gt;
+      
+      &lt;footer&gt;
+        &lt;p&gt;Tags: HTML, SEO, Accessibility&lt;/p&gt;
+      &lt;/footer&gt;
+    &lt;/article&gt;
+    
+    &lt;!-- Sidebar --&gt;
+    &lt;aside&gt;
+      &lt;h3&gt;Popular Posts&lt;/h3&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#"&gt;CSS Grid Guide&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;JS Basics&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/aside&gt;
+  &lt;/main&gt;
+
+  &lt;!-- Site Footer --&gt;
+  &lt;footer&gt;
+    &lt;p&gt;&copy; 2026 LearnWebDev&lt;/p&gt;
+    &lt;nav&gt;
+      &lt;a href="/privacy"&gt;Privacy&lt;/a&gt;
+      &lt;a href="/terms"&gt;Terms&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Visual Layout Preview:</div>
+    <div class="demo-layout">
+      <header><span class="tag-label">&lt;header&gt;</span> Site Logo + Nav</header>
+      <nav><span class="tag-label">&lt;nav&gt;</span> Main Menu</nav>
+      <main>
+        <article>
+          <span class="tag-label">&lt;article&gt;</span>
+          <header><span class="tag-label">&lt;header&gt;</span> Article Title</header>
+          <section><span class="tag-label">&lt;section&gt;</span> Content Block 1</section>
+          <section><span class="tag-label">&lt;section&gt;</span> Content Block 2</section>
+          <footer><span class="tag-label">&lt;footer&gt;</span> Article Tags</footer>
+        </article>
+        <aside><span class="tag-label">&lt;aside&gt;</span> Sidebar: Related Links, Ads</aside>
+      </main>
+      <footer><span class="tag-label">&lt;footer&gt;</span> Copyright + Links</footer>
+    </div>
+  </div>
+
+  <h2>6. Other Semantic Tags Quick Reference</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Tag</th><th>Purpose</th><th>Example</th></tr>
+      <tr><td><code>&lt;main&gt;</code></td><td>Primary content. Only one per page</td><td>Wraps articles</td></tr>
+      <tr><td><code>&lt;nav&gt;</code></td><td>Navigation links</td><td>Menu, breadcrumbs</td></tr>
+      <tr><td><code>&lt;section&gt;</code></td><td>Thematic grouping of content</td><td>Chapters, tabs</td></tr>
+      <tr><td><code>&lt;figure&gt;</code></td><td>Image/diagram with caption</td><td>Charts with <code>&lt;figcaption&gt;</code></td></tr>
+      <tr><td><code>&lt;time&gt;</code></td><td>Machine-readable date/time</td><td><code>&lt;time datetime="2026-05-01"&gt;May 1&lt;/time&gt;</code></td></tr>
+      <tr><td><code>&lt;mark&gt;</code></td><td>Highlighted text</td><td>Search results highlight</td></tr>
+    </table>
+  </div>
+
+  <h2>7. SEO & Accessibility Benefits</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Benefit</th><th>How Semantic HTML Helps</th></tr>
+      <tr><td><b>SEO</b></td><td>Google understands page structure. <code>&lt;article&gt;</code> = main content. <code>&lt;nav&gt;</code> = site links</td></tr>
+      <tr><td><b>Accessibility</b></td><td>Screen readers jump to <code>&lt;main&gt;</code>, <code>&lt;nav&gt;</code>, skip <code>&lt;aside&gt;</code></td></tr>
+      <tr><td><b>Maintainability</b></td><td><code>&lt;header&gt;</code> clearer than <code>&lt;div class="header"&gt;</code></td></tr>
+      <tr><td><b>Rich Snippets</b></td><td><code>&lt;article&gt;</code> with <code>&lt;time&gt;</code> helps Google show publish date</td></tr>
+      <tr><td><b>Reader Mode</b></td><td>Safari/Firefox Reader uses <code>&lt;article&gt;</code> to extract content</td></tr>
+    </table>
+  </div>
+
+  <h2>8. Common Mistakes</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Mistake</th><th>Wrong</th><th>Correct</th></tr>
+      <tr><td><b>Using div for everything</b></td><td><code>&lt;div class="header"&gt;</code></td><td><code>&lt;header&gt;</code></td></tr>
+      <tr><td><b>Multiple main tags</b></td><td><code>&lt;main&gt;</code>...<code>&lt;main&gt;</code></td><td>Only one <code>&lt;main&gt;</code> per page</td></tr>
+      <tr><td><b>article for nav</b></td><td><code>&lt;article&gt;&lt;nav&gt;...&lt;/nav&gt;&lt;/article&gt;</code></td><td><code>&lt;nav&gt;</code> directly in <code>&lt;header&gt;</code></td></tr>
+      <tr><td><b>aside for main content</b></td><td>Blog post in <code>&lt;aside&gt;</code></td><td>Use <code>&lt;article&gt;</code> or <code>&lt;main&gt;</code></td></tr>
+      <tr><td><b>Nesting header in header</b></td><td><code>&lt;header&gt;&lt;header&gt;...&lt;/header&gt;&lt;/header&gt;</code></td><td>Not allowed</td></tr>
+      <tr><td><b>No header in article</b></td><td>Direct <code>&lt;h1&gt;</code> in <code>&lt;article&gt;</code></td><td>Wrap in <code>&lt;header&gt;</code> for clarity</td></tr>
+    </table>
+  </div>
+
+  <h2>9. Div vs Semantic - When to Use What?</h2>
+  <pre><code>&lt;!-- BAD: Too many divs --&gt;
+&lt;div class="header"&gt;...&lt;/div&gt;
+&lt;div class="nav"&gt;...&lt;/div&gt;
+&lt;div class="main"&gt;
+  &lt;div class="article"&gt;...&lt;/div&gt;
+  &lt;div class="sidebar"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="footer"&gt;...&lt;/div&gt;
+
+&lt;!-- GOOD: Semantic --&gt;
+&lt;header&gt;...&lt;/header&gt;
+&lt;nav&gt;...&lt;/nav&gt;
+&lt;main&gt;
+  &lt;article&gt;...&lt;/article&gt;
+  &lt;aside&gt;...&lt;/aside&gt;
+&lt;/main&gt;
+&lt;footer&gt;...&lt;/footer&gt;</code></pre>
+
+  <div class="success">
+    <b>Rule of Thumb:</b> If a tag describes the content's purpose, use semantic tag. Use <code>&lt;div&gt;</code> only for styling/layout wrappers with no meaning.
+  </div>
+
+  <h2>10. Summary - Golden Rules</h2>
+  <ol style="color:#cbd5e1;margin-left:20px">
+    <li><b>&lt;header&gt;:</b> Intro content for page or section. Can have multiple. Logo, nav, title go here</li>
+    <li><b>&lt;footer&gt;:</b> Closing info for page or section. Copyright, links, author. Can have multiple</li>
+    <li><b>&lt;article&gt;:</b> Self-contained, reusable content. Blog post, product card, comment. Google loves this</li>
+    <li><b>&lt;aside&gt;:</b> Tangentially related content. Sidebars, ads, related links. Not main content</li>
+    <li><b>&lt;main&gt;:</b> Only one per page. Wraps primary content. Skip nav/header/footer</li>
+    <li><b>Nesting:</b> <code>&lt;article&gt;</code> can have <code>&lt;header&gt;</code> and <code>&lt;footer&gt;</code> inside</li>
+    <li><b>SEO:</b> Use semantic tags. Helps Google understand structure = better rankings</li>
+    <li><b>Accessibility:</b> Screen readers use landmarks to navigate. <code>&lt;nav&gt;</code> <code>&lt;main&gt;</code> <code>&lt;aside&gt;</code></li>
+  </ol>
+
+  <div class="warning">
+    <b>Don't Overuse:</b> Not everything needs <code>&lt;section&gt;</code> or <code>&lt;article&gt;</code>. If it's just for styling, use <code>&lt;div&gt;</code>. If it has semantic meaning, use semantic tag.
+  </div>
+
+  <div class="note">
+    <b>Next:</b> Chapter 25 - HTML Forms Advanced: <code>&lt;fieldset&gt;</code>, <code>&lt;legend&gt;</code>, <code>&lt;label&gt;</code>
+  </div>
+
+</div>
+
+</body>
+  </html>
