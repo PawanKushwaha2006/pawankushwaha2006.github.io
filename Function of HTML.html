@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Function - Complete Guide | COLOLIST</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+  
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    font-family: 'Poppins', sans-serif; 
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    min-height: 100vh; padding: 20px; color: #e2e8f0;
+  }
+  
+.container {
+    max-width: 900px; margin: 0 auto;
+  }
+  
+.header {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 24px; padding: 30px; margin-bottom: 25px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+.logo {
+    color: #38bdf8; font-weight: 700; font-size: 32px;
+    margin-bottom: 8px; text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  }
+.subtitle { 
+    color: #94a3b8; font-size: 14px; letter-spacing: 1px;
+    margin-bottom: 15px;
+  }
+.intro {
+    color: #cbd5e1; font-size: 15px; line-height: 1.6;
+    max-width: 700px; margin: 0 auto;
+  }
+  
+.tabs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: 25px;
+  }
+.tab-btn {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 12px; padding: 14px; color: #94a3b8;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: all 0.3s; font-family: 'Poppins', sans-serif;
+  }
+.tab-btn.active {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    color: #fff; border-color: #0ea5e9;
+    box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+  }
+  
+.content-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 16px; padding: 25px; margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    display: none;
+  }
+.content-card.active { display: block; }
+  
+.section-title {
+    color: #38bdf8; font-size: 22px; font-weight: 700;
+    margin-bottom: 15px; text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+    display: flex; align-items: center; gap: 10px;
+  }
+.section-text {
+    color: #cbd5e1; font-size: 14px; line-height: 1.8;
+    margin-bottom: 15px;
+  }
+  
+.formula-box {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 12px; padding: 20px; margin: 15px 0;
+    text-align: center;
+  }
+.formula {
+    color: #fbbf24; font-size: 20px; font-weight: 700;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+  }
+.formula-desc {
+    color: #94a3b8; font-size: 13px; margin-top: 10px;
+  }
+  
+.example-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px; margin-top: 15px;
+  }
+.example-box {
+    background: rgba(15, 23, 42, 0.6);
+    border-left: 3px solid #0ea5e9;
+    border-radius: 8px; padding: 16px;
+  }
+.example-title {
+    color: #fbbf24; font-size: 15px; font-weight: 600;
+    margin-bottom: 8px;
+  }
+.example-text {
+    color: #94a3b8; font-size: 13px; line-height: 1.7;
+  }
+  
+.code-block {
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 8px; padding: 16px; margin: 15px 0;
+    overflow-x: auto;
+  }
+.code-block code {
+    color: #10b981; font-family: 'Courier New', monospace;
+    font-size: 13px; line-height: 1.6;
+  }
+.comment { color: #64748b; }
+.keyword { color: #a855f7; }
+.function { color: #38bdf8; }
+.string { color: #fbbf24; }
+  
+.types-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin-top: 15px;
+  }
+.type-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 12px; padding: 16px;
+    transition: all 0.3s;
+  }
+.type-card:hover {
+    border-color: rgba(56, 189, 248, 0.5);
+    transform: translateY(-3px);
+  }
+.type-name {
+    color: #38bdf8; font-size: 16px; font-weight: 600;
+    margin-bottom: 8px;
+  }
+.type-desc {
+    color: #94a3b8; font-size: 13px; line-height: 1.6;
+  }
+  
+.note-box {
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: 12px; padding: 16px; margin-top: 15px;
+  }
+.note-title {
+    color: #fbbf24; font-size: 15px; font-weight: 600;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+  }
+.note-text {
+    color: #cbd5e1; font-size: 13px; line-height: 1.7;
+  }
+  
+.footer {
+    text-align: center; margin-top: 40px; padding: 20px;
+    color: #64748b; font-size: 13px;
+  }
+  
+@media (max-width: 600px) {
+    .tabs { grid-template-columns: 1fr; }
+    .header { padding: 20px; }
+    .content-card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="logo">⚡ COLOLIST</div>
+    <div class="subtitle">FUNCTION - COMPLETE GUIDE</div>
+    <p class="intro">
+      A function is a rule that converts input to output. It's used in Math and Programming. 
+      The concept is the same everywhere - Give Input, Process it, Get Output.
+    </p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('math')">📊 Math Functions</button>
+    <button class="tab-btn" onclick="switchTab('code')">💻 Programming Functions</button>
+  </div>
+
+  <!-- Math Functions Tab -->
+  <div class="content-card active" id="math">
+    <div class="section-title">📊 What is a Function in Math?</div>
+    <div class="section-text">
+      A function is a special relationship where <strong>every input has exactly one output</strong>. 
+      Like a vending machine - insert 10 rupees and you get exactly one chips packet, not two.
+    </div>
+
+    <div class="formula-box">
+      <div class="formula">f(x) = y</div>
+      <div class="formula-desc">x = Input (Domain), y = Output (Range), f = Function Rule</div>
+    </div>
+
+    <div class="section-title" style="margin-top: 25px;">🎯 Real Life Examples</div>
+    <div class="example-grid">
+      <div class="example-box">
+        <div class="example-title">Example 1: Double Machine</div>
+        <div class="example-text">
+          f(x) = 2x<br>
+          Input 5 → Output 10<br>
+          Input 7 → Output 14
+        </div>
+      </div>
+      <div class="example-box">
+        <div class="example-title">Example 2: Square Function</div>
+        <div class="example-text">
+          f(x) = x²<br>
+          Input 3 → Output 9<br>
+          Input 4 → Output 16
+        </div>
+      </div>
+      <div class="example-box">
+        <div class="example-title">Example 3: Temperature</div>
+        <div class="example-text">
+          f(C) = (C × 9/5) + 32<br>
+          Celsius to Fahrenheit<br>
+          0°C → 32°F
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top: 25px;">📋 Types of Functions</div>
+    <div class="types-grid">
+      <div class="type-card">
+        <div class="type-name">Linear Function</div>
+        <div class="type-desc">f(x) = mx + c<br>Straight line graph<br>Ex: f(x) = 2x + 3</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name">Quadratic Function</div>
+        <div class="type-desc">f(x) = ax² + bx + c<br>Parabola shape<br>Ex: f(x) = x² - 4</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name">Exponential</div>
+        <div class="type-desc">f(x) = aˣ<br>Grows very fast<br>Ex: f(x) = 2ˣ</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name">Trigonometric</div>
+        <div class="type-desc">sin(x), cos(x), tan(x)<br>Wave patterns<br>Used in physics</div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <div class="note-title">💡 Important Rule</div>
+      <div class="note-text">
+        <strong>Vertical Line Test:</strong> Draw a vertical line on the graph. If it cuts at more than one point, it's not a function. 
+        Every x must have only one y.
+      </div>
+    </div>
+  </div>
+
+  <!-- Programming Functions Tab -->
+  <div class="content-card" id="code">
+    <div class="section-title">💻 What is a Function in Programming?</div>
+    <div class="section-text">
+      In programming, a function is a <strong>reusable block of code</strong> that performs a specific task. 
+      Write once, use multiple times. Code stays clean, no repetition needed.
+    </div>
+
+    <div class="formula-box">
+      <div class="formula">function name(parameters) { code }</div>
+      <div class="formula-desc">Define it → Call it → Get Result</div>
+    </div>
+
+    <div class="section-title" style="margin-top: 25px;">🎯 JavaScript Examples</div>
+    
+    <div class="section-text"><strong>Example 1: Simple Function</strong></div>
+    <div class="code-block">
+      <code><span class="keyword">function</span> <span class="function">greet</span>(name) {
+  <span class="keyword">return</span> <span class="string">"Hello "</span> + name;
+}
+
+<span class="function">console.log</span>(<span class="function">greet</span>(<span class="string">"Rahul"</span>)); <span class="comment">// Output: Hello Rahul</span></code>
+    </div>
+
+    <div class="section-text"><strong>Example 2: Math Function</strong></div>
+    <div class="code-block">
+      <code><span class="keyword">function</span> <span class="function">add</span>(a, b) {
+  <span class="keyword">return</span> a + b;
+}
+
+<span class="keyword">let</span> result = <span class="function">add</span>(5, 3); <span class="comment">// result = 8</span></code>
+    </div>
+
+    <div class="section-text"><strong>Example 3: Arrow Function (Modern)</strong></div>
+    <div class="code-block">
+      <code><span class="keyword">const</span> <span class="function">square</span> = (x) => x * x;
+
+<span class="function">console.log</span>(<span class="function">square</span>(4)); <span class="comment">// Output: 16</span></code>
+    </div>
+
+    <div class="section-title" style="margin-top: 25px;">🔧 Parts of a Function</div>
+    <div class="types-grid">
+      <div class="type-card">
+        <div class="type-name">1. Function Name</div>
+        <div class="type-desc">Unique name - greet, add, calculate. Use camelCase.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name">2. Parameters</div>
+        <div class="type-desc">Input values - (a, b). Used inside the function.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name">3. Function Body</div>
+        <div class="type-desc">Code inside { }. This is where the actual work happens.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name">4. Return Value</div>
+        <div class="type-desc">Output that function gives back. Use return keyword.</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top: 25px;">🎁 Benefits of Functions</div>
+    <div class="section-text">
+      <strong>1. Reusability</strong> - Write once, use 100 times<br>
+      <strong>2. Organized Code</strong> - Code stays clean, easy to understand<br>
+      <strong>3. Easy Debugging</strong> - Bug fixing is easy, change in one place<br>
+      <strong>4. Less Code</strong> - No need to repeat<br>
+      <strong>5. Modularity</strong> - Break large programs into smaller parts
+    </div>
+
+    <div class="note-box">
+      <div class="note-title">💡 Pro Tip</div>
+      <div class="note-text">
+        Always start function names with a <strong>verb</strong>: getUserData, calculateTotal, validateEmail. 
+        This makes it clear what the function does. Don't use nouns like data, total.
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>⚡ COLOLIST | Functions are the building blocks of Math & Programming</p>
+    <p style="margin-top: 8px;">Last Updated: April 2026 | Practice on: MDN, W3Schools, freeCodeCamp</p>
+  </div>
+</div>
+
+<script>
+function switchTab(tab) {
+  // Hide all cards
+  document.querySelectorAll('.content-card').forEach(card => {
+    card.classList.remove('active');
+  });
+  // Remove active from all buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  // Show selected card
+  document.getElementById(tab).classList.add('active');
+  // Activate button
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
