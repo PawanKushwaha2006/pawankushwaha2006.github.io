@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 12: HTML Tables (Basic) - HTML Course</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e2e8f0;
+      line-height: 1.7;
+      padding: 20px;
+    }
+  .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #1e293b;
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid #334155;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      border-bottom: 3px solid #0ea5e9;
+      padding-bottom: 15px;
+    }
+    h3 {
+      color: #0ea5e9;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    p {
+      margin-bottom: 15px;
+      color: #cbd5e1;
+    }
+    code {
+      background: #0f172a;
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: #38bdf8;
+      font-family: 'Courier New', monospace;
+      border: 1px solid #334155;
+      font-size: 13px;
+      display: inline-block;
+      max-width: 100%;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  .code-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+  .code-box pre {
+      color: #e2e8f0;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin: 0;
+    }
+  .output-box {
+      background: #0f172a;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 20px 0;
+    }
+  .note-box {
+      background: rgba(168, 85, 247, 0.1);
+      border-left: 4px solid #a855f7;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+  .note-box code {
+      background: #0f172a;
+      border: 1px solid #a855f7;
+    }
+    ul {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+    li {
+      margin-bottom: 12px;
+      color: #cbd5e1;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    th, td {
+      border: 1px solid #475569;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background: #0ea5e9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    td {
+      background: #1e293b;
+    }
+  .back-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #0ea5e9, #a855f7);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+  .back-btn:hover {
+      opacity: 0.9;
+    }
+    @media (max-width: 768px) {
+    .container {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h3 {
+        font-size: 1.3rem;
+      }
+      code {
+        font-size: 11px;
+        padding: 2px 6px;
+      }
+    .code-box {
+        padding: 15px;
+      }
+    .code-box pre {
+        font-size: 12px;
+      }
+      table {
+        font-size: 14px;
+      }
+      th, td {
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-btn">← Back to Chapters</a>
+
+    <h1>Chapter 12: HTML Tables (Basic)</h1>
+
+    <h3>Introduction to HTML Tables</h3>
+    <p>HTML tables are used to display data in rows and columns. They are perfect for showing structured data like price lists, schedules, or comparisons.</p>
+
+    <h3>Basic Table Tags</h3>
+    <ul>
+      <li><code>&lt;table&gt;</code> - Defines the table container</li>
+      <li><code>&lt;tr&gt;</code> - Table Row - creates a new row</li>
+      <li><code>&lt;th&gt;</code> - Table Header - bold, centered heading cell</li>
+      <li><code>&lt;td&gt;</code> - Table Data - regular cell with data</li>
+    </ul>
+
+    <h3>1. Creating a Simple Table</h3>
+    <div class="code-box">
+<pre>&lt;table border="1"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Name&lt;/th&gt;
+    &lt;th&gt;Age&lt;/th&gt;
+    &lt;th&gt;City&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;John&lt;/td&gt;
+    &lt;td&gt;25&lt;/td&gt;
+    &lt;td&gt;New York&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Sarah&lt;/td&gt;
+    &lt;td&gt;30&lt;/td&gt;
+    &lt;td&gt;London&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre>
+    </div>
+
+    <h3>Output:</h3>
+    <div class="output-box">
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>state</th>
+        </tr>
+        <tr>
+          <td>Pawan</td>
+          <td>22</td>
+          <td>Bihar</td>
+        </tr>
+        <tr>
+          <td>Vivek</td>
+          <td>18</td>
+          <td>UP</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>2. Table Structure Explained</h3>
+    <div class="code-box">
+<pre>&lt;table&gt; &lt;!-- Start table --&gt;
+  &lt;tr&gt; &lt;!-- Row 1 - Headers --&gt;
+    &lt;th&gt;Column 1&lt;/th&gt; &lt;!-- Header cell --&gt;
+    &lt;th&gt;Column 2&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; &lt;!-- Row 2 - Data --&gt;
+    &lt;td&gt;Data 1&lt;/td&gt; &lt;!-- Data cell --&gt;
+    &lt;td&gt;Data 2&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt; &lt;!-- End table --&gt;</pre>
+    </div>
+
+    <h3>3. Adding Borders with CSS</h3>
+    <p>The <code>border="1"</code> attribute is old. Use CSS for modern styling:</p>
+    <div class="code-box">
+<pre>&lt;style&gt;
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #0ea5e9;
+    color: white;
+  }
+&lt;/style&gt;
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Product&lt;/th&gt;
+    &lt;th&gt;Price&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Laptop&lt;/td&gt;
+    &lt;td&gt;\$999&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre>
+    </div>
+
+    <h3>Output:</h3>
+    <div class="output-box">
+      <table>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+        </tr>
+        <tr>
+          <td>Laptop</td>
+          <td>$999</td>
+        </tr>
+        <tr>
+          <td>Mouse</td>
+          <td>$25</td>
+        </tr>
+        <tr>
+          <td>Keyboard</td>
+          <td>$75</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>4. Table with Multiple Rows</h3>
+    <div class="code-box">
+<pre>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Day&lt;/th&gt;
+    &lt;th&gt;Subject&lt;/th&gt;
+    &lt;th&gt;Time&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Monday&lt;/td&gt;
+    &lt;td&gt;Math&lt;/td&gt;
+    &lt;td&gt;9:00 AM&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Tuesday&lt;/td&gt;
+    &lt;td&gt;Science&lt;/td&gt;
+    &lt;td&gt;10:00 AM&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Wednesday&lt;/td&gt;
+    &lt;td&gt;English&lt;/td&gt;
+    &lt;td&gt;11:00 AM&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre>
+    </div>
+
+    <h3>5. Important Rules</h3>
+    <div class="note-box">
+      <b>✅ Best Practices:</b><br>
+      1. Always use <code>&lt;th&gt;</code> for headers - improves accessibility<br>
+      2. Keep number of cells same in each row<br>
+      3. Use <code>border-collapse: collapse</code> to remove double borders<br>
+      4. Add <code>padding</code> to cells for better readability<br>
+      5. Don't use tables for page layout - use CSS Grid/Flexbox instead
+    </div>
+
+    <h3>6. Common Mistakes ❌</h3>
+    <div class="code-box">
+<pre>&lt;!-- Wrong: Missing &lt;tr&gt; tag --&gt;
+&lt;table&gt;
+  &lt;th&gt;Name&lt;/th&gt; &lt;!-- Should be inside &lt;tr&gt; --&gt;
+&lt;/table&gt;
+
+&lt;!-- Wrong: Unequal columns --&gt;
+&lt;tr&gt;
+  &lt;td&gt;Data 1&lt;/td&gt;
+  &lt;td&gt;Data 2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td&gt;Data 3&lt;/td&gt; &lt;!-- Missing second cell --&gt;
+&lt;/tr&gt;</pre>
+    </div>
+
+  </div>
+</body>
+</html>
