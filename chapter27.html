@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 27: HTML File Paths - Relative vs Absolute</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8;padding:20px}
+  .container{max-width:900px;margin:0 auto}
+    h1{font-size:32px;color:#38bdf8;margin-bottom:15px}
+    h2{font-size:26px;color:#0ea5e9;margin:35px 0 15px;border-bottom:2px solid #334155;padding-bottom:8px}
+    h3{font-size:20px;color:#7dd3fc;margin:25px 0 12px}
+    p{margin-bottom:15px;color:#cbd5e1;font-size:15px}
+    code{background:#1e293b;padding:3px 6px;border-radius:4px;font-family:'Courier New',monospace;color:#f472b6;font-size:14px;border:1px solid #334155}
+    pre{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:15px;overflow-x:auto;margin:20px 0;line-height:1.6}
+    pre code{background:none;border:none;padding:0;color:#94a3b8}
+    
+  .note{background:#1e3a5f;border-left:4px solid #0ea5e9;padding:15px;margin:20px 0;border-radius:6px;color:#bae6fd}
+  .warning{background:#5f1e1e;border-left:4px solid #f87171;padding:15px;margin:20px 0;border-radius:6px;color:#fecaca}
+  .success{background:#1e3a2e;border-left:4px solid #34d399;padding:15px;margin:20px 0;border-radius:6px;color:#6ee7b7}
+  .example{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:18px;margin:20px 0}
+  .example-title{color:#34d399;font-weight:bold;margin-bottom:10px;font-size:14px}
+    
+    /* Table Scrollable */
+ .table-scroll{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border:1px solid #334155;
+      border-radius:8px;
+      margin:20px 0;
+      background:#1e293b;
+    }
+    table{
+      width:100%;
+      min-width:600px;
+      border-collapse:collapse;
+      font-size:14px;
+      margin:0;
+    }
+    th{background:#334155;color:#f1f5f9;padding:12px;text-align:left;font-weight:600;white-space:nowrap}
+    td{padding:12px;border-bottom:1px solid #334155;color:#cbd5e1}
+    tr:last-child td{border-bottom:none}
+    tr:hover{background:#2d3748}
+    
+    /* Folder Tree */
+   .folder-tree{
+      background:#1e293b;border:1px solid #334155;border-radius:8px;padding:15px;
+      font-family:'Courier New',monospace;font-size:14px;color:#94a3b8;margin:20px 0
+    }
+   .folder{color:#7dd3fc}
+   .file{color:#f472b6}
+   .current{color:#34d399;font-weight:bold}
+    
+    @media(max-width:600px){
+      h1{font-size:26px}h2{font-size:22px}body{padding:15px}
+      table{font-size:13px;min-width:500px}
+      th,td{padding:8px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Chapter 27: HTML File Paths</h1>
+  <p>File paths tell the browser where to find files like images, CSS, JS, or other HTML pages. Wrong path = 404 error. There are 3 types: Absolute, Relative, and Root-relative.</p>
+
+  <h2>1. Absolute Paths - Full URL</h2>
+  <p>Complete web address starting with <code>https://</code>. Works from anywhere. Used for external resources.</p>
+
+  <h3>Syntax:</h3>
+  <pre><code>&lt;!-- External Image --&gt;
+&lt;img src="https://example.com/images/logo.png" alt="Logo"&gt;
+
+&lt;!-- External CSS --&gt;
+&lt;link rel="stylesheet" href="https://cdn.example.com/style.css"&gt;
+
+&lt;!-- External Link --&gt;
+&lt;a href="https://google.com"&gt;Google&lt;/a&gt;</code></pre>
+
+  <div class="table-scroll">
+    <table>
+      <tr><th>Pros</th><th>Cons</th></tr>
+      <tr><td>Works from any page</td><td>Breaks if domain changes</td></tr>
+      <tr><td>Good for CDN, external files</td><td>Longer to type</td></tr>
+      <tr><td>Always points to same location</td><td>Can't test offline</td></tr>
+    </table>
+  </div>
+
+  <div class="warning">
+    <b>Don't use for internal files:</b> <code>https://yoursite.com/style.css</code> breaks on localhost. Use relative paths for your own files.
+  </div>
+
+  <h2>2. Relative Paths - Based on Current File</h2>
+  <p>Path relative to the current HTML file's location. Most common for internal files.</p>
+
+  <h3>Example Folder Structure:</h3>
+  <div class="folder-tree">
+<span class="folder">project/</span>
+├── <span class="file current">index.html</span>  ← You are here
+├── <span class="file">about.html</span>
+├── <span class="folder">css/</span>
+│   └── <span class="file">style.css</span>
+├── <span class="folder">js/</span>
+│   └── <span class="file">script.js</span>
+└── <span class="folder">images/</span>
+    ├── <span class="file">logo.png</span>
+    └── <span class="folder">icons/</span>
+        └── <span class="file">home.svg</span>
+  </div>
+
+  <h3>Case 1: Same Folder</h3>
+  <p>File is in same folder as current HTML file.</p>
+  <pre><code>&lt;!-- From index.html to about.html --&gt;
+&lt;a href="about.html"&gt;About Page&lt;/a&gt;
+
+&lt;!-- Or with ./ --&gt;
+&lt;a href="./about.html"&gt;About Page&lt;/a&gt;</code></pre>
+
+  <h3>Case 2: Subfolder - Go Down</h3>
+  <p>File is inside a folder. Use <code>folder/file</code></p>
+  <pre><code>&lt;!-- From index.html to css/style.css --&gt;
+&lt;link rel="stylesheet" href="css/style.css"&gt;
+
+&lt;!-- From index.html to images/logo.png --&gt;
+&lt;img src="images/logo.png" alt="Logo"&gt;
+
+&lt;!-- From index.html to images/icons/home.svg --&gt;
+&lt;img src="images/icons/home.svg" alt="Home"&gt;</code></pre>
+
+  <h3>Case 3: Parent Folder - Go Up</h3>
+  <p>File is in parent folder. Use <code>../</code> to go up one level.</p>
+  <pre><code>&lt;!-- From css/style.css to index.html --&gt;
+&lt;a href="../index.html"&gt;Home&lt;/a&gt;
+
+&lt;!-- From js/script.js to images/logo.png --&gt;
+&lt;img src="../images/logo.png" alt="Logo"&gt;
+
+&lt;!-- Go up 2 levels --&gt;
+&lt;a href="../../index.html"&gt;Home&lt;/a&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Visual Examples:</div>
+    <div class="table-scroll">
+      <table>
+        <tr><th>You are in</th><th>Target file</th><th>Path</th></tr>
+        <tr><td><code>index.html</code></td><td><code>about.html</code></td><td><code>about.html</code></td></tr>
+        <tr><td><code>index.html</code></td><td><code>css/style.css</code></td><td><code>css/style.css</code></td></tr>
+        <tr><td><code>css/style.css</code></td><td><code>index.html</code></td><td><code>../index.html</code></td></tr>
+        <tr><td><code>css/style.css</code></td><td><code>images/logo.png</code></td><td><code>../images/logo.png</code></td></tr>
+        <tr><td><code>pages/blog/post.html</code></td><td><code>index.html</code></td><td><code>../../index.html</code></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="success">
+    <b>Rule:</b> <code>./</code> = current folder, <code>../</code> = go up one folder. You can chain: <code>../../images/pic.jpg</code>
+  </div>
+
+  <h2>3. Root-Relative Paths - Start from Domain Root</h2>
+  <p>Starts with <code>/</code>. Always starts from website root domain. Works regardless of current folder depth.</p>
+
+  <pre><code>&lt;!-- Always points to: https://yoursite.com/css/style.css --&gt;
+&lt;link rel="stylesheet" href="/css/style.css"&gt;
+
+&lt;!-- Always points to: https://yoursite.com/images/logo.png --&gt;
+&lt;img src="/images/logo.png" alt="Logo"&gt;
+
+&lt;!-- Always points to: https://yoursite.com/about.html --&gt;
+&lt;a href="/about.html"&gt;About&lt;/a&gt;</code></pre>
+
+  <div class="table-scroll">
+    <table>
+      <tr><th>Pros</th><th>Cons</th></tr>
+      <tr><td>Works from any folder depth</td><td>Doesn't work on localhost file://</td></tr>
+      <tr><td>No need to count ../</td><td>Needs server to work</td></tr>
+      <tr><td>Easy to move files around</td><td>Breaks if site in subfolder</td></tr>
+    </table>
+  </div>
+
+  <div class="warning">
+    <b>Localhost Issue:</b> Root-relative paths fail when opening HTML directly as file. <code>/css/style.css</code> looks for <code>file:///css/style.css</code> which doesn't exist. Use live server or relative paths for local dev.
+  </div>
+
+  <h2>4. Comparison Table</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Type</th><th>Starts With</th><th>Example</th><th>Use For</th></tr>
+      <tr><td><b>Absolute</b></td><td><code>https://</code></td><td><code>https://cdn.com/lib.js</code></td><td>External files, CDN</td></tr>
+      <tr><td><b>Relative</b></td><td><code>file</code> or <code>./</code> or <code>../</code></td><td><code>css/style.css</code></td><td>Internal files, works everywhere</td></tr>
+      <tr><td><b>Root-relative</b></td><td><code>/</code></td><td><code>/css/style.css</code></td><td>Internal files on live server</td></tr>
+    </table>
+  </div>
+
+  <h2>5. Real Project Example</h2>
+  <p>Folder structure for a blog website:</p>
+  <div class="folder-tree">
+<span class="folder">blog/</span>
+├── <span class="file">index.html</span>
+├── <span class="file">about.html</span>
+├── <span class="folder">assets/</span>
+│   ├── <span class="folder">css/</span>
+│   │   └── <span class="file">main.css</span>
+│   ├── <span class="folder">js/</span>
+│   │   └── <span class="file">app.js</span>
+│   └── <span class="folder">images/</span>
+│       └── <span class="file">hero.jpg</span>
+└── <span class="folder">posts/</span>
+    └── <span class="file current">first-post.html</span>  ← You are here
+  </div>
+
+  <h3>From <code>posts/first-post.html</code>:</h3>
+  <pre><code>&lt;!-- Link to homepage - Go up 1 level --&gt;
+&lt;a href="../index.html"&gt;Home&lt;/a&gt;
+
+&lt;!-- Link to CSS - Go up 1, then into assets/css --&gt;
+&lt;link rel="stylesheet" href="../assets/css/main.css"&gt;
+
+&lt;!-- Link to JS --&gt;
+&lt;script src="../assets/js/app.js"&gt;&lt;/script&gt;
+
+&lt;!-- Image --&gt;
+&lt;img src="../assets/images/hero.jpg" alt="Hero"&gt;
+
+&lt;!-- OR using root-relative - Works on server --&gt;
+&lt;link rel="stylesheet" href="/assets/css/main.css"&gt;
+&lt;img src="/assets/images/hero.jpg" alt="Hero"&gt;</code></pre>
+
+  <h2>6. Special Cases</h2>
+
+  <h3>Case 1: Linking to ID on Same Page</h3>
+  <pre><code>&lt;a href="#contact"&gt;Go to Contact&lt;/a&gt;
+...
+&lt;section id="contact"&gt;...&lt;/section&gt;</code></pre>
+
+  <h3>Case 2: Linking to ID on Another Page</h3>
+  <pre><code>&lt;a href="about.html#team"&gt;Our Team&lt;/a&gt;</code></pre>
+
+  <h3>Case 3: Email and Phone Links</h3>
+  <pre><code>&lt;a href="mailto:hello@example.com"&gt;Email Us&lt;/a&gt;
+&lt;a href="tel:+911234567890"&gt;Call Us&lt;/a&gt;
+&lt;a href="sms:+911234567890"&gt;Text Us&lt;/a&gt;</code></pre>
+
+  <h3>Case 4: Download Link</h3>
+  <pre><code>&lt;a href="files/brochure.pdf" download&gt;Download PDF&lt;/a&gt;
+&lt;a href="files/brochure.pdf" download="Company-Brochure.pdf"&gt;Download&lt;/a&gt;</code></pre>
+
+  <h2>7. Common Mistakes</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Mistake</th><th>Wrong</th><th>Correct</th><th>Why</th></tr>
+      <tr><td><b>Backslash</b></td><td><code>css\style.css</code></td><td><code>css/style.css</code></td><td>Web uses forward slash /</td></tr>
+      <tr><td><b>Space in filename</b></td><td><code>my image.jpg</code></td><td><code>my-image.jpg</code> or <code>my%20image.jpg</code></td><td>Spaces break URLs</td></tr>
+      <tr><td><b>Wrong case</b></td><td><code>Logo.PNG</code> when file is <code>logo.png</code></td><td>Match exact case</td><td>Linux servers are case-sensitive</td></tr>
+      <tr><td><b>Starting with / locally</b></td><td><code>/css/style.css</code> on file://</td><td><code>css/style.css</code></td><td>Root-relative needs server</td></tr>
+      <tr><td><b>Too many ../</b></td><td><code>../../../../index.html</code></td><td>Reorganize folders</td><td>Hard to maintain</td></tr>
+    </table>
+  </div>
+
+  <h2>8. Best Practices</h2>
+  <ol style="color:#cbd5e1;margin-left:20px">
+    <li><b>Use relative for internal:</b> <code>css/style.css</code> works everywhere - local + live</li>
+    <li><b>Use absolute for external:</b> <code>https://cdn.com/jquery.js</code> for CDN</li>
+    <li><b>Lowercase filenames:</b> <code>logo.png</code> not <code>Logo.PNG</code> - prevents case issues</li>
+    <li><b>No spaces:</b> Use hyphens: <code>hero-image.jpg</code> not <code>hero image.jpg</code></li>
+    <li><b>Organize folders:</b> <code>/assets/css</code>, <code>/assets/js</code>, <code>/assets/images</code></li>
+    <li><b>Test paths:</b> Open DevTools Console. 404 errors show broken paths</li>
+    <li><b>Root-relative on server:</b> Use <code>/css/style.css</code> only on live sites</li>
+    <li><b>Consistent structure:</b> Keep similar depth to avoid <code>../../../</code></li>
+  </ol>
+
+  <h2>9. Debugging Broken Paths</h2>
+  <div class="example">
+    <div class="example-title">404 Error Checklist:</div>
+    <ol style="color:#cbd5e1;margin-left:20px">
+      <li>Right-click page → Inspect → Console tab. Look for 404 errors</li>
+      <li>Check spelling: <code>stlye.css</code> vs <code>style.css</code></li>
+      <li>Check case: <code>Logo.png</code> vs <code>logo.png</code></li>
+      <li>Check location: Is file really in that folder?</li>
+      <li>Check slashes: Use <code>/</code> not <code>\</code></li>
+      <li>Try absolute path temporarily to test if file exists</li>
+    </ol>
+  </div>
+
+  <h2>10. Summary - Golden Rules</h2>
+  <ol style="color:#cbd5e1;margin-left:20px">
+    <li><b>Relative:</b> <code>folder/file.css</code> - Most common, works locally and live</li>
+    <li><b>Go up:</b> <code>../</code> for each level up. <code>../../</code> = up 2 levels</li>
+    <li><b>Absolute:</b> <code>https://...</code> - Only for external CDN files</li>
+    <li><b>Root-relative:</b> <code>/folder/file.css</code> - Only on server, not local files</li>
+    <li><b>Same folder:</b> Just <code>file.html</code> or <code>./file.html</code></li>
+    <li><b>No spaces/caps:</b> Use lowercase-hyphens: <code>my-file.jpg</code></li>
+    <li><b>Forward slash:</b> Always <code>/</code> never <code>\</code> on web</li>
+    <li><b>Test:</b> Check Console for 404 errors after deploying</li>
+  </ol>
+
+  <div class="success">
+    <b>Pro Tip:</b> When in doubt, right-click broken image → Open image in new tab. URL bar shows what path browser tried. Compare with actual file location.
+  </div>
+
+  <div class="note">
+    <b>Next:</b> Chapter 27 - Iframes: Embedding Other Websites & Videos
+  </div>
+
+</div>
+
+</body>
+              </html>
