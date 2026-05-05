@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 21: YouTube Iframe - HTML Course</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e2e8f0;
+      line-height: 1.7;
+      padding: 20px;
+    }
+.container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #1e293b;
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid #334155;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      border-bottom: 3px solid #0ea5e9;
+      padding-bottom: 15px;
+    }
+    h3 {
+      color: #0ea5e9;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    p {
+      margin-bottom: 15px;
+      color: #cbd5e1;
+    }
+    code {
+      background: #0f172a;
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: #38bdf8;
+      font-family: 'Courier New', monospace;
+      border: 1px solid #334155;
+      font-size: 13px;
+      display: inline-block;
+      max-width: 100%;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+.code-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+.code-box pre {
+      color: #e2e8f0;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin: 0;
+    }
+
+    }
+.note-box {
+      background: rgba(168, 85, 247, 0.1);
+      border-left: 4px solid #a855f7;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+.note-box code {
+      background: #0f172a;
+      border: 1px solid #a855f7;
+    }
+    ul {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+    li {
+      margin-bottom: 12px;
+      color: #cbd5e1;
+    }
+    iframe {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 15px 0;
+      border: none;
+    }
+.output-box {
+  background: #1e293b;
+  border: 2px solid #0ea5e9;
+  border-radius: 12px;
+  padding: 0; /* Pehle 20px tha, ab 0 kar do */
+  margin: 15px 0;
+  overflow: hidden; /* Ye add karo */
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.back-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #0ea5e9, #a855f7);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 30px;
+      font-weight: 600;
+    }
+.back-btn:hover {
+      opacity: 0.9;
+    }
+.center {
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+.container {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h3 {
+        font-size: 1.3rem;
+      }
+      code {
+        font-size: 11px;
+        padding: 2px 6px;
+      }
+.code-box {
+        padding: 15px;
+      }
+.code-box pre {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Chapter 21: YouTube Iframe</h1>
+
+    <h3>What is an Iframe?</h3>
+    <p>An <code>&lt;iframe&gt;</code> embeds another HTML page within your page. YouTube uses iframes to let you embed videos on your website without hosting the video yourself.</p>
+
+    <h3>1. Basic YouTube Embed</h3>
+    <p>Go to any YouTube video → Click Share → Embed → Copy the iframe code.</p>
+
+    <div class="code-box">
+<pre>&lt;iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen&gt;
+&lt;/iframe&gt;</pre>
+    </div>
+
+    <div class="note-box">
+      <b>Key Attributes Explained:</b><br>
+      <code>src</code> - YouTube embed URL. Replace <code>watch?v=</code> with <code>embed/</code><br>
+      <code>title</code> - For accessibility, describes the video<br>
+      <code>allowfullscreen</code> - Lets users go full screen<br>
+      <code>frameborder="0"</code> - Removes border around video<br>
+      <code>allow</code> - Permissions like autoplay, picture-in-picture
+    </div>
+
+    <h3>2. How to Get Embed Code</h3>
+    <ul>
+      <li><b>Step 1:</b> Open YouTube video</li>
+      <li><b>Step 2:</b> Click "Share" button below video</li>
+      <li><b>Step 3:</b> Click "Embed"</li>
+      <li><b>Step 4:</b> Copy the iframe code</li>
+      <li><b>Step 5:</b> Paste in your HTML</li>
+    </ul>
+
+    <h3>3. Responsive YouTube Video</h3>
+    <p>Fixed width/height breaks on mobile. Use this CSS trick for 16:9 responsive videos:</p>
+    <div class="code-box">
+<pre>&lt;style&gt;
+ .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+  }
+ .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+&lt;/style&gt;
+
+&lt;div class="video-container"&gt;
+  &lt;iframe
+    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+    title="YouTube video"
+    frameborder="0"
+    allowfullscreen&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+   <h3>Live Example:</h3>
+<div class="output-box">
+  <div class="video-container">
+    <iframe 
+      src="https://www.youtube.com/embed/HcOc7P5BMi4"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <p style="text-align:center;margin-top:10px;font-size:14px;color:#94a3b8;">Responsive YouTube Embed</p>
+</div>
+
+    <h3>4. YouTube URL Parameters</h3>
+    <p>Add parameters to the embed URL to control video behavior:</p>
+    <div class="code-box">
+<pre>&lt;!-- Autoplay + Muted --&gt;
+&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1"&gt;&lt;/iframe&gt;
+
+&lt;!-- Start at specific time: 1min 30sec --&gt;
+&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID?start=90"&gt;&lt;/iframe&gt;
+
+&lt;!-- Hide controls --&gt;
+&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID?controls=0"&gt;&lt;/iframe&gt;
+
+&lt;!-- Loop video --&gt;
+&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID?loop=1&playlist=VIDEO_ID"&gt;&lt;/iframe&gt;
+
+&lt;!-- Hide YouTube logo --&gt;
+&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID?modestbranding=1"&gt;&lt;/iframe&gt;</pre>
+    </div>
+
+    <h3>5. Common URL Parameters</h3>
+    <ul>
+      <li><code>autoplay=1</code> - Starts playing automatically. Must use <code>&mute=1</code> or browsers block it</li>
+      <li><code>mute=1</code> - Starts muted</li>
+      <li><code>loop=1</code> - Loops video. Also needs <code>&playlist=VIDEO_ID</code></li>
+      <li><code>controls=0</code> - Hides player controls</li>
+      <li><code>start=90</code> - Starts at 90 seconds</li>
+      <li><code>end=120</code> - Stops at 120 seconds</li>
+      <li><code>rel=0</code> - Don't show related videos at end</li>
+      <li><code>modestbranding=1</code> - Hides YouTube logo</li>
+    </ul>
+
+    <h3>6. Privacy-Enhanced Mode</h3>
+    <p>Use <code>youtube-nocookie.com</code> domain to prevent YouTube from tracking users until they play the video.</p>
+    <div class="code-box">
+<pre>&lt;iframe
+  src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"
+  title="YouTube video player"
+  frameborder="0"
+  allowfullscreen&gt;
+&lt;/iframe&gt;</pre>
+    </div>
+
+    <h3>7. Playlist Embed</h3>
+    <div class="code-box">
+<pre>&lt;iframe
+  width="100%"
+  height="315"
+  src="https://www.youtube.com/embed/videoseries?list=PLAYLIST_ID"
+  title="YouTube playlist"
+  frameborder="0"
+  allowfullscreen&gt;
+&lt;/iframe&gt;</pre>
+    </div>
+
+    <div class="note-box">
+      <b>✅ Best Practices:</b><br>
+      1. Always use <code>title</code> attribute for accessibility<br>
+      2. Make iframes responsive - don't use fixed width/height<br>
+      3. Use <code>youtube-nocookie.com</code> for GDPR compliance<br>
+      4. Add <code>loading="lazy"</code> for better page speed<br>
+      5. Don't autoplay videos with sound - bad UX<br>
+      6. Test on mobile - touch controls work differently<br>
+      7. Provide fallback text if iframe fails to load
+    </div>
+
+    <h3>8. Lazy Loading Iframe</h3>
+    <p>Improves page speed by loading video only when user scrolls to it:</p>
+    <div class="code-box">
+<pre>&lt;iframe
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  loading="lazy"
+  title="YouTube video"
+  frameborder="0"
+  allowfullscreen&gt;
+&lt;/iframe&gt;</pre>
+    </div>
+
+    <h3>9. Common Mistakes ❌</h3>
+    <div class="code-box">
+<pre>&lt;!-- Wrong: Using watch URL --&gt;
+&lt;iframe src="https://www.youtube.com/watch?v=dQw4w9WgXcQ"&gt;&lt;/iframe&gt;
+
+&lt;!-- Correct: Use embed URL --&gt;
+&lt;iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"&gt;&lt;/iframe&gt;
+
+&lt;!-- Wrong: Autoplay with sound --&gt;
+&lt;iframe src="https://www.youtube.com/embed/ID?autoplay=1"&gt;&lt;/iframe&gt;
+
+&lt;!-- Correct: Autoplay muted --&gt;
+&lt;iframe src="https://www.youtube.com/embed/ID?autoplay=1&mute=1"&gt;&lt;/iframe&gt;</pre>
+    </div>
+
+    <div class="center">
+      <a href="index.html" class="back-btn">← Back to Chapters</a>
+    </div>
+
+  </div>
+</body>
+            </html>
