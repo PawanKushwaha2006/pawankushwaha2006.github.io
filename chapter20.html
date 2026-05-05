@@ -1,1 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 20: HTML Audio - Music & Audio Files</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8;padding:20px}
+   .container{max-width:900px;margin:0 auto}
+    h1{font-size:32px;color:#38bdf8;margin-bottom:15px}
+    h2{font-size:26px;color:#0ea5e9;margin:35px 0 15px;border-bottom:2px solid #334155;padding-bottom:8px}
+    h3{font-size:20px;color:#7dd3fc;margin:25px 0 12px}
+    p{margin-bottom:15px;color:#cbd5e1;font-size:15px}
+    code{background:#1e293b;padding:3px 6px;border-radius:4px;font-family:'Courier New',monospace;color:#f472b6;font-size:14px;border:1px solid #334155}
+    pre{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:15px;overflow-x:auto;margin:20px 0;line-height:1.6}
+    pre code{background:none;border:none;padding:0;color:#94a3b8}
+    
+   .note{background:#1e3a5f;border-left:4px solid #0ea5e9;padding:15px;margin:20px 0;border-radius:6px;color:#bae6fd}
+   .warning{background:#5f1e1e;border-left:4px solid #f87171;padding:15px;margin:20px 0;border-radius:6px;color:#fecaca}
+   .success{background:#1e3a2e;border-left:4px solid #34d399;padding:15px;margin:20px 0;border-radius:6px;color:#6ee7b7}
+   .example{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:18px;margin:20px 0}
+   .example-title{color:#34d399;font-weight:bold;margin-bottom:10px;font-size:14px}
+    
+    /* Table Scrollable */
+   .table-scroll{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border:1px solid #334155;
+      border-radius:8px;
+      margin:20px 0;
+      background:#1e293b;
+    }
+    table{
+      width:100%;
+      min-width:600px;
+      border-collapse:collapse;
+      font-size:14px;
+      margin:0;
+    }
+    th{background:#334155;color:#f1f5f9;padding:12px;text-align:left;font-weight:600;white-space:nowrap}
+    td{padding:12px;border-bottom:1px solid #334155;color:#cbd5e1}
+    tr:last-child td{border-bottom:none}
+    tr:hover{background:#2d3748}
+    
+    /* Demo Box */
+   .demo-box{background:#1e293b;padding:20px;border-radius:8px;margin:15px 0;border:1px solid #334155}
+    audio{width:100%;margin:10px 0}
+    button{
+      background:#0ea5e9;color:#000;font-weight:600;cursor:pointer;border:none;
+      padding:10px 16px;border-radius:6px;margin:5px 5px 0;font-size:14px
+    }
+    button:hover{background:#38bdf8}
+    
+    /* Custom Audio Player */
+   .custom-player{
+      background:#0f172a;border:1px solid #334155;border-radius:8px;padding:15px;
+      display:flex;align-items:center;gap:12px;margin:15px 0
+    }
+   .play-btn{
+      width:40px;height:40px;border-radius:50%;background:#0ea5e9;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;border:none
+    }
+   .progress-bar{
+      flex:1;height:6px;background:#334155;border-radius:3px;cursor:pointer;position:relative
+    }
+   .progress-fill{
+      height:100%;background:#0ea5e9;border-radius:3px;width:0%;transition:width 0.1s
+    }
+   .time{font-size:13px;color:#94a3b8;min-width:80px;text-align:right}
+    
+    @media(max-width:600px){
+      h1{font-size:26px}h2{font-size:22px}body{padding:15px}
+      table{font-size:13px;min-width:500px}
+      th,td{padding:8px}
+    }
+  </style>
+</head>
+<body>
 
+<div class="container">
+  <h1>Chapter 20: HTML Audio</h1>
+  <p>The <code>&lt;audio&gt;</code> element embeds sound content in documents. Used for music, podcasts, sound effects, voice notes. HTML5 native - no Flash needed.</p>
+
+  <h2>1. Basic Syntax</h2>
+  <pre><code>&lt;audio src="song.mp3" controls&gt;
+  Your browser does not support the audio tag.
+&lt;/audio&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Example - Basic Audio Player:</div>
+    <div class="demo-box">
+      <p>Note: Replace src with actual audio file URL</p>
+      <audio controls>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Key Points:</b><br>
+    1. <code>src</code> = Path to audio file<br>
+    2. <code>controls</code> = Shows play/pause/volume UI. Without it, audio is invisible<br>
+    3. Text inside <code>&lt;audio&gt;</code> = Fallback for old browsers
+  </div>
+
+  <h2>2. Audio Attributes</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Attribute</th><th>Purpose</th><th>Example</th></tr>
+      <tr><td><code>src</code></td><td>URL of audio file</td><td><code>src="music.mp3"</code></td></tr>
+      <tr><td><code>controls</code></td><td>Show browser controls</td><td><code>&lt;audio controls&gt;</code></td></tr>
+      <tr><td><code>autoplay</code></td><td>Play automatically on load</td><td><code>&lt;audio autoplay&gt;</code></td></tr>
+      <tr><td><code>loop</code></td><td>Repeat audio when finished</td><td><code>&lt;audio loop&gt;</code></td></tr>
+      <tr><td><code>muted</code></td><td>Start muted</td><td><code>&lt;audio muted&gt;</code></td></tr>
+      <tr><td><code>preload</code></td><td>How to load: auto/metadata/none</td><td><code>preload="metadata"</code></td></tr>
+      <tr><td><code>controlslist</code></td><td>Hide specific controls</td><td><code>controlslist="nodownload"</code></td></tr>
+    </table>
+  </div>
+
+  <h3>Preload Attribute Values:</h3>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Value</th><th>Behavior</th></tr>
+      <tr><td><code>none</code></td><td>Don't preload. Saves bandwidth</td></tr>
+      <tr><td><code>metadata</code></td><td>Load duration, dimensions only. Recommended</td></tr>
+      <tr><td><code>auto</code></td><td>Load entire file. Uses more data</td></tr>
+    </table>
+  </div>
+
+  <div class="warning">
+    <b>Autoplay Policy:</b> Most browsers block <code>autoplay</code> with sound. It only works if <code>muted</code> is also present, or after user interaction. This prevents annoying auto-playing ads.
+  </div>
+
+  <h3>Example: Autoplay + Muted + Loop</h3>
+  <pre><code>&lt;audio src="background-music.mp3" 
+       autoplay 
+       loop 
+       muted 
+       controls&gt;
+&lt;/audio&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Background music - Autoplay muted:</div>
+    <div class="demo-box">
+      <audio controls autoplay muted loop preload="metadata">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+      </audio>
+      <p style="font-size:13px;color:#94a3b8;margin-top:10px">Unmute to hear. Loops forever.</p>
+    </div>
+  </div>
+
+  <h2>3. Multiple Sources - <code>&lt;source&gt;</code></h2>
+  <p>Different browsers support different formats. Provide multiple sources for maximum compatibility. Browser picks first supported format.</p>
+
+  <pre><code>&lt;audio controls&gt;
+  &lt;source src="audio.mp3" type="audio/mpeg"&gt;
+  &lt;source src="audio.ogg" type="audio/ogg"&gt;
+  &lt;source src="audio.wav" type="audio/wav"&gt;
+  Your browser does not support audio.
+&lt;/audio&gt;</code></pre>
+
+  <h3>Supported Audio Formats:</h3>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Format</th><th>MIME Type</th><th>Browser Support</th><th>File Size</th></tr>
+      <tr><td><b>MP3</b></td><td>audio/mpeg</td><td>All browsers</td><td>Small - Best choice</td></tr>
+      <tr><td><b>OGG</b></td><td>audio/ogg</td><td>Chrome, Firefox, Opera</td><td>Small</td></tr>
+      <tr><td><b>WAV</b></td><td>audio/wav</td><td>All browsers</td><td>Large - Uncompressed</td></tr>
+      <tr><td><b>AAC</b></td><td>audio/aac</td><td>Safari, Chrome</td><td>Small</td></tr>
+      <tr><td><b>FLAC</b></td><td>audio/flac</td><td>Chrome, Firefox</td><td>Medium - Lossless</td></tr>
+    </table>
+  </div>
+
+  <div class="success">
+    <b>Best Practice:</b> Always provide MP3 as first source. It works everywhere. Add OGG as fallback for Firefox/Opera. Avoid WAV unless you need lossless quality.
+  </div>
+
+  <h2>4. Controlling Audio with JavaScript</h2>
+  <p>The <code>&lt;audio&gt;</code> element has a JavaScript API for custom controls.</p>
+
+  <h3>Key Properties & Methods:</h3>
+  <pre><code>const audio = document.querySelector('audio');
+
+// Properties
+audio.play();           // Start playing
+audio.pause();          // Pause
+audio.currentTime = 0;  // Seek to start
+audio.volume = 0.5;     // 0.0 to 1.0
+audio.muted = true;     // Mute/unmute
+audio.playbackRate = 2; // 2x speed
+
+// Properties - Read only
+console.log(audio.duration);    // Total seconds
+console.log(audio.currentTime); // Current position
+console.log(audio.paused);      // true/false
+console.log(audio.ended);       // true/false
+
+// Events
+audio.addEventListener('play', () => console.log('Started'));
+audio.addEventListener('pause', () => console.log('Paused'));
+audio.addEventListener('ended', () => console.log('Finished'));
+audio.addEventListener('timeupdate', () => console.log(audio.currentTime));</code></pre>
+
+  <div class="example">
+    <div class="example-title">Custom Controls Demo:</div>
+    <div class="demo-box">
+      <audio id="demoAudio" preload="metadata">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+      </audio>
+      <div style="margin-top:15px">
+        <button onclick="document.getElementById('demoAudio').play()">Play</button>
+        <button onclick="document.getElementById('demoAudio').pause()">Pause</button>
+        <button onclick="document.getElementById('demoAudio').currentTime = 0">Restart</button>
+        <button onclick="document.getElementById('demoAudio').volume = 0.5">Volume 50%</button>
+        <button onclick="document.getElementById('demoAudio').playbackRate = 2">2x Speed</button>
+      </div>
+    </div>
+  </div>
+
+  <h2>5. Custom Audio Player UI</h2>
+  <p>Hide native controls and build your own for branding.</p>
+
+  <pre><code>&lt;audio id="player" src="song.mp3"&gt;&lt;/audio&gt;
+
+&lt;div class="custom-player"&gt;
+  &lt;button id="playBtn"&gt;Play&lt;/button&gt;
+  &lt;div class="progress-bar"&gt;
+    &lt;div class="progress-fill"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;span class="time"&gt;0:00 / 0:00&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const audio = document.getElementById('player');
+const playBtn = document.getElementById('playBtn');
+
+playBtn.onclick = () => {
+  if(audio.paused) {
+    audio.play();
+    playBtn.textContent = 'Pause';
+  } else {
+    audio.pause();
+    playBtn.textContent = 'Play';
+  }
+};
+&lt;/script&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Live Custom Player:</div>
+    <div class="demo-box">
+      <audio id="customAudio" preload="metadata">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" type="audio/mpeg">
+      </audio>
+      <div class="custom-player">
+        <button class="play-btn" id="customPlayBtn">▶</button>
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="time" id="timeDisplay">0:00 / 0:00</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const audio = document.getElementById('customAudio');
+    const playBtn = document.getElementById('customPlayBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+    const timeDisplay = document.getElementById('timeDisplay');
+    
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+    
+    playBtn.onclick = () => {
+      if(audio.paused) {
+        audio.play();
+        playBtn.textContent = '⏸';
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶';
+      }
+    };
+    
+    audio.addEventListener('timeupdate', () => {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progressFill.style.width = percent + '%';
+      timeDisplay.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration || 0);
+    });
+    
+    progressBar.onclick = (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const percent = (e.clientX - rect.left) / rect.width;
+      audio.currentTime = percent * audio.duration;
+    };
+    
+    audio.addEventListener('ended', () => {
+      playBtn.textContent = '▶';
+    });
+  </script>
+
+  <h2>6. Common Use Cases</h2>
+
+  <h3>Case 1: Background Music</h3>
+  <pre><code>&lt;audio src="ambient.mp3" autoplay loop muted controls controlslist="nodownload"&gt;
+&lt;/audio&gt;</code></pre>
+  <p>Autoplay muted, loops forever, user can unmute. <code>controlslist="nodownload"</code> hides download button.</p>
+
+  <h3>Case 2: Podcast Player</h3>
+  <pre><code>&lt;audio src="episode1.mp3" controls preload="metadata"&gt;
+  &lt;source src="episode1.mp3" type="audio/mpeg"&gt;
+  &lt;source src="episode1.ogg" type="audio/ogg"&gt;
+&lt;/audio&gt;</code></pre>
+  <p>Preload metadata only to save bandwidth. Show controls for seek/speed.</p>
+
+  <h3>Case 3: Sound Effects on Click</h3>
+  <pre><code>&lt;audio id="clickSound" src="click.mp3" preload="auto"&gt;&lt;/audio&gt;
+&lt;button onclick="document.getElementById('clickSound').play()"&gt;
+  Click Me
+&lt;/button&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Click Sound Effect:</div>
+    <div class="demo-box">
+      <audio id="clickSound" preload="auto">
+        <source src="https://www.soundjay.com/buttons/sounds/button-1.mp3" type="audio/mpeg">
+      </audio>
+      <button onclick="document.getElementById('clickSound').play()">Click for Sound</button>
+    </div>
+  </div>
+
+  <h2>7. Accessibility Best Practices</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Practice</th><th>Why</th></tr>
+      <tr><td><b>Always add controls</b></td><td>Users need play/pause/volume. Keyboard users need focus</td></tr>
+      <tr><td><b>Provide captions</b></td><td>Use <code>&lt;track&gt;</code> for transcripts if speech</td></tr>
+      <tr><td><b>No autoplay with sound</b></td><td>Unexpected audio is disruptive for screen readers</td></tr>
+      <tr><td><b>Label audio</b></td><td>Add <code>aria-label="Podcast episode 5"</code> to audio tag</td></tr>
+      <tr><td><b>Keyboard support</b></td><td>Ensure custom players work with Tab, Space, Arrow keys</td></tr>
+    </table>
+  </div>
+
+  <h3>Adding Captions with track:</h3>
+  <pre><code>&lt;audio controls&gt;
+  &lt;source src="podcast.mp3" type="audio/mpeg"&gt;
+  &lt;track kind="captions" src="podcast.vtt" srclang="en" label="English"&gt;
+&lt;/audio&gt;</code></pre>
+
+  <h2>8. Common Mistakes</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+      <tr><td><b>No controls attribute</b></td><td>Audio invisible, can't play</td><td>Add <code>controls</code> or build custom UI</td></tr>
+      <tr><td><b>Autoplay with sound</b></td><td>Blocked by browsers</td><td>Add <code>muted</code> or wait for user click</td></tr>
+      <tr><td><b>Only one format</b></td><td>Won't work on all browsers</td><td>Provide MP3 + OGG sources</td></tr>
+      <tr><td><b>Large WAV files</b></td><td>Slow loading, wastes data</td><td>Use MP3 or AAC for web</td></tr>
+      <tr><td><b>preload="auto" on many files</b></td><td>Wastes bandwidth</td><td>Use <code>preload="metadata"</code> or <code>"none"</code></td></tr>
+      <tr><td><b>No fallback text</b></td><td>Old browsers show nothing</td><td>Add text inside <code>&lt;audio&gt;</code> tag</td></tr>
+    </table>
+  </div>
+
+  <h2>9. Performance Tips</h2>
+  <ol style="color:#cbd5e1;margin-left:20px">
+    <li><b>Compress audio:</b> Use MP3 at 128kbps for speech, 192kbps for music</li>
+    <li><b>Use preload="metadata":</b> Loads duration only, not full file</li>
+    <li><b>Lazy load:</b> Set <code>src</code> with JS when user clicks play</li>
+    <li><b>CDN:</b> Host audio on CDN like Cloudflare for faster delivery</li>
+    <li><b>Streaming:</b> For long files, use HLS or DASH instead of MP3</li>
+  </ol>
+
+  <h2>10. Summary - Golden Rules</h2>
+  <ol style="color:#cbd5e1;margin-left:20px">
+    <li><b>Always add controls:</b> Unless building custom player</li>
+    <li><b>Provide MP3:</b> Universal format. Add OGG for Firefox/Opera fallback</li>
+    <li><b>Don't autoplay sound:</b> Browsers block it. Use muted or wait for click</li>
+    <li><b>Use preload="metadata":</b> Best balance of UX and bandwidth</li>
+    <li><b>Loop for background:</b> Add <code>loop</code> for ambient music</li>
+    <li><b>JavaScript API:</b> Use <code>play()</code>, <code>pause()</code>, <code>currentTime</code> for custom controls</li>
+    <li><b>Accessibility:</b> Add labels, captions, keyboard support</li>
+    <li><b>Mobile:</b> Test on real devices. iOS requires user interaction to play</li>
+  </ol>
+
+  <div class="success">
+    <b>Pro Tip:</b> For playlists, don't load multiple <code>&lt;audio&gt;</code> tags. Use one tag and change <code>src</code> with JavaScript when track ends.
+  </div>
+
+  <div class="note">
+    <b>Next:</b> Chapter 21 - HTML Video <code>&lt;video&gt;</code> - Video files, subtitles, posters
+  </div>
+
+</div>
+</body>
+  </html>
