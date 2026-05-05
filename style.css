@@ -70,19 +70,19 @@ button:hover {
 .top {
     display: flex;
     justify-content: space-around;
-    padding: 10px;
+    padding: 3px;
     background: #1e293b;
 }
 
 .top img {
-    width: 120px;
+    width: 150px;
     height: auto;
     cursor: pointer;
     border-radius: 10px;
 }
 
 .logo1 {
-    width: 200px;
+    width: 150px;
     height: auto;
 }
 
@@ -184,7 +184,6 @@ button:hover {
     transform: translateY(0);
     pointer-events: auto;
 }
-
 .item {
     background: #0072ff;
     padding: 10px 15px;
@@ -195,7 +194,6 @@ button:hover {
     transition: 0.25s;
     box-shadow: 0 3px 10px rgba(0,0,0,0.3);
 }
-
 .item:hover {
     background: #0056cc;
     transform: translateX(-4px);
@@ -222,5 +220,67 @@ button:hover {
 .submenu-btn::after {
     content: " ▾";
     font-size: 12px;
-                     }
-        
+}
+
+/*.menu-item {
+  margin-bottom: 10px;
+}*/
+.menu .item {
+  white-space: nowrap;
+  font-size: 13px; /* 15px se 13px karo */
+  padding: 14px 16px; /* Horizontal padding kam */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Agar phir bhi bada ho to ... dikhayega */
+}
+
+.menu-item button {
+  width: 100%;
+  background: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  padding: 16px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: left;
+  transition: all 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-item button:hover {
+  background: #334155;
+  border-color: #0ea5e9;
+}
+
+.menu-item button.active {
+  background: linear-gradient(135deg, #0ea5e9, #a855f7);
+  border-color: transparent;
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.menu-item button::after {
+  content: '▼';
+  transition: transform 0.3s;
+  font-size: 12px;
+}
+
+.menu-item button.active::after {
+  transform: rotate(180deg);
+}
+
+.content-box {
+  display: none;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  margin-top: -1px;
+}
+
+.content-box.show {
+  display: block;
+}
