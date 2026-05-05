@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 17: Buttons & Actions - HTML Course</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e2e8f0;
+      line-height: 1.7;
+      padding: 20px;
+    }
+.container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #1e293b;
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid #334155;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      border-bottom: 3px solid #0ea5e9;
+      padding-bottom: 15px;
+    }
+    h3 {
+      color: #0ea5e9;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    p {
+      margin-bottom: 15px;
+      color: #cbd5e1;
+    }
+    code {
+      background: #0f172a;
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: #38bdf8;
+      font-family: 'Courier New', monospace;
+      border: 1px solid #334155;
+      font-size: 13px;
+      display: inline-block;
+      max-width: 100%;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+.code-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+.code-box pre {
+      color: #e2e8f0;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin: 0;
+    }
+.output-box {
+      background: #0f172a;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 20px 0;
+    }
+.note-box {
+      background: rgba(168, 85, 247, 0.1);
+      border-left: 4px solid #a855f7;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+.note-box code {
+      background: #0f172a;
+      border: 1px solid #a855f7;
+    }
+    ul {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+    li {
+      margin-bottom: 12px;
+      color: #cbd5e1;
+    }
+    form {
+      margin: 15px 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      color: #e2e8f0;
+      font-size: 14px;
+    }
+    input[type="submit"], input[type="reset"], button {
+      background: linear-gradient(135deg, #0ea5e9, #a855f7);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-right: 10px;
+      margin-top: 5px;
+    }
+    input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
+      opacity: 0.9;
+    }
+    input[type="reset"] {
+      background: #475569;
+    }
+   .btn-danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626)!important;
+    }
+   .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669)!important;
+    }
+   .btn-warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706)!important;
+    }
+.back-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #0ea5e9, #a855f7);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 30px;
+      font-weight: 600;
+    }
+.back-btn:hover {
+      opacity: 0.9;
+    }
+.center {
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+ .container {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h3 {
+        font-size: 1.3rem;
+      }
+      code {
+        font-size: 11px;
+        padding: 2px 6px;
+      }
+ .code-box {
+        padding: 15px;
+      }
+ .code-box pre {
+        font-size: 12px;
+      }
+      input[type="submit"], input[type="reset"], button {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Chapter 17: Buttons & Actions</h1>
+
+    <h3>Introduction to HTML Buttons</h3>
+    <p>Buttons are used to trigger actions in forms and web pages. There are 3 main types: Submit, Reset, and Custom buttons.</p>
+
+    <h3>1. Submit Button</h3>
+    <p>The submit button sends form data to the server. It triggers the form's <code>action</code> attribute.</p>
+
+    <h4>Method 1: Using <code>&lt;input type="submit"&gt;</code></h4>
+    <div class="code-box">
+<pre>&lt;form action="/submit" method="post"&gt;
+  &lt;label for="email"&gt;Email:&lt;/label&gt;
+  &lt;input type="email" id="email" name="email"&gt;
+
+  &lt;input type="submit" value="Submit Form"&gt;
+&lt;/form&gt;</pre>
+    </div>
+
+    <h4>Method 2: Using <code>&lt;button type="submit"&gt;</code></h4>
+    <div class="code-box">
+<pre>&lt;form action="/submit" method="post"&gt;
+  &lt;label for="user"&gt;Username:&lt;/label&gt;
+  &lt;input type="text" id="user" name="username"&gt;
+
+  &lt;button type="submit"&gt;Submit Form&lt;/button&gt;
+&lt;/form&gt;</pre>
+    </div>
+
+    <div class="output-box">
+      <form onsubmit="alert('Form Submitted!'); return false;">
+        <label for="demo1">Email:</label>
+        <input type="email" id="demo1" placeholder="you@example.com">
+        <button type="submit">Submit Form</button>
+      </form>
+    </div>
+
+    <div class="note-box">
+      <b>💡 Key Difference:</b><br>
+      <code>&lt;input type="submit"&gt;</code> - Self-closing, text via <code>value</code> attribute<br>
+      <code>&lt;button&gt;</code> - Can contain HTML, icons, images inside
+    </div>
+
+    <h3>2. Reset Button</h3>
+    <p>The reset button clears all form fields and returns them to default values.</p>
+    <div class="code-box">
+<pre>&lt;form&gt;
+  &lt;label for="name"&gt;Name:&lt;/label&gt;
+  &lt;input type="text" id="name" name="name"&gt;
+
+  &lt;label for="mail"&gt;Email:&lt;/label&gt;
+  &lt;input type="email" id="mail" name="email"&gt;
+
+  &lt;input type="submit" value="Submit"&gt;
+  &lt;input type="reset" value="Clear Form"&gt;
+&lt;/form&gt;</pre>
+    </div>
+
+    <div class="output-box">
+      <form>
+        <label for="demo2a">Name:</label>
+        <input type="text" id="demo2a" placeholder="Enter name">
+
+        <label for="demo2b">Email:</label>
+        <input type="email" id="demo2b" placeholder="Enter email">
+
+        <input type="submit" value="Submit" onclick="alert('Submitted!'); return false;">
+        <input type="reset" value="Clear Form">
+      </form>
+    </div>
+
+    <h3>3. Custom Button with <code>&lt;button&gt;</code> Tag</h3>
+    <p>The <code>&lt;button&gt;</code> tag is more flexible. You can add icons, images, and custom JavaScript actions.</p>
+
+    <h4>Button Types:</h4>
+    <ul>
+      <li><code>type="submit"</code> - Submits the form (default)</li>
+      <li><code>type="reset"</code> - Resets the form</li>
+      <li><code>type="button"</code> - Does nothing, used with JavaScript</li>
+    </ul>
+
+    <div class="code-box">
+<pre>&lt;!-- Submit button --&gt;
+&lt;button type="submit"&gt;Save Data&lt;/button&gt;
+
+&lt;!-- Reset button --&gt;
+&lt;button type="reset"&gt;Reset All&lt;/button&gt;
+
+&lt;!-- Custom button with JavaScript --&gt;
+&lt;button type="button" onclick="alert('Hello!')"&gt;Click Me&lt;/button&gt;
+
+&lt;!-- Button with icon --&gt;
+&lt;button type="button"&gt;
+  &lt;span&gt;🔍&lt;/span&gt; Search
+&lt;/button&gt;</pre>
+    </div>
+
+    <h3>Output:</h3>
+    <div class="output-box">
+      <button type="button" class="btn-success" onclick="alert('Data Saved!')">Save Data</button>
+      <button type="button" class="btn-warning" onclick="alert('Form Reset!')">Reset All</button>
+      <button type="button" onclick="alert('Hello from Custom Button!')">Click Me</button>
+      <button type="button">🔍 Search</button>
+    </div>
+
+    <h3>4. Button Styling Examples</h3>
+    <div class="code-box">
+<pre>&lt;!-- Danger Button --&gt;
+&lt;button type="button" class="btn-danger"&gt;Delete Account&lt;/button&gt;
+
+&lt;!-- Success Button --&gt;
+&lt;button type="button" class="btn-success"&gt;Confirm&lt;/button&gt;
+
+&lt;!-- Warning Button --&gt;
+&lt;button type="button" class="btn-warning"&gt;Warning&lt;/button&gt;
+
+&lt;!-- Disabled Button --&gt;
+&lt;button type="button" disabled&gt;Disabled&lt;/button&gt;</pre>
+    </div>
+
+    <div class="output-box">
+      <button type="button" class="btn-danger" onclick="alert('Deleted!')">Delete Account</button>
+      <button type="button" class="btn-success" onclick="alert('Confirmed!')">Confirm</button>
+      <button type="button" class="btn-warning" onclick="alert('Warning!')">Warning</button>
+      <button type="button" disabled>Disabled</button>
+    </div>
+
+    <h3>5. Input vs Button - When to Use Which?</h3>
+    <div class="note-box">
+      <b>Use <code>&lt;input&gt;</code> when:</b><br>
+      1. Simple text button needed<br>
+      2. Old browser compatibility required<br>
+      3. Form submission only<br><br>
+
+      <b>Use <code>&lt;button&gt;</code> when:</b><br>
+      1. Need icons or HTML inside button<br>
+      2. Custom styling required<br>
+      3. JavaScript actions needed<br>
+      4. Modern web apps
+    </div>
+
+    <h3>6. Complete Form with All Button Types</h3>
+    <div class="code-box">
+<pre>&lt;form action="/register" method="post"&gt;
+  &lt;label for="fname"&gt;Full Name:&lt;/label&gt;
+  &lt;input type="text" id="fname" name="fullname" required&gt;
+
+  &lt;label for="femail"&gt;Email:&lt;/label&gt;
+  &lt;input type="email" id="femail" name="email" required&gt;
+
+  &lt;!-- Submit button --&gt;
+  &lt;button type="submit"&gt;Register Now&lt;/button&gt;
+
+  &lt;!-- Reset button --&gt;
+  &lt;button type="reset"&gt;Clear Form&lt;/button&gt;
+
+  &lt;!-- Custom button --&gt;
+  &lt;button type="button" onclick="alert('Help: Fill all fields')"&gt;Help&lt;/button&gt;
+&lt;/form&gt;</pre>
+    </div>
+
+    <div class="output-box">
+      <form onsubmit="alert('Registered!'); return false;">
+        <label for="demo3a">Full Name:</label>
+        <input type="text" id="demo3a" placeholder="John Doe" required>
+
+        <label for="demo3b">Email:</label>
+        <input type="email" id="demo3b" placeholder="john@example.com" required>
+
+        <button type="submit">Register Now</button>
+        <button type="reset">Clear Form</button>
+        <button type="button" onclick="alert('Help: Fill all required fields')">Help</button>
+      </form>
+    </div>
+
+    <h3>7. Button Attributes</h3>
+    <ul>
+      <li><code>type</code> - submit, reset, or button</li>
+      <li><code>name</code> - Name sent to server</li>
+      <li><code>value</code> - Value sent to server</li>
+      <li><code>disabled</code> - Makes button unclickable</li>
+      <li><code>form</code> - Associates button with a form by id</li>
+      <li><code>onclick</code> - JavaScript to run on click</li>
+    </ul>
+
+    <div class="note-box">
+      <b>✅ Best Practices:</b><br>
+      1. Always specify <code>type</code> attribute for buttons<br>
+      2. Use <code>type="button"</code> for custom JavaScript actions<br>
+      3. Never use reset button without user confirmation<br>
+      4. Make button text clear - "Submit" not "Click Here"<br>
+      5. Disable submit button after click to prevent double submission<br>
+      6. Use <code>&lt;button&gt;</code> for modern apps, more flexible than <code>&lt;input&gt;</code>
+    </div>
+
+    <h3>8. Common Mistakes ❌</h3>
+    <div class="code-box">
+<pre>&lt;!-- Wrong: Button without type defaults to submit --&gt;
+&lt;button&gt;Click&lt;/button&gt; &lt;!-- Inside form, this will submit! --&gt;
+
+&lt;!-- Correct: Specify type --&gt;
+&lt;button type="button"&gt;Click&lt;/button&gt;
+
+&lt;!-- Wrong: Using reset without warning --&gt;
+&lt;input type="reset"&gt; &lt;!-- Users may lose data accidentally --&gt;</pre>
+    </div>
+
+    <div class="center">
+      <a href="index.html" class="back-btn">← Back to Chapters</a>
+    </div>
+
+  </div>
+</body>
+  </html>
