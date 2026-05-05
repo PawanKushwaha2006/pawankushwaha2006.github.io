@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 11: Description Lists - HTML</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8;padding:20px}
+   .container{max-width:900px;margin:0 auto}
+    h1{font-size:32px;color:#38bdf8;margin-bottom:15px}
+    h2{font-size:26px;color:#0ea5e9;margin:35px 0 15px;border-bottom:2px solid #334155;padding-bottom:8px}
+    h3{font-size:20px;color:#7dd3fc;margin:25px 0 12px}
+    p{margin-bottom:15px;color:#cbd5e1;font-size:15px}
+    code{background:#1e293b;padding:3px 6px;border-radius:4px;font-family:'Courier New',monospace;color:#f472b6;font-size:14px;border:1px solid #334155}
+    pre{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:15px;overflow-x:auto;margin:20px 0;line-height:1.6}
+    pre code{background:none;border:none;padding:0;color:#94a3b8}
+    
+    .note{background:#1e3a5f;border-left:4px solid #0ea5e9;padding:15px;margin:20px 0;border-radius:6px;color:#bae6fd}
+    .warning{background:#5f1e1e;border-left:4px solid #f87171;padding:15px;margin:20px 0;border-radius:6px;color:#fecaca}
+    .success{background:#1e3a2e;border-left:4px solid #34d399;padding:15px;margin:20px 0;border-radius:6px;color:#6ee7b7}
+    .example{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:18px;margin:20px 0}
+    .example-title{color:#34d399;font-weight:bold;margin-bottom:10px;font-size:14px}
+    
+    /* Table Scrollable */
+   .table-scroll{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border:1px solid #334155;
+      border-radius:8px;
+      margin:20px 0;
+      background:#1e293b;
+    }
+    table{
+      width:100%;
+      min-width:600px;
+      border-collapse:collapse;
+      font-size:14px;
+      margin:0;
+    }
+    th{background:#334155;color:#f1f5f9;padding:12px;text-align:left;font-weight:600;white-space:nowrap}
+    td{padding:12px;border-bottom:1px solid #334155;color:#cbd5e1}
+    tr:last-child td{border-bottom:none}
+    tr:hover{background:#2d3748}
+    
+    /* Demo Box */
+    .demo-box{background:#1e293b;padding:15px;border-radius:8px;margin:15px 0;border:1px solid #334155}
+    
+    /* Description List Styling */
+    dl{margin:15px 0;color:#cbd5e1}
+    dt{font-weight:600;color:#38bdf8;margin-top:12px;font-size:15px}
+    dt:first-child{margin-top:0}
+    dd{margin-left:20px;margin-bottom:8px;color:#94a3b8;padding-left:10px;border-left:2px solid #334155}
+    
+    /* Styled DL Examples */
+    .dl-faq dt{background:#1e293b;padding:10px;border-radius:6px 6px 0 0;color:#7dd3fc;cursor:pointer}
+    .dl-faq dd{background:#0f172a;padding:12px;margin:0 0 15px 0;border-radius:0 0 6px 6px;border:1px solid #334155;border-top:none}
+    
+    .dl-glossary dt{color:#f472b6;font-size:16px}
+    .dl-glossary dd{border-left:3px solid #f472b6}
+    
+    .dl-metadata{display:grid;grid-template-columns:120px 1fr;gap:10px 20px;align-items:start}
+    .dl-metadata dt{margin:0;color:#34d399;text-align:right}
+    .dl-metadata dd{margin:0;padding:0;border:none;color:#cbd5e1}
+    
+    @media(max-width:600px){
+      h1{font-size:26px}h2{font-size:22px}body{padding:15px}
+      table{font-size:13px;min-width:500px}
+      th,td{padding:8px}
+      .dl-metadata{grid-template-columns:1fr}
+      .dl-metadata dt{text-align:left}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Chapter 11: Description Lists</h1>
+  <p>Used for term-definition pairs, FAQs, metadata, or name-value groups. Uses 3 tags: <code>&lt;dl&gt;</code>, <code>&lt;dt&gt;</code>, <code>&lt;dd&gt;</code></p>
+
+  <h2>1. Basic Syntax</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Tag</th><th>Full Name</th><th>Purpose</th></tr>
+      <tr><td><code>&lt;dl&gt;</code></td><td>Description List</td><td>Container for all terms & definitions</td></tr>
+      <tr><td><code>&lt;dt&gt;</code></td><td>Description Term</td><td>The term or name</td></tr>
+      <tr><td><code>&lt;dd&gt;</code></td><td>Description Details</td><td>The definition or value</td></tr>
+    </table>
+  </div>
+
+  <pre><code>&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;HyperText Markup Language&lt;/dd&gt;
+  
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Cascading Style Sheets&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Output:</div>
+    <div class="demo-box">
+      <dl>
+        <dt>HTML</dt>
+        <dd>HyperText Markup Language</dd>
+        
+        <dt>CSS</dt>
+        <dd>Cascading Style Sheets</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Key Rules:</b><br>
+    1. <code>&lt;dl&gt;</code> wraps everything<br>
+    2. <code>&lt;dt&gt;</code> comes first - it's the term/name<br>
+    3. <code>&lt;dd&gt;</code> comes after - it's the description<br>
+    4. You can have multiple <code>&lt;dd&gt;</code> for one <code>&lt;dt&gt;</code>
+  </div>
+
+  <h2>2. Real World Examples</h2>
+
+  <h3>Example 1: Glossary / Dictionary</h3>
+  <pre><code>&lt;dl&gt;
+  &lt;dt&gt;API&lt;/dt&gt;
+  &lt;dd&gt;Application Programming Interface - A set of rules that allows programs to talk to each other.&lt;/dd&gt;
+  
+  &lt;dt&gt;SEO&lt;/dt&gt;
+  &lt;dd&gt;Search Engine Optimization - The process of improving site visibility on search engines.&lt;/dd&gt;
+  
+  &lt;dt&gt;URL&lt;/dt&gt;
+  &lt;dd&gt;Uniform Resource Locator - The address of a web page.&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Output:</div>
+    <div class="demo-box">
+      <dl class="dl-glossary">
+        <dt>API</dt>
+        <dd>Application Programming Interface - A set of rules that allows programs to talk to each other.</dd>
+        
+        <dt>SEO</dt>
+        <dd>Search Engine Optimization - The process of improving site visibility on search engines.</dd>
+        
+        <dt>URL</dt>
+        <dd>Uniform Resource Locator - The address of a web page.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <h3>Example 2: FAQ Section</h3>
+  <pre><code>&lt;dl&gt;
+  &lt;dt&gt;Q: Is HTML a programming language?&lt;/dt&gt;
+  &lt;dd&gt;A: No, HTML is a markup language. It structures content but doesn't have logic like programming languages.&lt;/dd&gt;
+  
+  &lt;dt&gt;Q: Do I need to pay to use HTML?&lt;/dt&gt;
+  &lt;dd&gt;A: No, HTML is free and open. All browsers support it.&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Output:</div>
+    <div class="demo-box">
+      <dl class="dl-faq">
+        <dt>Q: Is HTML a programming language?</dt>
+        <dd>A: No, HTML is a markup language. It structures content but doesn't have logic like programming languages.</dd>
+        
+        <dt>Q: Do I need to pay to use HTML?</dt>
+        <dd>A: No, HTML is free and open. All browsers support it.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <h3>Example 3: Product Metadata</h3>
+  <pre><code>&lt;dl&gt;
+  &lt;dt&gt;Product Name:&lt;/dt&gt;
+  &lt;dd&gt;Pro HTML Course&lt;/dd&gt;
+  
+  &lt;dt&gt;Price:&lt;/dt&gt;
+  &lt;dd&gt;$49&lt;/dd&gt;
+  
+  &lt;dt&gt;Duration:&lt;/dt&gt;
+  &lt;dd&gt;30 Hours&lt;/dd&gt;
+  
+  &lt;dt&gt;Level:&lt;/dt&gt;
+  &lt;dd&gt;Beginner to Advanced&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Output - Styled as Grid:</div>
+    <div class="demo-box">
+      <dl class="dl-metadata">
+        <dt>Product Name:</dt>
+        <dd>Pro HTML Course</dd>
+        
+        <dt>Price:</dt>
+        <dd>$49</dd>
+        
+        <dt>Duration:</dt>
+        <dd>30 Hours</dd>
+        
+        <dt>Level:</dt>
+        <dd>Beginner to Advanced</dd>
+      </dl>
+    </div>
+  </div>
+
+  <h2>3. Multiple Definitions for One Term</h2>
+  <p>One <code>&lt;dt&gt;</code> can have multiple <code>&lt;dd&gt;</code> tags.</p>
+
+  <pre><code>&lt;dl&gt;
+  &lt;dt&gt;Firefox&lt;/dt&gt;
+  &lt;dd&gt;A free, open-source web browser&lt;/dd&gt;
+  &lt;dd&gt;Developed by Mozilla Foundation&lt;/dd&gt;
+  &lt;dd&gt;First released in 2002&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Output:</div>
+    <div class="demo-box">
+      <dl>
+        <dt>Firefox</dt>
+        <dd>A free, open-source web browser</dd>
+        <dd>Developed by Mozilla Foundation</dd>
+        <dd>First released in 2002</dd>
+      </dl>
+    </div>
+  </div>
+
+  <h2>4. Multiple Terms for One Definition</h2>
+  <p>You can group multiple <code>&lt;dt&gt;</code> tags for one <code>&lt;dd&gt;</code>.</p>
+
+  <pre><code>&lt;dl&gt;
+  &lt;dt&gt;Color&lt;/dt&gt;
+  &lt;dt&gt;Colour&lt;/dt&gt;
+  &lt;dd&gt;The property of an object producing different sensations on the eye&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Output:</div>
+    <div class="demo-box">
+      <dl>
+        <dt>Color</dt>
+        <dt>Colour</dt>
+        <dd>The property of an object producing different sensations on the eye</dd>
+      </dl>
+    </div>
+  </div>
+
+  <h2>5. Nesting dl Inside dd</h2>
+  <p>You can nest a full <code>&lt;dl&gt;</code> inside a <code>&lt;dd&gt;</code> for complex data.</p>
+
+  <pre><code>&lt;dl&gt;
+  &lt;dt&gt;Frontend&lt;/dt&gt;
+  &lt;dd&gt;
+    &lt;dl&gt;
+      &lt;dt&gt;HTML&lt;/dt&gt;
+      &lt;dd&gt;Structure&lt;/dd&gt;
+      &lt;dt&gt;CSS&lt;/dt&gt;
+      &lt;dd&gt;Styling&lt;/dd&gt;
+    &lt;/dl&gt;
+  &lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Output:</div>
+    <div class="demo-box">
+      <dl>
+        <dt>Frontend</dt>
+        <dd>
+          <dl>
+            <dt>HTML</dt>
+            <dd>Structure</dd>
+            <dt>CSS</dt>
+            <dd>Styling</dd>
+          </dl>
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <h2>6. When to Use Description Lists</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Use Case</th><th>Example</th><th>Why dl is Better</th></tr>
+      <tr><td><b>Glossary</b></td><td>Term → Definition</td><td>Semantic HTML, screen readers understand the relationship</td></tr>
+      <tr><td><b>FAQ</b></td><td>Question → Answer</td><td>Better than ul/ol because it's Q&A pairs</td></tr>
+      <tr><td><b>Metadata</b></td><td>Author → Name, Date → Value</td><td>Clear name-value pairing</td></tr>
+      <tr><td><b>Product Specs</b></td><td>Size → Large, Color → Red</td><td>Structured data, easy to style</td></tr>
+      <tr><td><b>Contact Info</b></td><td>Email → test@mail.com</td><td>Better than table for simple pairs</td></tr>
+    </table>
+  </div>
+
+  <div class="warning">
+    <b>Don't Use dl for:</b> Regular lists of items - use <code>&lt;ul&gt;</code>. Step-by-step guides - use <code>&lt;ol&gt;</code>. dl is ONLY for term-description pairs.
+  </div>
+
+  <h2>7. dl vs ul vs ol - Quick Comparison</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Tag</th><th>Structure</th><th>Use When</th><th>Example</th></tr>
+      <tr><td><code>&lt;ul&gt;</code></td><td>Item, Item, Item</td><td>Order doesn't matter</td><td>Features, Menu, Ingredients</td></tr>
+      <tr><td><code>&lt;ol&gt;</code></td><td>1. Step, 2. Step</td><td>Sequence matters</td><td>Instructions, Rankings, Tutorial</td></tr>
+      <tr><td><code>&lt;dl&gt;</code></td><td>Term → Definition</td><td>Name-value pairs</td><td>Glossary, FAQ, Metadata</td></tr>
+    </table>
+  </div>
+
+  <h2>8. Styling Tips</h2>
+  <pre><code>/* Basic styling */
+dt {
+  font-weight: bold;
+  color: #38bdf8;
+  margin-top: 12px;
+}
+
+dd {
+  margin-left: 20px;
+  margin-bottom: 8px;
+  color: #94a3b8;
+  padding-left: 10px;
+  border-left: 2px solid #334155;
+}
+
+/* Grid layout for metadata */
+dl.metadata {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+}
+dl.metadata dt {
+  text-align: right;
+  color: #34d399;
+}</code></pre>
+
+  <h2>9. Common Mistakes</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Mistake</th><th>Wrong</th><th>Correct</th></tr>
+      <tr><td><b>dt or dd outside dl</b></td><td><code>&lt;dt&gt;Term&lt;/dt&gt;</code></td><td><code>&lt;dl&gt;&lt;dt&gt;Term&lt;/dt&gt;&lt;/dl&gt;</code></td></tr>
+      <tr><td><b>Wrong order</b></td><td><code>&lt;dd&gt;Def&lt;/dd&gt;&lt;dt&gt;Term&lt;/dt&gt;</code></td><td><code>&lt;dt&gt;Term&lt;/dt&gt;&lt;dd&gt;Def&lt;/dd&gt;</code></td></tr>
+      <tr><td><b>Using for regular lists</b></td><td><code>&lt;dl&gt;&lt;dt&gt;Apple&lt;/dt&gt;&lt;dt&gt;Banana&lt;/dt&gt;&lt;/dl&gt;</code></td><td>Use <code>&lt;ul&gt;</code> if no definitions</td></tr>
+      <tr><td><b>Empty dt or dd</b></td><td><code>&lt;dt&gt;&lt;/dt&gt;&lt;dd&gt;Def&lt;/dd&gt;</code></td><td>Always provide content</td></tr>
+    </table>
+  </div>
+
+  <h2>10. Summary - Golden Rules</h2>
+  <ol style="color:#cbd5e1;margin-left:20px">
+    <li><b>Structure:</b> <code>&lt;dl&gt;</code> wraps <code>&lt;dt&gt;</code> + <code>&lt;dd&gt;</code> pairs</li>
+    <li><b>Order:</b> Always <code>&lt;dt&gt;</code> first, then <code>&lt;dd&gt;</code></li>
+    <li><b>Multiple dd:</b> One term can have multiple definitions</li>
+    <li><b>Multiple dt:</b> Multiple terms can share one definition</li>
+    <li><b>Semantics:</b> Use ONLY for term-definition or name-value pairs</li>
+    <li><b>Styling:</b> Default has indentation. Use CSS for custom design</li>
+    <li><b>SEO:</b> Search engines understand dl content better for FAQs/glossaries</li>
+  </ol>
+
+  <div class="success">
+    <b>Pro Tip:</b> For FAQ pages, use <code>&lt;dl&gt;</code> instead of divs. Google can show your FAQs directly in search results as rich snippets!
+  </div>
+
+  <div class="note">
+    <b>Next:</b> Chapter 12 - HTML Tables Basic <code>&lt;table&gt;</code>, <code>&lt;tr&gt;</code>, <code>&lt;td&gt;</code>, <code>&lt;th&gt;</code>
+  </div>
+
+</div>
+
+</body>
+</html>
