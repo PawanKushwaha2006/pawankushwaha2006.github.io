@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Memory Game - COLOLIST</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; padding: 15px;
+  }
+
+.game-container {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 24px; padding: 25px; max-width: 450px; width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+.header {
+    text-align: center; margin-bottom: 20px;
+  }
+.logo {
+    color: #38bdf8; font-weight: 700; font-size: 24px;
+    margin-bottom: 4px; text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  }
+.subtitle { color: #94a3b8; font-size: 12px; letter-spacing: 1px; }
+
+.stats-bar {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    margin-bottom: 20px;
+  }
+.stat-box {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 12px; padding: 12px 5px; text-align: center;
+  }
+.stat-value {
+    color: #e2e8f0; font-size: 24px; font-weight: 700;
+    text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+  }
+.stat-label {
+    color: #94a3b8; font-size: 10px; margin-top: 2px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+.stat-level.stat-value {
+    color: #fbbf24;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+  }
+.stat-high.stat-value {
+    color: #10b981;
+    text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+  }
+
+.message-box {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 12px; padding: 15px; margin-bottom: 20px;
+    text-align: center; min-height: 50px;
+    display: flex; align-items: center; justify-content: center;
+  }
+.message {
+    color: #e2e8f0; font-size: 14px; font-weight: 600;
+  }
+.message.watch {
+    color: #fbbf24;
+    animation: pulse 1s infinite;
+  }
+.message.play {
+    color: #10b981;
+  }
+.message.wrong {
+    color: #ef4444;
+  }
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+.color-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    margin-bottom: 20px;
+  }
+
+.color-btn {
+    aspect-ratio: 1;
+    border: none; border-radius: 16px; cursor: pointer;
+    transition: all 0.15s; position: relative;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+.color-btn:active:not(:disabled) {
+    transform: scale(0.92);
+  }
+.color-btn:disabled {
+    cursor: not-allowed;
+  }
+.color-btn.flash {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px currentColor,
+                0 8px 20px rgba(0,0,0,0.4);
+    filter: brightness(1.3);
+  }
+
+.color-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.color-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.color-green { background: linear-gradient(135deg, #10b981, #059669); }
+.color-yellow { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+.color-purple { background: linear-gradient(135deg, #a855f7, #9333ea); }
+.color-orange { background: linear-gradient(135deg, #f97316, #ea580c); }
+.color-pink { background: linear-gradient(135deg, #ec4899, #db2777); }
+.color-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+
+.btn-start {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    border: none; border-radius: 12px; color: #fff;
+    font-size: 16px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+    transition: all 0.3s;
+  }
+.btn-start:hover:not(:disabled) {
+    box-shadow: 0 6px 25px rgba(14, 165, 233, 0.6);
+    transform: translateY(-2px);
+  }
+.btn-start:disabled {
+    background: rgba(71, 85, 105, 0.5);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="game-container">
+  <div class="header">
+    <div class="logo">⚡ COLOLIST</div>
+    <div class="subtitle">COLOR MEMORY GAME</div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-box">
+      <div class="stat-value stat-level" id="level">1</div>
+      <div class="stat-label">Level</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value" id="score">0</div>
+      <div class="stat-label">Score</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value stat-high" id="highScore">0</div>
+      <div class="stat-label">Best</div>
+    </div>
+  </div>
+
+  <div class="message-box">
+    <div class="message" id="message">Press Start to Play!</div>
+  </div>
+
+  <div class="color-grid" id="colorGrid">
+    <button class="color-btn color-red" data-color="0"></button>
+    <button class="color-btn color-blue" data-color="1"></button>
+    <button class="color-btn color-green" data-color="2"></button>
+    <button class="color-btn color-yellow" data-color="3"></button>
+  </div>
+
+  <button class="btn-start" id="startBtn" onclick="startGame()">START GAME</button>
+</div>
+
+<script>
+let sequence = [];
+let playerSequence = [];
+let level = 1;
+let score = 0;
+let highScore = localStorage.getItem('colorMemoryHighScore') || 0;
+let isPlaying = false;
+let canClick = false;
+
+const colors = ['red', 'blue', 'green', 'yellow'];
+const sounds = [
+  new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE'),
+  new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE'),
+  new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE'),
+  new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE')
+];
+
+document.getElementById('highScore').textContent = highScore;
+
+function playSound(index) {
+  const audio = new Audio();
+  const freq = [261.63, 329.63, 392.00, 523.25][index]; // C, E, G, C
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.frequency.value = freq;
+  osc.type = 'sine';
+  gain.gain.setValueAtTime(0.3, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.3);
+}
+
+function updateMessage(text, className = '') {
+  const msgEl = document.getElementById('message');
+  msgEl.textContent = text;
+  msgEl.className = 'message ' + className;
+}
+
+function flashButton(index) {
+  const btn = document.querySelector(`[data-color="${index}"]`);
+  btn.classList.add('flash');
+  playSound(index);
+  setTimeout(() => btn.classList.remove('flash'), 400);
+}
+
+async function showSequence() {
+  canClick = false;
+  updateMessage('Watch the sequence...', 'watch');
+  await new Promise(r => setTimeout(r, 800));
+
+  for (let i = 0; i < sequence.length; i++) {
+    await new Promise(r => setTimeout(r, 200));
+    flashButton(sequence[i]);
+    await new Promise(r => setTimeout(r, 600));
+  }
+
+  canClick = true;
+  updateMessage('Your turn! Repeat the sequence', 'play');
+}
+
+function startGame() {
+  if (isPlaying) return;
+  isPlaying = true;
+  sequence = [];
+  playerSequence = [];
+  level = 1;
+  score = 0;
+  document.getElementById('level').textContent = level;
+  document.getElementById('score').textContent = score;
+  document.getElementById('startBtn').disabled = true;
+  nextRound();
+}
+
+function nextRound() {
+  playerSequence = [];
+  sequence.push(Math.floor(Math.random() * 4));
+  showSequence();
+}
+
+function handleClick(index) {
+  if (!canClick ||!isPlaying) return;
+
+  flashButton(index);
+  playerSequence.push(index);
+
+  const currentIndex = playerSequence.length - 1;
+
+  if (playerSequence[currentIndex]!== sequence[currentIndex]) {
+    gameOver();
+    return;
+  }
+
+  if (playerSequence.length === sequence.length) {
+    canClick = false;
+    score += level * 10;
+    document.getElementById('score').textContent = score;
+    updateMessage('Correct! Next level...', 'play');
+
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem('colorMemoryHighScore', highScore);
+      document.getElementById('highScore').textContent = highScore;
+    }
+
+    setTimeout(() => {
+      level++;
+      document.getElementById('level').textContent = level;
+      nextRound();
+    }, 1000);
+  }
+}
+
+function gameOver() {
+  isPlaying = false;
+  canClick = false;
+  updateMessage(`Game Over! You reached Level ${level}`, 'wrong');
+  document.getElementById('startBtn').disabled = false;
+  document.getElementById('startBtn').textContent = 'PLAY AGAIN';
+
+  // Flash all buttons red
+  document.querySelectorAll('.color-btn').forEach(btn => {
+    btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+    setTimeout(() => {
+      btn.style.background = '';
+    }, 500);
+  });
+}
+
+// Add click listeners
+document.querySelectorAll('.color-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const color = parseInt(btn.dataset.color);
+    handleClick(color);
+  });
+});
+</script>
+
+</body>
+</html>
