@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML History - Complete Timeline | COLOLIST</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+  
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    font-family: 'Poppins', sans-serif; 
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    min-height: 100vh; padding: 20px; color: #e2e8f0;
+  }
+  
+.container {
+    max-width: 900px; margin: 0 auto;
+  }
+  
+.header {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 24px; padding: 30px; margin-bottom: 25px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+.logo {
+    color: #38bdf8; font-weight: 700; font-size: 32px;
+    margin-bottom: 8px; text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  }
+.subtitle { 
+    color: #94a3b8; font-size: 14px; letter-spacing: 1px;
+    margin-bottom: 15px;
+  }
+.intro {
+    color: #cbd5e1; font-size: 15px; line-height: 1.6;
+    max-width: 700px; margin: 0 auto;
+  }
+  
+.timeline {
+    position: relative; padding-left: 40px;
+  }
+.timeline::before {
+    content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+    width: 3px; background: linear-gradient(180deg, #0ea5e9, #7c3aed);
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.5);
+  }
+  
+.timeline-item {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 16px; padding: 20px; margin-bottom: 20px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: all 0.3s;
+  }
+.timeline-item:hover {
+    transform: translateX(5px);
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  }
+.timeline-item::before {
+    content: ''; position: absolute; left: -32px; top: 24px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    border: 3px solid #0f172a;
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.6);
+  }
+  
+.year-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    color: #fff; padding: 6px 14px; border-radius: 8px;
+    font-size: 14px; font-weight: 700; margin-bottom: 10px;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+  }
+.version-title {
+    color: #38bdf8; font-size: 20px; font-weight: 700;
+    margin-bottom: 10px; text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  }
+.description {
+    color: #cbd5e1; font-size: 14px; line-height: 1.7;
+    margin-bottom: 12px;
+  }
+.features {
+    background: rgba(15, 23, 42, 0.6);
+    border-left: 3px solid #0ea5e9;
+    border-radius: 8px; padding: 12px 15px;
+  }
+.features-title {
+    color: #38bdf8; font-size: 13px; font-weight: 600;
+    margin-bottom: 8px; text-transform: uppercase;
+  }
+.features-list {
+    color: #94a3b8; font-size: 13px; line-height: 1.8;
+  }
+.features-list li {
+    margin-left: 18px; margin-bottom: 4px;
+  }
+  
+.stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px; margin-bottom: 25px;
+  }
+.stat-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 16px; padding: 20px; text-align: center;
+  }
+.stat-number {
+    color: #38bdf8; font-size: 32px; font-weight: 700;
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  }
+.stat-label {
+    color: #94a3b8; font-size: 12px; margin-top: 5px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  
+.footer {
+    text-align: center; margin-top: 40px; padding: 20px;
+    color: #64748b; font-size: 13px;
+  }
+  
+@media (max-width: 600px) {
+    .timeline { padding-left: 25px; }
+    .timeline-item::before { left: -22px; }
+    .timeline::before { left: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="logo">⚡ COLOLIST</div>
+    <div class="subtitle">COMPLETE HISTORY OF HTML</div>
+    <p class="intro">
+      HTML (HyperText Markup Language) is the foundation of the web. Invented by Tim Berners-Lee in 1989 at CERN.
+      35+ years later, it's still the most important language of the web. See how it evolved...
+    </p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number">35+</div>
+      <div class="stat-label">Years Old</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Major Versions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">140+</div>
+      <div class="stat-label">HTML Tags</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">95%</div>
+      <div class="stat-label">Websites Use HTML</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <!-- 1989-1991 -->
+    <div class="timeline-item">
+      <div class="year-badge">1989-1991</div>
+      <div class="version-title">Birth of HTML - Tim Berners-Lee</div>
+      <div class="description">
+        Tim Berners-Lee invented HTML at CERN (Switzerland). Created the first web browser "WorldWideWeb" and the first web server.
+        Proposed "Information Management" in March 1989.
+      </div>
+      <div class="features">
+        <div class="features-title">Key Features:</div>
+        <ul class="features-list">
+          <li>Only 18 basic tags: &lt;a&gt;, &lt;p&gt;, &lt;h1&gt;-&lt;h6&gt;, &lt;ul&gt;, &lt;li&gt;</li>
+          <li>Hypertext links concept</li>
+          <li>Text-based documents only</li>
+          <li>No images, no styling</li>
+          <li>First website: info.cern.ch (1991)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 1993 -->
+    <div class="timeline-item">
+      <div class="year-badge">1993</div>
+      <div class="version-title">HTML 1.0 - First Public Release</div>
+      <div class="description">
+        IETF (Internet Engineering Task Force) officially documented HTML. Mosaic browser launched and made the web popular.
+      </div>
+      <div class="features">
+        <div class="features-title">New Features:</div>
+        <ul class="features-list">
+          <li>&lt;img&gt; tag - Images support</li>
+          <li>Forms basics: &lt;input&gt;, &lt;textarea&gt;</li>
+          <li>No tables yet</li>
+          <li>Mosaic browser - first graphical browser</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 1995 -->
+    <div class="timeline-item">
+      <div class="year-badge">1995</div>
+      <div class="version-title">HTML 2.0 - IETF Standard</div>
+      <div class="description">
+        First official standard. Browser wars began - Netscape Navigator vs Internet Explorer. Forms properly standardized.
+      </div>
+      <div class="features">
+        <div class="features-title">Major Additions:</div>
+        <ul class="features-list">
+          <li>&lt;form&gt;, &lt;input type="text"&gt;, &lt;radio&gt;, &lt;checkbox&gt;</li>
+          <li>Character entities: &amp;copy; &amp;nbsp;</li>
+          <li>International support (i18n)</li>
+          <li>RFC 1866 document</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 1997 -->
+    <div class="timeline-item">
+      <div class="year-badge">January 1997</div>
+      <div class="version-title">HTML 3.2 - W3C Recommendation</div>
+      <div class="description">
+        W3C (World Wide Web Consortium) started handling HTML. Browser wars were at their peak - Netscape vs IE.
+      </div>
+      <div class="features">
+        <div class="features-title">New Tags:</div>
+        <ul class="features-list">
+          <li>&lt;table&gt;, &lt;tr&gt;, &lt;td&gt; - Tables support</li>
+          <li>&lt;script&gt; - JavaScript support</li>
+          <li>&lt;style&gt; - CSS support began</li>
+          <li>&lt;div&gt;, &lt;span&gt; - Layout containers</li>
+          <li>&lt;applet&gt; - Java Applets</li>
+          <li>&lt;font&gt;, &lt;basefont&gt; - Text styling (deprecated now)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 1997 Dec -->
+    <div class="timeline-item">
+      <div class="year-badge">December 1997</div>
+      <div class="version-title">HTML 4.0 - Modern HTML Birth</div>
+      <div class="description">
+        Huge update. Properly separated CSS, added accessibility features, JavaScript DOM standardized.
+      </div>
+      <div class="features">
+        <div class="features-title">Revolutionary Changes:</div>
+        <ul class="features-list">
+          <li>Styling with CSS - presentation separated</li>
+          <li>&lt;iframe&gt; - Inline frames</li>
+          <li>&lt;object&gt; - Multimedia embed</li>
+          <li>Accessibility: &lt;label&gt;, alt attribute</li>
+          <li>Internationalization (i18n)</li>
+          <li>Deprecated: &lt;font&gt;, &lt;center&gt;, &lt;u&gt;</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 1999 -->
+    <div class="timeline-item">
+      <div class="year-badge">1999</div>
+      <div class="version-title">HTML 4.01 - Bug Fixes</div>
+      <div class="description">
+        Fixed errors from HTML 4.0. This version remained standard for 15+ years. XHTML was being developed in parallel.
+      </div>
+      <div class="features">
+        <div class="features-title">Improvements:</div>
+        <ul class="features-list">
+          <li>Minor bug fixes from 4.0</li>
+          <li>Stricter parsing rules</li>
+          <li>Better browser compatibility</li>
+          <li>Most used in 2000s</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2000 -->
+    <div class="timeline-item">
+      <div class="year-badge">2000</div>
+      <div class="version-title">XHTML 1.0 - XML Version</div>
+      <div class="description">
+        HTML had to follow XML rules. Stricter syntax - all tags must close, lowercase mandatory.
+      </div>
+      <div class="features">
+        <div class="features-title">XHTML Rules:</div>
+        <ul class="features-list">
+          <li>All tags must be closed: &lt;br /&gt;</li>
+          <li>All lowercase: &lt;div&gt; not &lt;DIV&gt;</li>
+          <li>Attributes quoted: id="main"</li>
+          <li>Strict, Transitional, Frameset DTDs</li>
+          <li>Failed - too strict, developers hated it</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2004-2008 -->
+    <div class="timeline-item">
+      <div class="year-badge">2004-2008</div>
+      <div class="version-title">HTML5 Development Starts - WHATWG</div>
+      <div class="description">
+        W3C was working on XHTML 2.0 which wasn't backward compatible. Apple, Mozilla, Opera formed WHATWG and started HTML5.
+      </div>
+      <div class="features">
+        <div class="features-title">WHATWG Goals:</div>
+        <ul class="features-list">
+          <li>Backward compatible - old sites don't break</li>
+          <li>Error handling - browsers forgive errors</li>
+          <li>Web Applications support</li>
+          <li>Semantic markup</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2014 -->
+    <div class="timeline-item">
+      <div class="year-badge">28 October 2014</div>
+      <div class="version-title">HTML5 - W3C Recommendation</div>
+      <div class="description">
+        Biggest update ever. Video, Audio, Canvas, Semantic tags, Forms 2.0, Offline apps. Turned the web into an app platform.
+      </div>
+      <div class="features">
+        <div class="features-title">Game-Changing Features:</div>
+        <ul class="features-list">
+          <li>Semantic: &lt;header&gt;, &lt;nav&gt;, &lt;article&gt;, &lt;section&gt;, &lt;footer&gt;</li>
+          <li>Multimedia: &lt;video&gt;, &lt;audio&gt;, &lt;canvas&gt;, &lt;svg&gt;</li>
+          <li>Forms: &lt;input type="email"&gt;, date, range, color</li>
+          <li>APIs: Geolocation, Drag-Drop, LocalStorage, Web Workers</li>
+          <li>&lt;!DOCTYPE html&gt; - Simple doctype</li>
+          <li>Removed: &lt;font&gt;, &lt;center&gt;, &lt;frame&gt;</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2016 -->
+    <div class="timeline-item">
+      <div class="year-badge">2016</div>
+      <div class="version-title">HTML 5.1 - Incremental Update</div>
+      <div class="description">
+        Small updates after HTML5. New elements and attributes.
+      </div>
+      <div class="features">
+        <div class="features-title">New Additions:</div>
+        <ul class="features-list">
+          <li>&lt;picture&gt; - Responsive images</li>
+          <li>&lt;details&gt; & &lt;summary&gt; - Collapsible content</li>
+          <li>&lt;dialog&gt; - Modal dialogs</li>
+          <li>inputmode attribute - Mobile keyboards</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2017 -->
+    <div class="timeline-item">
+      <div class="year-badge">2017</div>
+      <div class="version-title">HTML 5.2 - Latest W3C Version</div>
+      <div class="description">
+        W3C's last major HTML version. After this, WHATWG adopted the Living Standard model.
+      </div>
+      <div class="features">
+        <div class="features-title">Final Updates:</div>
+        <ul class="features-list">
+          <li>&lt;main&gt; element properly defined</li>
+          <li>Payment Request API integration</li>
+          <li>Security: referrerpolicy attribute</li>
+          <li>Removed: &lt;keygen&gt;, &lt;menu&gt;, &lt;menuitem&gt;</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2019-Present -->
+    <div class="timeline-item">
+      <div class="year-badge">2019 - Present</div>
+      <div class="version-title">HTML Living Standard - WHATWG</div>
+      <div class="description">
+        W3C and WHATWG agreed - now there's only one version of HTML that continuously updates. There will be no HTML6.
+      </div>
+      <div class="features">
+        <div class="features-title">Living Standard Model:</div>
+        <ul class="features-list">
+          <li>No version numbers - continuous updates</li>
+          <li>WHATWG maintains: html.spec.whatwg.org</li>
+          <li>Browser vendors keep implementing</li>
+          <li>New features: &lt;search&gt;, Popover API, &lt;dialog&gt; improvements</li>
+          <li>Focus: Web Components, Accessibility, Performance</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Future -->
+    <div class="timeline-item">
+      <div class="year-badge">2024-2026</div>
+      <div class="version-title">Modern HTML - Current State</div>
+      <div class="description">
+        Today HTML + CSS + JavaScript together form a complete web platform. WebAssembly, Web Components, Progressive Web Apps are all based on HTML.
+      </div>
+      <div class="features">
+        <div class="features-title">Current Trends:</div>
+        <ul class="features-list">
+          <li>Web Components: Custom Elements, Shadow DOM</li>
+          <li>Import Maps - JavaScript modules</li>
+          <li>Container Queries - Responsive in CSS</li>
+          <li>View Transitions API - Smooth page transitions</li>
+          <li>Popover API - Native popups</li>
+          <li>Focus: Performance, Accessibility, Privacy</li>
+        </ul>
+      </div>
+    </div>
+
+  <div class="footer">
+    <p>⚡ COLOLIST | HTML was created by Tim Berners-Lee in 1989 at CERN</p>
+    <p style="margin-top: 8px;">Last Updated: April 2026 | Source: W3C, WHATWG, MDN Web Docs</p>
+  </div>
+</div>
+
+</body>
+</html>
