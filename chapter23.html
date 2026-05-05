@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 23: Head Metadata - Meta Tags for SEO</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8;padding:20px}
+  .container{max-width:900px;margin:0 auto}
+    h1{font-size:32px;color:#38bdf8;margin-bottom:15px}
+    h2{font-size:26px;color:#0ea5e9;margin:35px 0 15px;border-bottom:2px solid #334155;padding-bottom:8px}
+    h3{font-size:20px;color:#7dd3fc;margin:25px 0 12px}
+    p{margin-bottom:15px;color:#cbd5e1;font-size:15px}
+    code{background:#1e293b;padding:3px 6px;border-radius:4px;font-family:'Courier New',monospace;color:#f472b6;font-size:14px;border:1px solid #334155}
+    pre{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:15px;overflow-x:auto;margin:20px 0;line-height:1.6}
+    pre code{background:none;border:none;padding:0;color:#94a3b8}
+    
+  .note{background:#1e3a5f;border-left:4px solid #0ea5e9;padding:15px;margin:20px 0;border-radius:6px;color:#bae6fd}
+  .warning{background:#5f1e1e;border-left:4px solid #f87171;padding:15px;margin:20px 0;border-radius:6px;color:#fecaca}
+  .success{background:#1e3a2e;border-left:4px solid #34d399;padding:15px;margin:20px 0;border-radius:6px;color:#6ee7b7}
+  .example{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:18px;margin:20px 0}
+  .example-title{color:#34d399;font-weight:bold;margin-bottom:10px;font-size:14px}
+    
+    /* Table Scrollable */
+ .table-scroll{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border:1px solid #334155;
+      border-radius:8px;
+      margin:20px 0;
+      background:#1e293b;
+    }
+    table{
+      width:100%;
+      min-width:600px;
+      border-collapse:collapse;
+      font-size:14px;
+      margin:0;
+    }
+    th{background:#334155;color:#f1f5f9;padding:12px;text-align:left;font-weight:600;white-space:nowrap}
+    td{padding:12px;border-bottom:1px solid #334155;color:#cbd5e1}
+    tr:last-child td{border-bottom:none}
+    tr:hover{background:#2d3748}
+    
+    /* SERP Preview */
+   .serp-preview{
+      background:#fff;border:1px solid #dadce0;border-radius:8px;padding:16px;margin:15px 0;
+      font-family:Arial,sans-serif
+    }
+   .serp-url{color:#202124;font-size:14px;margin-bottom:2px}
+   .serp-title{color:#1a0dab;font-size:20px;margin-bottom:3px;text-decoration:none;display:block}
+   .serp-title:hover{text-decoration:underline}
+   .serp-desc{color:#4d5156;font-size:14px;line-height:1.58}
+    
+    @media(max-width:600px){
+      h1{font-size:26px}h2{font-size:22px}body{padding:15px}
+      table{font-size:13px;min-width:500px}
+      th,td{padding:8px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Chapter 23: Head Metadata for SEO</h1>
+  <p>Meta tags go inside <code>&lt;head&gt;</code>. Users don't see them, but Google and browsers do. They control how your page appears in search results, social shares, and browser tabs.</p>
+
+  <h2>1. Essential Meta Tags - Must Have</h2>
+  
+  <h3>1. Title Tag - Most Important for SEO</h3>
+  <pre><code>&lt;title&gt;Best HTML Course for Beginners 2026 | LearnWebDev&lt;/title&gt;</code></pre>
+  
+  <div class="table-scroll">
+    <table>
+      <tr><th>Rule</th><th>Details</th></tr>
+      <tr><td><b>Length</b></td><td>50-60 characters. Google cuts off after ~600px</td></tr>
+      <tr><td><b>Unique</b></td><td>Every page needs unique title</td></tr>
+      <tr><td><b>Keywords</b></td><td>Put main keyword near start</td></tr>
+      <tr><td><b>Brand</b></td><td>Add brand at end: " | SiteName"</td></tr>
+      <tr><td><b>No stuffing</b></td><td>Don't repeat keywords: "HTML HTML HTML Course"</td></tr>
+    </table>
+  </div>
+
+  <div class="example">
+    <div class="example-title">Google Search Result Preview:</div>
+    <div class="serp-preview">
+      <div class="serp-url">https://learnwebdev.com/html-course</div>
+      <a class="serp-title">Best HTML Course for Beginners 2026 | LearnWebDev</a>
+      <div class="serp-desc">Master HTML from scratch with 30 chapters, live examples, and projects. Perfect for beginners. Start coding today with our free course.</div>
+    </div>
+  </div>
+
+  <div class="warning">
+    <b>Google Can Rewrite:</b> If your title is bad or keyword-stuffed, Google will auto-generate one from H1 or content. Write for humans first.
+  </div>
+
+  <h3>2. Meta Description</h3>
+  <pre><code>&lt;meta name="description" content="Learn HTML from zero to hero with 30 detailed chapters, live code examples, and real projects. Free course updated for 2026."&gt;</code></pre>
+
+  <div class="table-scroll">
+    <table>
+      <tr><th>Rule</th><th>Details</th></tr>
+      <tr><td><b>Length</b></td><td>150-160 characters. Google shows ~155</td></tr>
+      <tr><td><b>Unique</b></td><td>Each page needs unique description</td></tr>
+      <tr><td><b>Call to Action</b></td><td>Include: Learn, Buy, Download, Start</td></tr>
+      <tr><td><b>Keywords</b></td><td>Include main keyword naturally</td></tr>
+      <tr><td><b>No quotes</b></td><td>Avoid " double quotes - breaks HTML</td></tr>
+    </table>
+  </div>
+
+  <div class="note">
+    <b>Not a Ranking Factor:</b> Google said in 2009 that meta description doesn't affect rankings. But it affects CTR - click-through rate. Better description = more clicks = better rankings indirectly.
+  </div>
+
+  <h3>3. Viewport Tag - Mobile SEO</h3>
+  <pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+  <p><b>Critical:</b> Without this, Google marks your site "Not Mobile-Friendly" and ranks you lower on mobile. Required since 2015.</p>
+
+  <h3>4. Charset Declaration</h3>
+  <pre><code>&lt;meta charset="UTF-8"&gt;</code></pre>
+  <p>Must be first tag in <code>&lt;head&gt;</code>. Ensures emojis, Hindi, Chinese render correctly. Prevents text encoding issues.</p>
+
+  <h2>2. Robots Meta Tags - Control Indexing</h2>
+  <p>Tells Google whether to index page or follow links.</p>
+
+  <pre><code>&lt;!-- Allow indexing - Default, optional --&gt;
+&lt;meta name="robots" content="index, follow"&gt;
+
+&lt;!-- Block from Google completely --&gt;
+&lt;meta name="robots" content="noindex, nofollow"&gt;
+
+&lt;!-- Index but don't follow links --&gt;
+&lt;meta name="robots" content="index, nofollow"&gt;
+
+&lt;!-- Don't index but follow links --&gt;
+&lt;meta name="robots" content="noindex, follow"&gt;</code></pre>
+
+  <div class="table-scroll">
+    <table>
+      <tr><th>Value</th><th>Meaning</th><th>Use When</th></tr>
+      <tr><td><code>index</code></td><td>Show in Google search</td><td>Normal pages</td></tr>
+      <tr><td><code>noindex</code></td><td>Hide from Google</td><td>Admin pages, thank-you pages, duplicate content</td></tr>
+      <tr><td><code>follow</code></td><td>Crawl links on page</td><td>Default</td></tr>
+      <tr><td><code>nofollow</code></td><td>Don't crawl links</td><td>User-generated content, untrusted links</td></tr>
+      <tr><td><code>noarchive</code></td><td>Don't show cached version</td><td>Price pages, stock data</td></tr>
+      <tr><td><code>nosnippet</code></td><td>Don't show description in results</td><td>Login pages</td></tr>
+    </table>
+  </div>
+
+  <h3>Google-Specific Robots:</h3>
+  <pre><code>&lt;!-- Only for Googlebot --&gt;
+&lt;meta name="googlebot" content="noindex"&gt;
+
+&lt;!-- Control snippet length --&gt;
+&lt;meta name="robots" content="max-snippet:150"&gt;
+
+&lt;!-- Control video preview --&gt;
+&lt;meta name="robots" content="max-video-preview:30"&gt;
+
+&lt;!-- Control image size --&gt;
+&lt;meta name="robots" content="max-image-preview:large"&gt;</code></pre>
+
+  <h2>3. Canonical Tag - Fix Duplicate Content</h2>
+  <p>Tells Google which URL is the "main" version if you have duplicate/similar pages.</p>
+
+  <pre><code>&lt;link rel="canonical" href="https://example.com/html-course/"&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">When to Use Canonical:</div>
+    <div class="note">
+      <b>Example:</b> These URLs show same content:<br>
+      1. https://example.com/course<br>
+      2. https://example.com/course?ref=twitter<br>
+      3. https://example.com/course/<br><br>
+      Add <code>&lt;link rel="canonical" href="https://example.com/course"&gt;</code> to all 3. Google will index only #1 and pass all SEO value to it.
+    </div>
+  </div>
+
+  <h2>4. Open Graph Tags - Social Media</h2>
+  <p>Controls how your page looks when shared on Facebook, LinkedIn, WhatsApp, Discord.</p>
+
+  <pre><code>&lt;!-- Open Graph / Facebook --&gt;
+&lt;meta property="og:title" content="Best HTML Course 2026"&gt;
+&lt;meta property="og:description" content="Learn HTML with 30 chapters and projects"&gt;
+&lt;meta property="og:image" content="https://example.com/og-image.jpg"&gt;
+&lt;meta property="og:url" content="https://example.com/html-course"&gt;
+&lt;meta property="og:type" content="website"&gt;
+&lt;meta property="og:site_name" content="LearnWebDev"&gt;</code></pre>
+
+  <div class="table-scroll">
+    <table>
+      <tr><th>Tag</th><th>Recommended</th><th>Notes</th></tr>
+      <tr><td><code>og:image</code></td><td>1200x630px, &lt;8MB</td><td>Most important for shares</td></tr>
+      <tr><td><code>og:title</code></td><td>60 chars</td><td>Can differ from <code>&lt;title&gt;</code></td></tr>
+      <tr><td><code>og:description</code></td><td>200 chars</td><td>Can differ from meta description</td></tr>
+      <tr><td><code>og:type</code></td><td>website, article, product</td><td>article for blog posts</td></tr>
+    </table>
+  </div>
+
+  <h2>5. Twitter Card Tags</h2>
+  <p>Controls how your page looks when shared on Twitter/X.</p>
+
+  <pre><code>&lt;!-- Twitter Card --&gt;
+&lt;meta name="twitter:card" content="summary_large_image"&gt;
+&lt;meta name="twitter:site" content="@YourTwitterHandle"&gt;
+&lt;meta name="twitter:title" content="Best HTML Course 2026"&gt;
+&lt;meta name="twitter:description" content="Learn HTML with 30 chapters"&gt;
+&lt;meta name="twitter:image" content="https://example.com/twitter-image.jpg"&gt;</code></pre>
+
+  <div class="note">
+    <b>Card Types:</b> <code>summary</code> = small image, <code>summary_large_image</code> = big image 1200x628px. Use large for better CTR.
+  </div>
+
+  <h2>6. Other Important Meta Tags</h2>
+
+  <h3>Language Tag:</h3>
+  <pre><code>&lt;html lang="en"&gt;
+&lt;meta http-equiv="content-language" content="en-us"&gt;</code></pre>
+
+  <h3>Author & Copyright:</h3>
+  <pre><code>&lt;meta name="author" content="John Doe"&gt;
+&lt;meta name="copyright" content="LearnWebDev 2026"&gt;</code></pre>
+
+  <h3>Refresh/Redirect:</h3>
+  <pre><code>&lt;!-- Redirect after 5 seconds - Not recommended for SEO --&gt;
+&lt;meta http-equiv="refresh" content="5; url=https://example.com/new-page"&gt;</code></pre>
+
+  <div class="warning">
+    <b>Avoid:</b> <code>meta keywords</code> tag. Google ignored it since 2009. Doesn't help SEO, wastes space.
+  </div>
+
+  <h2>7. Complete SEO Head Template</h2>
+  <p>Copy this for every page. Replace values.</p>
+  <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  
+  &lt;!-- Primary SEO --&gt;
+  &lt;title&gt;Best HTML Course for Beginners 2026 | LearnWebDev&lt;/title&gt;
+  &lt;meta name="description" content="Master HTML from scratch with 30 chapters, live examples, and real projects. Free course updated for 2026. Start coding today."&gt;
+  &lt;link rel="canonical" href="https://learnwebdev.com/html-course/"&gt;
+  &lt;meta name="robots" content="index, follow"&gt;
+  &lt;meta name="author" content="LearnWebDev Team"&gt;
+  
+  &lt;!-- Open Graph / Facebook --&gt;
+  &lt;meta property="og:title" content="Best HTML Course for Beginners 2026"&gt;
+  &lt;meta property="og:description" content="Learn HTML with 30 chapters and real projects. Free course."&gt;
+  &lt;meta property="og:image" content="https://learnwebdev.com/images/html-course-og.jpg"&gt;
+  &lt;meta property="og:url" content="https://learnwebdev.com/html-course/"&gt;
+  &lt;meta property="og:type" content="website"&gt;
+  &lt;meta property="og:site_name" content="LearnWebDev"&gt;
+  
+  &lt;!-- Twitter Card --&gt;
+  &lt;meta name="twitter:card" content="summary_large_image"&gt;
+  &lt;meta name="twitter:site" content="@LearnWebDev"&gt;
+  &lt;meta name="twitter:title" content="Best HTML Course for Beginners 2026"&gt;
+  &lt;meta name="twitter:description" content="Learn HTML with 30 chapters and real projects."&gt;
+  &lt;meta name="twitter:image" content="https://learnwebdev.com/images/html-course-twitter.jpg"&gt;
+  
+  &lt;!-- Favicon --&gt;
+  &lt;link rel="icon" href="/favicon.ico"&gt;
+  &lt;link rel="apple-touch-icon" href="/apple-touch-icon.png"&gt;
+  
+&lt;/head&gt;</code></pre>
+
+  <h2>8. Common SEO Mistakes</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+      <tr><td><b>Missing title</b></td><td>Google shows URL or H1</td><td>Every page needs unique <code>&lt;title&gt;</code></td></tr>
+      <tr><td><b>Duplicate titles</b></td><td>Google confused which to rank</td><td>Make each title unique</td></tr>
+      <tr><td><b>No meta description</b></td><td>Google picks random text</td><td>Write 150-char custom description</td></tr>
+      <tr><td><b>No viewport tag</b></td><td>Fails mobile-friendly test</td><td>Always add viewport meta</td></tr>
+      <tr><td><b>Keyword stuffing</b></td><td>"HTML HTML HTML Course HTML"</td><td>Write naturally for humans</td></tr>
+      <tr><td><b>Using meta keywords</b></td><td>Wastes bytes, no SEO value</td><td>Delete it</td></tr>
+      <tr><td><b>Wrong canonical</b></td><td>Points to wrong URL</td><td>Must be absolute URL with https</td></tr>
+      <tr><td><b>No og:image</b></td><td>Ugly social shares</td><td>Add 1200x630px image</td></tr>
+    </table>
+  </div>
+
+  <h2>9. Testing Your Meta Tags</h2>
+  <ol style="color:#cbd5e1;margin-left:20px">
+    <li><b>Google Rich Results Test:</b> search.google.com/test/rich-results</li>
+    <li><b>Facebook Debugger:</b> developers.facebook.com/tools/debug</li>
+    <li><b>Twitter Card Validator:</b> cards-dev.twitter.com/validator</li>
+    <li><b>LinkedIn Inspector:</b> linkedin.com/post-inspector</li>
+    <li><b>View Source:</b> Right-click page → View Page Source → Check <code>&lt;head&gt;</code></li>
+  </ol>
+
+  <h2>10. Summary - Golden Rules</h2>
+  <ol style="color:#cbd5e1;margin-left:20px">
+    <li><b>Title:</b> 50-60 chars, unique, keyword first, brand last. Most important tag</li>
+    <li><b>Description:</b> 150-160 chars, unique, include CTA. Affects CTR not ranking</li>
+    <li><b>Viewport:</b> Mandatory for mobile SEO. Copy-paste the standard one</li>
+    <li><b>Charset:</b> Always <code>UTF-8</code> and first tag in head</li>
+    <li><b>Canonical:</b> Fix duplicate content. Use absolute URLs</li>
+    <li><b>Robots:</b> Default is index,follow. Use noindex for private pages</li>
+    <li><b>OG Tags:</b> Required for good social shares. Image is most important</li>
+    <li><b>Twitter Cards:</b> Use summary_large_image for best results</li>
+    <li><b>No Keywords Meta:</b> Delete it. Google ignores since 2009</li>
+    <li><b>Test:</b> Use Facebook/Twitter debuggers before sharing</li>
+  </ol>
+
+  <div class="success">
+    <b>Pro Tip:</b> Your <code>&lt;title&gt;</code> and <code>meta description</code> are your ad copy on Google. Write them to get clicks, not just for keywords. Higher CTR = better rankings over time.
+  </div>
+
+  <div class="note">
+    <b>Next:</b> Chapter 24 - Structured Data & Schema Markup for Rich Snippets
+  </div>
+
+</div>
+
+</body>
+            </html>
