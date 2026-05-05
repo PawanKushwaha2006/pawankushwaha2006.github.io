@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML All Materials — Complete Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0c0f;
+    --surface: #141418;
+    --card: #1a1a20;
+    --border: #2a2a35;
+    --accent: #f7c35e;
+    --accent2: #e05c5c;
+    --accent3: #5ce0b8;
+    --text: #e8e8f0;
+    --muted: #7a7a90;
+    --code-bg: #0a0a0d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 14px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0c0c0f 0%, #1a1020 50%, #0c0c0f 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '</>';
+    position: absolute;
+    right: -20px;
+    top: -30px;
+    font-size: 200px;
+    font-family: 'Playfair Display', serif;
+    color: rgba(247,195,94,0.04);
+    pointer-events: none;
+    font-weight: 900;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: -1px;
+    line-height: 1.1;
+    animation: fadeIn 0.8s ease both;
+  }
+  .hero p {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 13px;
+    max-width: 500px;
+    animation: fadeIn 0.8s 0.2s ease both;
+  }
+  .tag-line {
+    display: inline-block;
+    margin-top: 20px;
+    background: var(--accent);
+    color: #000;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    animation: fadeIn 0.8s 0.4s ease both;
+  }
+
+  /* NAV */
+  .toc {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .toc a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .toc a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(247,195,94,0.05);
+  }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 50px 40px; }
+
+  .section { margin-bottom: 70px; animation: fadeUp 0.5s ease both; }
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.15s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+    padding-left: 16px;
+    margin-bottom: 30px;
+  }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .grid-2 { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card-header {
+    padding: 12px 16px;
+    background: rgba(247,195,94,0.05);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-header .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .card-header h3 { font-size: 12px; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+  .card-body { padding: 16px; }
+  .card-body p { color: var(--muted); font-size: 12px; margin-bottom: 12px; }
+
+  /* CODE */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 14px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-top: 8px;
+  }
+  .kw { color: #c792ea; }
+  .tag { color: #e05c5c; }
+  .attr { color: #f7c35e; }
+  .val { color: #5ce0b8; }
+  .cm { color: #546e7a; font-style: italic; }
+  .txt { color: #e8e8f0; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: var(--surface); color: var(--accent); padding: 10px 14px; text-align: left; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 2px solid var(--accent); }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  tr:hover td { background: rgba(247,195,94,0.03); }
+  td code { background: var(--code-bg); color: var(--accent3); padding: 2px 6px; border-radius: 2px; font-size: 11px; }
+
+  /* DEMO ELEMENTS */
+  .demo-box {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 20px;
+    margin-top: 10px;
+  }
+  .demo-box h1 { font-family:'Playfair Display',serif; color: var(--text); font-size:24px; }
+  .demo-box h2 { font-family:'Playfair Display',serif; color: var(--text); font-size:20px; }
+  .demo-box h3 { font-family:'Playfair Display',serif; color: var(--text); font-size:17px; }
+  .demo-box h4 { color: var(--text); font-size:14px; }
+  .demo-box h5 { color: var(--muted); font-size:12px; }
+  .demo-box h6 { color: var(--muted); font-size:11px; }
+  .demo-box p { color: var(--muted); font-size:13px; margin-top:4px; }
+  .demo-box a { color: var(--accent3); }
+  .demo-box b, .demo-box strong { color: var(--accent); }
+  .demo-box em { color: var(--accent3); font-style: italic; }
+  .demo-box mark { background: var(--accent); color: #000; padding: 1px 4px; }
+  .demo-box del { color: var(--muted); }
+  .demo-box sub { color: var(--accent2); }
+  .demo-box sup { color: var(--accent3); }
+  .demo-box code { background: var(--surface); color: var(--accent3); padding: 2px 6px; border-radius: 2px; }
+  .demo-box hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+  .demo-box ul, .demo-box ol { padding-left: 20px; color: var(--muted); font-size:13px; }
+  .demo-box blockquote { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--muted); font-style: italic; }
+
+  .form-demo label { color: var(--muted); font-size: 12px; display: block; margin-bottom: 4px; }
+  .form-demo input, .form-demo select, .form-demo textarea {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 12px;
+    width: 100%;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-demo input:focus, .form-demo select:focus, .form-demo textarea:focus { border-color: var(--accent); }
+  .form-demo button {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 8px 18px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: opacity 0.2s;
+  }
+  .form-demo button:hover { opacity: 0.85; }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 4px;
+  }
+  .badge-new { background: rgba(92,224,184,0.15); color: var(--accent3); border: 1px solid var(--accent3); }
+  .badge-dep { background: rgba(224,92,92,0.15); color: var(--accent2); border: 1px solid var(--accent2); }
+  .badge-ok { background: rgba(247,195,94,0.15); color: var(--accent); border: 1px solid var(--accent); }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from { opacity:0; transform: translateY(-10px); } to { opacity:1; transform: none; } }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: none; } }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+  footer span { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>HTML All Materials</h1>
+  <p>Complete reference guide for every HTML element — tags, attributes, forms, media, tables, semantics, and more.</p>
+  <span class="tag-line">Full Reference</span>
+</div>
+
+<!-- TOC -->
+<nav class="toc">
+  <a href="#structure">Structure</a>
+  <a href="#text">Text</a>
+  <a href="#headings">Headings</a>
+  <a href="#lists">Lists</a>
+  <a href="#links">Links</a>
+  <a href="#images">Images</a>
+  <a href="#tables">Tables</a>
+  <a href="#forms">Forms</a>
+  <a href="#media">Media</a>
+  <a href="#semantic">Semantic</a>
+  <a href="#meta">Meta</a>
+  <a href="#attributes">Attributes</a>
+  <a href="#entities">Entities</a>
+</nav>
+
+<div class="container">
+
+  <!-- ===== STRUCTURE ===== -->
+  <section class="section" id="structure">
+    <div class="section-title">1. Document Structure</div>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-header"><div class="dot"></div><h3>Basic Boilerplate</h3></div>
+        <div class="card-body">
+          <p>Every HTML document starts with this skeleton.</p>
+          <pre><span class="cm">&lt;!-- Declaration --&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"en"</span><span class="tag">&gt;</span>
+
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span>
+    <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span><span class="txt">Page Title</span><span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+
+<span class="tag">&lt;body&gt;</span>
+  <span class="cm">&lt;!-- Content goes here --&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+
+<span class="tag">&lt;/html&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="dot"></div><h3>Head Elements</h3></div>
+        <div class="card-body">
+          <p>Elements placed inside <code>&lt;head&gt;</code> — not visible on page.</p>
+          <pre><span class="tag">&lt;title&gt;</span><span class="txt">My Website</span><span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"description"</span> <span class="attr">content</span>=<span class="val">"..."</span><span class="tag">&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"keywords"</span> <span class="attr">content</span>=<span class="val">"..."</span><span class="tag">&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"app.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"icon"</span> <span class="attr">href</span>=<span class="val">"favicon.ico"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;base</span> <span class="attr">href</span>=<span class="val">"https://example.com/"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;style&gt;</span><span class="txt"> /* inline CSS */ </span><span class="tag">&lt;/style&gt;</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HEADINGS ===== -->
+  <section class="section" id="headings">
+    <div class="section-title">2. Headings</div>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-header"><div class="dot"></div><h3>h1 – h6</h3></div>
+        <div class="card-body">
+          <pre><span class="tag">&lt;h1&gt;</span><span class="txt">Heading 1</span><span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span><span class="txt">Heading 2</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h3&gt;</span><span class="txt">Heading 3</span><span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;h4&gt;</span><span class="txt">Heading 4</span><span class="tag">&lt;/h4&gt;</span>
+<span class="tag">&lt;h5&gt;</span><span class="txt">Heading 5</span><span class="tag">&lt;/h5&gt;</span>
+<span class="tag">&lt;h6&gt;</span><span class="txt">Heading 6</span><span class="tag">&lt;/h6&gt;</span></pre>
+          <div class="demo-box">
+            <h1>Heading 1</h1>
+            <h2>Heading 2</h2>
+            <h3>Heading 3</h3>
+            <h4>Heading 4</h4>
+            <h5>Heading 5</h5>
+            <h6>Heading 6</h6>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="dot"></div><h3>Paragraph & Line Break</h3></div>
+        <div class="card-body">
+          <pre><span class="tag">&lt;p&gt;</span><span class="txt">This is a paragraph.</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span><span class="txt">Line one.</span>
+  <span class="tag">&lt;br&gt;</span>
+  <span class="txt">Line two (after break).</span>
+<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;hr&gt;</span> <span class="cm">&lt;!-- Horizontal line --&gt;</span></pre>
+          <div class="demo-box">
+            <p>This is a paragraph of text on the page.</p>
+            <p>Line one.<br>Line two after &lt;br&gt;.</p>
+            <hr>
+            <p>Below a horizontal rule.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TEXT FORMATTING ===== -->
+  <section class="section" id="text">
+    <div class="section-title">3. Text Formatting</div>
+    <div class="card">
+      <div class="card-header"><div class="dot"></div><h3>Inline Text Tags</h3></div>
+      <div class="card-body">
+        <div class="grid grid-2">
+          <div>
+            <pre><span class="tag">&lt;b&gt;</span><span class="txt">Bold text</span><span class="tag">&lt;/b&gt;</span>
+<span class="tag">&lt;strong&gt;</span><span class="txt">Important bold</span><span class="tag">&lt;/strong&gt;</span>
+<span class="tag">&lt;i&gt;</span><span class="txt">Italic text</span><span class="tag">&lt;/i&gt;</span>
+<span class="tag">&lt;em&gt;</span><span class="txt">Emphasized italic</span><span class="tag">&lt;/em&gt;</span>
+<span class="tag">&lt;u&gt;</span><span class="txt">Underline</span><span class="tag">&lt;/u&gt;</span>
+<span class="tag">&lt;s&gt;</span><span class="txt">Strikethrough</span><span class="tag">&lt;/s&gt;</span>
+<span class="tag">&lt;del&gt;</span><span class="txt">Deleted text</span><span class="tag">&lt;/del&gt;</span>
+<span class="tag">&lt;ins&gt;</span><span class="txt">Inserted text</span><span class="tag">&lt;/ins&gt;</span>
+<span class="tag">&lt;mark&gt;</span><span class="txt">Highlighted</span><span class="tag">&lt;/mark&gt;</span>
+<span class="tag">&lt;small&gt;</span><span class="txt">Small text</span><span class="tag">&lt;/small&gt;</span>
+<span class="tag">&lt;sub&gt;</span><span class="txt">Subscript</span><span class="tag">&lt;/sub&gt;</span>
+<span class="tag">&lt;sup&gt;</span><span class="txt">Superscript</span><span class="tag">&lt;/sup&gt;</span>
+<span class="tag">&lt;code&gt;</span><span class="txt">Inline code</span><span class="tag">&lt;/code&gt;</span>
+<span class="tag">&lt;pre&gt;</span><span class="txt">Preformatted text</span><span class="tag">&lt;/pre&gt;</span>
+<span class="tag">&lt;blockquote&gt;</span><span class="txt">Quote block</span><span class="tag">&lt;/blockquote&gt;</span>
+<span class="tag">&lt;q&gt;</span><span class="txt">Inline quote</span><span class="tag">&lt;/q&gt;</span>
+<span class="tag">&lt;abbr</span> <span class="attr">title</span>=<span class="val">"HyperText"</span><span class="tag">&gt;</span><span class="txt">HTML</span><span class="tag">&lt;/abbr&gt;</span>
+<span class="tag">&lt;cite&gt;</span><span class="txt">Citation</span><span class="tag">&lt;/cite&gt;</span>
+<span class="tag">&lt;kbd&gt;</span><span class="txt">Ctrl+C</span><span class="tag">&lt;/kbd&gt;</span>
+<span class="tag">&lt;samp&gt;</span><span class="txt">Sample output</span><span class="tag">&lt;/samp&gt;</span>
+<span class="tag">&lt;var&gt;</span><span class="txt">Variable</span><span class="tag">&lt;/var&gt;</span>
+<span class="tag">&lt;span&gt;</span><span class="txt">Inline container</span><span class="tag">&lt;/span&gt;</span></pre>
+          </div>
+          <div>
+            <div class="demo-box">
+              <p><b>Bold</b> · <strong>Strong</strong> · <i>Italic</i> · <em>Emphasis</em></p>
+              <p><u>Underline</u> · <s>Strike</s> · <del>Deleted</del> · <ins>Inserted</ins></p>
+              <p><mark>Highlighted</mark> · <small>Small</small></p>
+              <p>H<sub>2</sub>O · X<sup>2</sup></p>
+              <p><code>inline code</code></p>
+              <blockquote>"This is a blockquote."</blockquote>
+              <p><abbr title="HyperText Markup Language">HTML</abbr> is fun.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LISTS ===== -->
+  <section class="section" id="lists">
+    <div class="section-title">4. Lists</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-header"><div class="dot"></div><h3>Unordered List</h3></div>
+        <div class="card-body">
+          <pre><span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">HTML</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">CSS</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">JavaScript</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></pre>
+          <div class="demo-box">
+            <ul><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="dot"></div><h3>Ordered List</h3></div>
+        <div class="card-body">
+          <pre><span class="tag">&lt;ol</span> <span class="attr">start</span>=<span class="val">"1"</span> <span class="attr">type</span>=<span class="val">"1"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">First</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Second</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Third</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span>
+<span class="cm">&lt;!-- type: 1, A, a, I, i --&gt;</span></pre>
+          <div class="demo-box">
+            <ol><li>First</li><li>Second</li><li>Third</li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="dot"></div><h3>Description List</h3></div>
+        <div class="card-body">
+          <pre><span class="tag">&lt;dl&gt;</span>
+  <span class="tag">&lt;dt&gt;</span><span class="txt">HTML</span><span class="tag">&lt;/dt&gt;</span>
+  <span class="tag">&lt;dd&gt;</span><span class="txt">Markup language</span><span class="tag">&lt;/dd&gt;</span>
+  <span class="tag">&lt;dt&gt;<
