@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 7: HTML Links (Anchors)</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8;padding:20px}
+   .container{max-width:900px;margin:0 auto}
+    h1{font-size:32px;color:#38bdf8;margin-bottom:15px}
+    h2{font-size:26px;color:#0ea5e9;margin:35px 0 15px;border-bottom:2px solid #334155;padding-bottom:8px}
+    h3{font-size:20px;color:#7dd3fc;margin:25px 0 12px}
+    p{margin-bottom:15px;color:#cbd5e1;font-size:15px}
+    ul,ol{margin:15px 0 15px 25px;color:#cbd5e1}
+    li{margin-bottom:10px}
+    code{background:#1e293b;padding:3px 6px;border-radius:4px;font-family:'Courier New',monospace;color:#f472b6;font-size:14px;border:1px solid #334155}
+    pre{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:15px;overflow-x:auto;margin:20px 0;line-height:1.6}
+    pre code{background:none;border:none;padding:0;color:#94a3b8}
+    
+    .note{background:#1e3a5f;border-left:4px solid #0ea5e9;padding:15px;margin:20px 0;border-radius:6px;color:#bae6fd}
+    .warning{background:#5f1e1e;border-left:4px solid #f87171;padding:15px;margin:20px 0;border-radius:6px;color:#fecaca}
+    .success{background:#1e3a2e;border-left:4px solid #34d399;padding:15px;margin:20px 0;border-radius:6px;color:#6ee7b7}
+    .example{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:18px;margin:20px 0}
+    .example-title{color:#34d399;font-weight:bold;margin-bottom:10px;font-size:14px}
+    
+    /* Table Scrollable */
+   .table-scroll{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border:1px solid #334155;
+      border-radius:8px;
+      margin:20px 0;
+      background:#1e293b;
+    }
+    table{
+      width:100%;
+      min-width:600px;
+      border-collapse:collapse;
+      font-size:14px;
+      margin:0;
+    }
+    th{background:#334155;color:#f1f5f9;padding:12px;text-align:left;font-weight:600;white-space:nowrap}
+    td{padding:12px;border-bottom:1px solid #334155;color:#cbd5e1}
+    tr:last-child td{border-bottom:none}
+    tr:hover{background:#2d3748}
+    
+    /* Demo Navigation */
+    .demo-nav{background:#1e293b;padding:15px;border-radius:8px;margin:20px 0}
+    .demo-nav a{color:#38bdf8;margin-right:20px;text-decoration:none;font-weight:600}
+    .demo-nav a:hover{text-decoration:underline}
+    .demo-section{min-height:200px;padding:20px;border:1px solid #334155;margin:20px 0;border-radius:8px;background:#1e293b}
+    .demo-section h3{color:#0ea5e9;margin-top:0}
+    .btn{background:#0ea5e9;color:#000;padding:10px 20px;text-decoration:none;border-radius:6px;display:inline-block;margin:5px 0;font-weight:600}
+    .btn:hover{background:#38bdf8}
+    
+    @media(max-width:600px){
+      h1{font-size:26px}h2{font-size:22px}body{padding:15px}
+      table{font-size:13px;min-width:500px}
+      th,td{padding:8px}
+      .demo-nav a{display:block;margin:8px 0}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Chapter 7: HTML Links (Anchors)</h1>
+  <p>The <code>&lt;a&gt;</code> tag creates hyperlinks. It lets users click and jump to another page, section, file, or website.</p>
+
+  <h2>1. Basic Syntax</h2>
+  <pre><code>&lt;a href="URL"&gt;Clickable Text&lt;/a&gt;</code></pre>
+  <p><code>href</code> = "hypertext reference" - tells where to go.<br>
+  Text between tags = What user sees and clicks.</p>
+
+  <div class="example">
+    <div class="example-title">Example:</div>
+    <pre><code>&lt;a href="https://www.google.com"&gt;Visit Google&lt;/a&gt;</code></pre>
+    <p>Output: <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" style="color:#38bdf8;">Visit Google</a></p>
+  </div>
+
+  <h2>2. External Links</h2>
+  <p>Link to a different website/domain. Always use full URL with <code>https://</code></p>
+  
+  <pre><code>&lt;a href="https://www.w3schools.com"&gt;W3Schools&lt;/a&gt;
+&lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;</code></pre>
+
+  <div class="note">
+    <b>Key Point:</b> Without <code>https://</code>, browser thinks it's an internal file and gives 404 error.
+  </div>
+
+  <h2>3. Internal Links</h2>
+  <p>Link to another page or section within your own website.</p>
+
+  <h3>A. Link to Another Page:</h3>
+  <pre><code>&lt;a href="about.html"&gt;About Us&lt;/a&gt;
+&lt;a href="contact.html"&gt;Contact Page&lt;/a&gt;
+&lt;a href="/blog/post1.html"&gt;Read Blog&lt;/a&gt;</code></pre>
+
+  <h3>B. Link to Section on Same Page - Jump Links:</h3>
+  <p><b>Step 1:</b> Give target an <code>id</code></p>
+  <pre><code>&lt;h2 id="services"&gt;Our Services&lt;/h2&gt;</code></pre>
+  
+  <p><b>Step 2:</b> Link to it using <code>#</code></p>
+  <pre><code>&lt;a href="#services"&gt;Jump to Services&lt;/a&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Live Demo - Click to Jump:</div>
+    <div class="demo-nav">
+      <a href="#home-section">Home</a>
+      <a href="#services-section">Services</a>
+      <a href="#contact-section">Contact</a>
+    </div>
+    
+    <div class="demo-section" id="home-section">
+      <h3>Home Section</h3>
+      <p>This is the home section. Scroll or use nav to jump.</p>
+    </div>
+    
+    <div class="demo-section" id="services-section">
+      <h3>Services Section</h3>
+      <p>We offer web development services.</p>
+    </div>
+    
+    <div class="demo-section" id="contact-section">
+      <h3>Contact Section</h3>
+      <p>Get in touch with us.</p>
+      <a href="#home-section" style="color:#38bdf8;">↑ Back to Top</a>
+    </div>
+  </div>
+
+  <h2>4. The <code>target</code> Attribute</h2>
+  <p>Controls where link opens.</p>
+
+  <div class="table-scroll">
+    <table>
+      <tr><th>Value</th><th>Behavior</th><th>Use Case</th></tr>
+      <tr><td><code>_self</code></td><td>Opens in same tab. Default</td><td>Internal pages</td></tr>
+      <tr><td><code>_blank</code></td><td>Opens in new tab/window</td><td>External links, PDFs</td></tr>
+      <tr><td><code>_parent</code></td><td>Opens in parent frame</td><td>For iframes</td></tr>
+      <tr><td><code>_top</code></td><td>Opens in full body window</td><td>For iframes</td></tr>
+    </table>
+  </div>
+
+  <h3>Most Important: <code>target="_blank"</code></h3>
+  <pre><code>&lt;a href="https://www.google.com" target="_blank"&gt;Google&lt;/a&gt;</code></pre>
+  
+  <div class="success">
+    <b>Why Use It?</b> Keeps your website open while user checks external site. User doesn't lose your page.
+  </div>
+
+  <div class="warning">
+    <b>Security Best Practice:</b> Always add <code>rel="noopener noreferrer"</code> with <code>_blank</code>
+  </div>
+
+  <pre><code>&lt;a href="https://external-site.com" target="_blank" rel="noopener noreferrer"&gt;
+  Visit External Site
+&lt;/a&gt;</code></pre>
+  <p><code>noopener</code> = Prevents new page from controlling your page<br>
+  <code>noreferrer</code> = Hides referrer info for privacy</p>
+
+  <h2>5. Other Useful Link Types</h2>
+
+  <h3>A. Email Link:</h3>
+  <pre><code>&lt;a href="mailto:support@example.com"&gt;Email Us&lt;/a&gt;</code></pre>
+  <p>Output: <a href="mailto:support@example.com" style="color:#38bdf8;">Email Us</a> - Opens user's email app</p>
+
+  <h3>B. Phone Link:</h3>
+  <pre><code>&lt;a href="tel:+919876543210"&gt;Call Us&lt;/a&gt;</code></pre>
+  <p>Output: <a href="tel:+919876543210" style="color:#38bdf8;">Call Us</a> - On mobile, starts dialer</p>
+
+  <h3>C. Download Link:</h3>
+  <pre><code>&lt;a href="files/resume.pdf" download&gt;Download Resume&lt;/a&gt;</code></pre>
+  <p>Forces file download instead of opening in browser.</p>
+
+  <h3>D. Link to Top of Page:</h3>
+  <pre><code>&lt;a href="#"&gt;Back to Top&lt;/a&gt;</code></pre>
+  <p><code>#</code> alone jumps to top of current page.</p>
+
+  <h2>6. Complete Working Example</h2>
+  <div class="example">
+    <div class="example-title">All Link Types Demo:</div>
+    <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" class="btn">External Link - New Tab</a><br>
+    <a href="#services-section" class="btn">Internal Jump Link</a><br>
+    <a href="mailto:test@example.com" class="btn">Email Link</a><br>
+    <a href="tel:+911234567890" class="btn">Phone Link</a><br>
+    <a href="#" class="btn">Back to Top</a>
+  </div>
+
+  <h2>7. Common Mistakes</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Mistake</th><th>Wrong</th><th>Correct</th></tr>
+      <tr><td><b>Forgetting https://</b></td><td><code>&lt;a href="google.com"&gt;</code></td><td><code>&lt;a href="https://google.com"&gt;</code></td></tr>
+      <tr><td><b>No target for external</b></td><td><code>&lt;a href="https://site.com"&gt;</code></td><td><code>&lt;a href="https://site.com" target="_blank"&gt;</code></td></tr>
+      <tr><td><b>Missing rel attribute</b></td><td><code>&lt;a target="_blank"&gt;</code></td><td><code>&lt;a target="_blank" rel="noopener"&gt;</code></td></tr>
+      <tr><td><b>Empty href</b></td><td><code>&lt;a href=""&gt;</code></td><td><code>&lt;a href="#"&gt;</code> or <code>&lt;a href="/page"&gt;</code></td></tr>
+      <tr><td><b>Bad link text</b></td><td><code>&lt;a&gt;Click Here&lt;/a&gt;</code></td><td><code>&lt;a&gt;Read HTML Tutorial&lt;/a&gt;</code></td></tr>
+    </table>
+  </div>
+
+  <h2>8. Summary - Golden Rules</h2>
+  <ol>
+    <li><b>Internal Links:</b> <code>href="page.html"</code> or <code>href="#section"</code> - No target needed</li>
+    <li><b>External Links:</b> <code>href="https://..."</code> + <code>target="_blank"</code> + <code>rel="noopener noreferrer"</code></li>
+    <li><b>Always use descriptive text:</b> <code>&lt;a&gt;Click Here&lt;/a&gt;</code> is bad. <code>&lt;a&gt;Read HTML Tutorial&lt;/a&gt;</code> is good for SEO</li>
+    <li><b>Test your links:</b> Broken links hurt user experience and SEO</li>
+    <li><b>Use <code>#</code> for same-page jumps</b> with <code>id</code> attributes</li>
+  </ol>
+
+  <div class="note">
+    <b>Next:</b> Chapter 8 - Working with Images <code>&lt;img src="" alt=""&gt;</code>
+  </div>
+
+</div>
+
+</body>
+</html>
