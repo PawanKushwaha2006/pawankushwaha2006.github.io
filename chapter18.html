@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 18: Form Validation - HTML</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8;padding:20px}
+  .container{max-width:900px;margin:0 auto}
+    h1{font-size:32px;color:#38bdf8;margin-bottom:15px}
+    h2{font-size:26px;color:#0ea5e9;margin:35px 0 15px;border-bottom:2px solid #334155;padding-bottom:8px}
+    h3{font-size:20px;color:#7dd3fc;margin:25px 0 12px}
+    p{margin-bottom:15px;color:#cbd5e1;font-size:15px}
+    code{background:#1e293b;padding:3px 6px;border-radius:4px;font-family:'Courier New',monospace;color:#f472b6;font-size:14px;border:1px solid #334155}
+    pre{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:15px;overflow-x:auto;margin:20px 0;line-height:1.6}
+    pre code{background:none;border:none;padding:0;color:#94a3b8}
+
+  .note{background:#1e3a5f;border-left:4px solid #0ea5e9;padding:15px;margin:20px 0;border-radius:6px;color:#bae6fd}
+  .warning{background:#5f1e1e;border-left:4px solid #f87171;padding:15px;margin:20px 0;border-radius:6px;color:#fecaca}
+  .success{background:#1e3a2e;border-left:4px solid #34d399;padding:15px;margin:20px 0;border-radius:6px;color:#6ee7b7}
+  .example{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:18px;margin:20px 0}
+  .example-title{color:#34d399;font-weight:bold;margin-bottom:10px;font-size:14px}
+
+    /* Table Scrollable */
+ .table-scroll{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border:1px solid #334155;
+      border-radius:8px;
+      margin:20px 0;
+      background:#1e293b;
+    }
+    table{
+      width:100%;
+      min-width:600px;
+      border-collapse:collapse;
+      font-size:14px;
+      margin:0;
+    }
+    th{background:#334155;color:#f1f5f9;padding:12px;text-align:left;font-weight:600;white-space:nowrap}
+    td{padding:12px;border-bottom:1px solid #334155;color:#cbd5e1}
+    tr:last-child td{border-bottom:none}
+    tr:hover{background:#2d3748}
+
+    /* Form Styling */
+  .demo-box{background:#1e293b;padding:20px;border-radius:8px;margin:15px 0;border:1px solid #334155}
+    label{display:block;margin-bottom:6px;color:#7dd3fc;font-weight:600;font-size:14px}
+    input, select, textarea, button{
+      width:100%;
+      padding:10px;
+      margin-bottom:5px;
+      border:1px solid #334155;
+      border-radius:6px;
+      background:#0f172a;
+      color:#e2e8f0;
+      font-size:14px;
+      font-family:inherit;
+    }
+    input:focus, select:focus, textarea:focus{
+      outline:none;
+      border-color:#0ea5e9;
+      box-shadow:0 0 0 3px rgba(14,165,233,0.1);
+    }
+    
+    /* Validation Styles */
+    input:valid, select:valid, textarea:valid{border-color:#34d399}
+    input:invalid:not(:placeholder-shown), select:invalid, textarea:invalid{border-color:#f87171}
+    input:invalid:not(:placeholder-shown):focus{box-shadow:0 0 0 3px rgba(248,113,113,0.2)}
+    input:valid:focus{box-shadow:0 0 0 3px rgba(52,211,153,0.2)}
+    
+    .error-msg{color:#f87171;font-size:13px;margin-bottom:15px;display:block;min-height:18px}
+    .help-text{color:#94a3b8;font-size:13px;margin-bottom:15px;display:block}
+    
+    button{
+      background:#0ea5e9;color:#000;font-weight:600;cursor:pointer;border:none;margin-top:10px
+    }
+    button:hover{background:#38bdf8}
+    button:disabled{background:#334155;color:#64748b;cursor:not-allowed}
+
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+
+    @media(max-width:600px){
+      h1{font-size:26px}h2{font-size:22px}body{padding:15px}
+      table{font-size:13px;min-width:500px}
+      th,td{padding:8px}
+    .form-row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Chapter 18: Form Validation</h1>
+  <p>HTML5 validation attributes let the browser check user input before submitting. No JavaScript needed for basic checks. Stops bad data at the client level.</p>
+
+  <div class="warning">
+    <b>Important:</b> Client-side validation is for UX only. Always validate on server too. Users can bypass HTML validation.
+  </div>
+
+  <h2>1. The <code>required</code> Attribute</h2>
+  <p>Makes a field mandatory. Form won't submit if empty. Works on input, select, textarea.</p>
+
+  <h3>Basic Syntax:</h3>
+  <pre><code>&lt;label for="email"&gt;Email:&lt;/label&gt;
+&lt;input type="email" id="email" name="email" required&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Try submitting empty:</div>
+    <div class="demo-box">
+      <form onsubmit="event.preventDefault(); alert('Form submitted!');">
+        <label for="email1">Email *</label>
+        <input type="email" id="email1" name="email" placeholder="you@example.com" required>
+        <span class="help-text">* Required field</span>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <h2>2. <code>min</code> and <code>max</code> Attributes</h2>
+  <p>Set minimum and maximum values. Works on <code>number</code>, <code>range</code>, <code>date</code>, <code>time</code>, <code>month</code>, <code>week</code>.</p>
+
+  <h3>For Numbers:</h3>
+  <pre><code>&lt;label for="age"&gt;Age (18-100):&lt;/label&gt;
+&lt;input type="number" id="age" name="age" min="18" max="100" required&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Try entering 17 or 101:</div>
+    <div class="demo-box">
+      <form onsubmit="event.preventDefault(); alert('Valid age: ' + this.age.value);">
+        <label for="age1">Age (18-100) *</label>
+        <input type="number" id="age1" name="age" min="18" max="100" placeholder="18" required>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <h3>For Dates:</h3>
+  <pre><code>&lt;label for="booking"&gt;Booking Date:&lt;/label&gt;
+&lt;input type="date" id="booking" name="booking" 
+       min="2026-05-01" max="2026-12-31" required&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Only dates in 2026 allowed:</div>
+    <div class="demo-box">
+      <label for="date1">Select Date (May-Dec 2026) *</label>
+      <input type="date" id="date1" name="date" min="2026-05-01" max="2026-12-31" required>
+    </div>
+  </div>
+
+  <h2>3. <code>minlength</code> and <code>maxlength</code></h2>
+  <p>Control text length. Works on <code>text</code>, <code>email</code>, <code>password</code>, <code>textarea</code>, <code>tel</code>, <code>url</code>, <code>search</code>.</p>
+
+  <pre><code>&lt;label for="username"&gt;Username (3-15 chars):&lt;/label&gt;
+&lt;input type="text" id="username" name="username" 
+       minlength="3" maxlength="15" required&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Try typing 2 or 16 characters:</div>
+    <div class="demo-box">
+      <form onsubmit="event.preventDefault(); alert('Username: ' + this.username.value);">
+        <label for="user1">Username (3-15 chars) *</label>
+        <input type="text" id="user1" name="username" minlength="3" maxlength="15" placeholder="john_doe" required>
+        <span class="help-text">Must be 3-15 characters</span>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>maxlength</b> prevents typing more characters. <b>minlength</b> shows error on submit if too short.
+  </div>
+
+  <h2>4. <code>pattern</code> - Regex Validation</h2>
+  <p>Use regular expressions for custom formats. Works on text-based inputs.</p>
+
+  <h3>Common Patterns:</h3>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Use Case</th><th>Pattern</th><th>Example</th></tr>
+      <tr><td><b>Phone US</b></td><td><code>[0-9]{3}-[0-9]{3}-[0-9]{4}</code></td><td>123-456-7890</td></tr>
+      <tr><td><b>Zip Code</b></td><td><code>[0-9]{5}</code></td><td>90210</td></tr>
+      <tr><td><b>Only Letters</b></td><td><code>[A-Za-z]+</code></td><td>John</td></tr>
+      <tr><td><b>Username</b></td><td><code>[a-z0-9_]{3,15}</code></td><td>john_doe99</td></tr>
+      <tr><td><b>Strong Password</b></td><td><code>(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}</code></td><td>Pass1234</td></tr>
+    </table>
+  </div>
+
+  <h3>Example: Phone Number</h3>
+  <pre><code>&lt;label for="phone"&gt;Phone (123-456-7890):&lt;/label&gt;
+&lt;input type="tel" id="phone" name="phone" 
+       pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+       placeholder="123-456-7890" required&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Must match format 123-456-7890:</div>
+    <div class="demo-box">
+      <form onsubmit="event.preventDefault(); alert('Phone: ' + this.phone.value);">
+        <label for="phone1">Phone Number *</label>
+        <input type="tel" id="phone1" name="phone" 
+               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+               placeholder="123-456-7890" required>
+        <span class="help-text">Format: 123-456-7890</span>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <h2>5. <code>step</code> Attribute</h2>
+  <p>Defines legal number intervals. Works with <code>number</code>, <code>range</code>, <code>date</code>, <code>time</code>.</p>
+
+  <pre><code>&lt;!-- Only multiples of 5 --&gt;
+&lt;input type="number" min="0" max="100" step="5"&gt;
+
+&lt;!-- Decimals allowed --&gt;
+&lt;input type="number" step="0.01"&gt;
+
+&lt;!-- Weekly dates only --&gt;
+&lt;input type="date" step="7"&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Only multiples of 10 allowed:</div>
+    <div class="demo-box">
+      <label for="step1">Enter multiples of 10 (0-100):</label>
+      <input type="number" id="step1" name="step" min="0" max="100" step="10" value="20">
+    </div>
+  </div>
+
+  <h2>6. Other Validation Attributes</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Attribute</th><th>Purpose</th><th>Works On</th></tr>
+      <tr><td><code>readonly</code></td><td>User can't edit, but value submits</td><td>All inputs</td></tr>
+      <tr><td><code>disabled</code></td><td>Can't edit, value doesn't submit, grayed out</td><td>All inputs</td></tr>
+      <tr><td><code>autocomplete</code></td><td>Browser autofill hint</td><td>email, name, tel, etc</td></tr>
+      <tr><td><code>autofocus</code></td><td>Focus on page load</td><td>One input per page</td></tr>
+      <tr><td><code>spellcheck</code></td><td>Enable/disable spell check</td><td>text, textarea</td></tr>
+    </table>
+  </div>
+
+  <h3>Example: Readonly vs Disabled</h3>
+  <pre><code>&lt;input type="text" value="user123" readonly&gt;
+&lt;input type="text" value="user123" disabled&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Output:</div>
+    <div class="demo-box">
+      <label>Readonly - Can select/copy, submits value:</label>
+      <input type="text" value="user123" readonly>
+      
+      <label>Disabled - Can't interact, doesn't submit:</label>
+      <input type="text" value="user123" disabled>
+    </div>
+  </div>
+
+  <h2>7. CSS Pseudo-Classes for Validation</h2>
+  <p>Style inputs based on validation state using CSS.</p>
+
+  <pre><code>/* Valid input */
+input:valid {
+  border-color: #34d399;
+}
+
+/* Invalid input after user interacted */
+input:invalid:not(:placeholder-shown) {
+  border-color: #f87171;
+}
+
+/* Required fields */
+input:required {
+  background-image: url('star.svg');
+}
+
+/* Optional fields */
+input:optional {
+  opacity: 0.8;
+}</code></pre>
+
+  <div class="example">
+    <div class="example-title">Live styling - Type in fields:</div>
+    <div class="demo-box">
+      <label for="valid1">Email (green if valid, red if invalid):</label>
+      <input type="email" id="valid1" name="validEmail" placeholder="test@example.com" required>
+      
+      <label for="valid2">Age 18-99 (required):</label>
+      <input type="number" id="valid2" name="validAge" min="18" max="99" placeholder="25" required>
+    </div>
+  </div>
+
+  <h2>8. Complete Validation Form</h2>
+  <pre><code>&lt;form action="/register" method="post" novalidate&gt;
+  &lt;h3&gt;Create Account&lt;/h3&gt;
+
+  &lt;label for="username"&gt;Username *&lt;/label&gt;
+  &lt;input type="text" id="username" name="username" 
+         minlength="3" maxlength="15" 
+         pattern="[a-z0-9_]+" 
+         placeholder="john_doe" required&gt;
+  &lt;span class="help-text"&gt;3-15 chars, lowercase, numbers, _ only&lt;/span&gt;
+
+  &lt;label for="email"&gt;Email *&lt;/label&gt;
+  &lt;input type="email" id="email" name="email" 
+         placeholder="you@example.com" required&gt;
+
+  &lt;label for="age"&gt;Age *&lt;/label&gt;
+  &lt;input type="number" id="age" name="age" 
+         min="13" max="120" step="1" required&gt;
+
+  &lt;label for="password"&gt;Password *&lt;/label&gt;
+  &lt;input type="password" id="password" name="password" 
+         minlength="8" 
+         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+         required&gt;
+  &lt;span class="help-text"&gt;Min 8 chars, 1 uppercase, 1 lowercase, 1 number&lt;/span&gt;
+
+  &lt;label for="website"&gt;Website&lt;/label&gt;
+  &lt;input type="url" id="website" name="website" 
+         placeholder="https://example.com"&gt;
+
+  &lt;label for="start"&gt;Start Date *&lt;/label&gt;
+  &lt;input type="date" id="start" name="start" 
+         min="2026-05-01" required&gt;
+
+  &lt;button type="submit"&gt;Create Account&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <div class="example">
+    <div class="example-title">Full Working Form - Try invalid inputs:</div>
+    <div class="demo-box">
+      <form onsubmit="event.preventDefault(); alert('Account created successfully!');">
+        <h3 style="color:#7dd3fc;margin-bottom:15px;">Create Account</h3>
+
+        <label for="regUser">Username *</label>
+        <input type="text" id="regUser" name="username" 
+               minlength="3" maxlength="15" 
+               pattern="[a-z0-9_]+" 
+               placeholder="john_doe" required>
+        <span class="help-text">3-15 chars, lowercase, numbers, _ only</span>
+
+        <div class="form-row">
+          <div>
+            <label for="regEmail">Email *</label>
+            <input type="email" id="regEmail" name="email" placeholder="you@example.com" required>
+          </div>
+          <div>
+            <label for="regAge">Age *</label>
+            <input type="number" id="regAge" name="age" min="13" max="120" step="1" placeholder="25" required>
+          </div>
+        </div>
+
+        <label for="regPass">Password *</label>
+        <input type="password" id="regPass" name="password" 
+               minlength="8" 
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+               placeholder="Min 8 chars" required>
+        <span class="help-text">Min 8 chars, 1 uppercase, 1 lowercase, 1 number</span>
+
+        <div class="form-row">
+          <div>
+            <label for="regWeb">Website</label>
+            <input type="url" id="regWeb" name="website" placeholder="https://example.com">
+          </div>
+          <div>
+            <label for="regDate">Start Date *</label>
+            <input type="date" id="regDate" name="start" min="2026-05-01" required>
+          </div>
+        </div>
+
+        <button type="submit">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <h2>9. The <code>novalidate</code> Attribute</h2>
+  <p>Add to <code>&lt;form&gt;</code> to disable browser validation. Useful if you want custom JS validation only.</p>
+
+  <pre><code>&lt;form action="/submit" novalidate&gt;
+  &lt;input type="email" required&gt;
+  &lt;button&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <div class="warning">
+    <b>Warning:</b> Only use <code>novalidate</code> if you're handling validation with JavaScript. Otherwise users can submit invalid data.
+  </div>
+
+  <h2>10. Validation API with JavaScript</h2>
+  <p>For custom messages and logic, use the Constraint Validation API.</p>
+
+  <pre><code>&lt;input type="text" id="custom" required&gt;
+&lt;span id="error"&gt;&lt;/span&gt;
+
+&lt;script&gt;
+const input = document.getElementById('custom');
+const error = document.getElementById('error');
+
+input.addEventListener('input', () => {
+  if (input.validity.valueMissing) {
+    error.textContent = 'This field is required';
+  } else if (input.validity.tooShort) {
+    error.textContent = 'Too short';
+  } else {
+    error.textContent = '';
+  }
+});
+&lt;/script&gt;</code></pre>
+
+  <h3>Validity Properties:</h3>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Property</th><th>True When</th></tr>
+      <tr><td><code>valueMissing</code></td><td>Required field is empty</td></tr>
+      <tr><td><code>typeMismatch</code></td><td>Wrong type like invalid email</td></tr>
+      <tr><td><code>patternMismatch</code></td><td>Doesn't match pattern</td></tr>
+      <tr><td><code>tooLong</code></td><td>Exceeds maxlength</td></tr>
+      <tr><td><code>tooShort</code></td><td>Below minlength</td></tr>
+      <tr><td><code>rangeUnderflow</code></td><td>Below min</td></tr>
+      <tr><td><code>rangeOverflow</code></td><td>Above max</td></tr>
+      <tr><td><code>stepMismatch</code></td><td>Doesn't match step interval</td></tr>
+      <tr><td><code>valid</code></td><td>All checks pass</td></tr>
+    </table>
+  </div>
+
+  <h2>11. Common Mistakes</h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+      <tr><td><b>No server validation</b></td><td>Users bypass HTML</td><td>Always validate on backend too</td></tr>
+      <tr><td><b>Using number for phone</b></td><td>Removes leading 0, no spaces</td><td>Use <code>type="tel"</code> with pattern</td></tr>
+      <tr><td><b>min/max on text</b></td><td>Doesn't work</td><td>Use <code>minlength/maxlength</code> for text</td></tr>
+      <tr><td><b>Forgetting required</b></td><td>Form submits empty</td><td>Add <code>required</code> to mandatory fields</td></tr>
+      <tr><td><b>Bad pattern regex</b></td><td>Too strict or too loose</td><td>Test regex before using</td></tr>
+      <tr><td><b>No error messages</b></td><td>User confused why form won't submit</td><td>Add help text or use JS for custom messages</td></tr>
+    </table>
+  </div>
+
+  <h2>12. Summary - Golden Rules</h2>
+  <ol style="color:#cbd5e1;margin-left:20px">
+    <li><b>required:</b> Use on all mandatory fields. Form won't submit if empty</li>
+    <li><b>min/max:</b> For numbers and dates. Prevents out-of-range values</li>
+    <li><b>minlength/maxlength:</b> For text length. maxlength blocks typing, minlength checks on submit</li>
+    <li><b>pattern:</b> Use regex for custom formats like phone, zip, username</li>
+    <li><b>step:</b> Control increments for number, range, date inputs</li>
+    <li><b>CSS :valid/:invalid:</b> Style inputs based on validation state for better UX</li>
+    <li><b>Help text:</b> Always explain format requirements to users</li>
+    <li><b>Server validation:</b> HTML validation is for UX only. Backend must validate too</li>
+  </ol>
+
+  <div class="success">
+    <b>Pro Tip:</b> Combine attributes: <code>&lt;input type="email" required minlength="5" maxlength="50"&gt;</code> for robust validation.
+  </div>
+
+  <div class="note">
+    <b>Next:</b> Chapter 18 - Advanced Inputs <code>&lt;textarea&gt;</code>, <code>&lt;fieldset&gt;</code>, <code>&lt;legend&gt;</code>
+  </div>
+
+</div>
+
+</body>
+      </html>
