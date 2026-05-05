@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>HTML Color Picker</title>
+<link rel="stylesheet" href="/colorstyle.css">
+</head>
+<body>
+
+<header>
+  <span class="logo">W</span>
+  <span>Menu ▼</span>
+  <span style="margin-left:auto">☰</span>
+</header>
+
+<div class="nav-bar">
+  <span class="title">HTML Color Picker</span>
+  <span class="nav-btns">
+    <button>◀ Previous</button>
+    <button>Next ▶</button>
+  </span>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h3>Pick a Color:</h3>
+    <div class="wheel-outer">
+      <div class="wheel-container" id="wheelWrap">
+        <canvas id="colorWheel" width="200" height="200"></canvas>
+        <div id="dot"></div>
+      </div>
+      <div class="wheel-preview">
+        <div class="preview-circle" id="pCircle"></div>
+        <span class="preview-hex" id="pHex">#ffffff</span>
+      </div>
+    </div>
+
+    <div class="hex-row"><label>Or Enter a Color:</label></div>
+    <div class="hex-row">
+      <label>Color value</label>
+      <input type="text" id="hexInput" value="#003300" maxlength="7">
+      <button onclick="applyHex()">OK</button>
+    </div>
+    <div class="html5-row">
+      <label>Or Use HTML5</label>
+      <input type="color" id="html5picker" value="#003300" oninput="html5Change(this.value)">
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Selected Color:</h3>
+    <div id="selectedColorBox" style="background:#003300;"></div>
+    <div class="text-btns">
+      <button id="btnWhite" onclick="setTM('white')" class="active">White Text</button>
+      <button id="btnBlack" onclick="setTM('black')">Black Text</button>
+      <button id="btnShadow" onclick="setTM('shadow')">Shadow</button>
+    </div>
+    <div id="colorInfo">#003300<br>rgb(0,51,0)<br>hsl(120,100%,10%)</div>
+  </div>
+
+  <div class="section-title">Lighter / Darker</div>
+  <div class="section-inner">
+    <table class="shade-table" id="shadeTable"><tr><th>%</th><th></th><th>#rrggbb</th></tr></table>
+  </div>
+
+  <div class="section-title">Hue</div>
+  <div class="section-inner">
+    <table class="hue-table" id="hueTable"><tr class="hdr"><td>Hue</td><td></td><td>#rrggbb</td></tr></table>
+  </div>
+
+  <div class="section-title">Saturation</div>
+  <div class="section-inner">
+    <div class="slider-row">
+      <label>Sat</label>
+      <input type="range" id="satSlider" min="0" max="100" value="100" oninput="updateSliders()">
+      <span id="satVal">100%</span>
+    </div>
+    <table class="shade-table" id="satTable"><tr><th>Sat</th><th></th><th>#rrggbb</th></tr></table>
+  </div>
+
+  <div class="section-title">Lightness</div>
+  <div class="section-inner">
+    <div class="slider-row">
+      <label>Light</label>
+      <input type="range" id="lightSlider" min="0" max="100" value="10" oninput="updateSliders()">
+      <span id="lightVal">10%</span>
+    </div>
+    <table class="shade-table" id="lightTable"><tr><th>Light</th><th></th><th>#rrggbb</th></tr></table>
+  </div>
+
+  <div class="section-title">RGB (Red, Green, Blue)</div>
+  <div class="section-inner">
+    <div class="rgb-bar-row">
+      <label style="color:red">Red</label>
+      <input type="range" id="rS" min="0" max="255" value="0" oninput="updateRGB()">
+      <span id="rV">0</span>
+    </div>
+    <div class="rgb-swatch" style="background:linear-gradient(to right,#000,#f00)"></div>
+    <div class="rgb-bar-row">
+      <label style="color:green">Green</label>
+      <input type="range" id="gS" min="0" max="255" value="51" oninput="updateRGB()">
+      <span id="gV">51</span>
+    </div>
+    <div class="rgb-swatch" style="background:linear-gradient(to right,#000,#0f0)"></div>
+    <div class="rgb-bar-row">
+      <label style="color:blue">Blue</label>
+      <input type="range" id="bS" min="0" max="255" value="0" oninput="updateRGB()">
+      <span id="bV">0</span>
+    </div>
+    <div class="rgb-swatch" style="background:linear-gradient(to right,#000,#00f)"></div>
+  </div>
+
+  <div class="signin-box">
+    <p>Sign in to track progress</p>
+    <button>Sign In</button>
+    <div class="social-icons"><span>G</span><span>f</span><span>in</span></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">W</div>
+  <div>COLOR PICKER</div>
+</footer>
+
+<script src="/colorscrit.js"></script>
+</body>
+</html>
