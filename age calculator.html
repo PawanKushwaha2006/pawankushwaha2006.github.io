@@ -157,7 +157,8 @@
 
 
 
-<!DOCTYPE html>
+
+      <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -225,8 +226,6 @@
         <p>Total Months: <span class="val" id="totalMonths">0</span></p>
         <p>Total Weeks: <span class="val" id="totalWeeks">0</span></p>
         <p>Total Days: <span class="val" id="totalDays">0</span></p>
-        <!--p>Total Hours: <span class="val" id="totalHours">0</span></p>
-        <p>Total Minutes: <span class="val" id="totalMinutes">0</span></p-->
       </div>
 
       <div class="next-bday" id="nextBday">Next Birthday: --</div>
@@ -246,6 +245,10 @@
 
       let dob = new Date(dobInput);
       let today = new Date();
+
+      // FIX 1: Time ko 00:00:00 set karo
+      dob.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
 
       // Future date check
       if(dob > today){
@@ -274,15 +277,17 @@
       let totalDays = Math.floor((today - dob) / (1000 * 60 * 60 * 24));
       let totalWeeks = Math.floor(totalDays / 7);
       let totalMonths = years * 12 + months;
-      let totalHours = totalDays * 24;
-      let totalMinutes = totalHours * 60;
 
-      // Next birthday
+      // Next birthday - FIXED
       let nextBday = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+      nextBday.setHours(0,0,0,0);
+
       if(nextBday < today){
         nextBday.setFullYear(today.getFullYear() + 1);
       }
-      let daysLeft = Math.ceil((nextBday - today) / (1000 * 60 * 60 * 24));
+
+      // FIX 2: Math.round use karo ceil ki jagah
+      let daysLeft = Math.round((nextBday - today) / (1000 * 60 * 60 * 24));
 
       let bdayText = '';
       if(daysLeft === 0){
@@ -297,11 +302,10 @@
       document.getElementById('years').innerText = years;
       document.getElementById('months').innerText = months;
       document.getElementById('days').innerText = days;
+      document.getElementById('totalYears').innerText = years.toLocaleString();
       document.getElementById('totalMonths').innerText = totalMonths.toLocaleString();
       document.getElementById('totalWeeks').innerText = totalWeeks.toLocaleString();
       document.getElementById('totalDays').innerText = totalDays.toLocaleString();
-      document.getElementById('totalHours').innerText = totalHours.toLocaleString();
-      document.getElementById('totalMinutes').innerText = totalMinutes.toLocaleString();
       document.getElementById('nextBday').innerText = bdayText;
 
       document.getElementById('result').classList.add('show');
