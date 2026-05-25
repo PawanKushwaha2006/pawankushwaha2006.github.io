@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Tutorial - CodeNix</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="HTML style.css">
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar" style="width:0%"></div>
+
+<header class="header">
+  <button class="menu-btn" onclick="toggleDropdown()"><i class="fas fa-bars"></i></button>
+  <div class="logo" onclick="location.href='index.html'">
+    <i class="fa-solid fa-fire-flame-curved" style="color:var(--accent)"></i>
+    <span class="code">Code</span><span class="nix">Nix</span>
+  </div>
+</header>
+
+<div class="dropdown" id="dropdown">
+  <button class="dropdown-item" onclick="toggleTheme()">
+    <i class="fas fa-moon" id="themeIcon"></i> <span id="themeLabel">Dark Mode</span>
+  </button>
+  <div class="dropdown-divider"></div>
+  <button class="dropdown-item" onclick="showModal('about')">
+    <i class="fas fa-info-circle"></i> About
+  </button>
+  <button class="dropdown-item" onclick="location.reload()">
+    <i class="fas fa-sync-alt"></i> Refresh
+  </button>
+  <button class="dropdown-item" onclick="showModal('project')">
+    <i class="fas fa-lightbulb"></i> Project Ideas
+  </button>
+  <button class="dropdown-item" onclick="downloadPage()">
+    <i class="fas fa-download"></i> Download
+  </button>
+  <button class="dropdown-item" onclick="sharePage()">
+    <i class="fas fa-share-alt"></i> Share
+  </button>
+  <button class="dropdown-item" onclick="showModal('help')">
+    <i class="fas fa-question-circle"></i> Help
+  </button>
+</div>
+
+<button class="compiler-toggle" onclick="openCompiler()"><i class="fas fa-chevron-left"></i></button>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTML & CSS — Complete Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #f4f8f4;
+      --surface:  #eaf2ea;
+      --card:     #ffffff;
+      --border:   #d0ddd0;
+      --border2:  #b8ccb8;
+      --ink:      #141a14;
+      --ink2:     #3a4a3a;
+      --muted:    #7a927a;
+      --accent:   #1a7a3a;     /* HTML green */
+      --accent2:  #e05a00;     /* CSS orange */
+      --accent3:  #1565c0;     /* JS blue */
+      --accent4:  #7b1fa2;     /* violet */
+      --code-bg:  #181f18;
+      --code-text:#dce8dc;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.75;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      color: #fff;
+      padding: 72px 64px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content:'';
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    header::after {
+      content:'</>';
+      position:absolute; right:-10px; bottom:-30px;
+      font-family:'DM Mono', monospace;
+      font-size: 200px; font-weight:500;
+      color: rgba(26,122,58,.14);
+      line-height:1; pointer-events:none;
+      animation: drift 12s ease-in-out infinite;
+    }
+    @keyframes drift {
+      0%,100% { transform: translateY(0) rotate(-2deg); }
+      50%      { transform: translateY(-14px) rotate(-2deg); }
+    }
+
+    .badge {
+      display:inline-flex; align-items:center; gap:8px;
+      font-family:'DM Mono', monospace; font-size:11px;
+      letter-spacing:2px; text-transform:uppercase;
+      color: rgba(26,200,80,1);
+      background: rgba(26,122,58,.18);
+      border:1px solid rgba(26,122,58,.5);
+      padding: 4px 14px;
+      margin-bottom: 28px;
+      animation: fadeUp .5s ease both;
+    }
+    .badge-dot { width:6px; height:6px; border-radius:50%; background:#26c850; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    h1 {
+      font-family:'Playfair Display', serif;
+      font-size: clamp(42px, 7vw, 84px);
+      font-weight:900; line-height:1.0;
+      letter-spacing: -2px;
+      color:#fff;
+      animation: fadeUp .5s .1s ease both;
+    }
+    h1 em { color: #26c850; font-style:normal; }
+
+    .hero-desc {
+      margin-top:20px; font-size:16px;
+      color: rgba(255,255,255,.55);
+      max-width:580px; font-weight:300;
+      animation: fadeUp .5s .2s ease both;
+    }
+
+    .hero-pills {
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:36px;
+      animation: fadeUp .5s .3s ease both;
+    }
+    .pill {
+      font-family:'DM Mono', monospace; font-size:12px;
+      padding:6px 16px; border:1px solid rgba(255,255,255,.15);
+      color:rgba(255,255,255,.6); background:rgba(255,255,255,.05);
+    }
+    .pill.hi-g { border-color: rgba(26,122,58,.7); color:#7dffaa; background:rgba(26,122,58,.12); }
+    .pill.hi-o { border-color: rgba(224,90,0,.7); color:#ffb07d; background:rgba(224,90,0,.12); }
+    .pill.hi-b { border-color: rgba(21,101,192,.7); color:#7db8ff; background:rgba(21,101,192,.12); }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── LAYOUT ── */
+    .wrapper {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+    }
+
+    /* ── SIDEBAR ── */
+    aside {
+      position: sticky; top:0; height:100vh;
+      overflow-y: auto; background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 36px 0;
+    }
+    aside::-webkit-scrollbar { width:3px; }
+    aside::-webkit-scrollbar-thumb { background: var(--border2); }
+
+    .nav-group { margin-bottom:4px; }
+    .nav-label {
+      font-family:'DM Mono', monospace; font-size:9px;
+      letter-spacing:3px; text-transform:uppercase;
+      color:var(--muted); padding:10px 24px 4px;
+      display:block;
+    }
+    aside a {
+      display:block; padding:7px 24px;
+      font-size:13px; color:var(--ink2);
+      text-decoration:none;
+      border-left: 2px solid transparent;
+      transition: all .18s;
+    }
+    aside a:hover {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: rgba(26,122,58,.06);
+    }
+
+    /* ── CONTENT ── */
+    .content { padding: 64px; max-width:940px; }
+    section { margin-bottom:80px; }
+
+    .sec-head {
+      display:flex; align-items:flex-start; gap:20px;
+      margin-bottom:32px; padding-bottom:20px;
+      border-bottom:1px solid var(--border);
+    }
+    .sec-num {
+      font-family:'DM Mono', monospace; font-size:11px;
+      color: var(--muted); padding-top:6px;
+      min-width:28px;
+    }
+    h2 {
+      font-family:'Playfair Display', serif;
+      font-size:28px; font-weight:700;
+      color:var(--ink); line-height:1.2;
+    }
+    h3 {
+      font-size:11px; font-weight:500;
+      letter-spacing:2.5px; text-transform:uppercase;
+      color:var(--accent2); margin: 28px 0 12px;
+      font-family:'DM Mono', monospace;
+    }
+    p { color:var(--ink2); font-size:15px; margin-bottom:14px; line-height:1.75; }
+
+    /* ── CODE ── */
+    .code-block {
+      background: var(--code-bg);
+      border-radius:4px;
+      padding:24px 28px;
+      margin:20px 0;
+      overflow-x:auto;
+      position:relative;
+    }
+    .code-block[data-lang]::after {
+      content: attr(data-lang);
+      position:absolute; top:10px; right:16px;
+      font-family:'DM Mono', monospace; font-size:9px;
+      letter-spacing:2px; text-transform:uppercase;
+      color:#3a5040;
+    }
+    pre {
+      font-family:'DM Mono', monospace;
+      font-size:13px; line-height:1.85;
+      color:var(--code-text); white-space:pre;
+    }
+
+    /* Syntax colours */
+    .tg  { color:#80d4a0; }   /* HTML tags */
+    .at  { color:#ffb07d; }   /* attributes */
+    .vl  { color:#ffe08a; }   /* attr values / strings */
+    .cm  { color:#3a5040; font-style:italic; }  /* comments */
+    .pr  { color:#7ec8ff; }   /* CSS properties */
+    .sv  { color:#ffd580; }   /* CSS values */
+    .sl  { color:#d0a8ff; }   /* selectors */
+    .kw  { color:#80d4a0; }   /* keywords */
+    .fn  { color:#a8e6b8; }   /* functions */
+    .nm  { color:#ff9f9f; }   /* numbers */
+    .un  { color:#7ec8ff; }   /* units / punctuation */
+    .js  { color:#ffd580; }   /* JS highlight */
+    .mth { color:#a8e6b8; }   /* JS methods */
+
+    /* ── TABLES ── */
+    table { width:100%; border-collapse:collapse; margin:20px 0; font-size:13.5px; }
+    th {
+      font-family:'DM Mono', monospace; font-size:9px;
+      letter-spacing:2.5px; text-transform:uppercase;
+      color:var(--muted); padding:10px 16px; text-align:left;
+      border-bottom:2px solid var(--border2);
+    }
+    td { padding:10px 16px; border-bottom:1px solid var(--border); color:var(--ink2); }
+    tr:hover td { background: rgba(26,122,58,.03); }
+    td code, p code, li code {
+      font-family:'DM Mono', monospace; font-size:12px;
+      background:rgba(26,122,58,.09); color:var(--accent);
+      padding:2px 6px; border-radius:2px;
+    }
+
+    /* ── CARDS ── */
+    .card-grid {
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(190px,1fr));
+      gap:14px; margin:20px 0;
+    }
+    .card {
+      background:var(--card); border:1px solid var(--border);
+      padding:20px; transition:all .2s; cursor:default;
+    }
+    .card:hover {
+      border-color:var(--accent);
+      box-shadow: 0 4px 24px rgba(26,122,58,.12);
+      transform:translateY(-2px);
+    }
+    .card-icon { font-size:20px; margin-bottom:10px; }
+    .card-t { font-family:'DM Mono',monospace; font-size:12px; font-weight:500; color:var(--ink); margin-bottom:5px; }
+    .card-d { font-size:12px; color:var(--muted); line-height:1.5; }
+
+    /* ── CALLOUT ── */
+    .note {
+      border-left:3px solid var(--accent);
+      background:rgba(26,122,58,.07);
+      padding:14px 20px; margin:20px 0;
+      font-size:14px; color:var(--ink2);
+    }
+    .note strong { display:block; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
+    .warn {
+      border-left:3px solid var(--accent2);
+      background:rgba(224,90,0,.06);
+      padding:14px 20px; margin:20px 0;
+      font-size:14px; color:var(--ink2);
+    }
+    .warn strong { display:block; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent2); margin-bottom:6px; }
+    .info {
+      border-left:3px solid var(--accent3);
+      background:rgba(21,101,192,.06);
+      padding:14px 20px; margin:20px 0;
+      font-size:14px; color:var(--ink2);
+    }
+    .info strong { display:block; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent3); margin-bottom:6px; }
+
+    /* ── TAGS ── */
+    .tags { display:flex; gap:8px; flex-wrap:wrap; margin:20px 0; }
+    .tg-pill {
+      font-family:'DM Mono',monospace; font-size:10px;
+      padding:4px 10px; border-radius:2px; border:1px solid;
+    }
+    .tp-g { border-color:var(--accent); color:var(--accent); background:rgba(26,122,58,.08); }
+    .tp-o { border-color:var(--accent2); color:var(--accent2); background:rgba(224,90,0,.08); }
+    .tp-b { border-color:var(--accent3); color:var(--accent3); background:rgba(21,101,192,.08); }
+    .tp-v { border-color:var(--accent4); color:var(--accent4); background:rgba(123,31,162,.08); }
+
+    hr.divider { border:none; border-top:1px solid var(--border); margin:56px 0; }
+
+    ul { padding-left:20px; color:var(--ink2); font-size:15px; margin-bottom:14px; }
+    li { margin-bottom:6px; }
+
+    /* ── LIVE DEMO BOX ── */
+    .demo-box {
+      border:1px solid var(--border);
+      border-top: 3px solid var(--accent3);
+      background: #fff;
+      padding: 24px 28px;
+      margin: 20px 0;
+      border-radius: 0 0 4px 4px;
+    }
+    .demo-label {
+      font-family:'DM Mono',monospace; font-size:9px;
+      letter-spacing:2px; text-transform:uppercase;
+      color:var(--accent3); margin-bottom:14px; display:block;
+    }
+
+    /* ── CSS BOX MODEL VISUAL ── */
+    .box-model {
+      display:flex; flex-direction:column; align-items:center;
+      gap:0; margin:20px 0; font-family:'DM Mono',monospace; font-size:11px;
+    }
+    .bm-margin    { background:#fde8c8; border:1px dashed #e05a00; padding:16px; color:#8a4000; width:100%; text-align:center; }
+    .bm-border    { background:#ffd0d0; border:1px dashed #c00; padding:14px; color:#800; margin:8px; }
+    .bm-padding   { background:#d0e8ff; border:1px dashed #1565c0; padding:14px; color:#0a3060; margin:4px; }
+    .bm-content   { background:#d0f0d8; border:1px solid #1a7a3a; padding:18px 32px; color:#0a3a18; text-align:center; }
+    .bm-label     { font-size:10px; opacity:.7; margin-bottom:4px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background:var(--ink); color:rgba(255,255,255,.35);
+      padding:36px 64px;
+      display:flex; justify-content:space-between; align-items:center;
+      flex-wrap:wrap; gap:12px;
+      font-family:'DM Mono',monospace; font-size:11px;
+    }
+    footer span { color: #26c850; }
+
+    @media(max-width:768px){
+      header { padding:48px 24px 40px; }
+      header::after { font-size:120px; right:-5px; bottom:-15px; }
+      .wrapper { display:block; }
+      aside { display:none; }
+      .content { padding:32px 20px; max-width:100%; }
+      .card-grid { grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); }
+      h2 { font-size:22px; }
+      pre { font-size:11.5px; }
+      footer { padding:28px 24px; flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="badge"><span class="badge-dot"></span>Web Development Reference</div>
+  <h1>HTML &amp; <em>CSS</em></h1>
+  <p class="hero-desc">The building blocks of the web. HTML structures content, CSS styles it, and JavaScript brings it to life. Master these three and you can build anything on the web.</p>
+  <div class="hero-pills">
+    <span class="pill hi-g">HTML5</span>
+    <span class="pill hi-o">CSS3</span>
+    <span class="pill hi-b">JavaScript ES6+</span>
+    <span class="pill">W3C Standard</span>
+    <span class="pill">Browser Native</span>
+    <span class="pill">Open Web</span>
+  </div>
+</header>
+
+<div class="wrapper">
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="nav-group"><span class="nav-label">HTML Basics</span>
+      <a href="#intro">Introduction</a>
+      <a href="#structure">Document Structure</a>
+      <a href="#elements">Common Elements</a>
+      <a href="#attributes">Attributes</a>
+      <a href="#semantic">Semantic HTML</a>
+      <a href="#forms">Forms & Input</a>
+    </div>
+    <div class="nav-group"><span class="nav-label">CSS Fundamentals</span>
+      <a href="#selectors">Selectors</a>
+      <a href="#boxmodel">Box Model</a>
+      <a href="#typography">Typography</a>
+      <a href="#colors">Colors</a>
+      <a href="#display">Display & Position</a>
+    </div>
+    <div class="nav-group"><span class="nav-label">CSS Layout</span>
+      <a href="#flexbox">Flexbox</a>
+      <a href="#grid">CSS Grid</a>
+      <a href="#responsive">Responsive Design</a>
+      <a href="#animations">Animations</a>
+    </div>
+    <div class="nav-group"><span class="nav-label">JavaScript Basics</span>
+      <a href="#js-intro">JS Introduction</a>
+      <a href="#js-dom">DOM Manipulation</a>
+      <a href="#js-events">Events</a>
+      <a href="#js-fetch">Fetch API</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- 01 INTRO -->
+    <section id="intro">
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <h2>Introduction to Web Development</h2>
+      </div>
+      <p>Every website you visit is built with three core technologies working together. <strong>HTML</strong> provides the content and structure, <strong>CSS</strong> controls visual presentation, and <strong>JavaScript</strong> adds interactivity and dynamic behaviour.</p>
+      <p>These are not separate worlds — they are designed to work in harmony. A browser parses all three and renders them into the page you see.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🏗️</div>
+          <div class="card-t">HTML</div>
+          <div class="card-d">HyperText Markup Language. Defines structure and meaning of content.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎨</div>
+          <div class="card-t">CSS</div>
+          <div class="card-d">Cascading Style Sheets. Controls layout, colour, fonts, and animation.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <div class="card-t">JavaScript</div>
+          <div class="card-d">Scripting language that makes pages interactive and dynamic.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <div class="card-t">Browser</div>
+          <div class="card-d">Parses all three and renders the final visual result for users.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 DOCUMENT STRUCTURE -->
+    <section id="structure">
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2>HTML Document Structure</h2>
+      </div>
+      <p>Every HTML page follows a standard skeleton. The browser uses this structure to understand and render the document correctly.</p>
+
+      <div class="code-block" data-lang="HTML">
+<pre><span class="cm">&lt;!-- Standard HTML5 document structure --&gt;</span>
+<span class="un">&lt;!</span><span class="tg">DOCTYPE</span> <span class="at">html</span><span class="un">&gt;</span>
+<span class="un">&lt;</span><span class="tg">html</span> <span class="at">lang</span><span class="un">=</span><span class="vl">"en"</span><span class="un">&gt;</span>
+
+  <span class="un">&lt;</span><span class="tg">head</span><span class="un">&gt;</span>
+    <span class="un">&lt;</span><span class="tg">meta</span> <span class="at">charset</span><span class="un">=</span><span class="vl">"UTF-8"</span><span class="un">/&gt;</span>
+    <span class="un">&lt;</span><span class="tg">meta</span> <span class="at">name</span><span class="un">=</span><span class="vl">"viewport"</span> <span class="at">content</span><span class="un">=</span><span class="vl">"width=device-width, initial-scale=1.0"</span><span class="un">/&gt;</span>
+    <span class="un">&lt;</span><span class="tg">title</span><span class="un">&gt;</span>My Page<span class="un">&lt;/</span><span class="tg">title</span><span class="un">&gt;</span>
+    <span class="un">&lt;</span><span class="tg">link</span> <span class="at">rel</span><span class="un">=</span><span class="vl">"stylesheet"</span> <span class="at">href</span><span class="un">=</span><span class="vl">"styles.css"</span><span class="un">/&gt;</span>
+  <span class="un">&lt;/</span><span class="tg">head</span><span class="un">&gt;</span>
+
+  <span class="un">&lt;</span><span class="tg">body</span><span class="un">&gt;</span>
+    <span class="un">&lt;</span><span class="tg">h1</span><span class="un">&gt;</span>Hello, World!<span class="un">&lt;/</span><span class="tg">h1</span><span class="un">&gt;</span>
+    <span class="un">&lt;</span><span class="tg">p</span><span class="un">&gt;</span>This is a paragraph.<span class="un">&lt;/</span><span class="tg">p</span><span class="un">&gt;</span>
+    <span class="un">&lt;</span><span class="tg">script</span> <span class="at">src</span><span class="un">=</span><span class="vl">"script.js"</span><span class="un">&gt;&lt;/</span><span class="tg">script</span><span class="un">&gt;</span>
+  <span class="un">&lt;/</span><span class="tg">body</span><span class="un">&gt;</span>
+
+<span class="un">&lt;/</span><span class="tg">html</span><span class="un">&gt;</span></pre>
+      </div>
+
+      <div class="note">
+        <strong>The &lt;head&gt; vs &lt;body&gt;</strong>
+        The <code>&lt;head&gt;</code> contains metadata (invisible to users): charset, title, stylesheets, and scripts. The <code>&lt;body&gt;</code> contains all visible page content.
+      </div>
+    </section>
+
+    <!-- 03 COMMON ELEMENTS -->
+    <section id="elements">
+      <div class="sec-head">
+        <span class="sec-num">03</span>
+        <h2>Common HTML Elements</h2>
+      </div>
+
+      <h3>Text & Headings</h3>
+      <div class="code-block" data-lang="HTML">
+<pre><span class="cm">&lt;!-- Headings: h1 is most important, h6 is least --&gt;</span>
+<span class="un">&lt;</span><span class="tg">h1</span><span class="un">&gt;</span>Page Title<span class="un">&lt;/</span><span class="tg">h1</span><span class="un">&gt;</span>
+<span class="un">&lt;</span><span class="tg">h2</span><span class="un">&gt;</span>Section Title<span class="un">&lt;/</span><span class="tg">h2</span><span class="un">&gt;</span>
+<span class="un">&lt;</span><span class="tg">h3</span><span class="un">&gt;</span>Subsection<span class="un">&lt;/</span><span class="tg">h3</span><span class="un">&gt;</span>
+
+<span class="un">&lt;</span><span class="tg">p</span><span class="un">&gt;</span>A paragraph with <span class="un">&lt;</span><span class="tg">strong</span><span class="un">&gt;</span>bold<span class="un">&lt;/</span><span class="tg">strong</span><span class="un">&gt;</span> and <span class="un">&lt;</span><span class="tg">em</span><span class="un">&gt;</span>italic<span class="un">&lt;/</span><span class="tg">em</span><span class="un">&gt;</span> text.<span class="un">&lt;/</span><span class="tg">p</span><span class="un">&gt;</span>
+<span class="un">&lt;</span><span class="tg">p</span><span class="un">&gt;</span>Inline <span class="un">&lt;</span><span class="tg">code</span><span class="un">&gt;</span>code snippet<span class="un">&lt;/</span><span class="tg">code</span><span class="un">&gt;</span> inside text.<span class="un">&lt;/</span><span class="tg">p</span><span class="un">&gt;</span>
+<span class="un">&lt;</span><span class="tg">blockquote</span><span class="un">&gt;</span>A quoted passage from another source.<span class="un">&lt;/</span><span class="tg">blockquote</span><span class="un">&gt;</span>
+<span class="un">&lt;</span><span class="tg">hr</span><span class="un">/&gt;</span>   <span class="cm">&lt;!-- horizontal rule / divider --&gt;</span>
+<span class="un">&lt;</span><span class="tg">br</span><span class="un">/&gt;</span>   <span class="cm">&lt;!-- line break --&gt;</span></pre>
+      </div>
+
+      <h3>Links & Images</h3>
+      <div class="code-block" data-lang="HTML">
+<pre><span class="cm">&lt;!-- Anchor / hyperlink --&gt;</span>
+<span class="un">&lt;</span><span class="tg">a</span> <span class="at">href</span><span class="un">=</span><span class="vl">"https://example.com"</span> <span class="at">target</span><span class="un">=</span><span class="vl">"_blank"</span><span class="un">&gt;</span>Visit Example<span class="un">&lt;/</span><span class="tg">a</span><span class="un">&gt;</span>
+<span class="un">&lt;</span><span class="tg">a</span> <span class="at">href</span><span class="un">=</span><span class="vl">"#section2"</span><span class="un">&gt;</span>Jump to Section 2<span class="un">&lt;/</span><span class="tg">a</span><span class="un">&gt;</span>   <span class="cm">&lt;!-- anchor link --&gt;</span>
+<span class="un">&lt;</span><span class="tg">a</span> <span class="at">href</span><span class="un">=</span><span class="vl">"mailto:hi@site.com"</span><span class="un">&gt;</span>Email Us<span class="un">&lt;/</span><span class="tg">a</span><span class="un">&gt;</span>
+
+<span class="cm">&lt;!-- Image --&gt;</span>
+<span class="un">&lt;</span><span class="tg">img</span>
+  <span class="at">src</span><span class="un">=</span><span class="vl">"photo.jpg"</span>
+  <span class="at">alt</span><span class="un">=</span><span class="vl">"A descriptive alt text"</span>   <span class="cm">&lt;!-- required for accessibility --&gt;</span>
+  <span class="at">width</span><span class="un">=</span><span class="vl">"400"</span>
+  <span class="at">height</span><span class="un">=</span><span class="vl">"300"</span>
+<span class="un">/&gt;</span></pre>
+      </div>
+
+      <h3>Lists</h3>
+      <div class="code-block" data-lang="HTML">
+<pre><span class="cm">&lt;!-- Unordered list --&gt;</span>
+<span class="un">&lt;</span><span class="tg">ul</span><span class="un">&gt;</span>
+  <span class="un">&lt;</span><span class="tg">li</span><span class="un">&gt;</span>HTML<span class="un">&lt;/</span><span class="tg">li</span><span class="un">&gt;</span>
+  <span class="un">&lt;</span><span class="tg">li</span><span class="un">&gt;</span>CSS<span class="un">&lt;/</span><span class="tg">li</span><span class="un">&gt;</span>
+  <span class="un">&lt;</span><span class="tg">li</span><span class="un">&gt;</span>JavaScript<span class="un">&lt;/</span><span class="tg">li</span><span class="un">&gt;</span>
+<span class="un">&lt;/</span><span class="tg">ul</span><span class="un">&gt;</span>
+
+<span class="cm">&lt;!-- Ordered list --&gt;</span>
+<span class="un">&lt;</span><span class="tg">ol</span><span class="un">&gt;</span>
+  <span class="un">&lt;</span><span class="tg">li</span><span class="un">&gt;</span>Write HTML<span class="un">&lt;/</span><span class="tg">li</span><span class="un">&gt;</span>
+  <span class="un">&lt;</span><span class="tg">li</span><span class="un">&gt;</span>Add CSS<span class="un">&lt;/</span><span class="tg">li</span><span class="un">&gt;</span>
+  <span class="un">&lt;</span><span class="tg">li</span><span class="un">&gt;</span>Add JavaScript<span class="un">&lt;/</span><span class="tg">li</span><span class="un">&gt;</span>
+<span class="un">&lt;/</span><span class="tg">ol</span><span class="un">&gt;</span>
+
+<span class="cm">&lt;!-- Description list --&gt;</span>
+<span class="un">&lt;</span><span class="tg">dl</span><span class="un">&gt;</span>
+  <span class="un">&lt;</span><span class="tg">dt</span><span class="un">&gt;</span>HTML<span class="un">&lt;/</span><span class="tg">dt</span><span class="un">&gt;</span>  <span class="un">&lt;</span><span class="tg">dd</span><span class="un">&gt;</span>Structure<span class="un">&lt;/</span><span class="tg">dd</span><span class="un">&gt;</span>
+  <span class="un">&lt;</span><span class="tg">dt</span><span class="un">&gt;</span>CSS<span class="un">&lt;/</span><span class="tg">dt</span><span class="un">&gt;</span>   <span class="un">&lt;</span><span class="tg">dd</span><span class="un">&gt;</span>Style<span class="un">&lt;/</span><span class="tg">dd</span><span class="un">&gt;</span>
+<span class="un">&lt;/</span><span class="tg">dl</span><span class="un">&gt;</span></pre>
+      </div>
+    </section>
+
+    <!-- 04 ATTRIBUTES -->
+    <section id="attributes">
+      <div class="sec-head">
+        <span class="sec-num">04</span>
+        <h2>HTML Attributes</h2>
+      </div>
+      <p>Attributes provide additional information about HTML elements. They are placed inside the opening tag as <code>name="value"</code> pairs.</p>
+
+      <div class="code-block" data-lang="HTML">
+<pre><span class="cm">&lt;!-- Global attributes — work on any element --&gt;</span>
+<span class="un">&lt;</span><span class="tg">div</span>
+  <span class="at">id</span><span class="un">=</span><span class="vl">"unique-id"</span>           <span class="cm">&lt;!-- unique on the page --&gt;</span>
+  <span class="at">class</span><span class="un">=</span><span class="vl">"card featured"</span>    <span class="cm">&lt;!-- one or more CSS classes --&gt;</span>
+  <span class="at">style</span><span class="un">=</span><span class="vl">"color: red;"</span>       <span class="cm">&lt;!-- inline CSS (avoid when possible) --&gt;</span>
+  <span class="at">data-user-id</span><span class="un">=</span><span class="vl">"42"</span>         <span class="cm">&lt;!-- custom data attribute --&gt;</span>
+  <span class="at">hidden</span>                    <span class="cm">&lt;!-- hides element --&gt;</span>
+  <span class="at">tabindex</span><span class="un">=</span><span class="vl">"0"</span>              <span class="cm">&lt;!-- keyboard navigation order --&gt;</span>
+  <span class="at">title</span><span class="un">=</span><span class="vl">"Tooltip text"</span>      <span class="cm">&lt;!-- tooltip on hover --&gt;</span>
+<span class="un">&gt;</span><span class="un">&lt;/</span><span class="tg">div</span><span class="un">&gt;</span>
+
+<span class="cm">&lt;!-- Boolean attributes (present = true) --&gt;</span>
+<span class="un">&lt;</span><span class="tg">input</span> <span class="at">disabled</span><span class="un">/&gt;</span>   <span class="cm">&lt;!-- no value needed --&gt;</span>
+<span class="un">&lt;</span><span class="tg">input</span> <span class="at">required</span><span class="un">/&gt;</span>
+<span class="un">&lt;</span><span class="tg">input</span> <span class="at">checked</span><span class="un">/&gt;</span></pre>
+      </div>
+
+      <table>
+        <tr><th>Attribute</th><th>Used On</th><th>Purpose</th></tr>
+        <tr><td><code>id</code></td><td>Any</td><td>Unique identifier for element</td></tr>
+        <tr><td><code>class</code></td><td>Any</td><td>CSS class name(s)</td></tr>
+        <tr><td><code>href</code></td><td><code>&lt;a&gt;</code></td><td>Link destination URL</td></tr>
+        <tr><td><code>src</code></td><td><code>&lt;img&gt;</code>, <code>&lt;script&gt;</code></td><td>Resource file URL</td></tr>
+        <tr><td><code>alt</code></td><td><code>&lt;img&gt;</code></td><td>Alternative text for accessibility</td></tr>
+        <tr><td><code>type</code></td><td><code>&lt;input&gt;</code></td><td>Input type (text, email, number…)</td></tr>
+        <tr><td><code>data-*</code></td><td>Any</td><td>Custom data storage</td></tr>
+        <tr><td><code>aria-*</code></td><td>Any</td><td>Accessibility roles and properties</td></tr>
+      </table>
+    </section>
+
+    <!-- 05 SEMANTIC HTML -->
+    <section id="semantic">
+      <div class="sec-head">
+        <span class="sec-num">05</span>
+        <h2>Semantic HTML</h2>
+      </div>
+      <p>Semantic elements describe their purpose — not just their appearance. They help browsers, search engines, and screen readers understand your page structure.</p>
+
+      <div class="code-block" data-lang="HTML">
+<pre><span class="un">&lt;</span><span class="tg">header</span><span class="un">&gt;</span>          <span class="cm">&lt;!-- site/page header --&gt;</span>
+  <span class="un">&lt;</span><span class="tg">nav</span><span class="un">&gt;</span>
+    <span class="un">&lt;</span><span class="tg">a</span> <span class="at">href</span><span class="un">=</span><span class="vl">"/"</span><span class="un">&gt;</span>Home<span class="un">&lt;/</span><span class="tg">a</span><span class="un">&gt;</span>
+    <span class="un">&lt;</span><span class="tg">a</span> <span class="at">href</span><span class="un">=</span><span class="vl">"/about"</span><span class="un">&gt;</span>About<span class="un">&lt;/</span><span class="tg">a</span><span class="un">&gt;</span>
+  <span class="un">&lt;/</span><span class="tg">nav</span><span class="un">&gt;</span>
+<span class="un">&lt;/</span><span class="tg">header</span><span class="un">&gt;</span>
+
+<span class="un">&lt;</span><span class="tg">main</span><span class="un">&gt;</span>            <span class="cm">&lt;!-- primary content --&gt;</span>
+  <span class="un">&lt;</span><span class="tg">article</span><span class="un">&gt;</span>       <span class="cm">&lt;!-- self-contained content (blog post) --&gt;</span>
+    <span class="un">&lt;</span><span class="tg">h1</span><span class="un">&gt;</span>Post Title<span class="un">&lt;/</span><span class="tg">h1</span><span class="un">&gt;</span>
+
+    <span class="un">&lt;</span><span class="tg">section</span><span class="un">&gt;</span>     <span class="cm">&lt;!-- thematic grouping --&gt;</span>
+      <span class="un">&lt;</span><span class="tg">p</span><span class="un">&gt;</span>Content here...<span class="un">&lt;/</span><span class="tg">p</span><span class="un">&gt;</span>
+    <span class="un">&lt;/</span><span class="tg">section</span><span class="un">&gt;</span>
+  <span class="un">&lt;/</span><span class="tg">article</span><span class="un">&gt;</span>
+
+  <span class="un">&lt;</span><span class="tg">aside</span><span class="un">&gt;</span>         <span class="cm">&lt;!-- related but secondary content --&gt;</span>
+    <span class="un">&lt;</span><span class="tg">p</span><span class="un">&gt;</span>Sidebar content<span class="un">&lt;/</span><span class="tg">p</span><span class="un">&gt;</span>
+  <span class="un">&lt;/</span><span class="tg">aside</span><span class="un">&gt;</span>
+<span class="un">&lt;/</span><span class="tg">main</span><span class="un">&gt;</span>
+
+<span class="un">&lt;</span><span class="tg">footer</span><span class="un">&gt;</span>          <span class="cm">&lt;!-- page footer --&gt;</span>
+  <span class="un">&lt;</span><span class="tg">p</span><span class="un">&gt;</span>&amp;copy; 2025 My Site<span class="un">&lt;/</span><span class="tg">p</span><span class="un">&gt;</span>
+<span class="un">&lt;/</span><span class="tg">footer</span><span class="un">&gt;</span></pre>
+      </div>
+
+      <div class="warn">
+        <strong>Avoid div-soup</strong>
+        Don't wrap everything in <code>&lt;div&gt;</code>. Use semantic elements — they communicate meaning to browsers and improve SEO and accessibility.
+      </div>
+    </section>
+
+    <!-- 06 FORMS -->
+    <section id="forms">
+      <div class="sec-head">
+        <span class="sec-num">06</span>
+        <h2>Forms & Input</h2>
+      </div>
+
+      <div class="code-block" data-lang="HTML">
+<pre><span class="un">&lt;</span><span class="tg">form</span> <span class="at">action</span><span class="un">=</span><span class="vl">"/submit"</span> <span class="at">method</span><span class="un">=</span><span class="vl">"POST"</span><span class="un">&gt;</span>
+
+  <span class="cm">&lt;!-- Text input --&gt;</span>
+  <span class="un">&lt;</span><span class="tg">label</span> <span class="at">for</span><span class="un">=</span><span class="vl">"name"</span><span class="un">&gt;</span>Full Name<span class="un">&lt;/</span><span class="tg">label</span><span class="un">&gt;</span>
+  <span class="un">&lt;</span><span class="tg">input</span> <span class="at">type</span><span class="un">=</span><span class="vl">"text"</span> <span class="at">id</span><span class="un">=</span><span class="vl">"name"</span> <span class="at">name</span><span class="un">=</span><span class="vl">"name"</span> <span class="at">placeholder</span><span class="un">=</span><span class="vl">"Alice"</span> <span class="at">required</span><span class="un">/&gt;</span>
+
+  <span class="cm">&lt;!-- Email, number, password --&gt;</span>
+  <span class="un">&lt;</span><span class="tg">input</span> <span class="at">type</span><span class="un">=</span><span class="vl">"email"</span>    <span class="at">name</span><span class="un">=</span><span class="vl">"email"</span><span class="un">/&gt;</span>
+  <span class="un">&lt;</span><span class="tg">input</span> <span class="at">type</span><span class="un">=</span><span class="vl">"number"</span>   <span class="at">name</span><span class="un">=</span><span class="vl">"age"</span> <span class="at">min</span><span class="un">=</span><span class="vl">"1"</span> <span class="at">max</span><span class="un">=</span><span class="vl">"120"</span><span class="un">/&gt;</span>
+  <span class="un">&lt;</span><span class="tg">input</span> <span class="at">type</span><span class="un">=</span><span class="vl">"password"</span>  <span class="at">name</span><span class="un">=</span><span class="vl">"pass"</span><span class="un">/&gt;</span>
+  <span class="un">&lt;</span><span class="tg">input</span> <span class="at">type</span><span class="un">=</span><span class="vl">"checkbox"</span>  <span class="at">name</span><span class="un">=</span><span class="vl">"agree"</span><span class="un">/&gt;</span>
+
+  <span class="cm">&lt;!-- Dropdown --&gt;</span>
+  <span class="un">&lt;</span><span class="tg">select</span> <span class="at">name</span><span class="un">=</span><span class="vl">"country"</span><span class="un">&gt;</span>
+    <span class="un">&lt;</span><span class="tg">option</span> <span class="at">value</span><span class="un">=</span><span class="vl">"in"</span><span class="un">&gt;</span>India<span class="un">&lt;/</span><span class="tg">option</span><span class="un">&gt;</span>
+    <span class="un">&lt;</span><span class="tg">option</span> <span class="at">value</span><span class="un">=</span><span class="vl">"us"</span><span class="un">&gt;</span>USA<span class="un">&lt;/</span><span class="tg">option</span><span class="un">&gt;</span>
+  <span class="un">&lt;/</span><span class="tg">select</span><span class="un">&gt;</span>
+
+  <span class="cm">&lt;!-- Textarea --&gt;</span>
+  <span class="un">&lt;</span><span class="tg">textarea</span> <span class="at">name</span><span class="un">=</span><span class="vl">"message"</span> <span class="at">rows</span><span class="un">=</span><span class="vl">"4"</span><span class="un">&gt;&lt;/</span><span class="tg">textarea</span><span class="un">&gt;</span>
+
+  <span class="cm">&lt;!-- Submit button --&gt;</span>
+  <span class="un">&lt;</span><span class="tg">button</span> <span class="at">type</span><span class="un">=</span><span class="vl">"submit"</span><span class="un">&gt;</span>Send<span class="un">&lt;/</span><span class="tg">button</span><span class="un">&gt;</span>
+
+<span class="un">&lt;/</span><span class="tg">form</span><span class="un">&gt;</span></pre>
+      </div>
+    </section>
+
+    <!-- 07 CSS SELECTORS -->
+    <section id="selectors">
+      <div class="sec-head">
+        <span class="sec-num">07</span>
+        <h2>CSS Selectors</h2>
+      </div>
+      <p>Selectors are patterns that tell the browser which HTML elements to style.</p>
+
+      <div class="code-block" data-lang="CSS">
+<pre><span class="cm">/* Element selector */</span>
+<span class="sl">p</span> { <span class="pr">color</span>: <span class="sv">navy</span>; }
+
+<span class="cm">/* Class selector */</span>
+<span class="sl">.card</span> { <span class="pr">background</span>: <span class="sv">white</span>; }
+
+<span class="cm">/* ID selector */</span>
+<span class="sl">#header</span> { <span class="pr">font-size</span>: <span class="sv">2rem</span>; }
+
+<span class="cm">/* Descendant: p inside .card */</span>
+<span class="sl">.card p</span> { <span class="pr">color</span>: <span class="sv">#555</span>; }
+
+<span class="cm">/* Child: direct children only */</span>
+<span class="sl">ul > li</span> { <span class="pr">list-style</span>: <span class="sv">square</span>; }
+
+<span class="cm">/* Adjacent sibling */</span>
+<span class="sl">h2 + p</span> { <span class="pr">margin-top</span>: <span class="sv">0</span>; }
+
+<span class="cm">/* Attribute selector */</span>
+<span class="sl">input[type="email"]</span> { <span class="pr">border-color</span>: <span class="sv">blue</span>; }
+
+<span class="cm">/* Pseudo-class */</span>
+<span class="sl">a:hover</span>       { <span class="pr">color</span>: <span class="sv">red</span>; }
+<span class="sl">li:first-child</span> { <span class="pr">font-weight</span>: <span class="sv">bold</span>; }
+<span class="sl">li:nth-child(2n)</span> { <span class="pr">background</span>: <span class="sv">#f0f0f0</span>; }
+
+<span class="cm">/* Pseudo-element */</span>
+<span class="sl">p::first-line</span>   { <span class="pr">font-variant</span>: <span class="sv">small-caps</span>; }
+<span class="sl">.card::before</span>   { <span class="pr">content</span>: <span class="sv">"★ "</span>; }
+
+<span class="cm">/* Multiple selectors */</span>
+<span class="sl">h1, h2, h3</span> { <span class="pr">font-family</span>: <span class="sv">Georgia, serif</span>; }</pre>
+      </div>
+
+      <table>
+        <tr><th>Selector</th><th>Example</th><th>Matches</th></tr>
+        <tr><td>Element</td><td><code>p</code></td><td>All &lt;p&gt; tags</td></tr>
+        <tr><td>Class</td><td><code>.btn</code></td><td>class="btn"</td></tr>
+        <tr><td>ID</td><td><code>#logo</code></td><td>id="logo"</td></tr>
+        <tr><td>Universal</td><td><code>*</code></td><td>Every element</td></tr>
+        <tr><td>Descendant</td><td><code>div p</code></td><td>p inside div (any depth)</td></tr>
+        <tr><td>Child</td><td><code>ul > li</code></td><td>Direct li children of ul</td></tr>
+        <tr><td>Hover</td><td><code>a:hover</code></td><td>a when mouse is over it</td></tr>
+      </table>
+    </section>
+
+    <!-- 08 BOX MODEL -->
+    <section id="boxmodel">
+      <div class="sec-head">
+        <span class="sec-num">08</span>
+        <h2>The CSS Box Model</h2>
+      </div>
+      <p>Every HTML element is a rectangular box with four layers. Understanding this is fundamental to mastering CSS layout.</p>
+
+      <div class="box-model">
+        <div class="bm-margin">
+          <div class="bm-label">margin (outside, transparent)</div>
+          <div class="bm-border">
+            <div class="bm-label">border</div>
+            <div class="bm-padding">
+              <div class="bm-label">padding (inside the border)</div>
+              <div class="bm-content">content<br/><span style="font-size:10px;opacity:.7">width × height</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block" data-lang="CSS">
+<pre><span class="sl">.box</span> {
+  <span class="pr">width</span>:   <span class="sv">200px</span>;
+  <span class="pr">height</span>:  <span class="sv">100px</span>;
+
+  <span class="pr">padding</span>: <span class="sv">16px</span>;          <span class="cm">/* inside: top right bottom left */</span>
+  <span class="pr">border</span>:  <span class="sv">2px solid #333</span>;
+  <span class="pr">margin</span>:  <span class="sv">24px auto</span>;     <span class="cm">/* outside, auto = centre horizontally */</span>
+
+  <span class="cm">/* box-sizing: border-box means padding/border are */</span>
+  <span class="cm">/* included IN the width, not added on top */</span>
+  <span class="pr">box-sizing</span>: <span class="sv">border-box</span>;
+}
+
+<span class="cm">/* Apply border-box universally (recommended) */</span>
+<span class="sl">*</span> { <span class="pr">box-sizing</span>: <span class="sv">border-box</span>; }</pre>
+      </div>
+    </section>
+
+    <!-- 09 TYPOGRAPHY -->
+    <section id="typography">
+      <div class="sec-head">
+        <span class="sec-num">09</span>
+        <h2>Typography in CSS</h2>
+      </div>
+
+      <div class="code-block" data-lang="CSS">
+<pre><span class="sl">body</span> {
+  <span class="pr">font-family</span>:  <span class="sv">'DM Sans', Arial, sans-serif</span>;
+  <span class="pr">font-size</span>:    <span class="sv">16px</span>;         <span class="cm">/* base size */</span>
+  <span class="pr">font-weight</span>:  <span class="sv">400</span>;           <span class="cm">/* 100–900 */</span>
+  <span class="pr">line-height</span>:  <span class="sv">1.6</span>;           <span class="cm">/* unitless recommended */</span>
+  <span class="pr">color</span>:        <span class="sv">#333</span>;
+  <span class="pr">letter-spacing</span>: <span class="sv">0.02em</span>;
+}
+
+<span class="sl">h1</span> {
+  <span class="pr">font-size</span>:    <span class="sv">3rem</span>;          <span class="cm">/* relative to root (html) */</span>
+  <span class="pr">font-weight</span>:  <span class="sv">700</span>;
+  <span class="pr">text-transform</span>: <span class="sv">uppercase</span>;
+  <span class="pr">text-align</span>:   <span class="sv">center</span>;
+}
+
+<span class="sl">p</span> {
+  <span class="pr">max-width</span>:    <span class="sv">65ch</span>;          <span class="cm">/* 65 chars wide — ideal readability */</span>
+  <span class="pr">text-indent</span>:  <span class="sv">2em</span>;
+}
+
+<span class="cm">/* Import Google Font */</span>
+<span class="sl">@import</span> <span class="sv">url('https://fonts.googleapis.com/css2?family=Roboto&display=swap')</span>;</pre>
+      </div>
+    </section>
+
+    <!-- 10 COLORS -->
+    <section id="colors">
+      <div class="sec-head">
+        <span class="sec-num">10</span>
+        <h2>Colors in CSS</h2>
+      </div>
+
+      <div class="code-block" data-lang="CSS">
+<pre><span class="sl">.examples</span> {
+  <span class="cm">/* Named colours */</span>
+  <span class="pr">color</span>: <span class="sv">tomato</span>;
+  <span class="pr">color</span>: <span class="sv">cornflowerblue</span>;
+
+  <span class="cm">/* Hex */</span>
+  <span class="pr">color</span>: <span class="sv">#ff6347</span>;           <span class="cm">/* #RRGGBB */</span>
+  <span class="pr">color</span>: <span class="sv">#f63</span>;              <span class="cm">/* shorthand #RGB */</span>
+
+  <span class="cm">/* RGB / RGBA (A = alpha / opacity 0–1) */</span>
+  <span class="pr">color</span>: <span class="fn">rgb</span>(<span class="nm">255</span>, <span class="nm">99</span>, <span class="nm">71</span>);
+  <span class="pr">color</span>: <span class="fn">rgba</span>(<span class="nm">255</span>, <span class="nm">99</span>, <span class="nm">71</span>, <span class="nm">0.5</span>);
+
+  <span class="cm">/* HSL (hue 0-360, saturation %, lightness %) */</span>
+  <span class="pr">color</span>: <span class="fn">hsl</span>(<span class="nm">9</span>, <span class="nm">100%</span>, <span class="nm">64%</span>);
+
+  <span class="cm">/* CSS custom properties (variables) */</span>
+  <span class="pr">color</span>: <span class="fn">var</span>(--primary-color);
+
+  <span class="cm">/* Gradients */</span>
+  <span class="pr">background</span>: <span class="fn">linear-gradient</span>(<span class="sv">135deg, #667eea, #764ba2</span>);
+  <span class="pr">background</span>: <span class="fn">radial-gradient</span>(<span class="sv">circle, #fff 0%, #eee 100%</span>);
+}
+
+<span class="cm">/* Define variables on :root for site-wide use */</span>
+<span class="sl">:root</span> {
+  <span class="pr">--primary</span>:   <span class="sv">#1a7a3a</span>;
+  <span class="pr">--secondary</span>: <span class="sv">#e05a00</span>;
+}</pre>
+      </div>
+    </section>
+
+    <!-- 11 DISPLAY & POSITION -->
+    <section id="display">
+      <div class="sec-head">
+        <span class="sec-num">11</span>
+        <h2>Display & Position</h2>
+      </div>
+
+      <div class="code-block" data-lang="CSS">
+<pre><span class="cm">/* display values */</span>
+<span class="sl">.block</span>        { <span class="pr">display</span>: <span class="sv">block</span>; }        <span class="cm">/* full width, new line */</span>
+<span class="sl">.inline</span>       { <span class="pr">display</span>: <span class="sv">inline</span>; }       <span class="cm">/* fits content, same line */</span>
+<span class="sl">.inline-block</span> { <span class="pr">display</span>: <span class="sv">inline-block</span>; } <span class="cm">/* inline but can set w/h */</span>
+<span class="sl">.hidden</span>       { <span class="pr">display</span>: <span class="sv">none</span>; }         <span class="cm">/* hides and removes space */</span>
+
+<span class="cm">/* position values */</span>
+<span class="sl">.static</span>   { <span class="pr">position</span>: <span class="sv">static</span>; }    <span class="cm">/* default, normal flow */</span>
+
+<span class="sl">.relative</span> {
+  <span class="pr">position</span>: <span class="sv">relative</span>;
+  <span class="pr">top</span>: <span class="sv">10px</span>; <span class="pr">left</span>: <span class="sv">20px</span>;            <span class="cm">/* offset from its normal position */</span>
+}
+
+<span class="sl">.absolute</span> {
+  <span class="pr">position</span>: <span class="sv">absolute</span>;
+  <span class="pr">top</span>: <span class="sv">0</span>; <span class="pr">right</span>: <span class="sv">0</span>;                 <span class="cm">/* relative to nearest positioned parent */</span>
+}
+
+<span class="sl">.fixed</span> {
+  <span class="pr">position</span>: <span class="sv">fixed</span>;
+  <span class="pr">bottom</span>: <span class="sv">20px</span>; <span class="pr">right</span>: <span class="sv">20px</span>;        <span class="cm">/* stays on screen when scrolling */</span>
+}
+
+<span class="sl">.sticky</span> {
+  <span class="pr">position</span>: <span class="sv">sticky</span>;
+  <span class="pr">top</span>: <span class="sv">0</span>;                            <span class="cm">/* sticks at top while scrolling */</span>
+}
+
+<span class="sl">.overlay</span>  { <span class="pr">z-index</span>: <span class="sv">100</span>; }          <span class="cm">/* stacking order */</span></pre>
+      </div>
+    </section>
+
+    <!-- 12 FLEXBOX -->
+    <section id="flexbox">
+      <div class="sec-head">
+        <span class="sec-num">12</span>
+        <h2>Flexbox</h2>
+      </div>
+      <p>Flexbox is a one-dimensional layout system — perfect for aligning items in a row or column.</p>
+
+      <div class="code-block" data-lang="CSS">
+<pre><span class="sl">.container</span> {
+  <span class="pr">display</span>:         <span class="sv">flex</span>;
+  <span class="pr">flex-direction</span>:  <span class="sv">row</span>;         <span class="cm">/* row | column | row-reverse */</span>
+  <span class="pr">justify-content</span>: <span class="sv">space-between</span>; <span class="cm">/* main axis alignment */</span>
+  <span class="pr">align-items</span>:     <span class="sv">center</span>;      <span class="cm">/* cross axis alignment */</span>
+  <span class="pr">flex-wrap</span>:       <span class="sv">wrap</span>;         <span class="cm">/* allow wrapping to new line */</span>
+  <span class="pr">gap</span>:             <span class="sv">16px</span>;         <span class="cm">/* space between items */</span>
+}
+
+<span class="sl">.item</span> {
+  <span class="pr">flex</span>:       <span class="sv">1</span>;                 <span class="cm">/* grow and shrink equally */</span>
+  <span class="pr">flex-grow</span>:  <span class="sv">2</span>;                 <span class="cm">/* grow 2× faster than siblings */</span>
+  <span class="pr">flex-shrink</span>: <span class="sv">0</span>;                <span class="cm">/* don't shrink */</span>
+  <span class="pr">flex-basis</span>: <span class="sv">200px</span>;             <span class="cm">/* starting size */</span>
+  <span class="pr">align-self</span>: <span class="sv">flex-end</span>;         <span class="cm">/* override align-items for one item */</span>
+  <span class="pr">order</span>:      <span class="sv">2</span>;                 <span class="cm">/* visual order (default: 0) */</span>
+}
+
+<span class="cm">/* Centering anything — the flex trick */</span>
+<span class="sl">.center</span> {
+  <span class="pr">display</span>:         <span class="sv">flex</span>;
+  <span class="pr">justify-content</span>: <span class="sv">center</span>;
+  <span class="pr">align-items</span>:     <span class="sv">center</span>;
+}</pre>
+      </div>
+    </section>
+
+    <!-- 13 GRID -->
+    <section id="grid">
+      <div class="sec-head">
+        <span class="sec-num">13</span>
+        <h2>CSS Grid</h2>
+      </div>
+      <p>CSS Grid is a two-dimensional layout system — ideal for full page layouts and complex arrangements.</p>
+
+      <div class="code-block" data-lang="CSS">
+<pre><span class="sl">.grid</span> {
+  <span class="pr">display</span>:               <span class="sv">grid</span>;
+  <span class="pr">grid-template-columns</span>: <span class="sv">repeat(3, 1fr)</span>;  <span class="cm">/* 3 equal columns */</span>
+  <span class="pr">grid-template-rows</span>:    <span class="sv">auto 200px auto</span>;
+  <span class="pr">gap</span>:                   <span class="sv">20px</span>;
+}
+
+<span class="cm">/* Responsive columns with auto-fill */</span>
+<span class="sl">.responsive-grid</span> {
+  <span class="pr">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="sv">auto-fill, minmax(250px, 1fr)</span>);
+}
+
+<span class="cm">/* Placing items */</span>
+<span class="sl">.header</span> {
+  <span class="pr">grid-column</span>: <span class="sv">1 / -1</span>;   <span class="cm">/* span all columns */</span>
+  <span class="pr">grid-row</span>:    <span class="sv">1 / 2</span>;
+}
+
+<span class="sl">.sidebar</span> { <span class="pr">grid-column</span>: <span class="sv">1</span>; }
+<span class="sl">.main</span>    { <span class="pr">grid-column</span>: <span class="sv">2 / 4</span>; }  <span class="cm">/* span 2 columns */</span>
+
+<span class="cm">/* Named areas */</span>
+<span class="sl">.layout</span> {
+  <span class="pr">grid-template-areas</span>:
+    <span class="sv">"header header"</span>
+    <span class="sv">"sidebar main"</span>
+    <span class="sv">"footer footer"</span>;
+}
+<span class="sl">.header</span> { <span class="pr">grid-area</span>: <span class="sv">header</span>; }
+<span class="sl">.main</span>   { <span class="pr">grid-area</span>: <span class="sv">main</span>; }</pre>
+      </div>
+    </section>
+
+    <!-- 14 RESPONSIVE -->
+    <section id="responsive">
+      <div class="sec-head">
+        <span class="sec-num">14</span>
+        <h2>Responsive Design</h2>
+      </div>
+      <p>Responsive design makes websites work on all screen sizes — phones, tablets, and desktops.</p>
+
+      <div class="code-block" data-lang="CSS">
+<pre><span class="cm">/* Mobile-first: write base styles for small screens,
+   then add overrides for larger screens */</span>
+
+<span class="sl">.container</span> {
+  <span class="pr">width</span>:   <span class="sv">100%</span>;
+  <span class="pr">padding</span>: <span class="sv">0 16px</span>;
+}
+
+<span class="cm">/* Tablet (min-width: 768px) */</span>
+<span class="sl">@media (min-width: 768px)</span> {
+  <span class="sl">.container</span> { <span class="pr">padding</span>: <span class="sv">0 32px</span>; }
+  <span class="sl">.grid</span> { <span class="pr">grid-template-columns</span>: <span class="sv">repeat(2, 1fr)</span>; }
+}
+
+<span class="cm">/* Desktop (min-width: 1024px) */</span>
+<span class="sl">@media (min-width: 1024px)</span> {
+  <span class="sl">.container</span> { <span class="pr">max-width</span>: <span class="sv">1200px</span>; <span class="pr">margin</span>: <span class="sv">0 auto</span>; }
+  <span class="sl">.grid</span> { <span class="pr">grid-template-columns</span>: <span class="sv">repeat(4, 1fr)</span>; }
+}
+
+<span class="cm">/* Dark mode */</span>
+<span class="sl">@media (prefers-color-scheme: dark)</span> {
+  <span class="sl">body</span> { <span class="pr">background</span>: <span class="sv">#111</span>; <span class="pr">color</span>: <span class="sv">#eee</span>; }
+}
+
+<span class="cm">/* Fluid font sizing with clamp */</span>
+<span class="sl">h1</span> { <span class="pr">font-size</span>: <span class="fn">clamp</span>(<span class="sv">28px, 5vw, 72px</span>); }</pre>
+      </div>
+
+      <div class="note">
+        <strong>Don't forget the viewport meta tag</strong>
+        Without <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code> in your HTML head, media queries won't work on mobile devices.
+      </div>
+    </section>
+
+    <!-- 15 ANIMATIONS -->
+    <section id="animations">
+      <div class="sec-head">
+        <span class="sec-num">15</span>
+        <h2>CSS Transitions & Animations</h2>
+      </div>
+
+      <div class="code-block" data-lang="CSS">
+<pre><span class="cm">/* Transition — smooth change between states */</span>
+<span class="sl">.button</span> {
+  <span class="pr">background</span>:  <span class="sv">#1a7a3a</span>;
+  <span class="pr">transition</span>:  <span class="sv">background 0.3s ease, transform 0.2s</span>;
+}
+<span class="sl">.button:hover</span> {
+  <span class="pr">background</span>:  <span class="sv">#0d5228</span>;
+  <span class="pr">transform</span>:   <span class="fn">scale</span>(<span class="sv">1.05</span>);
+}
+
+<span class="cm">/* Keyframe animation */</span>
+<span class="sl">@keyframes</span> <span class="fn">fadeIn</span> {
+  <span class="sv">from</span> { <span class="pr">opacity</span>: <span class="sv">0</span>; <span class="pr">transform</span>: <span class="fn">translateY</span>(<span class="sv">20px</span>); }
+  <span class="sv">to</span>   { <span class="pr">opacity</span>: <span class="sv">1</span>; <span class="pr">transform</span>: <span class="fn">translateY</span>(<span class="sv">0</span>); }
+}
+
+<span class="sl">.card</span> {
+  <span class="pr">animation</span>:           <span class="sv">fadeIn 0.5s ease both</span>;
+  <span class="pr">animation-delay</span>:     <span class="sv">0.2s</span>;
+  <span class="pr">animation-iteration-count</span>: <span class="sv">1</span>;       <span class="cm">/* or infinite */</span>
+  <span class="pr">animation-direction</span>: <span class="sv">alternate</span>;
+}
+
+<span class="cm">/* Spin animation */</span>
+<span class="sl">@keyframes</span> <span class="fn">spin</span> {
+  <span class="sv">to</span> { <span class="pr">transform</span>: <span class="fn">rotate</span>(<span class="sv">360deg</span>); }
+}
+<span class="sl">.loader</span> { <span class="pr">animation</span>: <span class="sv">spin 1s linear infinite</span>; }</pre>
+      </div>
+    </section>
+
+    <!-- 16 JS INTRO -->
+    <section id="js-intro">
+      <div class="sec-head">
+        <span class="sec-num">16</span>
+        <h2>JavaScript Basics</h2>
+      </div>
+      <p>JavaScript adds behaviour and interactivity to web pages. It runs directly in the browser and can read and modify HTML and CSS in real time.</p>
+
+      <div class="code-block" data-lang="JavaScript">
+<pre><span class="cm">// Variables</span>
+<span class="kw">const</span> name  = <span class="vl">"Alice"</span>;     <span class="cm">// can't reassign</span>
+<span class="kw">let</span>   score = <span class="nm">0</span>;           <span class="cm">// can reassign</span>
+
+<span class="cm">// Functions</span>
+<span class="kw">function</span> <span class="mth">greet</span>(name) {
+  <span class="kw">return</span> <span class="vl">`Hello, ${name}!`</span>;
+}
+<span class="kw">const</span> greet2 = (name) => <span class="vl">`Hello, ${name}!`</span>; <span class="cm">// arrow function</span>
+
+<span class="cm">// Arrays & Objects</span>
+<span class="kw">const</span> fruits = [<span class="vl">"apple"</span>, <span class="vl">"mango"</span>, <span class="vl">"banana"</span>];
+<span class="kw">const</span> user   = { name: <span class="vl">"Alice"</span>, age: <span class="nm">25</span> };
+
+fruits.<span class="mth">forEach</span>(f => <span class="mth">console</span>.<span class="mth">log</span>(f));
+fruits.<span class="mth">map</span>(f => f.<span class="mth">toUpperCase</span>());
+fruits.<span class="mth">filter</span>(f => f.<span class="mth">length</span> > <span class="nm">5</span>);
+
+<span class="cm">// Conditionals</span>
+<span class="kw">if</span> (score > <span class="nm">100</span>) {
+  <span class="mth">console</span>.<span class="mth">log</span>(<span class="vl">"High score!"</span>);
+} <span class="kw">else if</span> (score > <span class="nm">50</span>) {
+  <span class="mth">console</span>.<span class="mth">log</span>(<span class="vl">"Good job"</span>);
+} <span class="kw">else</span> {
+  <span class="mth">console</span>.<span class="mth">log</span>(<span class="vl">"Keep trying"</span>);
+}
+
+<span class="cm">// Loops</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="nm">0</span>; i < fruits.length; i++) { <span class="cm">/* ... */</span> }
+<span class="kw">for</span> (<span class="kw">const</span> fruit <span class="kw">of</span> fruits) { <span class="cm">/* ... */</span> }  <span class="cm">// cleaner</span></pre>
+      </div>
+    </section>
+
+    <!-- 17 DOM -->
+    <section id="js-dom">
+      <div class="sec-head">
+        <span class="sec-num">17</span>
+        <h2>DOM Manipulation</h2>
+      </div>
+      <p>The DOM (Document Object Model) is the browser's representation of your HTML. JavaScript can read and change it dynamically.</p>
+
+      <div class="code-block" data-lang="JavaScript">
+<pre><span class="cm">// Selecting elements</span>
+<span class="kw">const</span> el     = <span class="mth">document</span>.<span class="mth">getElementById</span>(<span class="vl">"myId"</span>);
+<span class="kw">const</span> el2    = <span class="mth">document</span>.<span class="mth">querySelector</span>(<span class="vl">".my-class"</span>);  <span class="cm">// first match</span>
+<span class="kw">const</span> allEls = <span class="mth">document</span>.<span class="mth">querySelectorAll</span>(<span class="vl">"p"</span>);       <span class="cm">// all &lt;p&gt;</span>
+
+<span class="cm">// Reading & changing content</span>
+el.<span class="mth">textContent</span> = <span class="vl">"New text"</span>;
+el.<span class="mth">innerHTML</span>   = <span class="vl">"&lt;strong&gt;Bold&lt;/strong&gt;"</span>;
+
+<span class="cm">// Changing CSS</span>
+el.<span class="mth">style</span>.<span class="mth">color</span> = <span class="vl">"red"</span>;
+el.<span class="mth">classList</span>.<span class="mth">add</span>(<span class="vl">"active"</span>);
+el.<span class="mth">classList</span>.<span class="mth">remove</span>(<span class="vl">"hidden"</span>);
+el.<span class="mth">classList</span>.<span class="mth">toggle</span>(<span class="vl">"open"</span>);
+
+<span class="cm">// Attributes</span>
+el.<span class="mth">setAttribute</span>(<span class="vl">"data-id"</span>, <span class="vl">"42"</span>);
+<span class="kw">const</span> val = el.<span class="mth">getAttribute</span>(<span class="vl">"href"</span>);
+
+<span class="cm">// Creating & appending elements</span>
+<span class="kw">const</span> newDiv = <span class="mth">document</span>.<span class="mth">createElement</span>(<span class="vl">"div"</span>);
+newDiv.<span class="mth">textContent</span> = <span class="vl">"I'm new!"</span>;
+<span class="mth">document</span>.<span class="mth">body</span>.<span class="mth">appendChild</span>(newDiv);
+
+<span class="cm">// Removing</span>
+el.<span class="mth">remove</span>();</pre>
+      </div>
+    </section>
+
+    <!-- 18 EVENTS -->
+    <section id="js-events">
+      <div class="sec-head">
+        <span class="sec-num">18</span>
+        <h2>JavaScript Events</h2>
+      </div>
+
+      <div class="code-block" data-lang="JavaScript">
+<pre><span class="kw">const</span> btn = <span class="mth">document</span>.<span class="mth">querySelector</span>(<span class="vl">"#myBtn"</span>);
+
+<span class="cm">// Listen for a click</span>
+btn.<span class="mth">addEventListener</span>(<span class="vl">"click"</span>, (event) => {
+  <span class="mth">console</span>.<span class="mth">log</span>(<span class="vl">"Clicked!"</span>, event.<span class="mth">target</span>);
+  event.<span class="mth">preventDefault</span>();    <span class="cm">// stop default action (e.g. form submit)</span>
+});
+
+<span class="cm">// Common events</span>
+el.<span class="mth">addEventListener</span>(<span class="vl">"mouseover"</span>, handler);
+el.<span class="mth">addEventListener</span>(<span class="vl">"keydown"</span>,   (e) => <span class="mth">console</span>.<span class="mth">log</span>(e.key));
+el.<span class="mth">addEventListener</span>(<span class="vl">"input"</span>,     (e) => <span class="mth">console</span>.<span class="mth">log</span>(e.target.value));
+<span class="mth">window</span>.<span class="mth">addEventListener</span>(<span class="vl">"scroll"</span>, handler);
+<span class="mth">window</span>.<span class="mth">addEventListener</span>(<span class="vl">"resize"</span>, handler);
+
+<span class="cm">// Remove listener</span>
+el.<span class="mth">removeEventListener</span>(<span class="vl">"click"</span>, handler);
+
+<span class="cm">// Run code after full DOM is loaded</span>
+<span class="mth">document</span>.<span class="mth">addEventListener</span>(<span class="vl">"DOMContentLoaded"</span>, () => {
+  <span class="mth">console</span>.<span class="mth">log</span>(<span class="vl">"DOM ready!"</span>);
+});</pre>
+      </div>
+
+      <div class="info">
+        <strong>Live Example — Toggle Dark Mode</strong>
+        Here's a complete, self-contained JavaScript snippet you can drop into any page:
+      </div>
+
+      <div class="code-block" data-lang="JavaScript">
+<pre><span class="cm">// Dark mode toggle</span>
+<span class="kw">const</span> toggle = <span class="mth">document</span>.<span class="mth">getElementById</span>(<span class="vl">"darkToggle"</span>);
+
+toggle.<span class="mth">addEventListener</span>(<span class="vl">"click"</span>, () => {
+  <span class="mth">document</span>.<span class="mth">body</span>.<span class="mth">classList</span>.<span class="mth">toggle</span>(<span class="vl">"dark"</span>);
+  toggle.<span class="mth">textContent</span> = <span class="mth">document</span>.<span class="mth">body</span>.<span class="mth">classList</span>.<span class="mth">contains</span>(<span class="vl">"dark"</span>)
+    ? <span class="vl">"☀️ Light Mode"</span>
+    : <span class="vl">"🌙 Dark Mode"</span>;
+});</pre>
+      </div>
+    </section>
+
+    <!-- 19 FETCH -->
+    <section id="js-fetch">
+      <div class="sec-head">
+        <span class="sec-num">19</span>
+        <h2>Fetch API</h2>
+      </div>
+      <p>The Fetch API lets you load data from servers without refreshing the page — essential for modern web apps.</p>
+
+      <div class="code-block" data-lang="JavaScript">
+<pre><span class="cm">// Basic GET request</span>
+<span class="mth">fetch</span>(<span class="vl">"https://api.example.com/users"</span>)
+  .<span class="mth">then</span>(response => response.<span class="mth">json</span>())
+  .<span class="mth">then</span>(data => <span class="mth">console</span>.<span class="mth">log</span>(data))
+  .<span class="mth">catch</span>(err  => <span class="mth">console</span>.<span class="mth">error</span>(err));
+
+<span class="cm">// Modern async/await version (recommended)</span>
+<span class="kw">async function</span> <span class="mth">getUsers</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response = <span class="kw">await</span> <span class="mth">fetch</span>(<span class="vl">"https://api.example.com/users"</span>);
+
+    <span class="kw">if</span> (!response.<span class="mth">ok</span>) <span class="kw">throw new</span> <span class="mth">Error</span>(<span class="vl">`HTTP ${response.status}`</span>);
+
+    <span class="kw">const</span> data = <span class="kw">await</span> response.<span class="mth">json</span>();
+    <span class="kw">return</span> data;
+  } <span class="kw">catch</span> (err) {
+    <span class="mth">console</span>.<span class="mth">error</span>(<span class="vl">"Failed:"</span>, err);
+  }
+}
+
+<span class="cm">// POST request (sending data)</span>
+<span class="kw">async function</span> <span class="mth">createUser</span>(user) {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="mth">fetch</span>(<span class="vl">"/api/users"</span>, {
+    method:  <span class="vl">"POST"</span>,
+    headers: { <span class="vl">"Content-Type"</span>: <span class="vl">"application/json"</span> },
+    body:    <span class="mth">JSON</span>.<span class="mth">stringify</span>(user)
+  });
+  <span class="kw">return</span> res.<span class="mth">json</span>();
+}</pre>
+      </div>
+
+      <div class="warn">
+        <strong>Always handle errors</strong>
+        <code>fetch()</code> only rejects on network failure — a 404 or 500 response is still "resolved". Always check <code>response.ok</code> before using the data.
+      </div>
+    </section>
+
+    <hr class="divider"/>
+
+    <div class="tags">
+      <span class="tg-pill tp-g">HTML5</span>
+      <span class="tg-pill tp-g">Semantic</span>
+      <span class="tg-pill tp-g">Accessibility</span>
+      <span class="tg-pill tp-o">CSS3</span>
+      <span class="tg-pill tp-o">Flexbox</span>
+      <span class="tg-pill tp-o">Grid</span>
+      <span class="tg-pill tp-o">Responsive</span>
+      <span class="tg-pill tp-b">JavaScript</span>
+      <span class="tg-pill tp-b">DOM API</span>
+      <span class="tg-pill tp-b">Fetch API</span>
+      <span class="tg-pill tp-v">W3C Standard</span>
+      <span class="tg-pill tp-v">Open Web</span>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>HTML &amp; CSS Complete Reference</p>
+  <p>W3C Standard · <span>Open Web</span> · Updated 2025</p>
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- COMPILER OVERLAY -->
+<div class="compiler-overlay" id="compilerOverlay">
+  <div class="coderhub-vscode">
+    <div class="vscode-header">
+      <div class="vscode-dots">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+      </div>
+      <div class="vscode-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#E34F26"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>
+        index.html
+      </div>
+      <div class="vscode-actions">
+        <button class="vscode-run">▶ Run Code</button>
+        <button class="vscode-close" onclick="closeCompiler()">
+          <i class="fas fa-times"></i> Close
+        </button>
+      </div>
+    </div>
+    <div class="vscode-body">
+      <iframe src="https://onecompiler.com/embed/html" frameborder="0" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modal-title"></h3>
+    <div id="modal-body"></div>
+    <button class="modal-close" onclick="closeModalFn()">Close</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="HTML script.js"></script>
+</body>
+</html>
