@@ -21,7 +21,7 @@ const langFileName = {
   'React': 'React',
   'PostgreSQL': 'PostgreSQL',
   'Ruby': 'Ruby',
-  'TypeScript': 'TypeScript',
+  'TypeScript': 'Typescript',
   'Go': 'Go',
   'Rust': 'Rust',
   'Kotlin': 'Kotlin',
