@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQLite Tutorial - CodeNix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="SQ style.css">
+
+  <!-- SQL.js for real SQLite in browser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <header class="header">
+    <button class="menu-btn" onclick="toggleDropdown()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo" onclick="location.href='index.html'">
+      <i class="fa-solid fa-fire-flame-curved" style="color: var(--accent);"></i>
+      <span class="code">Code</span><span class="nix">Nix</span>
+    </div>
+  </header>
+
+  <div class="dropdown" id="dropdown">
+    <button class="dropdown-item" onclick="location.href='index.html'">
+      <i class="fas fa-code"></i> Language
+    </button>
+    <button class="dropdown-item" onclick="toggleTheme()">
+      <i class="fas fa-moon" id="themeIcon"></i> <span id="themeText">Dark/Light</span>
+    </button>
+    <button class="dropdown-item" onclick="showAbout()">
+      <i class="fas fa-info-circle"></i> About
+    </button>
+    <button class="dropdown-item" onclick="refreshPage()">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+    <button class="dropdown-item" onclick="showProjectIdeas()">
+      <i class="fas fa-lightbulb"></i> Project Idea
+    </button>
+    <button class="dropdown-item" onclick="downloadPage()">
+      <i class="fas fa-download"></i> Download
+    </button>
+    <button class="dropdown-item" onclick="sharePage()">
+      <i class="fas fa-share-alt"></i> Share
+    </button>
+    <button class="dropdown-item" onclick="showHelp()">
+      <i class="fas fa-question-circle"></i> Help
+    </button>
+  </div>
+ <button class="compiler-toggle" id="compilerToggle" onclick="openCompiler()">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SQLite — Complete Reference</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Fraunces:opsz,wght@9..144&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<style>
+
+:root{
+
+  --bg:#f3f8fb;
+  --surface:#e8f2f8;
+  --card:#ffffff;
+
+  --border:#c8dbe7;
+  --border2:#9ebfd2;
+
+  --ink:#10202b;
+  --ink2:#355161;
+  --muted:#6f8b9a;
+
+  --accent:#0f7dc2;
+  --accent2:#f97316;
+  --accent3:#0f9d58;
+  --accent4:#7c3aed;
+
+  --code-bg:#0d1720;
+  --code-text:#d8f0ff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+
+  font-family:'DM Sans',sans-serif;
+  line-height:1.75;
+}
+
+/* HEADER */
+
+header{
+
+  position:relative;
+  overflow:hidden;
+
+  padding:72px 64px 56px;
+
+  background:#0d1822;
+  color:white;
+}
+
+header::before{
+
+  content:'';
+  position:absolute;
+  inset:0;
+
+  background-image:
+    linear-gradient(rgba(15,125,194,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,125,194,.07) 1px, transparent 1px);
+
+  background-size:48px 48px;
+}
+
+header::after{
+
+  content:'SQLite';
+
+  position:absolute;
+  right:-20px;
+  bottom:-20px;
+
+  font-size:180px;
+  line-height:1;
+
+  font-family:'Fraunces',serif;
+  font-weight:900;
+
+  color:rgba(255,255,255,.05);
+
+  pointer-events:none;
+}
+
+.badge{
+
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  margin-bottom:28px;
+  padding:4px 14px;
+
+  border:1px solid rgba(15,125,194,.45);
+  background:rgba(15,125,194,.16);
+
+  color:#8fd2ff;
+
+  font-size:11px;
+  font-family:'Space Mono',monospace;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.badge-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#0f7dc2;
+}
+
+h1{
+
+  font-size:clamp(50px,8vw,92px);
+  line-height:1;
+
+  font-family:'Fraunces',serif;
+  font-weight:900;
+
+  letter-spacing:-3px;
+}
+
+h1 em{
+  color:#68c5ff;
+  font-style:normal;
+}
+
+.hero-desc{
+
+  max-width:650px;
+  margin-top:20px;
+
+  color:rgba(255,255,255,.65);
+
+  font-size:16px;
+  font-weight:300;
+}
+
+.hero-pills{
+
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+
+  margin-top:34px;
+}
+
+.pill{
+
+  padding:6px 16px;
+
+  border:1px solid rgba(255,255,255,.14);
+
+  background:rgba(255,255,255,.05);
+  color:rgba(255,255,255,.65);
+
+  font-size:11px;
+  font-family:'Space Mono',monospace;
+}
+
+.pill.hi{
+
+  border-color:rgba(104,197,255,.5);
+  background:rgba(104,197,255,.1);
+
+  color:#9ddcff;
+}
+
+/* LAYOUT */
+
+.wrapper{
+  display:grid;
+  grid-template-columns:240px 1fr;
+}
+
+aside{
+
+  position:sticky;
+  top:0;
+
+  height:100vh;
+  overflow-y:auto;
+
+  background:var(--surface);
+
+  border-right:1px solid var(--border);
+
+  padding:36px 0;
+}
+
+.nav-group{
+  margin-bottom:8px;
+}
+
+.nav-label{
+
+  display:block;
+
+  padding:10px 24px 4px;
+
+  color:var(--muted);
+
+  font-size:9px;
+  font-family:'Space Mono',monospace;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+aside a{
+
+  display:block;
+
+  padding:7px 24px;
+
+  color:var(--ink2);
+  text-decoration:none;
+
+  font-size:13px;
+
+  border-left:2px solid transparent;
+
+  transition:.18s;
+}
+
+aside a:hover{
+
+  border-left-color:var(--accent);
+
+  background:rgba(15,125,194,.05);
+
+  color:var(--accent);
+}
+
+/* CONTENT */
+
+.content{
+  max-width:920px;
+  padding:64px;
+}
+
+section{
+  margin-bottom:80px;
+}
+
+.sec-head{
+
+  display:flex;
+  gap:20px;
+  align-items:flex-start;
+
+  margin-bottom:30px;
+  padding-bottom:20px;
+
+  border-bottom:1px solid var(--border);
+}
+
+.sec-num{
+
+  min-width:28px;
+  padding-top:6px;
+
+  color:var(--muted);
+
+  font-size:11px;
+  font-family:'Space Mono',monospace;
+}
+
+h2{
+
+  font-size:30px;
+  line-height:1.2;
+
+  font-family:'Fraunces',serif;
+}
+
+h3{
+
+  margin:28px 0 12px;
+
+  color:var(--accent2);
+
+  font-size:11px;
+  font-family:'Space Mono',monospace;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+p{
+  margin-bottom:14px;
+
+  color:var(--ink2);
+
+  font-size:15px;
+}
+
+/* CODE */
+
+.code-block{
+
+  position:relative;
+
+  margin:20px 0;
+  padding:24px 28px;
+
+  overflow-x:auto;
+
+  background:var(--code-bg);
+
+  border-radius:6px;
+}
+
+.code-block[data-lang]::after{
+
+  content:attr(data-lang);
+
+  position:absolute;
+  top:10px;
+  right:16px;
+
+  color:#416073;
+
+  font-size:9px;
+  font-family:'Space Mono',monospace;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+pre{
+
+  color:var(--code-text);
+
+  white-space:pre;
+
+  font-size:13px;
+  line-height:1.85;
+
+  font-family:'Space Mono',monospace;
+}
+
+.kw{color:#7fd3ff}
+.tp{color:#b8f58d}
+.fn{color:#ffd580}
+.str{color:#ffe082}
+.num{color:#ff9e80}
+.cm{color:#557083;font-style:italic}
+.cl{color:#b388ff}
+
+/* TABLE */
+
+table{
+
+  width:100%;
+
+  border-collapse:collapse;
+
+  margin:20px 0;
+
+  font-size:13.5px;
+}
+
+th{
+
+  text-align:left;
+
+  padding:10px 16px;
+
+  border-bottom:2px solid var(--border2);
+
+  color:var(--muted);
+
+  font-size:9px;
+  font-family:'Space Mono',monospace;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+td{
+
+  padding:10px 16px;
+
+  border-bottom:1px solid var(--border);
+
+  color:var(--ink2);
+}
+
+tr:hover td{
+  background:rgba(15,125,194,.03);
+}
+
+code{
+
+  padding:2px 6px;
+
+  border-radius:2px;
+
+  background:rgba(15,125,194,.08);
+  color:var(--accent);
+
+  font-size:12px;
+  font-family:'Space Mono',monospace;
+}
+
+/* CARDS */
+
+.card-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+
+  gap:14px;
+
+  margin:20px 0;
+}
+
+.card{
+
+  padding:20px;
+
+  background:var(--card);
+
+  border:1px solid var(--border);
+
+  transition:.2s;
+}
+
+.card:hover{
+
+  transform:translateY(-2px);
+
+  border-color:var(--accent);
+
+  box-shadow:0 4px 24px rgba(15,125,194,.12);
+}
+
+.card-icon{
+  font-size:22px;
+  margin-bottom:10px;
+}
+
+.card-t{
+
+  margin-bottom:5px;
+
+  font-size:12px;
+  font-family:'Space Mono',monospace;
+  font-weight:700;
+}
+
+.card-d{
+
+  color:var(--muted);
+
+  font-size:12px;
+  line-height:1.5;
+}
+
+/* NOTE */
+
+.note{
+
+  margin:20px 0;
+  padding:14px 20px;
+
+  border-left:3px solid var(--accent);
+
+  background:rgba(15,125,194,.06);
+
+  color:var(--ink2);
+  font-size:14px;
+}
+
+.note strong{
+
+  display:block;
+
+  margin-bottom:6px;
+
+  color:var(--accent);
+
+  font-size:10px;
+  font-family:'Space Mono',monospace;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+.warn{
+
+  margin:20px 0;
+  padding:14px 20px;
+
+  border-left:3px solid var(--accent2);
+
+  background:rgba(249,115,22,.06);
+
+  color:var(--ink2);
+  font-size:14px;
+}
+
+.warn strong{
+
+  display:block;
+
+  margin-bottom:6px;
+
+  color:var(--accent2);
+
+  font-size:10px;
+  font-family:'Space Mono',monospace;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+/* TAGS */
+
+.tags{
+
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+
+  margin:20px 0;
+}
+
+.tg{
+
+  padding:4px 10px;
+
+  border-radius:2px;
+  border:1px solid;
+
+  font-size:10px;
+  font-family:'Space Mono',monospace;
+}
+
+.tg-b{
+  border-color:var(--accent);
+  color:var(--accent);
+  background:rgba(15,125,194,.06);
+}
+
+.tg-o{
+  border-color:var(--accent2);
+  color:var(--accent2);
+  background:rgba(249,115,22,.06);
+}
+
+.tg-g{
+  border-color:var(--accent3);
+  color:var(--accent3);
+  background:rgba(15,157,88,.06);
+}
+
+.tg-v{
+  border-color:var(--accent4);
+  color:var(--accent4);
+  background:rgba(124,58,237,.06);
+}
+
+hr.divider{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:56px 0;
+}
+
+/* FOOTER */
+
+footer{
+
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+
+  padding:36px 64px;
+
+  background:#0d1822;
+
+  color:rgba(255,255,255,.4);
+
+  font-size:11px;
+  font-family:'Space Mono',monospace;
+}
+
+footer span{
+  color:#68c5ff;
+}
+
+@media(max-width:768px){
+
+  header{
+    padding:48px 24px 40px;
+  }
+
+  .wrapper{
+    grid-template-columns:1fr;
+  }
+
+  aside{
+    display:none;
+  }
+
+  .content{
+    padding:32px 24px;
+  }
+
+  footer{
+    padding:28px 24px;
+    flex-direction:column;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="badge">
+    <span class="badge-dot"></span>
+    Embedded Database Engine
+  </div>
+
+  <h1><em>SQLite</em></h1>
+
+  <p class="hero-desc">
+    SQLite is a lightweight, serverless, self-contained relational database engine widely used in mobile apps, browsers, embedded systems, desktop software, and local data storage.
+  </p>
+
+  <div class="hero-pills">
+
+    <span class="pill hi">Serverless</span>
+    <span class="pill">Embedded</span>
+    <span class="pill">SQL Database</span>
+    <span class="pill">Single File</span>
+    <span class="pill">ACID Compliant</span>
+    <span class="pill">Open Source</span>
+
+  </div>
+
+</header>
+
+<div class="wrapper">
+
+<!-- SIDEBAR -->
+
+<aside>
+
+  <div class="nav-group">
+
+    <span class="nav-label">Basics</span>
+
+    <a href="#intro">Introduction</a>
+    <a href="#install">Install & Setup</a>
+    <a href="#databases">Databases</a>
+    <a href="#tables">Tables</a>
+
+  </div>
+
+  <div class="nav-group">
+
+    <span class="nav-label">Queries</span>
+
+    <a href="#insert">Insert Data</a>
+    <a href="#select">Select Queries</a>
+    <a href="#update">Update & Delete</a>
+    <a href="#where">Where Clause</a>
+
+  </div>
+
+  <div class="nav-group">
+
+    <span class="nav-label">Advanced</span>
+
+    <a href="#joins">Joins</a>
+    <a href="#indexes">Indexes</a>
+    <a href="#transactions">Transactions</a>
+    <a href="#views">Views</a>
+
+  </div>
+
+  <div class="nav-group">
+
+    <span class="nav-label">Modern Usage</span>
+
+    <a href="#functions">Functions</a>
+    <a href="#json">JSON Support</a>
+    <a href="#bestpractices">Best Practices</a>
+
+  </div>
+
+</aside>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<!-- INTRO -->
+
+<section id="intro">
+
+  <div class="sec-head">
+
+    <span class="sec-num">01</span>
+
+    <h2>Introduction to SQLite</h2>
+
+  </div>
+
+  <p>
+    SQLite is an embedded relational database management system written in C.
+  </p>
+
+  <p>
+    Unlike MySQL or PostgreSQL, SQLite does not require a separate server process. The entire database is stored inside a single file.
+  </p>
+
+  <div class="note">
+
+    <strong>Why SQLite Is Popular</strong>
+
+    SQLite is extremely fast, lightweight, portable, and easy to deploy. It powers Android devices, iPhones, browsers, and many desktop applications.
+
+  </div>
+
+  <div class="card-grid">
+
+    <div class="card">
+
+      <div class="card-icon">📦</div>
+
+      <div class="card-t">Single File Database</div>
+
+      <div class="card-d">
+        Entire database stored in one portable file.
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="card-icon">⚡</div>
+
+      <div class="card-t">Lightweight</div>
+
+      <div class="card-d">
+        Very small footprint with minimal resource usage.
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="card-icon">🔒</div>
+
+      <div class="card-t">ACID Compliant</div>
+
+      <div class="card-d">
+        Reliable transactions with atomic consistency.
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="card-icon">📱</div>
+
+      <div class="card-t">Embedded Everywhere</div>
+
+      <div class="card-d">
+        Used in Android, iOS, browsers, and desktop apps.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- INSTALL -->
+
+<section id="install">
+
+  <div class="sec-head">
+
+    <span class="sec-num">02</span>
+
+    <h2>Install & Setup</h2>
+
+  </div>
+
+  <h3>Install SQLite</h3>
+
+  <div class="code-block" data-lang="bash">
+<pre><span class="cm"># Ubuntu / Debian</span>
+sudo apt install sqlite3
+
+<span class="cm"># macOS</span>
+brew install sqlite
+
+<span class="cm"># Check version</span>
+sqlite3 --version
+
+<span class="cm"># Open or create database</span>
+sqlite3 mydatabase.db</pre>
+  </div>
+
+  <h3>Basic SQLite Commands</h3>
+
+  <div class="code-block" data-lang="SQLite">
+<pre><span class="cm">-- Show all databases</span>
+.databases
+
+<span class="cm">-- Show all tables</span>
+.tables
+
+<span class="cm">-- Show schema</span>
+.schema
+
+<span class="cm">-- Exit SQLite shell</span>
+.quit</pre>
+  </div>
+
+</section>
+
+<!-- DATABASES -->
+
+<section id="databases">
+
+  <div class="sec-head">
+
+    <span class="sec-num">03</span>
+
+    <h2>Databases & SQL Basics</h2>
+
+  </div>
+
+  <p>
+    SQLite uses standard SQL syntax for creating and managing databases.
+  </p>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="cm">-- Create database automatically by opening a file</span>
+sqlite3 school.db
+
+<span class="cm">-- Attach another database</span>
+ATTACH DATABASE <span class="str">'backup.db'</span> AS backup;</pre>
+  </div>
+
+</section>
+
+<!-- TABLES -->
+
+<section id="tables">
+
+  <div class="sec-head">
+
+    <span class="sec-num">04</span>
+
+    <h2>Creating Tables</h2>
+
+  </div>
+
+  <p>
+    Tables store structured data using rows and columns.
+  </p>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="kw">CREATE TABLE</span> students (
+
+    id <span class="tp">INTEGER</span> <span class="kw">PRIMARY KEY</span> AUTOINCREMENT,
+
+    name <span class="tp">TEXT</span> <span class="kw">NOT NULL</span>,
+
+    age <span class="tp">INTEGER</span>,
+
+    email <span class="tp">TEXT</span> <span class="kw">UNIQUE</span>,
+
+    created_at <span class="tp">DATETIME</span> <span class="kw">DEFAULT CURRENT_TIMESTAMP</span>
+);</pre>
+  </div>
+
+  <table>
+
+    <tr>
+      <th>Data Type</th>
+      <th>Description</th>
+    </tr>
+
+    <tr>
+      <td><code>INTEGER</code></td>
+      <td>Whole numbers</td>
+    </tr>
+
+    <tr>
+      <td><code>REAL</code></td>
+      <td>Floating-point numbers</td>
+    </tr>
+
+    <tr>
+      <td><code>TEXT</code></td>
+      <td>String values</td>
+    </tr>
+
+    <tr>
+      <td><code>BLOB</code></td>
+      <td>Binary data</td>
+    </tr>
+
+    <tr>
+      <td><code>NULL</code></td>
+      <td>Empty value</td>
+    </tr>
+
+  </table>
+
+</section>
+
+<!-- INSERT -->
+
+<section id="insert">
+
+  <div class="sec-head">
+
+    <span class="sec-num">05</span>
+
+    <h2>Insert Data</h2>
+
+  </div>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="cm">-- Insert one row</span>
+
+<span class="kw">INSERT INTO</span> students(name, age, email)
+
+<span class="kw">VALUES</span>(
+
+  <span class="str">'Alice'</span>,
+  <span class="num">21</span>,
+  <span class="str">'alice@example.com'</span>
+
+);
+
+<span class="cm">-- Insert multiple rows</span>
+
+<span class="kw">INSERT INTO</span> students(name, age)
+
+<span class="kw">VALUES</span>
+
+(<span class="str">'Bob'</span>, <span class="num">22</span>),
+
+(<span class="str">'Charlie'</span>, <span class="num">20</span>);</pre>
+  </div>
+
+</section>
+
+<!-- SELECT -->
+
+<section id="select">
+
+  <div class="sec-head">
+
+    <span class="sec-num">06</span>
+
+    <h2>Select Queries</h2>
+
+  </div>
+
+  <p>
+    The <code>SELECT</code> statement retrieves data from tables.
+  </p>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="cm">-- Select all columns</span>
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> students;
+
+<span class="cm">-- Select specific columns</span>
+
+<span class="kw">SELECT</span> name, age <span class="kw">FROM</span> students;
+
+<span class="cm">-- Order results</span>
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> students
+<span class="kw">ORDER BY</span> age <span class="kw">DESC</span>;
+
+<span class="cm">-- Limit results</span>
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> students
+<span class="kw">LIMIT</span> <span class="num">5</span>;</pre>
+  </div>
+
+</section>
+
+<!-- UPDATE -->
+
+<section id="update">
+
+  <div class="sec-head">
+
+    <span class="sec-num">07</span>
+
+    <h2>Update & Delete</h2>
+
+  </div>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="cm">-- Update rows</span>
+
+<span class="kw">UPDATE</span> students
+
+<span class="kw">SET</span> age = <span class="num">25</span>
+
+<span class="kw">WHERE</span> id = <span class="num">1</span>;
+
+<span class="cm">-- Delete rows</span>
+
+<span class="kw">DELETE FROM</span> students
+
+<span class="kw">WHERE</span> id = <span class="num">2</span>;</pre>
+  </div>
+
+  <div class="warn">
+
+    <strong>Important</strong>
+
+    Always use a <code>WHERE</code> clause in UPDATE or DELETE queries unless you intentionally want to modify all rows.
+
+  </div>
+
+</section>
+
+<!-- WHERE -->
+
+<section id="where">
+
+  <div class="sec-head">
+
+    <span class="sec-num">08</span>
+
+    <h2>WHERE Clause & Filtering</h2>
+
+  </div>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> students
+
+<span class="kw">WHERE</span> age &gt; <span class="num">20</span>;
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> students
+
+<span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="str">'A%'</span>;
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> students
+
+<span class="kw">WHERE</span> age <span class="kw">BETWEEN</span> <span class="num">18</span> <span class="kw">AND</span> <span class="num">25</span>;</pre>
+  </div>
+
+</section>
+
+<!-- JOINS -->
+
+<section id="joins">
+
+  <div class="sec-head">
+
+    <span class="sec-num">09</span>
+
+    <h2>Joins</h2>
+
+  </div>
+
+  <p>
+    Joins combine data from multiple tables.
+  </p>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="kw">SELECT</span>
+
+  students.name,
+
+  courses.course_name
+
+<span class="kw">FROM</span> students
+
+<span class="kw">INNER JOIN</span> courses
+
+<span class="kw">ON</span> students.id = courses.student_id;</pre>
+  </div>
+
+</section>
+
+<!-- INDEXES -->
+
+<section id="indexes">
+
+  <div class="sec-head">
+
+    <span class="sec-num">10</span>
+
+    <h2>Indexes</h2>
+
+  </div>
+
+  <p>
+    Indexes improve query performance by speeding up searches.
+  </p>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="cm">-- Create index</span>
+
+<span class="kw">CREATE INDEX</span> idx_students_email
+
+<span class="kw">ON</span> students(email);
+
+<span class="cm">-- Remove index</span>
+
+<span class="kw">DROP INDEX</span> idx_students_email;</pre>
+  </div>
+
+</section>
+
+<!-- TRANSACTIONS -->
+
+<section id="transactions">
+
+  <div class="sec-head">
+
+    <span class="sec-num">11</span>
+
+    <h2>Transactions</h2>
+
+  </div>
+
+  <p>
+    Transactions ensure database consistency.
+  </p>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="kw">BEGIN TRANSACTION</span>;
+
+<span class="kw">UPDATE</span> accounts
+<span class="kw">SET</span> balance = balance - <span class="num">100</span>
+<span class="kw">WHERE</span> id = <span class="num">1</span>;
+
+<span class="kw">UPDATE</span> accounts
+<span class="kw">SET</span> balance = balance + <span class="num">100</span>
+<span class="kw">WHERE</span> id = <span class="num">2</span>;
+
+<span class="kw">COMMIT</span>;</pre>
+  </div>
+
+</section>
+
+<!-- VIEWS -->
+
+<section id="views">
+
+  <div class="sec-head">
+
+    <span class="sec-num">12</span>
+
+    <h2>Views</h2>
+
+  </div>
+
+  <p>
+    Views are virtual tables based on SQL queries.
+  </p>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="kw">CREATE VIEW</span> adult_students AS
+
+<span class="kw">SELECT</span> name, age
+
+<span class="kw">FROM</span> students
+
+<span class="kw">WHERE</span> age &gt;= <span class="num">18</span>;</pre>
+  </div>
+
+</section>
+
+<!-- FUNCTIONS -->
+
+<section id="functions">
+
+  <div class="sec-head">
+
+    <span class="sec-num">13</span>
+
+    <h2>Built-in Functions</h2>
+
+  </div>
+
+  <table>
+
+    <tr>
+      <th>Function</th>
+      <th>Purpose</th>
+    </tr>
+
+    <tr>
+      <td><code>COUNT()</code></td>
+      <td>Count rows</td>
+    </tr>
+
+    <tr>
+      <td><code>AVG()</code></td>
+      <td>Average value</td>
+    </tr>
+
+    <tr>
+      <td><code>MAX()</code></td>
+      <td>Maximum value</td>
+    </tr>
+
+    <tr>
+      <td><code>MIN()</code></td>
+      <td>Minimum value</td>
+    </tr>
+
+    <tr>
+      <td><code>LENGTH()</code></td>
+      <td>String length</td>
+    </tr>
+
+  </table>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="kw">SELECT</span> COUNT(*) <span class="kw">FROM</span> students;
+
+<span class="kw">SELECT</span> AVG(age) <span class="kw">FROM</span> students;</pre>
+  </div>
+
+</section>
+
+<!-- JSON -->
+
+<section id="json">
+
+  <div class="sec-head">
+
+    <span class="sec-num">14</span>
+
+    <h2>JSON Support</h2>
+
+  </div>
+
+  <p>
+    Modern SQLite versions support JSON functions.
+  </p>
+
+  <div class="code-block" data-lang="SQL">
+<pre><span class="kw">SELECT</span>
+
+  json_extract(
+
+    <span class="str">'{"name":"Alice","age":21}'</span>,
+
+    <span class="str">'$.name'</span>
+
+  );</pre>
+  </div>
+
+</section>
+
+<!-- BEST PRACTICES -->
+
+<section id="bestpractices">
+
+  <div class="sec-head">
+
+    <span class="sec-num">15</span>
+
+    <h2>Best Practices</h2>
+
+  </div>
+
+  <ul>
+
+    <li>Use indexes on frequently searched columns.</li>
+
+    <li>Wrap related queries inside transactions.</li>
+
+    <li>Use parameterized queries to prevent SQL injection.</li>
+
+    <li>Backup database files regularly.</li>
+
+    <li>Normalize tables to reduce duplication.</li>
+
+    <li>Use WAL mode for better concurrency.</li>
+
+  </ul>
+
+  <div class="note">
+
+    <strong>Performance Tip</strong>
+
+    SQLite is excellent for local storage and medium-scale applications, but for very high concurrent write workloads, a client-server database may perform better.
+
+  </div>
+
+</section>
+
+<hr class="divider"/>
+
+<div class="tags">
+
+  <span class="tg tg-b">SQL</span>
+  <span class="tg tg-b">Embedded</span>
+  <span class="tg tg-b">ACID</span>
+
+  <span class="tg tg-o">Transactions</span>
+  <span class="tg tg-o">Indexes</span>
+
+  <span class="tg tg-g">Single File</span>
+  <span class="tg tg-g">Lightweight</span>
+
+  <span class="tg tg-v">Serverless</span>
+  <span class="tg tg-v">Open Source</span>
+
+</div>
+
+</div>
+</div>
+
+<footer>
+
+  <p>SQLite Complete Reference</p>
+
+  <p>D. Richard Hipp · <span>2000</span> · Embedded SQL Engine</p>
+
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="compiler-overlay" id="compilerOverlay">
+    <div class="coderhub-vscode">
+      <div class="vscode-header">
+        <div class="vscode-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+        <div class="vscode-tab"><i class="fas fa-database" style="color: var(--sqlite);"></i>query.sql</div>
+        <div class="vscode-actions">
+          <button class="vscode-run" id="runBtn" onclick="runSQLite()"><i class="fas fa-play"></i> Run</button>
+          <button class="vscode-download" onclick="downloadCode()"><i class="fas fa-download"></i> Save</button>
+          <button class="vscode-external" onclick="openInSQLiteOnline()"><i class="fas fa-external-link-alt"></i> SQLite Online</button>
+          <button class="vscode-close" onclick="closeCompiler()"><i class="fas fa-times"></i> Close</button>
+        </div>
+      <div class="vscode-body">
+        <textarea id="codeEditor" spellcheck="false">SELECT sqlite_version();</textarea>
+        <div id="output">Loading SQLite... Click Run to execute queries</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="SQ script.js"></script>
+</body>
+</html>
