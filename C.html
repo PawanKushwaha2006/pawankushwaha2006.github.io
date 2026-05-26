@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C Tutorial - CodeNix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="C style.css">
+
+  <script>
+    // Page load hote hi saved theme apply kar de
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <header class="header">
+    <button class="menu-btn" onclick="toggleDropdown()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo" onclick="location.href='index.html'">
+      <i class="fa-solid fa-fire-flame-curved" style="color: var(--accent);"></i>
+      <span class="code">Code</span><span class="nix">Nix</span>
+    </div>
+  </header>
+
+  <div class="dropdown" id="dropdown">
+    <button class="dropdown-item" onclick="location.href='index.html'">
+      <i class="fas fa-code"></i> Language
+    </button>
+    <button class="dropdown-item" onclick="toggleTheme()">
+      <i class="fas fa-moon" id="themeIcon"></i> <span id="themeText">Dark/Light</span>
+    </button>
+    <button class="dropdown-item" onclick="showAbout()">
+      <i class="fas fa-info-circle"></i> About
+    </button>
+    <button class="dropdown-item" onclick="refreshPage()">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+    <button class="dropdown-item" onclick="showProjectIdeas()">
+      <i class="fas fa-lightbulb"></i> Project Idea
+    </button>
+    <button class="dropdown-item" onclick="downloadPage()">
+      <i class="fas fa-download"></i> Download
+    </button>
+    <button class="dropdown-item" onclick="sharePage()">
+      <i class="fas fa-share-alt"></i> Share
+    </button>
+    <button class="dropdown-item" onclick="showHelp()">
+      <i class="fas fa-question-circle"></i> Help
+    </button>
+  </div>
+
+  <button class="compiler-toggle" id="compilerToggle" onclick="openCompiler()">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>C Programming Language — Complete Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --card: #17171f;
+      --border: #2a2a38;
+      --accent: #00e5ff;
+      --accent2: #ff6b35;
+      --accent3: #7fff00;
+      --text: #e8e8f0;
+      --muted: #7a7a9a;
+      --code-bg: #0d0d15;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NOISE TEXTURE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* HERO */
+    header {
+      position: relative;
+      padding: 80px 60px 60px;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    header::after {
+      content: 'C';
+      position: absolute;
+      right: -20px;
+      top: -40px;
+      font-family: 'Space Mono', monospace;
+      font-size: 280px;
+      font-weight: 700;
+      color: rgba(0,229,255,0.04);
+      line-height: 1;
+      pointer-events: none;
+      animation: floatBg 8s ease-in-out infinite;
+    }
+    @keyframes floatBg {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 4px 12px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.1;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    h1 span { color: var(--accent); }
+
+    .hero-sub {
+      margin-top: 16px;
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 560px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 32px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-family: 'Space Mono', monospace; }
+    .meta-value { font-family: 'Space Mono', monospace; font-size: 14px; color: var(--accent3); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* LAYOUT */
+    main {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+      padding: 40px 0;
+      background: var(--surface);
+    }
+    nav::-webkit-scrollbar { width: 4px; }
+    nav::-webkit-scrollbar-track { background: transparent; }
+    nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .nav-section { margin-bottom: 8px; }
+    .nav-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 24px 4px;
+    }
+    nav a {
+      display: block;
+      padding: 7px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+      position: relative;
+    }
+    nav a:hover {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: rgba(0,229,255,0.04);
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 60px;
+      max-width: 900px;
+    }
+
+    section { margin-bottom: 72px; animation: fadeUp 0.5s ease both; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .section-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      border: 1px solid rgba(0,229,255,0.3);
+      padding: 3px 8px;
+      min-width: 36px;
+      text-align: center;
+    }
+
+    h2 {
+      font-family: 'Space Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin: 28px 0 12px;
+    }
+
+    p { color: #b0b0c8; font-size: 15px; margin-bottom: 16px; }
+
+    /* CODE BLOCKS */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 2px;
+      padding: 24px;
+      margin: 20px 0;
+      position: relative;
+      overflow-x: auto;
+    }
+    .code-block::before {
+      content: attr(data-lang);
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    pre {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #c8c8e8;
+      white-space: pre;
+    }
+
+    /* SYNTAX HIGHLIGHTING */
+    .kw  { color: #00e5ff; }   /* keywords */
+    .fn  { color: #7fff00; }   /* functions */
+    .str { color: #ffd700; }   /* strings */
+    .num { color: #ff6b35; }   /* numbers */
+    .cm  { color: #4a4a6a; font-style: italic; }  /* comments */
+    .pp  { color: #c77dff; }   /* preprocessor */
+    .tp  { color: #ff9f9f; }   /* types */
+
+    /* CARDS */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 20px;
+      transition: all 0.25s;
+      cursor: default;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,229,255,0.08);
+    }
+    .card-icon { font-size: 22px; margin-bottom: 10px; }
+    .card-title { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* TABLES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+    th {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      text-align: left;
+    }
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(42,42,56,0.5);
+      color: #b0b0c8;
+      font-size: 13px;
+    }
+    tr:hover td { background: rgba(0,229,255,0.03); }
+    td code, p code {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      background: var(--code-bg);
+      color: var(--accent3);
+      padding: 2px 6px;
+      border: 1px solid var(--border);
+    }
+
+    /* CALLOUT */
+    .callout {
+      border-left: 3px solid var(--accent2);
+      background: rgba(255,107,53,0.06);
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #c8b8a8;
+    }
+    .callout strong { color: var(--accent2); font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    /* TAGS */
+    .tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      padding: 3px 8px;
+      border: 1px solid;
+      margin: 3px;
+    }
+    .tag-blue { border-color: var(--accent); color: var(--accent); }
+    .tag-orange { border-color: var(--accent2); color: var(--accent2); }
+    .tag-green { border-color: var(--accent3); color: var(--accent3); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer p { color: var(--muted); font-size: 12px; margin: 0; font-family: 'Space Mono', monospace; }
+
+    @media (max-width: 768px) {
+      header { padding: 50px 24px 40px; }
+      main { grid-template-columns: 1fr; }
+      nav { display: none; }
+      .content { padding: 32px 24px; }
+      footer { padding: 32px 24px; }
+      h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hero-tag">Programming Language Reference</div>
+  <h1><span>C</span> Language<br/>Complete Guide</h1>
+  <p class="hero-sub">A structured and detailed reference to the C programming language — from basics to advanced memory management.</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">Designed By</span>
+      <span class="meta-value">Dennis Ritchie</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Year</span>
+      <span class="meta-value">1972</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Standard</span>
+      <span class="meta-value">C17 / C23</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Paradigm</span>
+      <span class="meta-value">Procedural</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <nav>
+    <div class="nav-section">
+      <div class="nav-title">Basics</div>
+      <a href="#intro">Introduction</a>
+      <a href="#structure">Program Structure</a>
+      <a href="#datatypes">Data Types</a>
+      <a href="#variables">Variables</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-title">Control</div>
+      <a href="#operators">Operators</a>
+      <a href="#control">Control Flow</a>
+      <a href="#loops">Loops</a>
+      <a href="#functions">Functions</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-title">Memory</div>
+      <a href="#arrays">Arrays</a>
+      <a href="#pointers">Pointers</a>
+      <a href="#strings">Strings</a>
+      <a href="#memory">Dynamic Memory</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-title">Advanced</div>
+      <a href="#structs">Structs & Unions</a>
+      <a href="#fileio">File I/O</a>
+      <a href="#preprocessor">Preprocessor</a>
+      <a href="#stdlib">Standard Library</a>
+    </div>
+  </nav>
+
+  <div class="content">
+
+    <!-- INTRODUCTION -->
+    <section id="intro">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2>Introduction to C</h2>
+      </div>
+      <p>C is a general-purpose, compiled, statically typed programming language developed by <strong>Dennis Ritchie</strong> at Bell Labs in 1972. It was designed to write the Unix operating system and remains one of the most influential languages ever created.</p>
+      <p>C gives programmers direct control over hardware and memory, making it ideal for systems programming, embedded systems, OS kernels, and performance-critical applications.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <div class="card-title">Fast & Efficient</div>
+          <div class="card-desc">Compiles directly to machine code with minimal overhead.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔧</div>
+          <div class="card-title">Low-Level Control</div>
+          <div class="card-desc">Direct memory manipulation via pointers.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">📦</div>
+          <div class="card-title">Portable</div>
+          <div class="card-desc">Write once, compile on any platform with a C compiler.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <div class="card-title">Widely Used</div>
+          <div class="card-desc">OS kernels, databases, browsers, embedded systems.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAM STRUCTURE -->
+    <section id="structure">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2>Program Structure</h2>
+      </div>
+      <p>Every C program must have a <code>main()</code> function — this is the entry point where execution begins.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="pp">#include</span> <span class="str">&lt;stdio.h&gt;</span>      <span class="cm">// standard input/output library</span>
+
+<span class="cm">/* This is the main function */</span>
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="fn">printf</span>(<span class="str">"Hello, World!\n"</span>);  <span class="cm">// print to console</span>
+    <span class="kw">return</span> <span class="num">0</span>;               <span class="cm">// 0 means success</span>
+}</pre>
+      </div>
+
+      <h3>Key Components</h3>
+      <table>
+        <tr><th>Component</th><th>Purpose</th><th>Example</th></tr>
+        <tr><td>Header files</td><td>Include library functions</td><td><code>#include &lt;stdio.h&gt;</code></td></tr>
+        <tr><td>main() function</td><td>Program entry point</td><td><code>int main()</code></td></tr>
+        <tr><td>Statements</td><td>Instructions for CPU</td><td><code>printf("Hi");</code></td></tr>
+        <tr><td>Return value</td><td>Exit status to OS</td><td><code>return 0;</code></td></tr>
+        <tr><td>Comments</td><td>Code documentation</td><td><code>/* ... */</code> or <code>// ...</code></td></tr>
+      </table>
+    </section>
+
+    <!-- DATA TYPES -->
+    <section id="datatypes">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2>Data Types</h2>
+      </div>
+      <p>C is statically typed — every variable must have a declared type before use. The type determines the size and behaviour in memory.</p>
+
+      <table>
+        <tr><th>Type</th><th>Size</th><th>Range</th><th>Use</th></tr>
+        <tr><td><code>char</code></td><td>1 byte</td><td>-128 to 127</td><td>Single character</td></tr>
+        <tr><td><code>int</code></td><td>4 bytes</td><td>-2B to 2B</td><td>Whole numbers</td></tr>
+        <tr><td><code>short</code></td><td>2 bytes</td><td>-32768 to 32767</td><td>Small integers</td></tr>
+        <tr><td><code>long</code></td><td>8 bytes</td><td>Very large integers</td><td>Big whole numbers</td></tr>
+        <tr><td><code>float</code></td><td>4 bytes</td><td>~6 decimal digits</td><td>Decimal numbers</td></tr>
+        <tr><td><code>double</code></td><td>8 bytes</td><td>~15 decimal digits</td><td>Precise decimals</td></tr>
+        <tr><td><code>void</code></td><td>0 bytes</td><td>—</td><td>No value / generic pointer</td></tr>
+      </table>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="tp">char</span>   letter  = <span class="str">'A'</span>;
+<span class="tp">int</span>    age     = <span class="num">25</span>;
+<span class="tp">float</span>  price   = <span class="num">99.99f</span>;
+<span class="tp">double</span> pi      = <span class="num">3.14159265358979</span>;
+<span class="tp">long</span>   bigNum  = <span class="num">1234567890L</span>;
+
+<span class="cm">// unsigned variants — only positive values</span>
+<span class="tp">unsigned int</span> count = <span class="num">500</span>;</pre>
+      </div>
+
+      <div class="callout">
+        <strong>Note</strong>
+        Sizes can vary by platform and compiler. Use <code>sizeof(type)</code> to get the actual size at runtime.
+      </div>
+    </section>
+
+    <!-- VARIABLES -->
+    <section id="variables">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2>Variables & Constants</h2>
+      </div>
+      <p>Variables store data that can change during program execution. Constants hold fixed values that cannot be modified.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="cm">// Variable declaration and initialization</span>
+<span class="tp">int</span> x;           <span class="cm">// declared, uninitialized</span>
+<span class="tp">int</span> y = <span class="num">10</span>;      <span class="cm">// declared and initialized</span>
+<span class="tp">int</span> a, b, c;    <span class="cm">// multiple declarations</span>
+
+<span class="cm">// Constants — cannot be changed</span>
+<span class="kw">const</span> <span class="tp">float</span> PI = <span class="num">3.14159</span>;
+
+<span class="cm">// Preprocessor constant (no type)</span>
+<span class="pp">#define</span> MAX_SIZE <span class="num">100</span>
+<span class="pp">#define</span> GREETING <span class="str">"Hello"</span></pre>
+      </div>
+
+      <h3>Storage Classes</h3>
+      <table>
+        <tr><th>Keyword</th><th>Scope</th><th>Lifetime</th><th>Default Value</th></tr>
+        <tr><td><code>auto</code></td><td>Local</td><td>Function block</td><td>Garbage</td></tr>
+        <tr><td><code>static</code></td><td>Local</td><td>Entire program</td><td>Zero</td></tr>
+        <tr><td><code>extern</code></td><td>Global</td><td>Entire program</td><td>Zero</td></tr>
+        <tr><td><code>register</code></td><td>Local</td><td>Function block</td><td>Garbage</td></tr>
+      </table>
+    </section>
+
+    <!-- OPERATORS -->
+    <section id="operators">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2>Operators</h2>
+      </div>
+
+      <h3>Arithmetic Operators</h3>
+      <div class="code-block" data-lang="C">
+<pre><span class="tp">int</span> a = <span class="num">10</span>, b = <span class="num">3</span>;
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, a + b);   <span class="cm">// 13  — Addition</span>
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, a - b);   <span class="cm">// 7   — Subtraction</span>
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, a * b);   <span class="cm">// 30  — Multiplication</span>
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, a / b);   <span class="cm">// 3   — Integer division</span>
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, a % b);   <span class="cm">// 1   — Modulus (remainder)</span></pre>
+      </div>
+
+      <h3>Comparison & Logical</h3>
+      <div class="code-block" data-lang="C">
+<pre><span class="cm">// Comparison → returns 1 (true) or 0 (false)</span>
+a == b   <span class="cm">// equal to</span>
+a != b   <span class="cm">// not equal</span>
+a &gt; b    <span class="cm">// greater than</span>
+a &lt; b    <span class="cm">// less than</span>
+a &gt;= b   <span class="cm">// greater than or equal</span>
+a &lt;= b   <span class="cm">// less than or equal</span>
+
+<span class="cm">// Logical operators</span>
+a &gt; <span class="num">5</span> &amp;&amp; b &lt; <span class="num">10</span>   <span class="cm">// AND</span>
+a &gt; <span class="num">5</span> || b &gt; <span class="num">10</span>   <span class="cm">// OR</span>
+!(a == b)          <span class="cm">// NOT</span></pre>
+      </div>
+    </section>
+
+    <!-- CONTROL FLOW -->
+    <section id="control">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2>Control Flow</h2>
+      </div>
+
+      <h3>if / else if / else</h3>
+      <div class="code-block" data-lang="C">
+<pre><span class="tp">int</span> score = <span class="num">75</span>;
+
+<span class="kw">if</span> (score &gt;= <span class="num">90</span>) {
+    <span class="fn">printf</span>(<span class="str">"Grade: A\n"</span>);
+} <span class="kw">else if</span> (score &gt;= <span class="num">70</span>) {
+    <span class="fn">printf</span>(<span class="str">"Grade: B\n"</span>);
+} <span class="kw">else</span> {
+    <span class="fn">printf</span>(<span class="str">"Grade: F\n"</span>);
+}</pre>
+      </div>
+
+      <h3>switch Statement</h3>
+      <div class="code-block" data-lang="C">
+<pre><span class="tp">int</span> day = <span class="num">3</span>;
+<span class="kw">switch</span> (day) {
+    <span class="kw">case</span> <span class="num">1</span>: <span class="fn">printf</span>(<span class="str">"Monday\n"</span>);    <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="num">2</span>: <span class="fn">printf</span>(<span class="str">"Tuesday\n"</span>);   <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="num">3</span>: <span class="fn">printf</span>(<span class="str">"Wednesday\n"</span>); <span class="kw">break</span>;
+    <span class="kw">default</span>: <span class="fn">printf</span>(<span class="str">"Other day\n"</span>);
+}</pre>
+      </div>
+    </section>
+
+    <!-- LOOPS -->
+    <section id="loops">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <h2>Loops</h2>
+      </div>
+
+      <h3>for Loop</h3>
+      <div class="code-block" data-lang="C">
+<pre><span class="cm">// Print 1 to 5</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">5</span>; i++) {
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, i);
+}
+<span class="cm">// Output: 1 2 3 4 5</span></pre>
+      </div>
+
+      <h3>while Loop</h3>
+      <div class="code-block" data-lang="C">
+<pre><span class="tp">int</span> n = <span class="num">1</span>;
+<span class="kw">while</span> (n &lt;= <span class="num">5</span>) {
+    <span class="fn">printf</span>(<span class="str">"%d\n"</span>, n);
+    n++;
+}</pre>
+      </div>
+
+      <h3>do-while Loop</h3>
+      <div class="code-block" data-lang="C">
+<pre><span class="tp">int</span> num;
+<span class="kw">do</span> {
+    <span class="fn">printf</span>(<span class="str">"Enter positive number: "</span>);
+    <span class="fn">scanf</span>(<span class="str">"%d"</span>, &amp;num);
+} <span class="kw">while</span> (num &lt;= <span class="num">0</span>);  <span class="cm">// runs at least once</span></pre>
+      </div>
+
+      <div class="callout">
+        <strong>Loop Control</strong>
+        Use <code>break</code> to exit a loop early, and <code>continue</code> to skip to the next iteration.
+      </div>
+    </section>
+
+    <!-- FUNCTIONS -->
+    <section id="functions">
+      <div class="section-header">
+        <span class="section-num">08</span>
+        <h2>Functions</h2>
+      </div>
+      <p>Functions are reusable blocks of code that perform a specific task. They reduce repetition and improve readability.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="cm">// Function declaration (prototype)</span>
+<span class="tp">int</span> <span class="fn">add</span>(<span class="tp">int</span> a, <span class="tp">int</span> b);
+
+<span class="cm">// Function definition</span>
+<span class="tp">int</span> <span class="fn">add</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) {
+    <span class="kw">return</span> a + b;
+}
+
+<span class="cm">// Void function — returns nothing</span>
+<span class="tp">void</span> <span class="fn">greet</span>(<span class="tp">char</span> name[]) {
+    <span class="fn">printf</span>(<span class="str">"Hello, %s!\n"</span>, name);
+}
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> result = <span class="fn">add</span>(<span class="num">5</span>, <span class="num">3</span>);  <span class="cm">// → 8</span>
+    <span class="fn">greet</span>(<span class="str">"Alice"</span>);           <span class="cm">// → Hello, Alice!</span>
+    <span class="kw">return</span> <span class="num">0</span>;
+}</pre>
+      </div>
+
+      <h3>Recursion</h3>
+      <div class="code-block" data-lang="C">
+<pre><span class="tp">int</span> <span class="fn">factorial</span>(<span class="tp">int</span> n) {
+    <span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;         <span class="cm">// base case</span>
+    <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>);  <span class="cm">// recursive call</span>
+}
+<span class="cm">// factorial(5) → 5 × 4 × 3 × 2 × 1 = 120</span></pre>
+      </div>
+    </section>
+
+    <!-- ARRAYS -->
+    <section id="arrays">
+      <div class="section-header">
+        <span class="section-num">09</span>
+        <h2>Arrays</h2>
+      </div>
+      <p>An array stores a fixed-size sequence of elements of the same type in contiguous memory locations.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="cm">// 1D array</span>
+<span class="tp">int</span> nums[<span class="num">5</span>] = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>};
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, nums[<span class="num">0</span>]);  <span class="cm">// → 10 (0-indexed)</span>
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, nums[<span class="num">4</span>]);  <span class="cm">// → 50 (last element)</span>
+
+<span class="cm">// 2D array (matrix)</span>
+<span class="tp">int</span> matrix[<span class="num">2</span>][<span class="num">3</span>] = {
+    {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>},
+    {<span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>}
+};
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, matrix[<span class="num">1</span>][<span class="num">2</span>]);  <span class="cm">// → 6</span>
+
+<span class="cm">// Loop through array</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; <span class="num">5</span>; i++) {
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, nums[i]);
+}</pre>
+      </div>
+    </section>
+
+    <!-- POINTERS -->
+    <section id="pointers">
+      <div class="section-header">
+        <span class="section-num">10</span>
+        <h2>Pointers</h2>
+      </div>
+      <p>A pointer is a variable that stores the <em>memory address</em> of another variable. Pointers are one of C's most powerful (and tricky) features.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="tp">int</span> x = <span class="num">42</span>;
+<span class="tp">int</span> *ptr;         <span class="cm">// declare pointer to int</span>
+ptr = &amp;x;         <span class="cm">// store address of x</span>
+
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, x);     <span class="cm">// → 42    (value of x)</span>
+<span class="fn">printf</span>(<span class="str">"%p\n"</span>, ptr);  <span class="cm">// → 0x... (address of x)</span>
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, *ptr); <span class="cm">// → 42    (dereference)</span>
+
+<span class="cm">// Modify value through pointer</span>
+*ptr = <span class="num">100</span>;
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, x);   <span class="cm">// → 100  (x is now 100)</span>
+
+<span class="cm">// Pointer arithmetic</span>
+<span class="tp">int</span> arr[] = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};
+<span class="tp">int</span> *p = arr;
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, *(p + <span class="num">1</span>));  <span class="cm">// → 2</span></pre>
+      </div>
+
+      <div class="callout">
+        <strong>Common Pointer Mistakes</strong>
+        Always initialize pointers before use. An uninitialized (wild) pointer causes undefined behavior. Never dereference a <code>NULL</code> pointer.
+      </div>
+    </section>
+
+    <!-- STRINGS -->
+    <section id="strings">
+      <div class="section-header">
+        <span class="section-num">11</span>
+        <h2>Strings</h2>
+      </div>
+      <p>In C, a string is an array of <code>char</code> terminated by a null character <code>'\0'</code>. There is no built-in string type.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="pp">#include</span> <span class="str">&lt;string.h&gt;</span>
+
+<span class="tp">char</span> name[] = <span class="str">"Alice"</span>;        <span class="cm">// auto null-terminated</span>
+<span class="tp">char</span> city[<span class="num">20</span>] = <span class="str">"London"</span>;
+
+<span class="fn">printf</span>(<span class="str">"%s\n"</span>, name);          <span class="cm">// → Alice</span>
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, <span class="fn">strlen</span>(name));  <span class="cm">// → 5 (length)</span>
+
+<span class="fn">strcpy</span>(city, <span class="str">"Paris"</span>);         <span class="cm">// copy string</span>
+<span class="fn">strcat</span>(name, <span class="str">" Smith"</span>);        <span class="cm">// concatenate</span>
+<span class="fn">strcmp</span>(<span class="str">"abc"</span>, <span class="str">"abc"</span>);           <span class="cm">// → 0 (equal)</span>
+<span class="fn">strstr</span>(name, <span class="str">"Ali"</span>);           <span class="cm">// find substring</span></pre>
+      </div>
+    </section>
+
+    <!-- DYNAMIC MEMORY -->
+    <section id="memory">
+      <div class="section-header">
+        <span class="section-num">12</span>
+        <h2>Dynamic Memory</h2>
+      </div>
+      <p>C allows manual allocation of heap memory at runtime using functions from <code>&lt;stdlib.h&gt;</code>. You must always free what you allocate.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="pp">#include</span> <span class="str">&lt;stdlib.h&gt;</span>
+
+<span class="cm">// Allocate memory for 5 integers</span>
+<span class="tp">int</span> *arr = (<span class="tp">int</span>*) <span class="fn">malloc</span>(<span class="num">5</span> * <span class="kw">sizeof</span>(<span class="tp">int</span>));
+
+<span class="kw">if</span> (arr == <span class="kw">NULL</span>) {
+    <span class="fn">printf</span>(<span class="str">"Memory allocation failed!\n"</span>);
+    <span class="kw">return</span> <span class="num">1</span>;
+}
+
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; <span class="num">5</span>; i++) arr[i] = i * <span class="num">10</span>;
+
+<span class="fn">free</span>(arr);    <span class="cm">// MUST free to avoid memory leak</span>
+arr = <span class="kw">NULL</span>;  <span class="cm">// good practice</span>
+
+<span class="cm">// calloc — allocates and zero-initializes</span>
+<span class="tp">int</span> *zeros = (<span class="tp">int</span>*) <span class="fn">calloc</span>(<span class="num">5</span>, <span class="kw">sizeof</span>(<span class="tp">int</span>));
+
+<span class="cm">// realloc — resize existing allocation</span>
+arr = (<span class="tp">int</span>*) <span class="fn">realloc</span>(arr, <span class="num">10</span> * <span class="kw">sizeof</span>(<span class="tp">int</span>));</pre>
+      </div>
+    </section>
+
+    <!-- STRUCTS -->
+    <section id="structs">
+      <div class="section-header">
+        <span class="section-num">13</span>
+        <h2>Structs & Unions</h2>
+      </div>
+      <p>A <code>struct</code> groups related variables of different types into a single unit. A <code>union</code> shares memory among all its members.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="cm">// Define a struct</span>
+<span class="kw">struct</span> Student {
+    <span class="tp">char</span> name[<span class="num">50</span>];
+    <span class="tp">int</span>  age;
+    <span class="tp">float</span> gpa;
+};
+
+<span class="cm">// Declare and initialize</span>
+<span class="kw">struct</span> Student s1 = {<span class="str">"Alice"</span>, <span class="num">20</span>, <span class="num">3.9f</span>};
+<span class="fn">printf</span>(<span class="str">"%s is %d years old\n"</span>, s1.name, s1.age);
+
+<span class="cm">// typedef for cleaner syntax</span>
+<span class="kw">typedef</span> <span class="kw">struct</span> {
+    <span class="tp">float</span> x, y;
+} Point;
+
+Point p = {<span class="num">3.0f</span>, <span class="num">4.0f</span>};
+
+<span class="cm">// Pointer to struct</span>
+<span class="kw">struct</span> Student *ptr = &amp;s1;
+<span class="fn">printf</span>(<span class="str">"%s\n"</span>, ptr-&gt;name);  <span class="cm">// arrow operator</span></pre>
+      </div>
+    </section>
+
+    <!-- FILE I/O -->
+    <section id="fileio">
+      <div class="section-header">
+        <span class="section-num">14</span>
+        <h2>File I/O</h2>
+      </div>
+      <p>C provides file handling through the <code>FILE</code> pointer and functions in <code>&lt;stdio.h&gt;</code>.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="pp">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="cm">// Writing to a file</span>
+<span class="tp">FILE</span> *fp = <span class="fn">fopen</span>(<span class="str">"data.txt"</span>, <span class="str">"w"</span>);
+<span class="kw">if</span> (fp != <span class="kw">NULL</span>) {
+    <span class="fn">fprintf</span>(fp, <span class="str">"Hello, File!\n"</span>);
+    <span class="fn">fclose</span>(fp);
+}
+
+<span class="cm">// Reading from a file</span>
+<span class="tp">char</span> buffer[<span class="num">100</span>];
+fp = <span class="fn">fopen</span>(<span class="str">"data.txt"</span>, <span class="str">"r"</span>);
+<span class="kw">while</span> (<span class="fn">fgets</span>(buffer, <span class="kw">sizeof</span>(buffer), fp) != <span class="kw">NULL</span>) {
+    <span class="fn">printf</span>(<span class="str">"%s"</span>, buffer);
+}
+<span class="fn">fclose</span>(fp);</pre>
+      </div>
+
+      <table>
+        <tr><th>Mode</th><th>Meaning</th></tr>
+        <tr><td><code>"r"</code></td><td>Read only (file must exist)</td></tr>
+        <tr><td><code>"w"</code></td><td>Write (creates/overwrites)</td></tr>
+        <tr><td><code>"a"</code></td><td>Append (keeps existing data)</td></tr>
+        <tr><td><code>"rb"</code>, <code>"wb"</code></td><td>Binary read/write</td></tr>
+      </table>
+    </section>
+
+    <!-- PREPROCESSOR -->
+    <section id="preprocessor">
+      <div class="section-header">
+        <span class="section-num">15</span>
+        <h2>Preprocessor Directives</h2>
+      </div>
+      <p>The preprocessor runs before compilation. Directives start with <code>#</code> and are not C statements.</p>
+
+      <div class="code-block" data-lang="C">
+<pre><span class="pp">#include</span> <span class="str">&lt;stdio.h&gt;</span>        <span class="cm">// system header</span>
+<span class="pp">#include</span> <span class="str">"myfile.h"</span>       <span class="cm">// local header</span>
+
+<span class="pp">#define</span> PI <span class="num">3.14159</span>        <span class="cm">// constant macro</span>
+<span class="pp">#define</span> <span class="fn">SQUARE</span>(x) ((x)*(x)) <span class="cm">// function macro</span>
+
+<span class="cm">// Conditional compilation</span>
+<span class="pp">#ifdef</span> DEBUG
+    <span class="fn">printf</span>(<span class="str">"Debug mode on\n"</span>);
+<span class="pp">#endif</span>
+
+<span class="pp">#ifndef</span> MAX_SIZE
+    <span class="pp">#define</span> MAX_SIZE <span class="num">100</span>
+<span class="pp">#endif</span>
+
+<span class="cm">// Include guard (prevents double inclusion)</span>
+<span class="pp">#pragma</span> once</pre>
+      </div>
+    </section>
+
+    <!-- STDLIB -->
+    <section id="stdlib">
+      <div class="section-header">
+        <span class="section-num">16</span>
+        <h2>Standard Library</h2>
+      </div>
+      <p>C's standard library provides essential functions across multiple header files.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">&lt;stdio.h&gt;</div>
+          <div class="card-desc">printf, scanf, fopen, fclose, fgets, fprintf</div>
+        </div>
+        <div class="card">
+          <div class="card-title">&lt;stdlib.h&gt;</div>
+          <div class="card-desc">malloc, free, exit, atoi, rand, qsort</div>
+        </div>
+        <div class="card">
+          <div class="card-title">&lt;string.h&gt;</div>
+          <div class="card-desc">strlen, strcpy, strcmp, strcat, memset</div>
+        </div>
+        <div class="card">
+          <div class="card-title">&lt;math.h&gt;</div>
+          <div class="card-desc">sqrt, pow, sin, cos, floor, ceil, fabs</div>
+        </div>
+        <div class="card">
+          <div class="card-title">&lt;ctype.h&gt;</div>
+          <div class="card-desc">isalpha, isdigit, toupper, tolower</div>
+        </div>
+        <div class="card">
+          <div class="card-title">&lt;time.h&gt;</div>
+          <div class="card-desc">time, clock, difftime, strftime</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Compile tip</strong>
+        When using <code>&lt;math.h&gt;</code>, link with <code>-lm</code> flag: <code>gcc program.c -o program -lm</code>
+      </div>
+    </section>
+
+    <hr class="divider"/>
+
+    <div style="margin-bottom: 40px;">
+      <p style="font-family:'Space Mono',monospace; font-size:12px; color:var(--muted); margin-bottom: 12px;">TAGS</p>
+      <span class="tag tag-blue">Procedural</span>
+      <span class="tag tag-blue">Compiled</span>
+      <span class="tag tag-blue">Statically Typed</span>
+      <span class="tag tag-orange">Low-Level</span>
+      <span class="tag tag-orange">Systems Programming</span>
+      <span class="tag tag-green">C89</span>
+      <span class="tag tag-green">C99</span>
+      <span class="tag tag-green">C11</span>
+      <span class="tag tag-green">C17</span>
+      <span class="tag tag-green">C23</span>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>C Language Reference — Complete Guide</p>
+  <p>Dennis Ritchie · Bell Labs · 1972</p>
+</footer>
+
+</body>
+</html>
+  
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <div class="compiler-overlay" id="compilerOverlay">
+    <div class="coderhub-vscode">
+      <div class="vscode-header">
+        <div class="vscode-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="vscode-tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#A8B9CC"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/><path d="M12 6c-3.309 0-6 2.691-6 6s2.691 6 6 6 6-2.691 6-6-2.691-6-6-6zm0 10c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z"/></svg>
+          main.c
+        </div>
+        <div class="vscode-actions">
+          <button class="vscode-run" onclick="runC()">
+            <i class="fas fa-play"></i> Run
+          </button>
+          <button class="vscode-download" onclick="downloadCode()">
+            <i class="fas fa-download"></i> Save
+          </button>
+          <button class="vscode-close" onclick="closeCompiler()">
+            <i class="fas fa-times"></i> Close
+          </button>
+        </div>
+      </div>
+      <div class="vscode-body">
+        <textarea id="codeEditor" spellcheck="false">#include &lt;stdio.h&gt;
+
+int main() {
+    printf("Hello from CodeNix! 💻\n");
+    return 0;
+}</textarea>
+        <div id="output">Note: C code browser me directly run nahi hota. Ye demo ke liye hai.
+Click Run to see simulated output...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="C script.js"></script>
+</body>
+</html>
