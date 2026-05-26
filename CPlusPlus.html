@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Tutorial - CodeNix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" id="prismTheme">
+  <link rel="stylesheet" href="Cplusplus style.css">
+
+  <script>
+    // Page load hote hi saved theme apply kar de
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <header class="header">
+    <button class="menu-btn" onclick="toggleDropdown()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo" onclick="location.href='../index.html'">
+      <i class="fa-solid fa-fire-flame-curved" style="color: var(--accent);"></i>
+      <span class="code">Code</span><span class="nix">Nix</span>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <i class="fas fa-moon" id="themeIcon"></i>
+      <span id="themeText">Dark</span>
+    </button>
+  </header>
+
+  <div class="dropdown" id="dropdown">
+    <button class="dropdown-item" onclick="location.href='../index.html'">
+      <i class="fas fa-code"></i> Language
+    </button>
+    <button class="dropdown-item" onclick="showAbout()">
+      <i class="fas fa-info-circle"></i> About
+    </button>
+    <button class="dropdown-item" onclick="refreshPage()">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+    <button class="dropdown-item" onclick="showProjectIdeas()">
+      <i class="fas fa-lightbulb"></i> Project Idea
+    </button>
+    <button class="dropdown-item" onclick="downloadPage()">
+      <i class="fas fa-download"></i> Download
+    </button>
+    <button class="dropdown-item" onclick="sharePage()">
+      <i class="fas fa-share-alt"></i> Share
+    </button>
+    <button class="dropdown-item" onclick="showHelp()">
+      <i class="fas fa-question-circle"></i> Help
+    </button>
+  </div>
+
+  <button class="compiler-toggle" id="compilerToggle" onclick="openCompiler()">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Complete Tutorial</title>  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #ffffff;
+      line-height: 1.7;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #9333ea);
+      padding: 70px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+
+    header p {
+      max-width: 750px;
+      margin: auto;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    nav {
+      background: #111827;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 15px;
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      list-style: none;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #93c5fd;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 0;
+    }
+
+    section {
+      background: #1e293b;
+      margin-bottom: 40px;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    section h2 {
+      color: #60a5fa;
+      margin-bottom: 15px;
+      font-size: 2rem;
+    }
+
+    section h3 {
+      color: #c084fc;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    pre {
+      background: #0f172a;
+      padding: 15px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 15px 0;
+      border-left: 4px solid #3b82f6;
+    }
+
+    code {
+      color: #facc15;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #111827;
+      padding: 20px;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      background: #2563eb;
+    }
+
+    footer {
+      background: #111827;
+      text-align: center;
+      padding: 30px;
+      margin-top: 40px;
+    }
+  </style></head>
+<body><header>
+  <h1>C++ Complete Tutorial</h1>
+  <p>
+    Learn C++ from beginner to advanced with practical examples, OOP concepts,
+    data structures, STL, projects, interview questions, and career guidance.
+  </p>
+</header><nav>
+  <ul>
+    <li><a href="#intro">Introduction</a></li>
+    <li><a href="#setup">Setup</a></li>
+    <li><a href="#syntax">Syntax</a></li>
+    <li><a href="#variables">Variables</a></li>
+    <li><a href="#loops">Loops</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#oops">OOP</a></li>
+    <li><a href="#stl">STL</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+</nav><div class="container">  <section id="intro">
+    <h2>1. What is C++?</h2><p>
+  C++ is a powerful general-purpose programming language created by Bjarne Stroustrup.
+  It is widely used in software development, game engines, operating systems,
+  embedded systems, competitive programming, and high-performance applications.
+</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>Fast</h3>
+    <p>C++ provides excellent performance and speed.</p>
+  </div>
+
+  <div class="card">
+    <h3>Object-Oriented</h3>
+    <p>Supports classes, objects, inheritance, and polymorphism.</p>
+  </div>
+
+  <div class="card">
+    <h3>Popular</h3>
+    <p>Used in games, browsers, operating systems, and robotics.</p>
+  </div>
+</div>
+
+  </section>  <section id="setup">
+    <h2>2. C++ Installation</h2><h3>Windows</h3>
+<p>Install MinGW or Visual Studio.</p>
+
+<h3>Linux</h3>
+<pre><code>sudo apt install g++</code></pre>
+
+<h3>Check Version</h3>
+<pre><code>g++ --version</code></pre>
+
+  </section>  <section id="syntax">
+    <h2>3. Basic Syntax</h2><pre><code>#include <iostream>
+
+using namespace std;
+
+int main() { cout << "Hello World"; return 0; }</code></pre>
+
+  </section>  <section id="variables">
+    <h2>4. Variables & Data Types</h2><pre><code>int age = 20;
+
+float height = 5.9; char grade = 'A'; bool isStudent = true; string name = "Pawan";</code></pre>
+
+<h3>Common Data Types</h3>
+
+<ul>
+  <li>int</li>
+  <li>float</li>
+  <li>double</li>
+  <li>char</li>
+  <li>bool</li>
+  <li>string</li>
+</ul>
+
+  </section>  <section>
+    <h2>5. Operators</h2><pre><code>int a = 10;
+
+int b = 5;
+
+cout << a + b; cout << a - b; cout << a * b; cout << a / b;</code></pre>
+
+  </section>  <section id="loops">
+    <h2>6. Conditions & Loops</h2><h3>If Else</h3>
+
+<pre><code>if(age >= 18) {
+cout << "Adult";
+
+} else { cout << "Minor"; }</code></pre>
+
+<h3>For Loop</h3>
+
+<pre><code>for(int i = 0; i < 5; i++) {
+cout << i;
+
+}</code></pre>
+
+<h3>While Loop</h3>
+
+<pre><code>int i = 1;
+
+while(i <= 5) { cout << i; i++; }</code></pre>
+
+  </section>  <section id="functions">
+    <h2>7. Functions</h2><pre><code>int add(int a, int b) {
+return a + b;
+
+}
+
+int main() { cout << add(5, 3); }</code></pre>
+
+  </section>  <section>
+    <h2>8. Arrays</h2><pre><code>int numbers[5] = {1,2,3,4,5};
+
+cout << numbers[0];</code></pre>
+
+  </section>  <section>
+    <h2>9. Pointers</h2><pre><code>int x = 10;
+
+int* ptr = &x;
+
+cout << *ptr;</code></pre>
+
+<p>
+  Pointers store memory addresses.
+</p>
+
+  </section>  <section id="oops">
+    <h2>10. Object Oriented Programming</h2><pre><code>class Student {
+
+public: string name;
+
+void show() {
+  cout << name;
+}
+
+};
+
+int main() { Student s1; s1.name = "Pawan"; s1.show(); }</code></pre>
+
+<h3>OOP Concepts</h3>
+
+<ul>
+  <li>Class</li>
+  <li>Object</li>
+  <li>Inheritance</li>
+  <li>Polymorphism</li>
+  <li>Encapsulation</li>
+  <li>Abstraction</li>
+</ul>
+
+  </section>  <section>
+    <h2>11. Constructors & Destructors</h2><pre><code>class Demo {
+
+public: Demo() { cout << "Constructor Called"; } };</code></pre>
+
+  </section>  <section>
+    <h2>12. File Handling</h2><pre><code>#include <fstream>
+
+ofstream file("data.txt"); file << "Hello C++"; file.close();</code></pre>
+
+  </section>  <section>
+    <h2>13. Exception Handling</h2><pre><code>try {
+int age = 15;
+
+if(age < 18)
+    throw age;
+
+} catch(int age) { cout << "Access Denied"; }</code></pre>
+
+  </section>  <section id="stl">
+    <h2>14. Standard Template Library (STL)</h2><div class="grid">
+  <div class="card">
+    <h3>Vector</h3>
+    <p>Dynamic array container.</p>
+  </div>
+
+  <div class="card">
+    <h3>Stack</h3>
+    <p>Follows LIFO structure.</p>
+  </div>
+
+  <div class="card">
+    <h3>Queue</h3>
+    <p>Follows FIFO structure.</p>
+  </div>
+
+  <div class="card">
+    <h3>Map</h3>
+    <p>Stores key-value pairs.</p>
+  </div>
+</div>
+
+  </section>  <section>
+    <h2>15. Data Structures & Algorithms</h2><ul>
+  <li>Arrays</li>
+  <li>Linked List</li>
+  <li>Stack</li>
+  <li>Queue</li>
+  <li>Tree</li>
+  <li>Graph</li>
+  <li>Sorting Algorithms</li>
+  <li>Searching Algorithms</li>
+</ul>
+
+  </section>  <section>
+    <h2>16. Competitive Programming</h2><p>
+  C++ is the most popular language for competitive programming because of its speed and STL support.
+</p>
+
+<ul>
+  <li>Codeforces</li>
+  <li>LeetCode</li>
+  <li>CodeChef</li>
+  <li>HackerRank</li>
+</ul>
+
+  </section>  <section id="projects">
+    <h2>17. Beginner Projects</h2><div class="grid">
+  <div class="card">
+    <h3>Calculator</h3>
+  </div>
+
+  <div class="card">
+    <h3>Bank System</h3>
+  </div>
+
+  <div class="card">
+    <h3>Student Management System</h3>
+  </div>
+
+  <div class="card">
+    <h3>Library Management</h3>
+  </div>
+
+  <div class="card">
+    <h3>Tic Tac Toe Game</h3>
+  </div>
+
+  <div class="card">
+    <h3>Snake Game</h3>
+  </div>
+</div>
+
+  </section>  <section>
+    <h2>18. C++ Interview Questions</h2><h3>What is C++?</h3>
+<p>A general-purpose object-oriented programming language.</p>
+
+<h3>What is a Pointer?</h3>
+<p>A variable that stores a memory address.</p>
+
+<h3>Difference Between C and C++?</h3>
+<p>C is procedural while C++ supports OOP.</p>
+
+  </section>  <section>
+    <h2>19. Career Opportunities</h2><ul>
+  <li>Software Developer</li>
+  <li>Game Developer</li>
+  <li>Embedded Systems Engineer</li>
+  <li>Robotics Engineer</li>
+  <li>Competitive Programmer</li>
+  <li>Backend Developer</li>
+</ul>
+
+  </section>  <section>
+    <h2>20. Memory Management in C++</h2><p>
+  C++ allows programmers to manually manage memory using pointers and dynamic allocation.
+  This gives better performance and control over system resources.
+</p>
+
+<h3>Dynamic Memory Allocation</h3>
+
+<pre><code>int* ptr = new int;
+
+*ptr = 100;
+
+cout << *ptr;
+
+delete ptr;</code></pre>
+
+<h3>Why Memory Management is Important?</h3>
+
+<ul>
+  <li>Improves performance</li>
+  <li>Efficient use of RAM</li>
+  <li>Used in game engines and operating systems</li>
+</ul>
+
+  </section>  <section>
+    <h2>21. Namespaces</h2><p>
+  Namespaces help avoid naming conflicts in large programs.
+</p>
+
+<pre><code>#include <iostream>
+
+using namespace std;
+
+int main() { cout << "Hello"; }</code></pre>
+
+  </section>  <section>
+    <h2>22. Recursion</h2><p>
+  Recursion is a technique where a function calls itself.
+  It is commonly used in algorithms and problem solving.
+</p>
+
+<pre><code>int factorial(int n) {
+if(n == 1)
+    return 1;
+
+return n * factorial(n - 1);
+
+}</code></pre>
+
+  </section>  <section>
+    <h2>23. Templates</h2><p>
+  Templates allow writing generic and reusable code.
+</p>
+
+<pre><code>template <typename T>
+
+T add(T a, T b) { return a + b; }</code></pre>
+
+  </section>  <section>
+    <h2>24. Multithreading</h2><p>
+  Multithreading allows multiple tasks to run simultaneously.
+  It improves performance in modern applications.
+</p>
+
+<pre><code>#include <thread>
+
+void task() { cout << "Running Thread"; }
+
+int main() { thread t(task); t.join(); }</code></pre>
+
+  </section>  <section>
+    <h2>25. Smart Pointers</h2><p>
+  Smart pointers automatically manage memory and help avoid memory leaks.
+</p>
+
+<pre><code>#include <memory>
+
+unique_ptr<int> ptr = make_unique<int>(10);</code></pre>
+
+  </section>  <section>
+    <h2>26. Important STL Containers</h2><div class="grid">
+  <div class="card">
+    <h3>Vector</h3>
+    <p>Resizable dynamic array.</p>
+  </div>
+
+  <div class="card">
+    <h3>Set</h3>
+    <p>Stores unique sorted values.</p>
+  </div>
+
+  <div class="card">
+    <h3>Map</h3>
+    <p>Stores key-value pairs.</p>
+  </div>
+
+  <div class="card">
+    <h3>Deque</h3>
+    <p>Double-ended queue container.</p>
+  </div>
+</div>
+
+  </section>  <section>
+    <h2>27. Time Complexity</h2><p>
+  Time complexity measures how fast an algorithm runs.
+</p>
+
+<ul>
+  <li>O(1) - Constant Time</li>
+  <li>O(log n) - Logarithmic Time</li>
+  <li>O(n) - Linear Time</li>
+  <li>O(n log n) - Efficient Sorting</li>
+  <li>O(n²) - Nested Loops</li>
+</ul>
+
+  </section>  <section>
+    <h2>28. Real World Uses of C++</h2><div class="grid">
+  <div class="card">
+    <h3>Game Development</h3>
+    <p>Used in Unreal Engine and AAA games.</p>
+  </div>
+
+  <div class="card">
+    <h3>Operating Systems</h3>
+    <p>Windows and Linux components use C++.</p>
+  </div>
+
+  <div class="card">
+    <h3>Browsers</h3>
+    <p>Google Chrome uses C++ internally.</p>
+  </div>
+
+  <div class="card">
+    <h3>Robotics</h3>
+    <p>Used in embedded systems and robots.</p>
+  </div>
+</div>
+
+  </section>  <section>
+    <h2>29. Best Practices in C++</h2><ul>
+  <li>Write clean and readable code</li>
+  <li>Use comments for understanding</li>
+  <li>Avoid memory leaks</li>
+  <li>Use STL whenever possible</li>
+  <li>Practice problem solving daily</li>
+  <li>Break large programs into functions</li>
+</ul>
+
+  </section>  <section>
+    <h2>30. Advanced Projects</h2><div class="grid">
+  <div class="card">
+    <h3>Mini Operating System</h3>
+  </div>
+
+  <div class="card">
+    <h3>Chat Application</h3>
+  </div>
+
+  <div class="card">
+    <h3>3D Game Engine</h3>
+  </div>
+
+  <div class="card">
+    <h3>Compiler Design</h3>
+  </div>
+
+  <div class="card">
+    <h3>AI Chess Game</h3>
+  </div>
+
+  <div class="card">
+    <h3>File Compression Tool</h3>
+  </div>
+</div>
+
+  </section>  <section>
+    <h2>31. Conclusion</h2><p>
+  C++ is one of the most powerful and efficient programming languages.
+  It is excellent for system programming, game development, competitive programming,
+  and performance-critical applications.
+</p>
+
+<p>
+  Practice regularly, solve coding problems, and build projects to master C++.
+</p>
+
+  </section></div><footer>
+  <p>C++ Complete Tutorial Page | Designed for Learning</p>
+</footer></body>
+</html>
+
+  <!--div class="container">
+    <h1 style="margin-bottom: 2rem;">C++ Tutorial for Beginners ⚡</h1>
+
+    <div class="lesson">
+      <h2>Lesson 1: Hello World</h2>
+      <p>C++ me sabse pehla program. <code>#include</code> se libraries add hoti hai.</p>
+      <pre><code id="code-1">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "Hello World" &lt;&lt; endl;
+    cout &lt;&lt; "Welcome to CodeNix!" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+      <button class="try-btn" onclick="loadCode('code-1')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 2: Variables & Data Types</h2>
+      <p>C++ me variable ka type declare karna padta hai. <code>int</code>, <code>float</code>, <code>string</code> use hote hai.</p>
+      <pre><code id="code-2">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string name = "Rahul";
+    int age = 20;
+    float height = 5.9;
+    bool is_student = true;
+
+    cout &lt;&lt; "Name: " &lt;&lt; name &lt;&lt; endl;
+    cout &lt;&lt; "Age: " &lt;&lt; age &lt;&lt; endl;
+    cout &lt;&lt; "Height: " &lt;&lt; height &lt;&lt; endl;
+    cout &lt;&lt; "Student: " &lt;&lt; is_student &lt;&lt; endl;
+    return 0;
+}</code></pre>
+      <button class="try-btn" onclick="loadCode('code-2')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 3: Loops - For & While</h2>
+      <p><code>for</code> aur <code>while</code> loop se code repeat hota hai.</p>
+      <pre><code id="code-3">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    // For Loop
+    for(int i = 0; i &lt; 5; i++) {
+        cout &lt;&lt; "Count: " &lt;&lt; i &lt;&lt; endl;
+    }
+
+    // While Loop
+    int count = 0;
+    while(count &lt; 3) {
+        cout &lt;&lt; "While: " &lt;&lt; count &lt;&lt; endl;
+        count++;
+    }
+    return 0;
+}</code></pre>
+      <button class="try-btn" onclick="loadCode('code-3')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 4: Functions</h2>
+      <p>Function banane se code reuse hota hai. Return type specify karni padti hai.</p>
+      <pre><code id="code-4">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+string greet(string name) {
+    return "Hello " + name + "!";
+}
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    cout &lt;&lt; greet("C++") &lt;&lt; endl;
+    cout &lt;&lt; "Sum: " &lt;&lt; add(5, 3) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+      <button class="try-btn" onclick="loadCode('code-4')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+  </div>
+
+  <div class="compiler-overlay" id="compilerOverlay">
+    <div class="coderhub-vscode">
+      <div class="vscode-header">
+        <div class="vscode-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="vscode-tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#00599C"><path d="M22.394 6H11.747L10.172 4.3 8.7 2.7H1.606L.1 10.3v7.4l1.506 7.6h7.094l1.575-1.6 1.472-1.7h10.647l1.506-7.6v-7.4L22.394 6zM2.2 8.7l1.1-5.5h5.4l1.6 1.6 1.5 1.6h10.4l1.1 5.5H2.2zm19.2 5.6H12.9l-1.5-1.6-1.7H2.3l1.1 5.5h18.9l-.9-2.2z"/></svg>
+          main.cpp
+        </div>
+        <div class="vscode-actions">
+          <button class="vscode-run" onclick="runCpp()">
+            <i class="fas fa-play"></i> Run
+          </button>
+          <button class="vscode-download" onclick="downloadCode()">
+            <i class="fas fa-download"></i> Save
+          </button>
+          <button class="vscode-close" onclick="closeCompiler()">
+            <i class="fas fa-times"></i> Close
+          </button>
+        </div>
+      </div>
+      <div class="vscode-body">
+        <div class="editor-container">
+          <textarea id="codeEditor" spellcheck="false" oninput="updateHighlighting()" onkeydown="handleKeyDown(event)" onscroll="syncScroll()">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "Hello from CodeNix! ⚡" &lt;&lt; endl;
+    return 0;
+}</textarea>
+          <pre id="highlighting"><code class="language-cpp"></code></pre>
+        </div>
+        <div id="output">Click Run to see instructions...</div>
+      </div>
+    </div>
+  </div-->
+
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="Cplusplus script.js"></script>
+</body>
+</html>
