@@ -1,1 +1,179 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MongoDB Tutorial - CodeNix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Mongo style.css">
+
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <header class="header">
+    <button class="menu-btn" onclick="toggleDropdown()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo" onclick="location.href='index.html'">
+      <i class="fa-solid fa-fire-flame-curved" style="color: var(--accent);"></i>
+      <span class="code">Code</span><span class="nix">Nix</span>
+    </div>
+  </header>
+
+  <div class="dropdown" id="dropdown">
+    <button class="dropdown-item" onclick="location.href='index.html'">
+      <i class="fas fa-code"></i> Language
+    </button>
+    <button class="dropdown-item" onclick="toggleTheme()">
+      <i class="fas fa-moon" id="themeIcon"></i> <span id="themeText">Dark/Light</span>
+    </button>
+    <button class="dropdown-item" onclick="showAbout()">
+      <i class="fas fa-info-circle"></i> About
+    </button>
+    <button class="dropdown-item" onclick="refreshPage()">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+    <button class="dropdown-item" onclick="showProjectIdeas()">
+      <i class="fas fa-lightbulb"></i> Project Idea
+    </button>
+    <button class="dropdown-item" onclick="downloadPage()">
+      <i class="fas fa-download"></i> Download
+    </button>
+    <button class="dropdown-item" onclick="sharePage()">
+      <i class="fas fa-share-alt"></i> Share
+    </button>
+    <button class="dropdown-item" onclick="showHelp()">
+      <i class="fas fa-question-circle"></i> Help
+    </button>
+  </div>
+
+  <button class="compiler-toggle" id="compilerToggle" onclick="openCompiler()">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
+  <div class="container">
+    <h1 style="margin-bottom: 2rem;">MongoDB Tutorial for Beginners 🍃</h1>
+
+    <div class="warning-box">
+      <i class="fas fa-exclamation-triangle"></i> <b>Important:</b> MongoDB browser me direct nahi chalta. Ye NoSQL database hai. Niche "Simulate" se mock output dekho ya "Playground" pe real query chalao.
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 1: Insert Document</h2>
+      <p>MongoDB me data JSON jese documents me store hota hai. <code>insertOne()</code> se ek record add karo.</p>
+      <pre><code id="code-1">db.users.insertOne({
+  name: "Pawan",
+  age: 20,
+  city: "Delhi",
+  skills: ["JavaScript", "Python"]
+})</code></pre>
+      <button class="try-btn" onclick="loadCode('code-1')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 2: Find Documents</h2>
+      <p><code>find()</code> se data search karo. Filter object pass kar sakte ho.</p>
+      <pre><code id="code-2">// Sab users
+db.users.find()
+
+// Filter ke saath
+db.users.find({ age: { $gt: 18 } })
+
+// Sirf ek field
+db.users.find({}, { name: 1, _id: 0 })</code></pre>
+      <button class="try-btn" onclick="loadCode('code-2')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 3: Update Document</h2>
+      <p><code>updateOne()</code> ya <code>updateMany()</code> se data change karo. <code>$set</code> operator use hota hai.</p>
+      <pre><code id="code-3">db.users.updateOne(
+  { name: "Pawan" },
+  { $set: { age: 21, city: "Mumbai" } }
+)
+
+// Array me add karo
+db.users.updateOne(
+  { name: "Pawan" },
+  { $push: { skills: "Node.js" } }
+)</code></pre>
+      <button class="try-btn" onclick="loadCode('code-3')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 4: Delete Document</h2>
+      <p><code>deleteOne()</code> ya <code>deleteMany()</code> se record hatao.</p>
+      <pre><code id="code-4">db.users.deleteOne({ name: "Pawan" })
+
+// Multiple delete
+db.users.deleteMany({ age: { $lt: 18 } })</code></pre>
+      <button class="try-btn" onclick="loadCode('code-4')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 5: Aggregation Pipeline</h2>
+      <p>MongoDB ka sabse powerful feature. Data ko group, filter, sort karo.</p>
+      <pre><code id="code-5">db.users.aggregate([
+  { $match: { age: { $gte: 18 } } },
+  { $group: {
+      _id: "$city",
+      totalUsers: { $sum: 1 },
+      avgAge: { $avg: "$age" }
+  }},
+  { $sort: { totalUsers: -1 } }
+])</code></pre>
+      <button class="try-btn" onclick="loadCode('code-5')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+  </div>
+
+  <div class="compiler-overlay" id="compilerOverlay">
+    <div class="coderhub-vscode">
+      <div class="vscode-header">
+        <div class="vscode-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="vscode-tab">
+          <i class="fas fa-leaf" style="color: var(--mongo);"></i>query.js
+        </div>
+        <div class="vscode-actions">
+          <button class="vscode-run" id="runBtn" onclick="runMongo()">
+            <i class="fas fa-play"></i> Simulate
+          </button>
+          <button class="vscode-download" onclick="downloadCode()">
+            <i class="fas fa-download"></i> Save
+          </button>
+          <button class="vscode-external" onclick="openInPlayground()">
+            <i class="fas fa-external-link-alt"></i> Playground
+          </button>
+          <button class="vscode-close" onclick="closeCompiler()">
+            <i class="fas fa-times"></i> Close
+          </button>
+        </div>
+      </div>
+      <div class="vscode-body">
+        <textarea id="codeEditor" spellcheck="false">db.users.find()</textarea>
+        <div id="output">Click Simulate for mock output or Playground for real MongoDB...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="Mongo script.js"></script>
+</body>
+</html>
