@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Tutorial - CodeNix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="React style.css">
+
+  <!-- React + ReactDOM + Babel for JSX -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <header class="header">
+    <button class="menu-btn" onclick="toggleDropdown()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo" onclick="location.href='index.html'">
+      <i class="fa-solid fa-fire-flame-curved" style="color: var(--accent);"></i>
+      <span class="code">Code</span><span class="nix">Nix</span>
+    </div>
+  </header>
+
+  <div class="dropdown" id="dropdown">
+    <button class="dropdown-item" onclick="location.href='index.html'">
+      <i class="fas fa-code"></i> Language
+    </button>
+    <button class="dropdown-item" onclick="toggleTheme()">
+      <i class="fas fa-moon" id="themeIcon"></i> <span id="themeText">Dark/Light</span>
+    </button>
+    <button class="dropdown-item" onclick="showAbout()">
+      <i class="fas fa-info-circle"></i> About
+    </button>
+    <button class="dropdown-item" onclick="refreshPage()">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+    <button class="dropdown-item" onclick="showProjectIdeas()">
+      <i class="fas fa-lightbulb"></i> Project Idea
+    </button>
+    <button class="dropdown-item" onclick="downloadPage()">
+      <i class="fas fa-download"></i> Download
+    </button>
+    <button class="dropdown-item" onclick="sharePage()">
+      <i class="fas fa-share-alt"></i> Share
+    </button>
+    <button class="dropdown-item" onclick="showHelp()">
+      <i class="fas fa-question-circle"></i> Help
+    </button>
+  </div>
+
+  <button class="compiler-toggle" id="compilerToggle" onclick="openCompiler()">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
+  <div class="container">
+    <h1 style="margin-bottom: 2rem;">React Tutorial for Beginners ⚛️</h1>
+
+    <div class="lesson">
+      <h2>Lesson 1: First Component</h2>
+      <p>React me sab component hota hai. <code>function</code> se component banao aur JSX return karo.</p>
+      <pre><code id="code-1">function App() {
+  return &lt;h1&gt;Hello React!&lt;/h1&gt;
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</code></pre>
+      <button class="try-btn" onclick="loadCode('code-1')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 2: useState Hook</h2>
+      <p><code>useState</code> se component me state rakho. State change hone pe UI auto update hota hai.</p>
+      <pre><code id="code-2">function Counter() {
+  const [count, setCount] = React.useState(0);
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Count: {count}&lt;/h2&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Increment
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+ReactDOM.render(&lt;Counter /&gt;, document.getElementById('root'));</code></pre>
+      <button class="try-btn" onclick="loadCode('code-2')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 3: Props</h2>
+      <p>Props se parent se child ko data bhejte hai. Read-only hote hai.</p>
+      <pre><code id="code-3">function Greet({ name, age }) {
+  return &lt;h2&gt;Hello {name}, age {age}!&lt;/h2&gt;
+}
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Greet name="Pawan" age={20} /&gt;
+      &lt;Greet name="Rahul" age={22} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</code></pre>
+      <button class="try-btn" onclick="loadCode('code-3')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 4: useEffect Hook</h2>
+      <p><code>useEffect</code> side effects ke liye. Component mount/update pe chalta hai.</p>
+      <pre><code id="code-4">function Timer() {
+  const [seconds, setSeconds] = React.useState(0);
+
+  React.useEffect(() =&gt; {
+    const interval = setInterval(() =&gt; {
+      setSeconds(s =&gt; s + 1);
+    }, 1000);
+
+    return () =&gt; clearInterval(interval);
+  }, []);
+
+  return &lt;h2&gt;Timer: {seconds}s&lt;/h2&gt;
+}
+
+ReactDOM.render(&lt;Timer /&gt;, document.getElementById('root'));</code></pre>
+      <button class="try-btn" onclick="loadCode('code-4')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+
+    <div class="lesson">
+      <h2>Lesson 5: List Rendering</h2>
+      <p><code>map()</code> se array ko JSX me convert karo. <code>key</code> prop zaruri hai.</p>
+      <pre><code id="code-5">function TodoList() {
+  const todos = [
+    { id: 1, text: 'Learn React' },
+    { id: 2, text: 'Build Project' },
+    { id: 3, text: 'Deploy App' }
+  ];
+
+  return (
+    &lt;ul&gt;
+      {todos.map(todo =&gt; (
+        &lt;li key={todo.id}&gt;{todo.text}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+ReactDOM.render(&lt;TodoList /&gt;, document.getElementById('root'));</code></pre>
+      <button class="try-btn" onclick="loadCode('code-5')">
+        <i class="fas fa-play"></i> Try It Yourself
+      </button>
+    </div>
+  </div>
+
+  <div class="compiler-overlay" id="compilerOverlay">
+    <div class="coderhub-vscode">
+      <div class="vscode-header">
+        <div class="vscode-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+        <div class="vscode-tab"><i class="fab fa-react" style="color: var(--react);"></i>App.jsx</div>
+        <div class="vscode-actions">
+          <button class="vscode-run" id="runBtn" onclick="runReact()"><i class="fas fa-play"></i> Run</button>
+          <button class="vscode-download" onclick="downloadCode()"><i class="fas fa-download"></i> Save</button>
+          <button class="vscode-external" onclick="openInCodeSandbox()"><i class="fas fa-external-link-alt"></i> Sandbox</button>
+          <button class="vscode-close" onclick="closeCompiler()"><i class="fas fa-times"></i> Close</button>
+        </div>
+      </div>
+      <div class="vscode-body">
+        <textarea id="codeEditor" spellcheck="false">function App() {
+  return &lt;h1&gt;Hello CodeNix! ⚛️&lt;/h1&gt;
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</textarea>
+        <div id="output">
+          <div id="root"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="React script.js"></script>
+</body>
+</html>
