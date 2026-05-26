@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Tutorial - CodeNix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Java style.css">
+
+  <script>
+    // Page load hote hi saved theme apply kar de
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <header class="header">
+    <button class="menu-btn" onclick="toggleDropdown()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo" onclick="location.href='index.html'">
+      <i class="fa-solid fa-fire-flame-curved" style="color: var(--accent);"></i>
+      <span class="code">Code</span><span class="nix">Nix</span>
+    </div>
+  </header>
+
+  <div class="dropdown" id="dropdown">
+    <button class="dropdown-item" onclick="location.href='index.html'">
+      <i class="fas fa-code"></i> Language
+    </button>
+    <button class="dropdown-item" onclick="toggleTheme()">
+      <i class="fas fa-moon" id="themeIcon"></i> <span id="themeText">Dark/Light</span>
+    </button>
+    <button class="dropdown-item" onclick="showAbout()">
+      <i class="fas fa-info-circle"></i> About
+    </button>
+    <button class="dropdown-item" onclick="refreshPage()">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+    <button class="dropdown-item" onclick="showProjectIdeas()">
+      <i class="fas fa-lightbulb"></i> Project Idea
+    </button>
+    <button class="dropdown-item" onclick="downloadPage()">
+      <i class="fas fa-download"></i> Download
+    </button>
+    <button class="dropdown-item" onclick="sharePage()">
+      <i class="fas fa-share-alt"></i> Share
+    </button>
+    <button class="dropdown-item" onclick="showHelp()">
+      <i class="fas fa-question-circle"></i> Help
+    </button>
+  </div>
+
+  <button class="compiler-toggle" id="compilerToggle" onclick="openCompiler()">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Complete Master Tutorial</title>  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: white;
+      line-height: 1.8;
+    }
+
+    header {
+      background: linear-gradient(135deg, #ea580c, #9333ea);
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+    }
+
+    header p {
+      max-width: 850px;
+      margin: auto;
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    nav {
+      background: #111827;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 18px;
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #93c5fd;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1300px;
+      margin: auto;
+      padding: 40px 0;
+    }
+
+    section {
+      background: #1e293b;
+      margin-bottom: 40px;
+      padding: 35px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    section h2 {
+      color: #60a5fa;
+      margin-bottom: 15px;
+      font-size: 2.2rem;
+    }
+
+    section h3 {
+      color: #c084fc;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 12px;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    pre {
+      background: #0f172a;
+      padding: 18px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 18px 0;
+      border-left: 4px solid #3b82f6;
+    }
+
+    code {
+      color: #facc15;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #111827;
+      padding: 22px;
+      border-radius: 14px;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      background: #2563eb;
+    }
+
+    footer {
+      background: #111827;
+      text-align: center;
+      padding: 35px;
+      margin-top: 40px;
+    }
+  </style></head>
+<body><header>
+  <h1>Java Complete Master Tutorial</h1>
+  <p>
+    Learn Java from beginner to advanced level with complete explanations,
+    object-oriented programming, collections, multithreading, JDBC,
+    frameworks, projects, interview preparation, and career guidance.
+  </p>
+</header><nav>
+  <ul>
+    <li><a href="#intro">Introduction</a></li>
+    <li><a href="#setup">Setup</a></li>
+    <li><a href="#syntax">Syntax</a></li>
+    <li><a href="#oop">OOP</a></li>
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#threads">Threads</a></li>
+    <li><a href="#jdbc">JDBC</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+</nav><div class="container"><section id="intro">
+  <h2>1. What is Java?</h2>  <p>
+    Java is one of the world's most popular programming languages.
+    It is used for web applications, Android apps, enterprise software,
+    cloud systems, banking applications, games, and backend development.
+  </p>  <p>
+    Java follows the principle:
+    <strong>Write Once, Run Anywhere (WORA)</strong>.
+  </p>  <div class="grid">
+    <div class="card">
+      <h3>Platform Independent</h3>
+      <p>Java programs run on any operating system using JVM.</p>
+    </div><div class="card">
+  <h3>Secure</h3>
+  <p>Widely used in banking and enterprise systems.</p>
+</div>
+
+<div class="card">
+  <h3>Object-Oriented</h3>
+  <p>Supports classes, objects, inheritance, and abstraction.</p>
+</div>
+
+<div class="card">
+  <h3>Highly Popular</h3>
+  <p>Used by millions of developers worldwide.</p>
+</div>
+
+  </div>
+</section><section id="setup">
+  <h2>2. Java Installation</h2>  <h3>Step 1</h3>
+  <p>Download JDK (Java Development Kit).</p>  <h3>Step 2</h3>
+  <p>Install Java and configure environment variables.</p>  <h3>Step 3</h3>  <pre><code>java -version</code></pre>  <p>
+    Popular IDEs:
+  </p>  <ul>
+    <li>IntelliJ IDEA</li>
+    <li>Eclipse</li>
+    <li>NetBeans</li>
+    <li>VS Code</li>
+  </ul>
+</section><section id="syntax">
+  <h2>3. Java Basic Syntax</h2>  <pre><code>public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello Java");
+    }
+}</code></pre>  <p>
+    Every Java program starts from the <code>main()</code> method.
+  </p>
+</section><section>
+  <h2>4. Variables & Data Types</h2>  <pre><code>int age = 20;
+double salary = 45000.50;
+char grade = 'A';
+boolean isStudent = true;
+String name = "Pawan";</code></pre>  <h3>Primitive Data Types</h3>  <ul>
+    <li>byte</li>
+    <li>short</li>
+    <li>int</li>
+    <li>long</li>
+    <li>float</li>
+    <li>double</li>
+    <li>char</li>
+    <li>boolean</li>
+  </ul>
+</section><section>
+  <h2>5. Operators</h2>  <pre><code>int a = 10;
+int b = 5;
+
+System.out.println(a + b);
+System.out.println(a - b);
+System.out.println(a * b);
+System.out.println(a / b);</code></pre></section><section>
+  <h2>6. Conditional Statements</h2>  <h3>If Else</h3>  <pre><code>if(age >= 18) {
+    System.out.println("Adult");
+} else {
+    System.out.println("Minor");
+}</code></pre>  <h3>Switch Case</h3>  <pre><code>int day = 2;
+
+switch(day) {
+    case 1:
+        System.out.println("Monday");
+        break;
+
+    case 2:
+        System.out.println("Tuesday");
+        break;
+}</code></pre></section><section>
+  <h2>7. Loops</h2>  <h3>For Loop</h3>  <pre><code>for(int i = 0; i < 5; i++) {
+    System.out.println(i);
+}</code></pre>  <h3>While Loop</h3>  <pre><code>int i = 1;
+
+while(i <= 5) {
+    System.out.println(i);
+    i++;
+}</code></pre>  <h3>Do While Loop</h3>  <pre><code>do {
+    System.out.println(i);
+    i++;
+} while(i <= 5);</code></pre></section><section>
+  <h2>8. Methods in Java</h2>  <pre><code>public static int add(int a, int b) {
+    return a + b;
+}</code></pre>  <p>
+    Methods help organize reusable code.
+  </p>
+</section><section id="oop">
+  <h2>9. Object-Oriented Programming</h2>  <pre><code>class Student {
+    String name;
+
+    void display() {
+        System.out.println(name);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student();
+        s1.name = "Pawan";
+        s1.display();
+    }
+}</code></pre>  <h3>Main OOP Concepts</h3>  <div class="grid">
+    <div class="card">
+      <h3>Class</h3>
+      <p>Blueprint for creating objects.</p>
+    </div><div class="card">
+  <h3>Object</h3>
+  <p>Real instance of a class.</p>
+</div>
+
+<div class="card">
+  <h3>Inheritance</h3>
+  <p>Acquire properties from another class.</p>
+</div>
+
+<div class="card">
+  <h3>Polymorphism</h3>
+  <p>Same method behaves differently.</p>
+</div>
+
+<div class="card">
+  <h3>Encapsulation</h3>
+  <p>Data hiding using private variables.</p>
+</div>
+
+<div class="card">
+  <h3>Abstraction</h3>
+  <p>Show only important details.</p>
+</div>
+
+  </div>
+</section><section>
+  <h2>10. Constructors</h2>  <pre><code>class Demo {
+    Demo() {
+        System.out.println("Constructor Called");
+    }
+}</code></pre></section><section>
+  <h2>11. Arrays</h2>  <pre><code>int[] numbers = {1,2,3,4,5};
+
+System.out.println(numbers[0]);</code></pre></section><section>
+  <h2>12. Strings</h2>  <pre><code>String name = "Java";
+
+System.out.println(name.length());
+System.out.println(name.toUpperCase());</code></pre></section><section>
+  <h2>13. Exception Handling</h2>  <pre><code>try {
+    int result = 10 / 0;
+}
+catch(Exception e) {
+    System.out.println("Error Occurred");
+}</code></pre></section><section>
+  <h2>14. File Handling</h2>  <pre><code>FileWriter file = new FileWriter("test.txt");
+file.write("Hello Java");
+file.close();</code></pre></section><section id="collections">
+  <h2>15. Java Collections Framework</h2>  <div class="grid">
+    <div class="card">
+      <h3>ArrayList</h3>
+      <p>Dynamic resizable array.</p>
+    </div><div class="card">
+  <h3>LinkedList</h3>
+  <p>Doubly linked list implementation.</p>
+</div>
+
+<div class="card">
+  <h3>HashMap</h3>
+  <p>Stores key-value pairs.</p>
+</div>
+
+<div class="card">
+  <h3>HashSet</h3>
+  <p>Stores unique values only.</p>
+</div>
+
+<div class="card">
+  <h3>Queue</h3>
+  <p>FIFO data structure.</p>
+</div>
+
+<div class="card">
+  <h3>Stack</h3>
+  <p>LIFO data structure.</p>
+</div>
+
+  </div>
+</section><section>
+  <h2>16. Generics</h2>  <pre><code>ArrayList<String> names = new ArrayList<String>();</code></pre>  <p>
+    Generics provide type safety.
+  </p>
+</section><section id="threads">
+  <h2>17. Multithreading</h2>  <pre><code>class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread Running");
+    }
+}
+
+MyThread t1 = new MyThread();
+t1.start();</code></pre>  <p>
+    Multithreading improves performance by running tasks simultaneously.
+  </p>
+</section><section>
+  <h2>18. Synchronization</h2>  <p>
+    Synchronization prevents multiple threads from accessing shared resources simultaneously.
+  </p>
+</section><section id="jdbc">
+  <h2>19. JDBC (Java Database Connectivity)</h2>  <pre><code>Connection con = DriverManager.getConnection(
+"jdbc:mysql://localhost:3306/test",
+"root",
+"password");</code></pre>  <p>
+    JDBC is used to connect Java applications with databases.
+  </p>
+</section><section>
+  <h2>20. Java GUI Development</h2>  <div class="grid">
+    <div class="card">
+      <h3>Swing</h3>
+      <p>Traditional GUI framework.</p>
+    </div><div class="card">
+  <h3>JavaFX</h3>
+  <p>Modern Java UI framework.</p>
+</div>
+
+  </div>
+</section><section>
+  <h2>21. Java Frameworks</h2>  <div class="grid">
+    <div class="card">
+      <h3>Spring Boot</h3>
+      <p>Most popular backend framework.</p>
+    </div><div class="card">
+  <h3>Hibernate</h3>
+  <p>ORM framework for database operations.</p>
+</div>
+
+<div class="card">
+  <h3>Maven</h3>
+  <p>Project management and build tool.</p>
+</div>
+
+<div class="card">
+  <h3>JUnit</h3>
+  <p>Testing framework for Java applications.</p>
+</div>
+
+  </div>
+</section><section>
+  <h2>22. Java for Android Development</h2>  <p>
+    Java is widely used for Android app development.
+    Android Studio is the official IDE for Android apps.
+  </p>
+</section><section>
+  <h2>23. Java Memory Management</h2>  <p>
+    Java automatically manages memory using Garbage Collection.
+  </p>  <ul>
+    <li>Heap Memory</li>
+    <li>Stack Memory</li>
+    <li>Garbage Collector</li>
+    <li>JVM Memory Areas</li>
+  </ul>
+</section><section>
+  <h2>24. Java 8 Features</h2>  <ul>
+    <li>Lambda Expressions</li>
+    <li>Streams API</li>
+    <li>Functional Interfaces</li>
+    <li>Date & Time API</li>
+  </ul>
+</section><section>
+  <h2>25. Data Structures & Algorithms</h2>  <ul>
+    <li>Arrays</li>
+    <li>Linked List</li>
+    <li>Stack</li>
+    <li>Queue</li>
+    <li>Tree</li>
+    <li>Graph</li>
+    <li>Sorting Algorithms</li>
+    <li>Searching Algorithms</li>
+  </ul>
+</section><section>
+  <h2>26. Time Complexity</h2>  <ul>
+    <li>O(1)</li>
+    <li>O(log n)</li>
+    <li>O(n)</li>
+    <li>O(n log n)</li>
+    <li>O(n²)</li>
+  </ul>
+</section><section id="projects">
+  <h2>27. Java Beginner & Advanced Projects</h2>  <div class="grid">
+    <div class="card">
+      <h3>Calculator App</h3>
+    </div><div class="card">
+  <h3>Bank Management System</h3>
+</div>
+
+<div class="card">
+  <h3>Library Management</h3>
+</div>
+
+<div class="card">
+  <h3>Chat Application</h3>
+</div>
+
+<div class="card">
+  <h3>E-Commerce Backend</h3>
+</div>
+
+<div class="card">
+  <h3>Online Compiler</h3>
+</div>
+
+<div class="card">
+  <h3>ATM Simulator</h3>
+</div>
+
+<div class="card">
+  <h3>Student Portal</h3>
+</div>
+
+  </div>
+</section><section>
+  <h2>28. Java Interview Questions</h2>  <h3>What is JVM?</h3>
+  <p>Java Virtual Machine runs Java bytecode.</p>  <h3>Difference Between JDK, JRE, and JVM?</h3>
+  <p>JDK is development kit, JRE runs programs, JVM executes bytecode.</p>  <h3>What is Inheritance?</h3>
+  <p>Acquiring properties from another class.</p>  <h3>What is Polymorphism?</h3>
+  <p>One method behaves differently in different situations.</p>
+</section><section>
+  <h2>29. Career Opportunities</h2>  <div class="grid">
+    <div class="card">
+      <h3>Java Developer</h3>
+    </div><div class="card">
+  <h3>Backend Developer</h3>
+</div>
+
+<div class="card">
+  <h3>Android Developer</h3>
+</div>
+
+<div class="card">
+  <h3>Software Engineer</h3>
+</div>
+
+<div class="card">
+  <h3>Cloud Engineer</h3>
+</div>
+
+<div class="card">
+  <h3>Enterprise Developer</h3>
+</div>
+
+  </div>
+</section><section>
+  <h2>30. Best Practices</h2>  <ul>
+    <li>Write clean and readable code</li>
+    <li>Use proper naming conventions</li>
+    <li>Follow OOP principles</li>
+    <li>Handle exceptions properly</li>
+    <li>Write reusable methods</li>
+    <li>Practice coding regularly</li>
+    <li>Build real-world projects</li>
+  </ul>
+</section><section>
+  <h2>31. Conclusion</h2>  <p>
+    Java is one of the most powerful and widely used programming languages.
+    It is perfect for backend systems, Android apps, enterprise applications,
+    and cloud computing.
+  </p>  <p>
+    Keep practicing, build projects, learn frameworks, and improve your problem-solving skills
+    to become a professional Java developer.
+  </p>
+</section></div><footer>
+  <p>Java Complete Master Tutorial | Designed for Learning</p>
+</footer></body>
+</html>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <div class="compiler-overlay" id="compilerOverlay">
+    <div class="coderhub-vscode">
+      <div class="vscode-header">
+        <div class="vscode-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="vscode-tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#f89820"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/><path d="M12 6c-3.309 0-6 2.691-6 6s2.691 6 6-2.691 6-6-2.691-6-6-6zm0 10c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z"/></svg>
+          Main.java
+        </div>
+        <div class="vscode-actions">
+          <button class="vscode-run" onclick="runJava()">
+            <i class="fas fa-play"></i> Run
+          </button>
+          <button class="vscode-download" onclick="downloadCode()">
+            <i class="fas fa-download"></i> Save
+          </button>
+          <button class="vscode-close" onclick="closeCompiler()">
+            <i class="fas fa-times"></i> Close
+          </button>
+        </div>
+      </div>
+      <div class="vscode-body">
+        <textarea id="codeEditor" spellcheck="false">public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello from CodeNix! ☕");
+    }
+}</textarea>
+        <div id="output">Note: Java code browser me directly compile nahi hota. Ye demo ke liye hai.
+Click Run to see simulated output...</div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
+
+  <script src=" Java script.js"></script>
+</body>
+</html>
