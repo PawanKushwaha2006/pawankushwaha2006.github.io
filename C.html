@@ -1088,8 +1088,6 @@ Click Run to see simulated output...</div>
 </body>
 </html-->
 
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -1182,9 +1180,10 @@ function saveFile() {
 }
 
 function getExt(lang) {
-    return { python3: '.py', c: '.c', cpp: '.cpp', java: '.java' }[lang];
+    return { python3: '.py', c: '.c', cpp: '.cpp', java: '.java' };
 }
 
+// FIX: Ye line galat thi - [lang] add kiya
 function getDefaultCode(lang, filename) {
     const className = filename.replace('.java', '');
     const codes = {
@@ -1193,7 +1192,7 @@ function getDefaultCode(lang, filename) {
         cpp: '#include <iostream>\nusing namespace std;\n\nint main() {\n cout << "Hello World" << endl;\n return 0;\n}',
         java: `public class ${className} {\n public static void main(String[] args) {\n System.out.println("Hello World");\n }\n}`
     };
-    return codes[lang];
+    return codes; // <-- BUG YAHAN THA
 }
 
 function renderTabs() {
@@ -1258,7 +1257,8 @@ function addFile() {
     let name = `file${i}${ext}`;
     while (files[name]) name = `file${++i}${ext}`;
 
-    const code = getDefaultCode(currentLang, name);
+    // FIX: [lang] add kiya yahan
+    const code = getDefaultCode(currentLang, name)[currentLang];
     files[name] = code;
     openFile(name);
 }
@@ -1291,7 +1291,6 @@ function renameFile(oldName, span) {
                 renderTabs();
                 return;
             }
-            // Update class name in code
             files[oldName] = files[oldName].replace(/public class \w+/, `public class ${className}`);
         }
 
@@ -1346,6 +1345,7 @@ runBtn.onclick = async () => {
     output.className = '';
 
     try {
+        // Direct API - Vercel pe CORS nahi lagega
         const res = await fetch('https://emkc.org/api/v2/piston/execute', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1356,11 +1356,27 @@ runBtn.onclick = async () => {
                 stdin: stdin.value
             })
         });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
         const data = await res.json();
-        const result = data.compile?.stderr || data.run?.stderr || data.run?.stdout || 'No output';
+        console.log('API Response:', data);
+
+        let result = '';
+        if (data.compile && data.compile.stderr) {
+            result = data.compile.stderr;
+            output.className = 'error';
+        } else if (data.run) {
+            result = data.run.stderr || data.run.stdout || 'No output';
+            if (data.run.stderr) output.className = 'error';
+        } else {
+            result = data.message || 'No output';
+        }
+
         output.textContent = result;
-        if (data.compile?.stderr || data.run?.stderr) output.className = 'error';
+
     } catch (e) {
+        console.error(e);
         output.textContent = 'Error: ' + e.message;
         output.className = 'error';
     }
@@ -1376,5 +1392,4 @@ renderTabs();
 
 </body>
 </html>
-
 
