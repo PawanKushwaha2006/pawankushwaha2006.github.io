@@ -1088,6 +1088,18 @@ Click Run to see simulated output...</div>
 </body>
 </html-->
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -1097,14 +1109,11 @@ Click Run to see simulated output...</div>
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #1e1e1e; color: #d4d4d4; font-family: Arial; height: 100vh; display: flex; flex-direction: column; }
-
 .topbar { background: #2d2d2d; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
 .btn { padding: 8px 16px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer; }
 .btn:disabled { background: #555; opacity: 0.6; }
 select { padding: 8px; background: #3b82f6; color: white; border: none; border-radius: 4px; }
-
 .main { display: flex; flex: 1; min-height: 0; }
-
 .file-tabs { background: #252526; padding: 5px 10px; display: flex; gap: 5px; overflow-x: auto; height: 40px; align-items: center; }
 .file-tab { background: #2d2d2d; padding: 5px 10px; border-radius: 4px 4px 0 0; cursor: pointer; display: flex; gap: 8px; align-items: center; white-space: nowrap; user-select: none; }
 .file-tab.active { background: #1e1e1e; color: #fff; }
@@ -1113,13 +1122,10 @@ select { padding: 8px; background: #3b82f6; color: white; border: none; border-r
 .close-btn:hover { color: #f48771; }
 .add-btn { background: none; border: none; color: #999; font-size: 20px; cursor: pointer; padding: 0 5px; }
 .add-btn:hover { color: #007acc; }
-
   #editor { flex: 1; background: #1e1e1e; color: #d4d4d4; border: none; outline: none; padding: 15px; font-family: 'Fira Code', monospace; font-size: 14px; resize: none; }
-
   #stdin, #output { background: #1e1e1e; color: #d4d4d4; border: none; outline: none; padding: 15px; font-family: 'Fira Code', monospace; font-size: 14px; resize: none; height: 100%; width: 100%; }
   #output.error { color: #f48771; }
 .header { background: #252526; padding: 8px 15px; font-size: 12px; color: #999; text-transform: uppercase; }
-
 .gutter { background: #3e3e3e; }
 .gutter:hover { background: #007acc; }
 .gutter.gutter-horizontal { cursor: col-resize; }
@@ -1179,11 +1185,11 @@ function saveFile() {
     }
 }
 
+// FIX 1: Yahan [lang] add kiya
 function getExt(lang) {
     return { python3: '.py', c: '.c', cpp: '.cpp', java: '.java' };
 }
 
-// FIX: Ye line galat thi - [lang] add kiya
 function getDefaultCode(lang, filename) {
     const className = filename.replace('.java', '');
     const codes = {
@@ -1192,7 +1198,7 @@ function getDefaultCode(lang, filename) {
         cpp: '#include <iostream>\nusing namespace std;\n\nint main() {\n cout << "Hello World" << endl;\n return 0;\n}',
         java: `public class ${className} {\n public static void main(String[] args) {\n System.out.println("Hello World");\n }\n}`
     };
-    return codes; // <-- BUG YAHAN THA
+    return codes;
 }
 
 function renderTabs() {
@@ -1211,7 +1217,6 @@ fileTabs.onclick = (e) => {
         if (e.target.classList.contains('add-btn')) addFile();
         return;
     }
-
     const name = tab.dataset.name;
     if (e.target.classList.contains('close-btn')) {
         e.stopPropagation();
@@ -1252,12 +1257,12 @@ function addFile() {
         return;
     }
     saveFile();
-    const ext = getExt(currentLang);
+    // FIX 2: Yahan bhi add kiya
+    const ext = getExt(currentLang)[currentLang];
     let i = 1;
     let name = `file${i}${ext}`;
     while (files[name]) name = `file${++i}${ext}`;
 
-    // FIX: [lang] add kiya yahan
     const code = getDefaultCode(currentLang, name)[currentLang];
     files[name] = code;
     openFile(name);
@@ -1276,7 +1281,8 @@ function renameFile(oldName, span) {
             return;
         }
         const newName = input.value.trim();
-        const ext = getExt(currentLang);
+        // FIX 3: Yahan bhi
+        const ext = getExt(currentLang)[currentLang];
 
         if (!newName.endsWith(ext)) {
             alert(`File must end with ${ext}`);
@@ -1314,8 +1320,9 @@ lang.onchange = () => {
     const oldLang = currentLang;
     currentLang = lang.value;
 
-    const oldExt = getExt(oldLang);
-    const newExt = getExt(currentLang);
+    // FIX 4: Yahan bhi
+    const oldExt = getExt(oldLang)[oldLang];
+    const newExt = getExt(currentLang)[currentLang];
 
     if (oldExt!== newExt) {
         if (!confirm('Language change karne se file extensions change hongi. Continue?')) {
@@ -1345,7 +1352,6 @@ runBtn.onclick = async () => {
     output.className = '';
 
     try {
-        // Direct API - Vercel pe CORS nahi lagega
         const res = await fetch('https://emkc.org/api/v2/piston/execute', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1385,11 +1391,12 @@ runBtn.onclick = async () => {
     runBtn.textContent = 'RUN ▶';
 };
 
-// Init
 editor.value = files[currentFile];
 renderTabs();
 </script>
 
 </body>
 </html>
+
+
 
