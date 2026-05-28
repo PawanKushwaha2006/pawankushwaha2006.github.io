@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -476,7 +476,7 @@
   <div class="content">
 
     <!-- INTRODUCTION -->
-    <section id="intro">
+    <!--section id="intro">
       <div class="section-header">
         <span class="section-num">01</span>
         <h2>Introduction to C</h2>
@@ -509,7 +509,7 @@
     </section>
 
     <!-- PROGRAM STRUCTURE -->
-    <section id="structure">
+    <!--section id="structure">
       <div class="section-header">
         <span class="section-num">02</span>
         <h2>Program Structure</h2>
@@ -538,7 +538,7 @@
     </section>
 
     <!-- DATA TYPES -->
-    <section id="datatypes">
+    <!--section id="datatypes">
       <div class="section-header">
         <span class="section-num">03</span>
         <h2>Data Types</h2>
@@ -574,7 +574,7 @@
     </section>
 
     <!-- VARIABLES -->
-    <section id="variables">
+    <!--section id="variables">
       <div class="section-header">
         <span class="section-num">04</span>
         <h2>Variables & Constants</h2>
@@ -606,7 +606,7 @@
     </section>
 
     <!-- OPERATORS -->
-    <section id="operators">
+    <!--section id="operators">
       <div class="section-header">
         <span class="section-num">05</span>
         <h2>Operators</h2>
@@ -640,7 +640,7 @@ a &gt; <span class="num">5</span> || b &gt; <span class="num">10</span>   <span 
     </section>
 
     <!-- CONTROL FLOW -->
-    <section id="control">
+    <!--section id="control">
       <div class="section-header">
         <span class="section-num">06</span>
         <h2>Control Flow</h2>
@@ -672,7 +672,7 @@ a &gt; <span class="num">5</span> || b &gt; <span class="num">10</span>   <span 
     </section>
 
     <!-- LOOPS -->
-    <section id="loops">
+    <!--section id="loops">
       <div class="section-header">
         <span class="section-num">07</span>
         <h2>Loops</h2>
@@ -712,7 +712,7 @@ a &gt; <span class="num">5</span> || b &gt; <span class="num">10</span>   <span 
     </section>
 
     <!-- FUNCTIONS -->
-    <section id="functions">
+    <!--section id="functions">
       <div class="section-header">
         <span class="section-num">08</span>
         <h2>Functions</h2>
@@ -751,7 +751,7 @@ a &gt; <span class="num">5</span> || b &gt; <span class="num">10</span>   <span 
     </section>
 
     <!-- ARRAYS -->
-    <section id="arrays">
+    <!--section id="arrays">
       <div class="section-header">
         <span class="section-num">09</span>
         <h2>Arrays</h2>
@@ -779,7 +779,7 @@ a &gt; <span class="num">5</span> || b &gt; <span class="num">10</span>   <span 
     </section>
 
     <!-- POINTERS -->
-    <section id="pointers">
+    <!--section id="pointers">
       <div class="section-header">
         <span class="section-num">10</span>
         <h2>Pointers</h2>
@@ -812,7 +812,7 @@ ptr = &amp;x;         <span class="cm">// store address of x</span>
     </section>
 
     <!-- STRINGS -->
-    <section id="strings">
+    <!--section id="strings">
       <div class="section-header">
         <span class="section-num">11</span>
         <h2>Strings</h2>
@@ -836,7 +836,7 @@ ptr = &amp;x;         <span class="cm">// store address of x</span>
     </section>
 
     <!-- DYNAMIC MEMORY -->
-    <section id="memory">
+    <!--section id="memory">
       <div class="section-header">
         <span class="section-num">12</span>
         <h2>Dynamic Memory</h2>
@@ -868,7 +868,7 @@ arr = (<span class="tp">int</span>*) <span class="fn">realloc</span>(arr, <span 
     </section>
 
     <!-- STRUCTS -->
-    <section id="structs">
+    <!--section id="structs">
       <div class="section-header">
         <span class="section-num">13</span>
         <h2>Structs & Unions</h2>
@@ -901,7 +901,7 @@ Point p = {<span class="num">3.0f</span>, <span class="num">4.0f</span>};
     </section>
 
     <!-- FILE I/O -->
-    <section id="fileio">
+    <!--section id="fileio">
       <div class="section-header">
         <span class="section-num">14</span>
         <h2>File I/O</h2>
@@ -937,7 +937,7 @@ fp = <span class="fn">fopen</span>(<span class="str">"data.txt"</span>, <span cl
     </section>
 
     <!-- PREPROCESSOR -->
-    <section id="preprocessor">
+    <!--section id="preprocessor">
       <div class="section-header">
         <span class="section-num">15</span>
         <h2>Preprocessor Directives</h2>
@@ -966,7 +966,7 @@ fp = <span class="fn">fopen</span>(<span class="str">"data.txt"</span>, <span cl
     </section>
 
     <!-- STDLIB -->
-    <section id="stdlib">
+    <!--section id="stdlib">
       <div class="section-header">
         <span class="section-num">16</span>
         <h2>Standard Library</h2>
@@ -1086,4 +1086,292 @@ Click Run to see simulated output...</div>
 
   <script src="C script.js"></script>
 </body>
+</html-->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>C Compiler</title>
+<script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1e1e1e; color: #d4d4d4; font-family: Arial; height: 100vh; display: flex; flex-direction: column; }
+
+.topbar { background: #2d2d2d; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+.btn { padding: 8px 16px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer; }
+.btn:disabled { background: #555; opacity: 0.6; }
+select { padding: 8px; background: #3b82f6; color: white; border: none; border-radius: 4px; }
+
+.main { display: flex; flex: 1; min-height: 0; }
+
+.file-tabs { background: #252526; padding: 5px 10px; display: flex; gap: 5px; overflow-x: auto; height: 40px; align-items: center; }
+.file-tab { background: #2d2d2d; padding: 5px 10px; border-radius: 4px 4px 0 0; cursor: pointer; display: flex; gap: 8px; align-items: center; white-space: nowrap; user-select: none; }
+.file-tab.active { background: #1e1e1e; color: #fff; }
+.file-tab input { background: #3c3c3c; color: #fff; border: 1px solid #007acc; padding: 2px 4px; width: 120px; font-size: 13px; outline: none; }
+.close-btn { color: #999; cursor: pointer; font-weight: bold; }
+.close-btn:hover { color: #f48771; }
+.add-btn { background: none; border: none; color: #999; font-size: 20px; cursor: pointer; padding: 0 5px; }
+.add-btn:hover { color: #007acc; }
+
+  #editor { flex: 1; background: #1e1e1e; color: #d4d4d4; border: none; outline: none; padding: 15px; font-family: 'Fira Code', monospace; font-size: 14px; resize: none; }
+
+  #stdin, #output { background: #1e1e1e; color: #d4d4d4; border: none; outline: none; padding: 15px; font-family: 'Fira Code', monospace; font-size: 14px; resize: none; height: 100%; width: 100%; }
+  #output.error { color: #f48771; }
+.header { background: #252526; padding: 8px 15px; font-size: 12px; color: #999; text-transform: uppercase; }
+
+.gutter { background: #3e3e3e; }
+.gutter:hover { background: #007acc; }
+.gutter.gutter-horizontal { cursor: col-resize; }
+.gutter.gutter-vertical { cursor: row-resize; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>C Compiler</div>
+  <div>
+    <select id="lang">
+      <option value="c" selected>C</option>
+      <option value="cpp">C++</option>
+      <option value="python3">PYTHON</option>
+      <option value="java">JAVA</option>
+    </select>
+    <button class="btn" id="run-btn">RUN ▶</button>
+  </div>
+</div>
+
+<div class="file-tabs" id="file-tabs"></div>
+
+<div class="main" id="split-main">
+  <textarea id="editor" spellcheck="false"></textarea>
+  <div id="split-right">
+    <div id="stdin-box" style="display: flex; flex-direction: column; height: 100%;">
+      <div class="header">STDIN</div>
+      <textarea id="stdin" placeholder="Input here..."></textarea>
+    </div>
+    <div id="output-box" style="display: flex; flex-direction: column; height: 100%;">
+      <div class="header">Output</div>
+      <div id="output">Click RUN to see output</div>
+    </div>
+  </div>
+</div>
+
+<script>
+Split(['#editor', '#split-right'], { sizes: [55, 45], minSize: 300, gutterSize: 4 });
+Split(['#stdin-box', '#output-box'], { direction: 'vertical', sizes: [45, 55], minSize: 100, gutterSize: 4 });
+
+// C Default
+let files = { 'main.c': '#include <stdio.h>\n\nint main() {\n printf("Hello World\\n");\n return 0;\n}' };
+let currentFile = 'main.c';
+let currentLang = 'c';
+const MAX_FILES = 101;
+
+const editor = document.getElementById('editor');
+const fileTabs = document.getElementById('file-tabs');
+const runBtn = document.getElementById('run-btn');
+const lang = document.getElementById('lang');
+const stdin = document.getElementById('stdin');
+const output = document.getElementById('output');
+
+function saveFile() {
+    files[currentFile] = editor.value;
+}
+
+function getExt(lang) {
+    return { python3: '.py', c: '.c', cpp: '.cpp', java: '.java' }[lang];
+}
+
+function getDefaultCode(lang, filename) {
+    const className = filename.replace('.java', '');
+    return {
+        python3: 'print("Hello World")',
+        c: '#include <stdio.h>\n\nint main() {\n printf("Hello World\\n");\n return 0;\n}',
+        cpp: '#include <iostream>\nusing namespace std;\n\nint main() {\n cout << "Hello World" << endl;\n return 0;\n}',
+        java: `public class ${className} {\n public static void main(String[] args) {\n System.out.println("Hello World");\n }\n}`
+    }[lang];
+}
+
+function renderTabs() {
+    const keys = Object.keys(files);
+    fileTabs.innerHTML = keys.map(name => `
+        <div class="file-tab ${name === currentFile? 'active' : ''}" data-name="${name}">
+            <span class="tab-name">${name}</span>
+            ${keys.length > 1? '<span class="close-btn">&times;</span>' : ''}
+        </div>
+    `).join('') + (keys.length < MAX_FILES? '<button class="add-btn" title="New File">+</button>' : '');
+}
+
+fileTabs.onclick = (e) => {
+    const tab = e.target.closest('.file-tab');
+    if (!tab) {
+        if (e.target.classList.contains('add-btn')) addFile();
+        return;
+    }
+
+    const name = tab.dataset.name;
+    if (e.target.classList.contains('close-btn')) {
+        e.stopPropagation();
+        deleteFile(name);
+    } else {
+        if (e.detail === 1) openFile(name);
+    }
+};
+
+fileTabs.ondblclick = (e) => {
+    if (e.target.classList.contains('tab-name')) {
+        const tab = e.target.closest('.file-tab');
+        renameFile(tab.dataset.name, e.target);
+    }
+};
+
+function openFile(name) {
+    saveFile();
+    currentFile = name;
+    editor.value = files[name];
+    renderTabs();
+}
+
+function deleteFile(name) {
+    if (Object.keys(files).length === 1) return;
+    saveFile();
+    delete files[name];
+    if (currentFile === name) {
+        currentFile = Object.keys(files)[0];
+        editor.value = files[currentFile];
+    }
+    renderTabs();
+}
+
+function addFile() {
+    if (Object.keys(files).length >= MAX_FILES) {
+        alert(`Max ${MAX_FILES} files allowed`);
+        return;
+    }
+    saveFile();
+    const ext = getExt(currentLang);
+    let i = 1;
+    let name = `file${i}${ext}`;
+    while (files[name]) name = `file${++i}${ext}`;
+
+    const code = getDefaultCode(currentLang, name);
+    files[name] = code;
+    openFile(name);
+}
+
+function renameFile(oldName, span) {
+    const input = document.createElement('input');
+    input.value = oldName;
+    span.replaceWith(input);
+    input.focus();
+    input.select();
+
+    const finish = (save) => {
+        if (!save) {
+            renderTabs();
+            return;
+        }
+        const newName = input.value.trim();
+        const ext = getExt(currentLang);
+
+        if (!newName.endsWith(ext)) {
+            alert(`File must end with ${ext}`);
+            renderTabs();
+            return;
+        }
+
+        if (currentLang === 'java') {
+            const className = newName.replace('.java', '');
+            if (!/^[A-Z][a-zA-Z0-9]*$/.test(className)) {
+                alert('Java file name must start with uppercase and be valid class name');
+                renderTabs();
+                return;
+            }
+        }
+
+        if (newName && newName!== oldName && files[newName] === undefined) {
+            files[newName] = files[oldName];
+            delete files[oldName];
+            if (currentFile === oldName) currentFile = newName;
+        }
+        renderTabs();
+    };
+
+    input.onblur = () => finish(true);
+    input.onkeydown = e => {
+        if (e.key === 'Enter') finish(true);
+        if (e.key === 'Escape') finish(false);
+    };
+}
+
+lang.onchange = () => {
+    saveFile();
+    const oldLang = currentLang;
+    currentLang = lang.value;
+
+    const oldExt = getExt(oldLang);
+    const newExt = getExt(currentLang);
+
+    if (oldExt!== newExt) {
+        if (!confirm('Language change karne se file extensions change hongi. Continue?')) {
+            lang.value = oldLang;
+            currentLang = oldLang;
+            return;
+        }
+        const newFiles = {};
+        for (let name in files) {
+            const baseName = name.replace(oldExt, '');
+            newFiles[baseName + newExt] = files[name];
+        }
+        files = newFiles;
+        currentFile = currentFile.replace(oldExt, newExt);
+        editor.value = files[currentFile];
+        renderTabs();
+    }
+};
+
+editor.oninput = saveFile;
+
+runBtn.onclick = async () => {
+    saveFile();
+    runBtn.disabled = true;
+    runBtn.textContent = 'RUNNING...';
+    output.textContent = 'Running...';
+    output.className = '';
+
+    try {
+        const res = await fetch('https://emkc.org/api/v2/piston/execute', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                language: currentLang,
+                version: '*',
+                files: Object.entries(files).map(([name, content]) => ({ name, content })),
+                stdin: stdin.value
+            })
+        });
+        const data = await res.json();
+        const result = data.compile?.stderr || data.run?.stderr || data.run?.stdout || 'No output';
+        output.textContent = result;
+        if (data.compile?.stderr || data.run?.stderr) output.className = 'error';
+    } catch (e) {
+        output.textContent = 'Error: ' + e.message;
+        output.className = 'error';
+    }
+
+    runBtn.disabled = false;
+    runBtn.textContent = 'RUN ▶';
+};
+
+// Init
+editor.value = files[currentFile];
+renderTabs();
+</script>
+
+</body>
 </html>
+
+
+
