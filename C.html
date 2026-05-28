@@ -1163,7 +1163,6 @@ select { padding: 8px; background: #3b82f6; color: white; border: none; border-r
 Split(['#editor', '#split-right'], { sizes: [55, 45], minSize: 300, gutterSize: 4 });
 Split(['#stdin-box', '#output-box'], { direction: 'vertical', sizes: [45, 55], minSize: 100, gutterSize: 4 });
 
-// C Default
 let files = { 'main.c': '#include <stdio.h>\n\nint main() {\n printf("Hello World\\n");\n return 0;\n}' };
 let currentFile = 'main.c';
 let currentLang = 'c';
@@ -1177,7 +1176,9 @@ const stdin = document.getElementById('stdin');
 const output = document.getElementById('output');
 
 function saveFile() {
-    files[currentFile] = editor.value;
+    if (files[currentFile]!== undefined) {
+        files[currentFile] = editor.value;
+    }
 }
 
 function getExt(lang) {
@@ -1186,12 +1187,13 @@ function getExt(lang) {
 
 function getDefaultCode(lang, filename) {
     const className = filename.replace('.java', '');
-    return {
+    const codes = {
         python3: 'print("Hello World")',
         c: '#include <stdio.h>\n\nint main() {\n printf("Hello World\\n");\n return 0;\n}',
         cpp: '#include <iostream>\nusing namespace std;\n\nint main() {\n cout << "Hello World" << endl;\n return 0;\n}',
         java: `public class ${className} {\n public static void main(String[] args) {\n System.out.println("Hello World");\n }\n}`
-    }[lang];
+    };
+    return codes[lang];
 }
 
 function renderTabs() {
@@ -1230,7 +1232,7 @@ fileTabs.ondblclick = (e) => {
 function openFile(name) {
     saveFile();
     currentFile = name;
-    editor.value = files[name];
+    editor.value = files[name] || '';
     renderTabs();
 }
 
@@ -1289,6 +1291,8 @@ function renameFile(oldName, span) {
                 renderTabs();
                 return;
             }
+            // Update class name in code
+            files[oldName] = files[oldName].replace(/public class \w+/, `public class ${className}`);
         }
 
         if (newName && newName!== oldName && files[newName] === undefined) {
@@ -1327,7 +1331,7 @@ lang.onchange = () => {
         }
         files = newFiles;
         currentFile = currentFile.replace(oldExt, newExt);
-        editor.value = files[currentFile];
+        editor.value = files[currentFile] || '';
         renderTabs();
     }
 };
@@ -1372,6 +1376,5 @@ renderTabs();
 
 </body>
 </html>
-
 
 
