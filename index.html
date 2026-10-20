@@ -1,171 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Speaker Fixed</title>
-<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi Phone Speaker</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#000;color:#fff;display:flex;justify-content:center;padding:12px;min-height:100vh}
-.card{width:100%;max-width:430px;background:#141414;border-radius:20px;padding:16px;border:1px solid #222}
-.btn{width:100%;padding:13px;border:none;border-radius:11px;font-weight:800;margin-top:8px;cursor:pointer}
-.host{background:#fff;color:#000}.guest{background:#222;color:#fff;border:1px solid #333}
-.qr{background:#fff;border-radius:14px;min-height:220px;display:flex;justify-content:center;align-items:center;margin:10px 0;padding:10px}
-#qrcode img{margin:auto}
-.stat{font-size:11px;background:#0e0e0e;padding:8px;border-radius:8px;margin-top:8px;color:#888}
-.file{display:none;border:2px dashed #2a2a2a;border-radius:12px;padding:12px;margin-top:10px}
-audio{width:100%;margin-top:8px}
+:root{--bg:#eef3f4;--ink:#12242b;--mut:#5b6e75;--card:#fff;--acc:#0b7f86;--acc-ink:#fff;--line:#d3dde0}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1a1e;--ink:#e6f0f2;--mut:#8ea5ac;--card:#162a30;--acc:#3cc4cb;--acc-ink:#062226;--line:#274149}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:20px;max-width:480px;margin-inline:auto}
+h1{font-size:26px;margin:8px 0 4px}
+p{color:var(--mut);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+button{font:inherit;font-weight:600;background:var(--acc);color:var(--acc-ink);border:0;border-radius:8px;padding:12px 16px;width:100%;margin-top:10px}
+button.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+input[type=file]{width:100%;margin-top:8px}
+#qr{display:flex;justify-content:center;padding:12px;background:#fff;border-radius:8px;margin-top:10px}
+#status{font-size:14px;color:var(--mut);margin-top:8px;word-break:break-all}
+.hide{display:none}
 </style>
 </head>
 <body>
-<div class="card">
-<h2 style="text-align:center">🔊 QR Speaker - Fixed</h2>
-<p style="font-size:11px;color:#666;text-align:center;margin:6px 0">Max 10 Phone</p>
+<h1>Multi Phone Speaker</h1>
+<p>Ek phone se audio, kai phones par.</p>
 
-<button class="btn host" id="hostBtn">📱 HOST BANO - QR BANAO</button>
-<button class="btn guest" id="scanBtn">📷 QR SCAN KARO</button>
-
-<div id="reader" style="display:none;margin-top:10px"></div>
-
-<div class="file" id="fileBox">
-<button class="btn host" id="sysBtn" style="background:#1DB954;color:#fff">▶️ System Audio Lo (Youtube/Spotify Web)</button>
-<label class="btn guest" style="display:flex;justify-content:center;align-items:center">📁 Downloaded MP3<input type="file" id="mp3" accept="audio/*" hidden></label>
-<audio id="mainAudio" controls></audio>
-<p style="font-size:9px;color:#555;margin-top:5px">Spotify App ka sound lena hai to isi browser me open.spotify.com kholo</p>
+<!-- HOST -->
+<div id="host" class="hide">
+  <div class="card">
+    <b>1. Dusre phones ko jodo</b>
+    <div id="qr"></div>
+    <div id="status">Connecting…</div>
+    <div id="count">Connected phones: 0</div>
+  </div>
+  <div class="card">
+    <b>2. Audio chuno</b>
+    <input type="file" id="file" accept="audio/*">
+    <button id="tab" class="alt">Tab / screen audio share karo (desktop Chrome)</button>
+    <audio id="player" controls style="width:100%;margin-top:10px"></audio>
+  </div>
 </div>
 
-<div class="qr" id="qr"><div id="qrcode"></div></div>
-<div class="stat" id="status">Status: Ready - HOST dabao</div>
-<div id="list" style="font-size:12px;color:#0f0;margin-top:6px"></div>
-<audio id="guestAudio" autoplay controls style="display:none;width:100%"></audio>
+<!-- GUEST -->
+<div id="guest" class="hide">
+  <div class="card">
+    <b>Host se jud rahe hain…</b>
+    <div id="gstatus">Connecting…</div>
+    <button id="join">Sound chalu karo</button>
+    <audio id="out" autoplay playsinline></audio>
+  </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-let peer, localStream;
-let connected = {};
-const MAX = 10;
-const status = t => document.getElementById('status').innerText = t;
-const mainAudio = document.getElementById('mainAudio');
-const guestAudio = document.getElementById('guestAudio');
-const qrcodeDiv = document.getElementById('qrcode');
-const list = document.getElementById('list');
+const $ = id => document.getElementById(id);
+const room = new URLSearchParams(location.search).get('join');
 
-function updateList(){
-  const c = Object.keys(connected).length;
-  list.innerHTML = `Connected ${c}/${MAX} ${c>=MAX?'(FULL)':''}<br>`+Object.keys(connected).map(k=>`✅ ${k.slice(0,6)}`).join('<br>');
-}
+if (!room) startHost(); else startGuest(room);
 
-// HOST
-document.getElementById('hostBtn').onclick = () => {
-  status("Peer ID bana raha hu... thoda wait karo (Internet chahiye)");
-  qrcodeDiv.innerHTML = "Generating...";
+function startHost() {
+  $('host').classList.remove('hide');
+  const peer = new Peer();
+  const guests = new Set();
+  let stream = null;
 
-  peer = new Peer({ config: {'iceServers': [{urls:'stun:stun.l.google.com:19302'}] }});
+  const lowLatency = sdp => sdp.replace('useinbandfec=1',
+    'useinbandfec=1;minptime=10;maxptime=20;stereo=1;sprop-stereo=1;maxaveragebitrate=128000');
+  const callGuest = id => { if (stream) peer.call(id, stream, { sdpTransform: lowLatency }); };
+  const refresh = () => $('count').textContent = 'Connected phones: ' + guests.size;
 
   peer.on('open', id => {
-    status("Host Ready: " + id);
-    qrcodeDiv.innerHTML = "";
-    const link = location.href.split('?')[0] + "?join=" + id;
-
-    // FIXED QR GENERATION
-    new QRCode(qrcodeDiv, {
-      text: link,
-      width: 200,
-      height: 200,
-      colorDark: "#000",
-      colorLight: "#fff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
-
-    // Link bhi dikhao backup ke liye
-    const p = document.createElement('p');
-    p.style.cssText = "color:#000;font-size:9px;word-break:break-all;margin-top:6px;text-align:center";
-    p.innerText = link;
-    qrcodeDiv.appendChild(p);
-
-    document.getElementById('fileBox').style.display='block';
+    const url = location.href.split('?')[0] + '?join=' + id;
+    new QRCode($('qr'), { text: url, width: 200, height: 200 });
+    $('status').textContent = 'Dusre phone se QR scan karo, ya link kholo: ' + url;
   });
-
-  peer.on('error', err => {
-    status("Error: " + err.type + " - Net check karo");
-    console.log(err);
-  });
+  peer.on('error', e => $('status').textContent = 'Error: ' + e.type);
 
   peer.on('connection', conn => {
-    if(Object.keys(connected).length >= MAX){
-      conn.on('open', ()=>{ conn.send({type:'full'}); conn.close(); });
-      return;
-    }
-    connected[conn.peer] = conn;
-    updateList();
-    conn.on('close', ()=>{ delete connected[conn.peer]; updateList(); });
-    if(localStream) setTimeout(()=> peer.call(conn.peer, localStream), 500);
+    conn.on('open', () => { guests.add(conn.peer); refresh(); callGuest(conn.peer); });
+    conn.on('close', () => { guests.delete(conn.peer); refresh(); });
   });
-};
 
-async function broadcast(){
-  for(let id in connected){ try{ peer.call(id, localStream); }catch(e){} }
+  const setStream = s => { stream = s; guests.forEach(callGuest); };
+
+  $('file').onchange = e => {
+    const f = e.target.files[0]; if (!f) return;
+    const p = $('player');
+    p.src = URL.createObjectURL(f);
+    p.onplay = () => {
+      const cap = p.captureStream || p.mozCaptureStream;
+      if (cap && !stream) setStream(cap.call(p));
+    };
+    p.play().catch(() => {});
+  };
+
+  $('tab').onclick = async () => {
+    try {
+      const d = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+      const tracks = d.getAudioTracks();
+      if (!tracks.length) return alert('Audio share nahi hua. "Share tab audio" tick karo.');
+      setStream(new MediaStream(tracks));
+    } catch (err) { alert('Share nahi ho paya: ' + err.message); }
+  };
 }
 
-document.getElementById('sysBtn').onclick = async () => {
-  try{
-    localStream = await navigator.mediaDevices.getDisplayMedia({video:true, audio:true});
-    status("System audio le liya! Ab sab me bajega");
-    broadcast();
-  }catch(e){ alert("Share Audio ON karna hai"); }
-};
-
-document.getElementById('mp3').onchange = e => {
-  const f = e.target.files[0]; if(!f) return;
-  mainAudio.src = URL.createObjectURL(f);
-  mainAudio.play();
-  const ctx = new (window.AudioContext||window.webkitAudioContext)();
-  const src = ctx.createMediaElementSource(mainAudio);
-  const dest = ctx.createMediaStreamDestination();
-  src.connect(dest); src.connect(ctx.destination);
-  localStream = dest.stream;
-  broadcast();
-  status("Playing: " + f.name);
-};
-
-// SCAN & JOIN
-document.getElementById('scanBtn').onclick = () => {
-  const r = document.getElementById('reader');
-  r.style.display='block';
-  const qr = new Html5Qrcode("reader");
-  qr.start({facingMode:"environment"}, {fps:10, qrbox:250},
-    d => {
-      qr.stop(); r.style.display='none';
-      const jid = d.includes('join=')? d.split('join=')[1] : d;
-      join(jid.trim());
-    }
-  );
-};
-
-function join(hostId){
-  status("Joining " + hostId.slice(0,6));
-  peer = new Peer();
-  peer.on('open', ()=>{
+function startGuest(hostId) {
+  $('guest').classList.remove('hide');
+  const peer = new Peer();
+  peer.on('open', () => {
     const conn = peer.connect(hostId);
-    conn.on('data', d=>{ if(d.type==='full') alert("10 limit full"); });
+    conn.on('open', () => $('gstatus').textContent = 'Jud gaye. Host audio start karega to sound aayega.');
+    conn.on('close', () => $('gstatus').textContent = 'Host se connection toot gaya.');
   });
-  peer.on('call', call=>{
+  peer.on('call', call => {
     call.answer();
-    call.on('stream', s=>{
-      guestAudio.srcObject = s;
-      guestAudio.style.display='block';
-      guestAudio.play();
-      document.getElementById('qr').innerHTML = "<h3 style='color:#000'>🔊 Speaker ON</h3>";
-      status("Host se baj raha hai");
+    call.on('stream', s => {
+      call.peerConnection.getReceivers().forEach(r => {
+        try { r.jitterBufferTarget = 0; } catch (e) {}
+        try { r.playoutDelayHint = 0; } catch (e) {}
+      });
+      $('out').srcObject = s;
+      $('out').play().catch(() => {});
+      $('gstatus').textContent = 'Sound chal raha hai.';
     });
   });
+  peer.on('error', e => $('gstatus').textContent = 'Error: ' + e.type);
+  // Browser ko autoplay ke liye ek tap chahiye
+  $('join').onclick = () => { $('out').play().catch(() => {}); $('join').classList.add('hide'); };
 }
-
-const jid = new URLSearchParams(location.search).get('join');
-if(jid) join(jid);
 </script>
 </body>
-  </html>
+</html>
