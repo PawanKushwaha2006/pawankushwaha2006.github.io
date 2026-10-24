@@ -1,133 +1,190 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Multi Phone Speaker</title>
+<title>MyMusic - Volume Update</title>
 <style>
-:root{--bg:#eef3f4;--ink:#12242b;--mut:#5b6e75;--card:#fff;--acc:#0b7f86;--acc-ink:#fff;--line:#d3dde0}
-@media(prefers-color-scheme:dark){:root{--bg:#0e1a1e;--ink:#e6f0f2;--mut:#8ea5ac;--card:#162a30;--acc:#3cc4cb;--acc-ink:#062226;--line:#274149}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:20px;max-width:480px;margin-inline:auto}
-h1{font-size:26px;margin:8px 0 4px}
-p{color:var(--mut);margin:0 0 16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
-button{font:inherit;font-weight:600;background:var(--acc);color:var(--acc-ink);border:0;border-radius:8px;padding:12px 16px;width:100%;margin-top:10px}
-button.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
-input[type=file]{width:100%;margin-top:8px}
-#qr{display:flex;justify-content:center;padding:12px;background:#fff;border-radius:8px;margin-top:10px}
-#status{font-size:14px;color:var(--mut);margin-top:8px;word-break:break-all}
-.hide{display:none}
+*{box-sizing:border-box} body{margin:0; background:#000; color:#fff; font-family:system-ui; padding-bottom:110px;}
+header{background:linear-gradient(90deg,#fa2d48,#a855f7); padding:14px 16px; display:flex; justify-content:space-between; align-items:center;}
+header b{font-size:20px}
+header button{background:#fff; color:#000; border:none; padding:6px 12px; border-radius:20px; font-weight:800; cursor:pointer}
+#auth{max-width:360px; margin:40px auto; background:#111; padding:20px; border-radius:16px; text-align:center;}
+#auth input{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:1px solid #333; background:#222; color:#fff;}
+#auth button{width:100%; padding:12px; border:none; border-radius:10px; background:#fa2d48; color:#fff; font-weight:900; margin-top:8px; cursor:pointer;}
+#app{display:none; padding:12px;}
+.uploadBox{background:#111; border:2px dashed #444; border-radius:16px; padding:20px; text-align:center; margin-bottom:12px;}
+.uploadBox label{background:#fa2d48; padding:10px 18px; border-radius:20px; font-weight:800; cursor:pointer; display:inline-block;}
+.song{background:#111; border-radius:12px; padding:10px; display:flex; gap:12px; align-items:center; margin-bottom:10px;}
+.song img{width:56px; height:56px; border-radius:10px; background:linear-gradient(45deg,#fa2d48,#a855f7); object-fit:cover;}
+.song .t{flex:1; min-width:0}
+.song .t b{display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.song .t span{font-size:12px; opacity:.6}
+.playBtn{width:44px; height:44px; border-radius:50%; border:none; background:#fff; font-size:18px; cursor:pointer;}
+#player{position:fixed; bottom:0; left:0; right:0; background:#111; border-top:1px solid #333; padding:10px 14px; display:none; z-index:10;}
+#playerTop{display:flex; align-items:center; gap:10px;}
+#player img{width:48px; height:48px; border-radius:8px;}
+#progress{flex:1; height:6px; background:#333; border-radius:10px; overflow:hidden; cursor:pointer;}
+#progress div{height:100%; background:#fa2d48; width:0%}
+#volControls{display:flex; gap:10px; justify-content:center; margin-top:10px;}
+#volControls button{flex:1; padding:12px; border:none; border-radius:12px; font-weight:800; cursor:pointer; background:#222; color:#fff; border:1px solid #333; touch-action:none; user-select:none;}
+#volControls button:active{background:#fa2d48;}
+#volInfo{text-align:center; font-size:12px; opacity:.6; margin-top:6px;}
 </style>
 </head>
 <body>
-<h1>Multi Phone Speaker</h1>
-<p>Ek phone se audio, kai phones par.</p>
+<header><b>🎵 MyMusic</b> <span id="userName"></span><button id="logoutBtn" onclick="logout()" style="display:none">Logout</button></header>
 
-<!-- HOST -->
-<div id="host" class="hide">
-  <div class="card">
-    <b>1. Dusre phones ko jodo</b>
-    <div id="qr"></div>
-    <div id="status">Connecting…</div>
-    <div id="count">Connected phones: 0</div>
-  </div>
-  <div class="card">
-    <b>2. Audio chuno</b>
-    <input type="file" id="file" accept="audio/*">
-    <button id="tab" class="alt">Tab / screen audio share karo (desktop Chrome)</button>
-    <audio id="player" controls style="width:100%;margin-top:10px"></audio>
-  </div>
+<div id="auth">
+<h2>Account Banao / Login</h2>
+<input id="nameInp" placeholder="Apna Naam">
+<input id="emailInp" placeholder="Email / Username">
+<input id="passInp" type="password" placeholder="Password">
+<button onclick="signup()">SIGN UP - Account Banao</button>
+<button onclick="login()" style="background:#fff; color:#000;">LOGIN</button>
 </div>
 
-<!-- GUEST -->
-<div id="guest" class="hide">
-  <div class="card">
-    <b>Host se jud rahe hain…</b>
-    <div id="gstatus">Connecting…</div>
-    <button id="join">Sound chalu karo</button>
-    <audio id="out" autoplay playsinline></audio>
-  </div>
+<div id="app">
+<div class="uploadBox">
+<h3>Apna Gaana Upload Karo</h3>
+<label for="fileInp">+ Gaana Upload Karo</label>
+<input type="file" id="fileInp" accept="audio/*" onchange="uploadSong(event)" style="display:none">
+</div>
+<h3>🎧 Tumhare Gaane</h3>
+<div id="songs"></div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<div id="player">
+<div id="playerTop">
+<img id="pImg" src="https://picsum.photos/100/100">
+<div style="flex:1; min-width:0;">
+<b id="pTitle" style="display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Song</b>
+<div id="progress" onclick="seek(event)"><div id="bar"></div></div>
+</div>
+<button class="playBtn" onclick="togglePlay()">▶</button>
+</div>
+<div id="volControls">
+<button id="volDown">🔉 VOL -<br><small>dabake rakho = prev song</small></button>
+<button id="volUp">🔊 VOL +<br><small>dabake rakho = next song</small></button>
+</div>
+<div id="volInfo">1 bar tap = Volume Up/Down • Dabake rakho = Gaana Change • Volume: <span id="volTxt">100%</span></div>
+</div>
+
+<audio id="audio" ontimeupdate="onTime()"></audio>
+
 <script>
-const $ = id => document.getElementById(id);
-const room = new URLSearchParams(location.search).get('join');
+const authEl=document.getElementById('auth');
+const appEl=document.getElementById('app');
+const songsEl=document.getElementById('songs');
+let currentUser=null, currentSongIndex=-1;
 
-if (!room) startHost(); else startGuest(room);
+function getUsers(){ return JSON.parse(localStorage.getItem('myMusicUsers')||'[]'); }
+function saveUsers(u){ localStorage.setItem('myMusicUsers', JSON.stringify(u)); }
+function getSongs(email){ return JSON.parse(localStorage.getItem('songs_'+email)||'[]'); }
+function saveSongs(email,s){ localStorage.setItem('songs_'+email, JSON.stringify(s)); }
 
-function startHost() {
-  $('host').classList.remove('hide');
-  const peer = new Peer();
-  const guests = new Set();
-  let stream = null;
+function signup(){
+ let name=document.getElementById('nameInp').value.trim();
+ let email=document.getElementById('emailInp').value.trim();
+ let pass=document.getElementById('passInp').value.trim();
+ if(!name||!email||!pass){ alert('Sab bharo'); return; }
+ let users=getUsers();
+ if(users.find(u=>u.email==email)){ alert('Account pehle se hai, Login karo'); return; }
+ users.push({name,email,pass}); saveUsers(users);
+ localStorage.setItem('currentUser', email); loadApp();
+}
+function login(){
+ let email=document.getElementById('emailInp').value.trim();
+ let pass=document.getElementById('passInp').value.trim();
+ let u=getUsers().find(u=>u.email==email && u.pass==pass);
+ if(!u){ alert('Email ya password galat hai'); return; }
+ localStorage.setItem('currentUser', email); loadApp();
+}
+function logout(){ localStorage.removeItem('currentUser'); location.reload(); }
 
-  const lowLatency = sdp => sdp.replace('useinbandfec=1',
-    'useinbandfec=1;minptime=10;maxptime=20;stereo=1;sprop-stereo=1;maxaveragebitrate=128000');
-  const callGuest = id => { if (stream) peer.call(id, stream, { sdpTransform: lowLatency }); };
-  const refresh = () => $('count').textContent = 'Connected phones: ' + guests.size;
+function loadApp(){
+ let email=localStorage.getItem('currentUser'); if(!email) return;
+ currentUser=getUsers().find(u=>u.email==email); if(!currentUser) return;
+ authEl.style.display='none'; appEl.style.display='block';
+ document.getElementById('logoutBtn').style.display='block';
+ document.getElementById('userName').innerText='Hi, '+currentUser.name;
+ renderSongs();
+}
+function uploadSong(e){
+ let file=e.target.files[0]; if(!file) return;
+ let reader=new FileReader();
+ reader.onload=function(ev){
+  let songs=getSongs(currentUser.email);
+  songs.push({name:file.name.replace('.mp3','').replace('.m4a',''), size:Math.round(file.size/1024)+' KB', data:ev.target.result});
+  saveSongs(currentUser.email, songs); renderSongs(); alert('Gaana upload ho gaya!');
+ };
+ reader.readAsDataURL(file);
+}
+function renderSongs(){
+ let songs=getSongs(currentUser.email);
+ if(!songs.length){ songsEl.innerHTML='<p style="opacity:.5">Abhi koi gaana nahi hai. Upar se upload karo.</p>'; return; }
+ songsEl.innerHTML='';
+ songs.forEach((s,i)=>{
+  let div=document.createElement('div'); div.className='song';
+  div.innerHTML=`<img src="https://picsum.photos/100/100?random=${i}"><div class="t"><b>${s.name}</b><span>${s.size} • ${currentUser.name}</span></div><button class="playBtn" onclick="playSong(${i})">▶</button><button onclick="deleteSong(${i})" style="background:#ef4444; color:#fff; border:none; padding:8px; border-radius:8px;">🗑</button>`;
+  songsEl.appendChild(div);
+ });
+}
+function deleteSong(i){ let songs=getSongs(currentUser.email); songs.splice(i,1); saveSongs(currentUser.email, songs); renderSongs(); }
 
-  peer.on('open', id => {
-    const url = location.href.split('?')[0] + '?join=' + id;
-    new QRCode($('qr'), { text: url, width: 200, height: 200 });
-    $('status').textContent = 'Dusre phone se QR scan karo, ya link kholo: ' + url;
-  });
-  peer.on('error', e => $('status').textContent = 'Error: ' + e.type);
+const audio=document.getElementById('audio');
+audio.volume=1;
+function playSong(i){
+ let songs=getSongs(currentUser.email);
+ currentSongIndex=i;
+ audio.src=songs[i].data; audio.play();
+ document.getElementById('player').style.display='block';
+ document.getElementById('pTitle').innerText=songs[i].name;
+ if('mediaSession' in navigator){ navigator.mediaSession.metadata=new MediaMetadata({title:songs[i].name, artist:currentUser.name}); }
+}
+function togglePlay(){ if(audio.paused) audio.play(); else audio.pause(); }
+function onTime(){ if(!audio.duration) return; document.getElementById('bar').style.width=(audio.currentTime/audio.duration*100)+'%'; }
+function seek(e){ let rect=document.getElementById('progress').getBoundingClientRect(); audio.currentTime=audio.duration*((e.clientX-rect.left)/rect.width); }
 
-  peer.on('connection', conn => {
-    conn.on('open', () => { guests.add(conn.peer); refresh(); callGuest(conn.peer); });
-    conn.on('close', () => { guests.delete(conn.peer); refresh(); });
-  });
-
-  const setStream = s => { stream = s; guests.forEach(callGuest); };
-
-  $('file').onchange = e => {
-    const f = e.target.files[0]; if (!f) return;
-    const p = $('player');
-    p.src = URL.createObjectURL(f);
-    p.onplay = () => {
-      const cap = p.captureStream || p.mozCaptureStream;
-      if (cap && !stream) setStream(cap.call(p));
-    };
-    p.play().catch(() => {});
-  };
-
-  $('tab').onclick = async () => {
-    try {
-      const d = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-      const tracks = d.getAudioTracks();
-      if (!tracks.length) return alert('Audio share nahi hua. "Share tab audio" tick karo.');
-      setStream(new MediaStream(tracks));
-    } catch (err) { alert('Share nahi ho paya: ' + err.message); }
-  };
+// --- VOLUME UPDATE ---
+function updateVolTxt(){ document.getElementById('volTxt').innerText=Math.round(audio.volume*100)+'%'; }
+function nextSong(){
+ let songs=getSongs(currentUser.email); if(!songs.length) return;
+ currentSongIndex=(currentSongIndex+1)%songs.length; playSong(currentSongIndex);
+}
+function prevSong(){
+ let songs=getSongs(currentUser.email); if(!songs.length) return;
+ currentSongIndex=(currentSongIndex-1+songs.length)%songs.length; playSong(currentSongIndex);
 }
 
-function startGuest(hostId) {
-  $('guest').classList.remove('hide');
-  const peer = new Peer();
-  peer.on('open', () => {
-    const conn = peer.connect(hostId);
-    conn.on('open', () => $('gstatus').textContent = 'Jud gaye. Host audio start karega to sound aayega.');
-    conn.on('close', () => $('gstatus').textContent = 'Host se connection toot gaya.');
-  });
-  peer.on('call', call => {
-    call.answer();
-    call.on('stream', s => {
-      call.peerConnection.getReceivers().forEach(r => {
-        try { r.jitterBufferTarget = 0; } catch (e) {}
-        try { r.playoutDelayHint = 0; } catch (e) {}
-      });
-      $('out').srcObject = s;
-      $('out').play().catch(() => {});
-      $('gstatus').textContent = 'Sound chal raha hai.';
-    });
-  });
-  peer.on('error', e => $('gstatus').textContent = 'Error: ' + e.type);
-  // Browser ko autoplay ke liye ek tap chahiye
-  $('join').onclick = () => { $('out').play().catch(() => {}); $('join').classList.add('hide'); };
+let volLongTimer=null;
+function setupVolButton(id, isUp){
+ let btn=document.getElementById(id);
+ btn.addEventListener('pointerdown', ()=>{
+   volLongTimer=setTimeout(()=>{ if(isUp) nextSong(); else prevSong(); volLongTimer=null; }, 600);
+ });
+ btn.addEventListener('pointerup', ()=>{
+   if(volLongTimer){ clearTimeout(volLongTimer); audio.volume=Math.min(1, Math.max(0, audio.volume + (isUp?0.1:-0.1))); updateVolTxt(); }
+ });
+ btn.addEventListener('pointerleave', ()=>{ if(volLongTimer) clearTimeout(volLongTimer); });
 }
+setupVolButton('volUp', true);
+setupVolButton('volDown', false);
+
+document.addEventListener('keydown', e=>{
+ if(e.key=='ArrowUp'){ audio.volume=Math.min(1,audio.volume+0.1); updateVolTxt(); }
+ if(e.key=='ArrowDown'){ audio.volume=Math.max(0,audio.volume-0.1); updateVolTxt(); }
+ if(e.key=='ArrowRight') nextSong();
+ if(e.key=='ArrowLeft') prevSong();
+});
+
+if('mediaSession' in navigator){
+ navigator.mediaSession.setActionHandler('nexttrack', ()=>nextSong());
+ navigator.mediaSession.setActionHandler('previoustrack', ()=>prevSong());
+ navigator.mediaSession.setActionHandler('play', ()=>audio.play());
+ navigator.mediaSession.setActionHandler('pause', ()=>audio.pause());
+}
+loadApp();
 </script>
 </body>
-</html>
+  </html>
