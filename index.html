@@ -15,7 +15,7 @@
 
   #naughtyAiBtn {
     position: relative;
-    background: rgba(255, 255, 255, 0.08); /* glass colour */
+    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -30,7 +30,6 @@
     box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), inset 0 0 10px rgba(255,255,255,0.2);
   }
 
-  /* Diamond jaisi chamak jo chalti rahegi */
   #naughtyAiBtn::before {
     content: '';
     position: absolute;
@@ -55,14 +54,25 @@
 </head>
 <body>
 
-<a id="naughtyAiBtn" href="#" onclick="openPydroid()"> Open Naughty Ai 🤖</a>
+<a id="naughtyAiBtn" href="#" onclick="openNaughtyAI()">💎 Open Naughty Ai 🤖</a>
 
 <script>
-function openPydroid(){
-  window.location.href = "intent://#Intent;package=ru.iiec.NaughtyAI;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
-  setTimeout(()=>{
-    window.location.href = "https://play.google.com/store/apps/details?id=ru.iiec.Naughty AI";
-  }, 1500);
+function openNaughtyAI(){
+  // Naughty AI.py ko Pydroid 3 me open karega
+  // File ka naam: Naughty AI.py
+  
+  // Method 1: Direct file ko Pydroid 3 se kholna
+  window.location.href = "intent:///storage/emulated/0/Download/Naughty%20AI.py#Intent;scheme=file;action=android.intent.action.VIEW;package=ru.iiec.pydroid3;type=text/x-python;end";
+
+  // Agar file Download folder me nahi mili to internal storage me try karo
+  setTimeout(function(){
+    window.location.href = "intent:///storage/emulated/0/Naughty%20AI.py#Intent;scheme=file;action=android.intent.action.VIEW;package=ru.iiec.pydroid3;type=text/x-python;end";
+  }, 1000);
+
+  // Agar fir bhi na khule to sirf Pydroid 3 open kar do
+  setTimeout(function(){
+    window.location.href = "intent://#Intent;package=ru.iiec.pydroid3;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
+  }, 2000);
 }
 </script>
 
