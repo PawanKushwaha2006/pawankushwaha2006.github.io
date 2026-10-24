@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Naughty AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background:#000;background:radial-gradient(circle at center,#1a1a1a 0%,#000 100%);color:white;font-family:sans-serif;margin:0}
+.top{text-align:center;padding:15px 10px;position:relative}
+#robotBtn{font-size:35px;background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.3);border-radius:50%;width:65px;height:65px;cursor:pointer;box-shadow:0 0 20px rgba(168,85,247,0.4)}
+h1{color:#fff;margin:5px 0;font-size:32px;display:inline;text-shadow:0 0 15px rgba(168,85,247,0.8)}
+p{color:#ccc;margin:5px 0}
+#menu{display:none;position:absolute;top:85px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.3);border-radius:15px;padding:10px;z-index:10;width:220px}
+#menu button{display:block;width:100%;padding:12px;margin:5px 0;border:1px solid rgba(255,255,255,0.3);border-radius:40px;background:rgba(255,255,255,0.08);color:white;font-weight:900;font-size:16px;position:relative;overflow:hidden;box-shadow:0 0 20px rgba(168,85,247,0.4)}
+#menu button::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.8),transparent);animation:shine 2.5s infinite}
+@keyframes shine{0%{left:-100%}100%{left:100%}}
+#chat{max-width:500px;margin:auto;padding:10px;height:65vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.msg{padding:12px 15px;border-radius:15px;max-width:85%}
+.user{background:rgba(168,85,247,0.5);border:1px solid rgba(255,255,255,0.3);align-self:flex-end}
+.ai{background:#222;align-self:flex-start}
+.typing{background:#222;align-self:flex-start;padding:12px 15px;border-radius:15px}
+.dot{display:inline-block;width:8px;height:8px;background:#a855f7;border-radius:50%;margin:0 2px;animation:blink 1s infinite}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
+#bar{max-width:500px;margin:auto;display:flex;gap:8px;padding:10px;position:fixed;bottom:0;left:0;right:0;background:#000}
+input{flex:1;padding:14px;border-radius:25px;border:none;background:#222;color:white}
+#sendBtn{padding:14px 20px;border-radius:40px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);color:white;font-weight:900;position:relative;overflow:hidden;box-shadow:0 0 20px rgba(168,85,247,0.4)}
+#sendBtn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.8),transparent);animation:shine 2.5s infinite}
+#aboutPage{display:none;max-width:500px;margin:auto;padding:20px}
+#aboutPage .card{background:#222;padding:20px;border-radius:15px}
+#aboutPage button{padding:12px 25px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.3);border-radius:40px;color:white;font-weight:900}
+</style>
+</head>
+<body>
+
+<div class="top">
+<button id="robotBtn" onclick="toggleMenu()">🤖</button>
+<h1>Naughty AI</h1>
+<p>Ab mai Asli AI hu! Kuch bhi pucho!</p>
+<p id="langShow" style="color:#a855f7;font-size:13px">Language: Hinglish</p>
+<div id="menu">
+<button onclick="setLang('English')">English</button>
+<button onclick="setLang('Hindi')">Hindi</button>
+<button onclick="setLang('Hinglish')">Hinglish</button>
+<button onclick="setLang('Bengali')">Bengali 🇮🇳</button>
+<button onclick="openAbout()">About Us ℹ️</button>
+</div>
+</div>
+
+<div id="chat">
+<div class="msg ai">Namaste! Mai Naughty AI hu! Batao kya puchna hai? 😊</div>
+</div>
+
+<div id="aboutPage">
+<div class="card">
+<h2 style="color:#a855f7">About Us</h2>
+<p><b>Naam:</b> Pawan Kush</p>
+<p><b>AI Ka Naam:</b> Naughty AI</p>
+<p><b>Kya karta hu:</b> Main ek student hu aur coding seekh raha hu. Ye AI maine khud banaya hai.</p>
+<p><b>Mera Sapna:</b> Apni website aur apna AI sabko dikhana!</p>
+<button onclick="closeAbout()">Back ⬅️ Chat pe wapas</button>
+</div>
+</div>
+
+<div id="bar">
+<input id="q" placeholder="Yahan sawal likho..." onkeydown="if(event.key==='Enter') ask()">
+<button id="sendBtn" onclick="ask()">Send 🚀</button>
+</div>
+
+<script>
+const API_KEY = "AQ.Ab8RN6IB7uBoXPgBGvOh4HYh2GummYlxCSKSdtSLmtmkfOYzQA";
+let LANG = "Hinglish";
+function toggleMenu(){let m=document.getElementById("menu");m.style.display=m.style.display==="block"?"none":"block";}
+function setLang(l){
+  LANG=l;
+  document.getElementById("langShow").innerText="Language: "+l;
+  document.getElementById("menu").style.display="none";
+  if(l==="English") addMsg("Language changed - now I will reply in English! 😊","ai");
+  else if(l==="Hindi") addMsg("भाषा बदल दी - अब मैं Hindi में जवाब दूँगा! 😊","ai");
+  else if(l==="Bengali") addMsg("ভাষা বদলে গেছে - এখন আমি Bengali তে উত্তর দেব! 😊","ai");
+  else addMsg("Language badal di - ab mai Hinglish me jawab dunga! 😊","ai");
+}
+function openAbout(){document.getElementById("menu").style.display="none";document.getElementById("aboutPage").style.display="block";document.getElementById("chat").style.display="none";document.getElementById("bar").style.display="none";}
+function closeAbout(){document.getElementById("aboutPage").style.display="none";document.getElementById("chat").style.display="flex";document.getElementById("bar").style.display="flex";}
+function addMsg(t,c){let d=document.createElement("div");d.className="msg "+c;d.textContent=t;document.getElementById("chat").appendChild(d);document.getElementById("chat").scrollTop=99999;}
+
+function offlineReply(q){
+  let m=q.toLowerCase();
+  if(LANG==="English"){
+    if(m.includes("hi")||m.includes("hello")) return "Hello! How are you? 😊";
+    if(m.includes("name")) return "My name is Naughty AI! 🤖";
+    if(m.includes("how are you")) return "I am fine! How are you? 😊";
+    return "Sorry! I could not understand. Ask in a different way.";
+  }
+  if(LANG==="Hindi"){
+    if(m.includes("hi")||m.includes("hello")||m.includes("namaste")) return "नमस्ते! कैसे हो? 😊";
+    if(m.includes("naam")) return "मेरा नाम Naughty AI है! 🤖";
+    if(m.includes("kaise ho")) return "मैं बढ़िया हूँ! तुम कैसे हो? 😊";
+    return "माफ़ करो! मैं समझ नहीं पाया। थोड़ा अलग तरीके से पूछो।";
+  }
+  if(LANG==="Bengali"){
+    if(m.includes("hi")||m.includes("hello")||m.includes("namaskar")) return "নমস্কার! কেমন আছো? 😊";
+    if(m.includes("naam")||m.includes("name")) return "আমার নাম Naughty AI! 🤖";
+    if(m.includes("kemon acho")) return "আমি ভালো আছি! তুমি কেমন আছো? 😊";
+    return "দুঃখিত! আমি বুঝতে পারিনি। একটু অন্য ভাবে জিজ্ঞাসা করো।";
+  }
+  if(m.includes("hi")||m.includes("hello")) return "Hello! Kaise ho? 😊";
+  if(m.includes("naam")) return "Mera naam Naughty AI hai! 🤖";
+  if(m.includes("kaise ho")) return "Main badhiya hu! Tum kaise ho? 😊";
+  return "Achha! 😊 Thoda alag tarike se poochho.";
+}
+
+async function ai_reply(message){
+  let models=[
+    ["v1beta","gemini-2.0-flash"],
+    ["v1beta","gemini-2.5-flash"],
+    ["v1beta","gemini-3.5-flash"],
+    ["v1","gemini-2.5-flash"],
+    ["v1","gemini-2.0-flash"]
+  ];
+  for(let [v,m] of models){
+    try{
+      let url="https://generativelanguage.googleapis.com/"+v+"/models/"+m+":generateContent?key="+API_KEY;
+      let res=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Tum Naughty AI ho. Tumko sirf "+LANG+" me jawab dena hai. Koi aur language me mat dena. Sawal: "+message}]}]})});
+      let data=await res.json();
+      if(data.candidates && data.candidates[0]) return data.candidates[0].content.parts[0].text;
+    }catch(e){}
+  }
+  return null;
+}
+
+async function ask(){
+  let input=document.getElementById("q");
+  let q=input.value.trim(); if(!q) return;
+  addMsg(q,"user"); input.value="";
+  let t=document.createElement("div");
+  t.className="typing"; t.innerHTML='<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+  document.getElementById("chat").appendChild(t);
+  let ans=await ai_reply(q);
+  t.remove();
+  addMsg(ans ? ans : offlineReply(q),"ai");
+}
+</script>
+</body>
+</html>
