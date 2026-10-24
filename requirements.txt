@@ -1,0 +1,10 @@
+ollama>=0.4.7
+ddgs
+fastapi>=0.110
+uvicorn[standard]>=0.29
+opencv-python>=4.9
+numpy
+mss
+pillow
+pyautogui
+pyperclip
