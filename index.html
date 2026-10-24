@@ -1,78 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MyCompiler - Pawan</title>
+<title>CodeNix AI</title>
 <style>
-body{margin:0;font-family:Arial;background:#0f0f1a;color:white;padding:15px}
-h1{text-align:center;color:#00ff88}
-textarea{width:100%;height:300px;background:#1a1a2e;color:#00ff88;font-size:15px;padding:12px;border:2px solid #00ff88;border-radius:10px;box-sizing:border-box}
-button{width:100%;padding:15px;background:#00ff88;color:black;font-size:20px;font-weight:bold;border:none;border-radius:10px;margin-top:10px}
-#output{background:#000;color:#00ff88;padding:15px;border-radius:10px;margin-top:15px;min-height:100px;white-space:pre-wrap;font-size:15px;border:1px solid #333}
-select{width:100%;padding:12px;font-size:16px;border-radius:8px;margin-bottom:10px}
+body{background:black;color:white;font-family:sans-serif;text-align:center;padding:20px}
+#box{width:90%;max-width:500px;margin:auto;background:#222;padding:20px;border-radius:15px}
+input,button{padding:12px;width:90%;margin:10px;border-radius:10px;border:none;font-size:16px}
+button{background:#00ff99;font-weight:bold}
+#ans{background:#111;padding:15px;border-radius:10px;text-align:left;min-height:100px;margin-top:10px}
 </style>
 </head>
 <body>
+<h1>🤖 CodeNix AI</h1>
+<p>Ab mai ChatGPT jaisa jawab dunga!</p>
 
-<h1>💻 MyCompiler</h1>
-<p style="text-align:center">Powerful Compiler - Pawan</p>
-
-<select id="lang">
-<option value="python">Python</option>
-<option value="cpp">C++</option>
-<option value="c">C</option>
-<option value="java">Java</option>
-<option value="javascript">JavaScript</option>
-</select>
-
-<textarea id="code">print("Hello Pawan! MyCompiler chal gaya!")</textarea>
-
-<button onclick="runCode()">▶ RUN CODE</button>
-<div id="output">Output yahan aayega...</div>
+<div id="box">
+<input id="q" placeholder="Kuch bhi pucho...">
+<button onclick="ask()">Pucho</button>
+<div id="ans">Yahan jawab aayega...</div>
+</div>
 
 <script>
-async function runCode(){
-  let code = document.getElementById('code').value;
-  let lang = document.getElementById('lang').value;
-  let outBox = document.getElementById('output');
-  outBox.innerText = "⏳ Running... Ruko thoda...";
+// --- YAHAN CHABI DALO ---
+const API_KEY = "TUMHARI_CHABI_YAHAN_DALO";
+// -------------------------
 
-  try{
-    let r = await fetch("https://emkc.org/api/v2/piston/runtimes");
-    let runtimes = await r.json();
-    let found = runtimes.find(x => x.language === lang);
-    if(!found){
-      outBox.innerText = "❌ Language nahi mila: " + lang;
-      return;
-    }
+async function ask(){
+let q = document.getElementById("q").value;
+document.getElementById("ans").innerHTML = "Soch raha hu...";
+let url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + API_KEY;
 
-    let res = await fetch("https://emkc.org/api/v2/piston/execute",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({
-        language: found.language,
-        version: found.version,
-        files:[{content: code}]
-      })
-    });
+let res = await fetch(url, {
+method: "POST",
+headers: {"Content-Type":"application/json"},
+body: JSON.stringify({contents:[{parts:[{text:q}]}]})
+});
 
-    let data = await res.json();
-    console.log(data);
-
-    if(data.run && data.run.output){
-      outBox.innerText = data.run.output;
-    } else if(data.run && data.run.stderr){
-      outBox.innerText = data.run.stderr;
-    } else if(data.message){
-      outBox.innerText = "❌ Server: " + data.message;
-    } else {
-      outBox.innerText = "❌ Kuch nahi aaya: " + JSON.stringify(data);
-    }
-
-  }catch(e){
-    outBox.innerText = "❌ Error: " + e.message;
-  }
+let data = await res.json();
+try{
+document.getElementById("ans").innerHTML = data.candidates[0].content.parts[0].text;
+} catch(e){
+document.getElementById("ans").innerHTML = "Error! Chabi galat hai ya net slow hai";
+}
 }
 </script>
 </body>
