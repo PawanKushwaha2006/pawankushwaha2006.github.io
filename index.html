@@ -1,159 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MyMusic - Online</title>
+<title>MyCompiler - Pawan</title>
 <style>
-*{box-sizing:border-box} body{margin:0; background:#000; color:#fff; font-family:system-ui; padding-bottom:120px;}
-header{background:linear-gradient(90deg,#fa2d48,#a855f7); padding:14px 16px; display:flex; justify-content:space-between; align-items:center;}
-header b{font-size:20px}
-header button{background:#fff; color:#000; border:none; padding:6px 12px; border-radius:20px; font-weight:800; cursor:pointer}
-#auth{max-width:360px; margin:40px auto; background:#111; padding:20px; border-radius:16px; text-align:center;}
-#auth input{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:1px solid #333; background:#222; color:#fff;}
-#auth button{width:100%; padding:12px; border:none; border-radius:10px; background:#fa2d48; color:#fff; font-weight:900; margin-top:8px; cursor:pointer;}
-#app{display:none; padding:12px;}
-.uploadBox{background:#111; border:2px dashed #444; border-radius:16px; padding:20px; text-align:center; margin-bottom:12px;}
-.uploadBox label{background:#fa2d48; padding:10px 18px; border-radius:20px; font-weight:800; cursor:pointer; display:inline-block;}
-.song{background:#111; border-radius:12px; padding:10px; display:flex; gap:12px; align-items:center; margin-bottom:10px;}
-.song img{width:56px; height:56px; border-radius:10px; background:linear-gradient(45deg,#fa2d48,#a855f7); object-fit:cover;}
-.song .t{flex:1; min-width:0}
-.song .t b{display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-.song .t span{font-size:12px; opacity:.6}
-.playBtn{width:44px; height:44px; border-radius:50%; border:none; background:#fff; font-size:18px; cursor:pointer;}
-#status{text-align:center; color:yellow; font-size:13px; padding:8px;}
-#player{position:fixed; bottom:0; left:0; right:0; background:#111; border-top:1px solid #333; padding:10px 14px; display:none; z-index:10;}
-#playerTop{display:flex; align-items:center; gap:10px;}
-#player img{width:48px; height:48px; border-radius:8px;}
-#progress{flex:1; height:6px; background:#333; border-radius:10px; overflow:hidden;}
-#progress div{height:100%; background:#fa2d48; width:0%}
-#volControls{display:flex; gap:10px; justify-content:center; margin-top:10px;}
-#volControls button{flex:1; padding:12px; border:none; border-radius:12px; font-weight:800; cursor:pointer; background:#222; color:#fff; border:1px solid #333;}
-#volInfo{text-align:center; font-size:12px; opacity:.6; margin-top:6px;}
+body{margin:0;font-family:Arial;background:#0f0f1a;color:white;padding:15px}
+h1{text-align:center;color:#00ff88}
+textarea{width:100%;height:300px;background:#1a1a2e;color:#00ff88;font-size:15px;padding:12px;border:2px solid #00ff88;border-radius:10px;box-sizing:border-box}
+button{width:100%;padding:15px;background:#00ff88;color:black;font-size:20px;font-weight:bold;border:none;border-radius:10px;margin-top:10px}
+#output{background:#000;color:#00ff88;padding:15px;border-radius:10px;margin-top:15px;min-height:100px;white-space:pre-wrap;font-size:15px;border:1px solid #333}
+select{width:100%;padding:12px;font-size:16px;border-radius:8px;margin-bottom:10px}
 </style>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-// === TUMHARA CONFIG - PEHLE SE DALA HUA HAI ===
-const firebaseConfig = {
-  apiKey: "AIzaSyD1NsdIFtVeSU6A158G63833_-NeEyZxBE",
-  authDomain: "yaha-html-seekho.firebaseapp.com",
-  projectId: "yaha-html-seekho",
-  storageBucket: "yaha-html-seekho.firebasestorage.app",
-  messagingSenderId: "216871574352",
-  appId: "1:216871574352:web:fe8c83887dce380323ea55"
-};
-// =========================================
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
-let currentUser=null, allSongs=[], currentSongIndex=-1;
-const audio=document.getElementById('audio');
-
-window.signup=async()=>{
- let email=document.getElementById('emailInp').value.trim();
- let pass=document.getElementById('passInp').value.trim();
- let name=document.getElementById('nameInp').value.trim();
- if(!email||!pass||!name){ alert('Sab bharo'); return; }
- try{ let cred=await createUserWithEmailAndPassword(auth,email,pass); localStorage.setItem('userName',name); alert('Account ban gaya!'); }catch(e){ alert(e.message); }
-};
-window.login=async()=>{
- let email=document.getElementById('emailInp').value.trim();
- let pass=document.getElementById('passInp').value.trim();
- try{ await signInWithEmailAndPassword(auth,email,pass); }catch(e){ alert('Galat: '+e.message); }
-};
-window.logout=async()=>{ await signOut(auth); location.reload(); };
-
-onAuthStateChanged(auth, (user)=>{
- if(user){
-   currentUser=user;
-   document.getElementById('auth').style.display='none';
-   document.getElementById('app').style.display='block';
-   document.getElementById('logoutBtn').style.display='block';
-   document.getElementById('userName').innerText='Hi, '+ (localStorage.getItem('userName')||user.email);
-   loadSongs();
- } else {
-   document.getElementById('auth').style.display='block';
-   document.getElementById('app').style.display='none';
- }
-});
-
-window.uploadSong=async(e)=>{
- let file=e.target.files[0]; if(!file) return;
- document.getElementById('status').innerText='Upload ho raha hai... '+file.name;
- try{
-   let storageRef=ref(storage, 'songs/'+Date.now()+'_'+file.name);
-   await uploadBytes(storageRef, file);
-   let url=await getDownloadURL(storageRef);
-   await addDoc(collection(db,'songs'), {name:file.name.replace('.mp3',''), url:url, storagePath:storageRef.fullPath, uploader:localStorage.getItem('userName')||currentUser.email, uploaderEmail:currentUser.email, size:Math.round(file.size/1024)+' KB', time:new Date().toLocaleString()});
-   document.getElementById('status').innerText='✅ Upload ho gaya! Sab sun sakte hai';
- }catch(err){ document.getElementById('status').innerText='❌ '+err.message; alert(err.message); }
-};
-
-function loadSongs(){
- let q=query(collection(db,'songs'), orderBy('time','desc'));
- onSnapshot(q, (snap)=>{
-   allSongs=[];
-   snap.forEach(d=>{ allSongs.push({id:d.id, ...d.data()}); });
-   renderSongs();
- });
-}
-window.renderSongs=()=>{
- let el=document.getElementById('songs');
- if(!allSongs.length){ el.innerHTML='<p style="opacity:.5">Abhi koi gaana nahi hai. Tum pehla upload karo.</p>'; return; }
- el.innerHTML='';
- allSongs.forEach((s,i)=>{
-   let div=document.createElement('div'); div.className='song';
-   let del='';
-   if(s.uploaderEmail===currentUser.email) del=`<button onclick="deleteSong('${s.id}','${s.storagePath}')" style="background:#ef4444; color:#fff; border:none; padding:8px; border-radius:8px;">🗑</button>`;
-   div.innerHTML=`<img src="https://picsum.photos/100/100?random=${i}"><div class="t"><b>${s.name}</b><span>👤 ${s.uploader} • ${s.size}</span></div><button class="playBtn" onclick="playSong(${i})">▶</button>${del}`;
-   el.appendChild(div);
- });
-};
-window.deleteSong=async(id, path)=>{
- if(!confirm('Pakka delete?')) return;
- try{ await deleteDoc(doc(db,'songs',id)); await deleteObject(ref(storage,path)); }catch(e){ alert(e.message); }
-};
-window.playSong=(i)=>{
- let s=allSongs[i]; currentSongIndex=i;
- audio.src=s.url; audio.play();
- document.getElementById('player').style.display='block';
- document.getElementById('pTitle').innerText=s.name+' - '+s.uploader;
-};
-window.togglePlay=()=>{ if(audio.paused) audio.play(); else audio.pause(); };
-window.onTime=()=>{ if(!audio.duration) return; document.getElementById('bar').style.width=(audio.currentTime/audio.duration*100)+'%'; };
-window.seek=(e)=>{ let r=document.getElementById('progress').getBoundingClientRect(); audio.currentTime=audio.duration*((e.clientX-r.left)/r.width); };
-window.nextSong=()=>{ if(!allSongs.length) return; currentSongIndex=(currentSongIndex+1)%allSongs.length; playSong(currentSongIndex); };
-window.prevSong=()=>{ if(!allSongs.length) return; currentSongIndex=(currentSongIndex-1+allSongs.length)%allSongs.length; playSong(currentSongIndex); };
-let volLong=null;
-function setupVol(id,isUp){ let b=document.getElementById(id); b.addEventListener('pointerdown',()=>{ volLong=setTimeout(()=>{ if(isUp) nextSong(); else prevSong(); volLong=null; },600); }); b.addEventListener('pointerup',()=>{ if(volLong){ clearTimeout(volLong); audio.volume=Math.min(1,Math.max(0,audio.volume+(isUp?0.1:-0.1))); document.getElementById('volTxt').innerText=Math.round(audio.volume*100)+'%'; } }); }
-setupVol('volUp',true); setupVol('volDown',false);
-</script>
 </head>
 <body>
-<header><b>🎵 MyMusic Online</b> <span id="userName"></span><button id="logoutBtn" onclick="logout()" style="display:none">Logout</button></header>
-<div id="auth">
-<h2>Account Banao / Login</h2>
-<input id="nameInp" placeholder="Apna Naam">
-<input id="emailInp" placeholder="Email">
-<input id="passInp" type="password" placeholder="Password (6+ akshar)">
-<button onclick="signup()">SIGN UP</button>
-<button onclick="login()" style="background:#fff; color:#000;">LOGIN</button>
-</div>
-<div id="app">
-<div class="uploadBox"><h3>Gaana Upload Karo - Sab Sunenge</h3><label for="fileInp">+ Gaana Select Karo</label><input type="file" id="fileInp" accept="audio/*" onchange="uploadSong(event)" style="display:none"><div id="status"></div></div>
-<h3>🌍 Sabke Gaane</h3><div id="songs"></div>
-</div>
-<div id="player">
-<div id="playerTop"><img src="https://picsum.photos/100/100"><div style="flex:1; min-width:0;"><b id="pTitle">Song</b><div id="progress" onclick="seek(event)"><div id="bar"></div></div></div><button class="playBtn" onclick="togglePlay()">▶</button></div>
-<div id="volControls"><button id="volDown">🔉 VOL -<br><small>dabake rakho = prev</small></button><button id="volUp">🔊 VOL +<br><small>dabake rakho = next</small></button></div>
-<div id="volInfo">Volume: <span id="volTxt">100%</span></div>
-</div>
-<audio id="audio" ontimeupdate="onTime()"></audio>
+
+<h1>💻 MyCompiler</h1>
+<p style="text-align:center">Powerful Compiler - Pawan</p>
+
+<select id="lang">
+<option value="python">Python</option>
+<option value="cpp">C++</option>
+<option value="c">C</option>
+<option value="java">Java</option>
+<option value="javascript">JavaScript</option>
+</select>
+
+<textarea id="code">print("Hello Pawan! MyCompiler chal gaya!")</textarea>
+
+<button onclick="runCode()">▶ RUN CODE</button>
+<div id="output">Output yahan aayega...</div>
+
+<script>
+async function runCode(){
+  let code = document.getElementById('code').value;
+  let lang = document.getElementById('lang').value;
+  let outBox = document.getElementById('output');
+  outBox.innerText = "⏳ Running... Ruko thoda...";
+
+  try{
+    let r = await fetch("https://emkc.org/api/v2/piston/runtimes");
+    let runtimes = await r.json();
+    let found = runtimes.find(x => x.language === lang);
+    if(!found){
+      outBox.innerText = "❌ Language nahi mila: " + lang;
+      return;
+    }
+
+    let res = await fetch("https://emkc.org/api/v2/piston/execute",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        language: found.language,
+        version: found.version,
+        files:[{content: code}]
+      })
+    });
+
+    let data = await res.json();
+    console.log(data);
+
+    if(data.run && data.run.output){
+      outBox.innerText = data.run.output;
+    } else if(data.run && data.run.stderr){
+      outBox.innerText = data.run.stderr;
+    } else if(data.message){
+      outBox.innerText = "❌ Server: " + data.message;
+    } else {
+      outBox.innerText = "❌ Kuch nahi aaya: " + JSON.stringify(data);
+    }
+
+  }catch(e){
+    outBox.innerText = "❌ Error: " + e.message;
+  }
+}
+</script>
 </body>
 </html>
