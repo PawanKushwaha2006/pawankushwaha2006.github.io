@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pomodoro Timer</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f4f5f9;
+  color: #252b3a;
+  min-height: 100vh;
+  padding: 20px;
+  transition: .3s;
+}
+
+body.dark {
+  background: #171923;
+  color: white;
+}
+
+.container {
+  max-width: 650px;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  color: #ff6b35;
+  font-size: 27px;
+}
+
+header p {
+  color: #888;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: 9px;
+  font-weight: bold;
+}
+
+.theme-btn {
+  padding: 10px;
+  background: #e8e8e8;
+  color: #222;
+}
+
+.timer-card {
+  background: white;
+  padding: 30px 20px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 5px 25px #0000000c;
+}
+
+.dark .timer-card,
+.dark .settings {
+  background: #252938;
+}
+
+.modes {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.mode {
+  padding: 11px 16px;
+  background: #f0f0f0;
+  color: #555;
+}
+
+.mode.active {
+  background: #ff6b35;
+  color: white;
+}
+
+.circle {
+  width: 260px;
+  height: 260px;
+  margin: auto;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(#ff6b35 0deg, #eee 0deg);
+  position: relative;
+}
+
+.circle::before {
+  content: "";
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  background: white;
+  border-radius: 50%;
+}
+
+.dark .circle::before {
+  background: #252938;
+}
+
+.timer-content {
+  position: relative;
+  z-index: 1;
+}
+
+.time {
+  font-size: 55px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+.status {
+  color: #888;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.controls button {
+  padding: 14px 25px;
+  font-size: 15px;
+}
+
+.start {
+  background: #ff6b35;
+  color: white;
+  min-width: 120px;
+}
+
+.reset {
+  background: #eee;
+  color: #333;
+}
+
+.sessions {
+  margin-top: 25px;
+  color: #888;
+  font-size: 14px;
+}
+
+.sessions span {
+  color: #ff6b35;
+  font-weight: bold;
+}
+
+.settings {
+  margin-top: 20px;
+  padding: 22px;
+  background: white;
+  border-radius: 15px;
+}
+
+.settings h2 {
+  font-size: 19px;
+  margin-bottom: 15px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 13px 0;
+}
+
+.setting-row label {
+  font-size: 14px;
+}
+
+.setting-row input {
+  width: 80px;
+  padding: 9px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+}
+
+.save-btn {
+  width: 100%;
+  background: #ff6b35;
+  color: white;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #999;
+}
+
+@media(max-width:450px) {
+  .circle {
+    width: 230px;
+    height: 230px;
+  }
+
+  .circle::before {
+    width: 205px;
+    height: 205px;
+  }
+
+  .time {
+    font-size: 45px;
+  }
+
+  .timer-card {
+    padding: 25px 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <div>
+    <h1>🍅 Pomodoro Timer</h1>
+    <p>Focus Better. Work Smarter.</p>
+  </div>
+
+  <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+    🌙
+  </button>
+</header>
+
+<div class="timer-card">
+
+  <div class="modes">
+    <button class="mode active" onclick="changeMode('focus',this)">
+      Focus
+    </button>
+
+    <button class="mode" onclick="changeMode('short',this)">
+      Short Break
+    </button>
+
+    <button class="mode" onclick="changeMode('long',this)">
+      Long Break
+    </button>
+  </div>
+
+  <div class="circle" id="circle">
+
+    <div class="timer-content">
+      <div class="time" id="timer">25:00</div>
+      <div class="status" id="status">Time to Focus!</div>
+    </div>
+
+  </div>
+
+  <div class="controls">
+    <button class="start" id="startBtn" onclick="toggleTimer()">
+      ▶ Start
+    </button>
+
+    <button class="reset" onclick="resetTimer()">
+      ↻ Reset
+    </button>
+  </div>
+
+  <div class="sessions">
+    Completed Sessions: <span id="sessions">0</span>
+  </div>
+
+</div>
+
+<div class="settings">
+
+  <h2>⚙ Timer Settings</h2>
+
+  <div class="setting-row">
+    <label>Focus Duration (Minutes)</label>
+    <input type="number" id="focusInput" min="1" max="180" value="25">
+  </div>
+
+  <div class="setting-row">
+    <label>Short Break (Minutes)</label>
+    <input type="number" id="shortInput" min="1" max="60" value="5">
+  </div>
+
+  <div class="setting-row">
+    <label>Long Break (Minutes)</label>
+    <input type="number" id="longInput" min="1" max="120" value="15">
+  </div>
+
+  <button class="save-btn" onclick="saveSettings()">
+    Save Settings
+  </button>
+
+</div>
+
+<div class="footer">
+  Made for Better Productivity ❤️
+</div>
+
+</div>
+
+<script>
+
+let durations = {
+  focus: 25,
+  short: 5,
+  long: 15
+};
+
+let mode = "focus";
+let remaining = 25 * 60;
+let totalTime = remaining;
+let running = false;
+let interval = null;
+let sessions = 0;
+
+const timer = document.getElementById("timer");
+const circle = document.getElementById("circle");
+const startBtn = document.getElementById("startBtn");
+
+function updateDisplay() {
+
+  let minutes = Math.floor(remaining / 60);
+  let seconds = remaining % 60;
+
+  timer.textContent =
+    String(minutes).padStart(2,"0") + ":" +
+    String(seconds).padStart(2,"0");
+
+  let progress = totalTime > 0
+    ? (totalTime - remaining) / totalTime
+    : 0;
+
+  let angle = progress * 360;
+
+  let color = mode === "focus" ? "#ff6b35" : "#22b573";
+
+  circle.style.background =
+    `conic-gradient(${color} ${angle}deg, #e8e8e8 ${angle}deg)`;
+
+  document.getElementById("status").textContent =
+    mode === "focus" ? "Time to Focus!" :
+    mode === "short" ? "Take a Short Break!" :
+    "Take a Long Break!";
+
+  document.title = timer.textContent + " - Pomodoro";
+}
+
+function toggleTimer() {
+
+  if (running) {
+    pauseTimer();
+    return;
+  }
+
+  running = true;
+  startBtn.textContent = "⏸ Pause";
+
+  // Deadline-based timer avoids losing time when a browser tab is inactive.
+  let endTime = Date.now() + remaining * 1000;
+
+  interval = setInterval(() => {
+
+    remaining = Math.max(
+      0,
+      Math.ceil((endTime - Date.now()) / 1000)
+    );
+
+    updateDisplay();
+
+    if (remaining <= 0) {
+      clearInterval(interval);
+      running = false;
+      startBtn.textContent = "▶ Start";
+      timerFinished();
+    }
+
+  }, 250);
+}
+
+function pauseTimer() {
+  clearInterval(interval);
+  running = false;
+  startBtn.textContent = "▶ Resume";
+}
+
+function resetTimer() {
+  clearInterval(interval);
+  running = false;
+  remaining = durations[mode] * 60;
+  totalTime = remaining;
+  startBtn.textContent = "▶ Start";
+  updateDisplay();
+}
+
+function changeMode(newMode, button) {
+
+  clearInterval(interval);
+  running = false;
+
+  mode = newMode;
+  remaining = durations[mode] * 60;
+  totalTime = remaining;
+
+  document.querySelectorAll(".mode").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  button.classList.add("active");
+
+  startBtn.textContent = "▶ Start";
+  updateDisplay();
+}
+
+function timerFinished() {
+
+  playSound();
+
+  if (mode === "focus") {
+    sessions++;
+    document.getElementById("sessions").textContent = sessions;
+    alert("🎉 Focus session completed! Time for a break.");
+  } else {
+    alert("⏰ Break completed! Ready to focus again?");
+  }
+
+  if (mode === "focus") {
+    let nextMode = sessions % 4 === 0 ? "long" : "short";
+    const buttons = document.querySelectorAll(".mode");
+    changeMode(nextMode, nextMode === "short" ? buttons[1] : buttons[2]);
+  } else {
+    changeMode("focus", document.querySelectorAll(".mode")[0]);
+  }
+}
+
+function playSound() {
+  try {
+    const audio = new AudioContext();
+    const oscillator = audio.createOscillator();
+    const gain = audio.createGain();
+
+    oscillator.connect(gain);
+    gain.connect(audio.destination);
+
+    oscillator.frequency.value = 800;
+    gain.gain.value = 0.15;
+
+    oscillator.start();
+    oscillator.stop(audio.currentTime + 0.5);
+
+  } catch(e) {}
+}
+
+function saveSettings() {
+
+  const focus = Number(document.getElementById("focusInput").value);
+  const short = Number(document.getElementById("shortInput").value);
+  const long = Number(document.getElementById("longInput").value);
+
+  if (
+    !Number.isInteger(focus) || focus < 1 || focus > 180 ||
+    !Number.isInteger(short) || short < 1 || short > 60 ||
+    !Number.isInteger(long) || long < 1 || long > 120
+  ) {
+    alert("Please enter valid timer durations!");
+    return;
+  }
+
+  durations = {focus, short, long};
+
+  const button = document.querySelector(".mode.active");
+  resetTimer();
+
+  alert("Settings saved successfully!");
+}
+
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+
+  document.getElementById("themeBtn").textContent =
+    document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+
+updateDisplay();
+
+</script>
+
+</body>
+</html>
