@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Notes App</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #151515;
+    color: white;
+    min-height: 100vh;
+}
+
+.app {
+    max-width: 1100px;
+    margin: auto;
+    padding: 22px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.logo {
+    color: #ff6b35;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+header button, button {
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 12px 16px;
+    background: #ff6b35;
+    color: white;
+    font-weight: bold;
+}
+
+.search {
+    width: 100%;
+    padding: 15px;
+    background: #252525;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+.search:focus {
+    border-color: #ff6b35;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+.tabs button {
+    background: #292929;
+    white-space: nowrap;
+}
+
+.tabs button.active {
+    background: #ff6b35;
+}
+
+.editor {
+    display: none;
+    background: #252525;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.editor input, .editor textarea {
+    width: 100%;
+    background: #333;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 13px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    outline: none;
+    font-family: Arial, sans-serif;
+}
+
+.editor textarea {
+    min-height: 180px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.editor input:focus, .editor textarea:focus {
+    border-color: #ff6b35;
+}
+
+.editor-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.editor-footer span {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.note {
+    background: #252525;
+    padding: 17px;
+    border-radius: 11px;
+    border-left: 4px solid #ff6b35;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.note h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.note p {
+    color: #bbb;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    max-height: 120px;
+    overflow: hidden;
+}
+
+.note-date {
+    color: #888;
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+.note-actions {
+    display: flex;
+    gap: 7px;
+    margin-top: 15px;
+}
+
+.note-actions button {
+    flex: 1;
+    padding: 9px 5px;
+    font-size: 12px;
+}
+
+.pin {
+    background: #b57b24;
+}
+
+.edit {
+    background: #287bb8;
+}
+
+.delete {
+    background: #c33c3c;
+}
+
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px 10px;
+    color: #888;
+}
+
+.empty div {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+#toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: none;
+    z-index: 10;
+    max-width: 90%;
+    text-align: center;
+}
+
+@media(max-width: 750px) {
+    .notes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 480px) {
+    .app {
+        padding: 15px;
+    }
+
+    .notes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .logo {
+        font-size: 23px;
+    }
+
+    .editor {
+        padding: 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <div class="logo">📝 My Notes</div>
+    <button onclick="openEditor()">+ New Note</button>
+</header>
+
+<input
+    type="search"
+    class="search"
+    id="search"
+    placeholder="🔍 Search your notes..."
+    oninput="renderNotes()"
+>
+
+<div class="tabs">
+    <button class="active" onclick="changeTab('all',this)">All Notes</button>
+    <button onclick="changeTab('pinned',this)">📌 Pinned</button>
+    <button onclick="changeTab('recent',this)">Recent</button>
+</div>
+
+<!-- EDITOR -->
+
+<div class="editor" id="editor">
+
+    <input
+        type="text"
+        id="noteTitle"
+        placeholder="Note Title..."
+        maxlength="100"
+    >
+
+    <textarea
+        id="noteContent"
+        placeholder="Write your note here..."
+        oninput="updateCounter()"
+    ></textarea>
+
+    <div class="editor-footer">
+
+        <span id="counter">0 characters</span>
+
+        <div>
+            <button onclick="saveNote()">Save Note</button>
+            <button style="background:#444" onclick="closeEditor()">Cancel</button>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="notes-grid" id="notesGrid"></div>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+
+// STORAGE
+
+let notes = JSON.parse(
+    localStorage.getItem("myNotes") || "[]"
+);
+
+let editingId = null;
+let currentTab = "all";
+
+// SAVE STORAGE
+
+function saveStorage() {
+    localStorage.setItem("myNotes", JSON.stringify(notes));
+}
+
+// OPEN EDITOR
+
+function openEditor() {
+    editingId = null;
+
+    document.getElementById("noteTitle").value = "";
+    document.getElementById("noteContent").value = "";
+
+    updateCounter();
+
+    document.getElementById("editor").style.display = "block";
+
+    document.getElementById("noteTitle").focus();
+
+    document.getElementById("editor").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+// CLOSE EDITOR
+
+function closeEditor() {
+    document.getElementById("editor").style.display = "none";
+    editingId = null;
+}
+
+// COUNTER
+
+function updateCounter() {
+    const value = document.getElementById("noteContent").value.length;
+
+    document.getElementById("counter").innerText =
+        value + " characters";
+}
+
+// SAVE NOTE
+
+function saveNote() {
+
+    const title = document.getElementById("noteTitle").value.trim();
+
+    const content = document.getElementById("noteContent").value.trim();
+
+    if (!title && !content) {
+        showToast("Please write something first!");
+        return;
+    }
+
+    const now = new Date().toISOString();
+
+    if (editingId !== null) {
+
+        const note = notes.find(n => n.id === editingId);
+
+        if (note) {
+            note.title = title || "Untitled Note";
+            note.content = content;
+            note.updated = now;
+        }
+
+    } else {
+
+        notes.unshift({
+            id: Date.now() + Math.random(),
+            title: title || "Untitled Note",
+            content: content,
+            pinned: false,
+            created: now,
+            updated: now
+        });
+
+    }
+
+    saveStorage();
+    closeEditor();
+    renderNotes();
+
+    showToast("Note saved successfully!");
+}
+
+// EDIT NOTE
+
+function editNote(id) {
+
+    const note = notes.find(n => n.id === id);
+
+    if (!note) return;
+
+    editingId = id;
+
+    document.getElementById("noteTitle").value = note.title;
+    document.getElementById("noteContent").value = note.content;
+
+    updateCounter();
+
+    document.getElementById("editor").style.display = "block";
+
+    document.getElementById("editor").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+// DELETE NOTE
+
+function deleteNote(id) {
+
+    if (!confirm("Are you sure you want to delete this note?")) {
+        return;
+    }
+
+    notes = notes.filter(n => n.id !== id);
+
+    saveStorage();
+    renderNotes();
+
+    showToast("Note deleted!");
+}
+
+// PIN NOTE
+
+function togglePin(id) {
+
+    const note = notes.find(n => n.id === id);
+
+    if (!note) return;
+
+    note.pinned = !note.pinned;
+
+    saveStorage();
+    renderNotes();
+
+    showToast(note.pinned ? "Note pinned!" : "Note unpinned!");
+}
+
+// CHANGE TAB
+
+function changeTab(tab, button) {
+
+    currentTab = tab;
+
+    document.querySelectorAll(".tabs button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    renderNotes();
+}
+
+// SHOW NOTES
+
+function renderNotes() {
+
+    const grid = document.getElementById("notesGrid");
+
+    grid.innerHTML = "";
+
+    const query = document.getElementById("search").value.toLowerCase();
+
+    let filtered = [...notes];
+
+    if (currentTab === "pinned") {
+        filtered = filtered.filter(n => n.pinned);
+    }
+
+    if (currentTab === "recent") {
+        filtered.sort((a,b) =>
+            new Date(b.updated) - new Date(a.updated)
+        );
+        filtered = filtered.slice(0, 10);
+    }
+
+    filtered = filtered.filter(n =>
+        n.title.toLowerCase().includes(query) ||
+        n.content.toLowerCase().includes(query)
+    );
+
+    // Pinned notes first
+
+    if (currentTab === "all") {
+        filtered.sort((a,b) =>
+            Number(b.pinned) - Number(a.pinned) ||
+            new Date(b.updated) - new Date(a.updated)
+        );
+    }
+
+    if (filtered.length === 0) {
+
+        grid.innerHTML = `
+            <div class="empty">
+                <div>📝</div>
+                <h3>No Notes Found</h3>
+                <p>Create your first note!</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    filtered.forEach(note => {
+
+        const card = document.createElement("div");
+
+        card.className = "note";
+
+        const title = document.createElement("h3");
+        title.textContent = (note.pinned ? "📌 " : "") + note.title;
+
+        const content = document.createElement("p");
+        content.textContent = note.content;
+
+        const date = document.createElement("div");
+        date.className = "note-date";
+        date.textContent = "Updated: " +
+            new Date(note.updated).toLocaleString();
+
+        const actions = document.createElement("div");
+        actions.className = "note-actions";
+
+        const pin = document.createElement("button");
+        pin.className = "pin";
+        pin.textContent = note.pinned ? "Unpin" : "Pin";
+        pin.onclick = () => togglePin(note.id);
+
+        const edit = document.createElement("button");
+        edit.className = "edit";
+        edit.textContent = "Edit";
+        edit.onclick = () => editNote(note.id);
+
+        const del = document.createElement("button");
+        del.className = "delete";
+        del.textContent = "Delete";
+        del.onclick = () => deleteNote(note.id);
+
+        actions.append(pin, edit, del);
+
+        card.append(title, content, date, actions);
+
+        grid.appendChild(card);
+
+    });
+}
+
+// TOAST
+
+function showToast(message) {
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer = setTimeout(() => {
+        toast.style.display = "none";
+    }, 2000);
+}
+
+// START
+
+renderNotes();
+
+</script>
+
+</body>
+</html>
