@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Design Maker</title>
+
+<script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f3f4f6;
+  color: #222;
+  padding: 20px;
+}
+
+.container {
+  max-width: 950px;
+  margin: auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+header h1 {
+  color: #ff6b35;
+  font-size: 30px;
+}
+
+header p {
+  color: #777;
+  margin-top: 8px;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.panel {
+  background: white;
+  padding: 22px;
+  border-radius: 15px;
+  box-shadow: 0 3px 15px #00000010;
+}
+
+h2 {
+  font-size: 19px;
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 15px 0 7px;
+  font-size: 14px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  background: white;
+}
+
+input:focus, select:focus {
+  border-color: #ff6b35;
+}
+
+input[type="color"] {
+  height: 45px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+input[type="range"] {
+  padding: 0;
+  accent-color: #ff6b35;
+}
+
+#qrPreview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 20px;
+  background: #f8f8f8;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#qrPreview canvas,
+#qrPreview svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  flex: 1;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: #ff6b35;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #e95723;
+}
+
+.secondary {
+  background: #333;
+}
+
+.note {
+  color: #777;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+@media(max-width:650px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  header h1 {
+    font-size: 25px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <h1>QR Design Maker</h1>
+  <p>Create Your Own Stylish QR Code</p>
+</header>
+
+<div class="main">
+
+<!-- SETTINGS -->
+
+<div class="panel">
+
+<h2>Customize QR Code</h2>
+
+<label>Enter Text / Website URL</label>
+<input type="text" id="qrText"
+placeholder="https://example.com"
+value="https://example.com">
+
+<label>QR Code Color</label>
+<input type="color" id="qrColor" value="#ff6b35">
+
+<label>Background Color</label>
+<input type="color" id="bgColor" value="#ffffff">
+
+<label>QR Design</label>
+<select id="dotStyle">
+  <option value="rounded">Rounded</option>
+  <option value="dots">Dots</option>
+  <option value="square">Square</option>
+  <option value="classy">Classy</option>
+  <option value="classy-rounded">Classy Rounded</option>
+  <option value="extra-rounded">Extra Rounded</option>
+</select>
+
+<label>Corner Style</label>
+<select id="cornerStyle">
+  <option value="extra-rounded">Rounded</option>
+  <option value="square">Square</option>
+  <option value="dot">Dot</option>
+</select>
+
+<label>QR Size</label>
+<input type="range" id="qrSize" min="200" max="600" value="300">
+<p id="sizeValue">300 × 300 px</p>
+
+<label>Upload Logo (Optional)</label>
+<input type="file" id="logoInput" accept="image/*">
+
+<label>Logo Size</label>
+<input type="range" id="logoSize" min="10" max="40" value="25">
+
+<button onclick="generateQR()" style="margin-top:20px;width:100%">
+Generate QR Code
+</button>
+
+</div>
+
+<!-- PREVIEW -->
+
+<div class="panel">
+
+<h2>Your QR Preview</h2>
+
+<div id="qrPreview"></div>
+
+<div class="buttons">
+  <button onclick="downloadQR('png')">Download PNG</button>
+  <button class="secondary" onclick="downloadQR('svg')">Download SVG</button>
+</div>
+
+<p class="note">
+Scan your QR Code using any QR scanner.
+Make sure to test it before sharing.
+</p>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+let logoData = "";
+
+const qrCode = new QRCodeStyling({
+  width: 300,
+  height: 300,
+  type: "canvas",
+  data: "https://example.com",
+  image: "",
+  dotsOptions: {
+    color: "#ff6b35",
+    type: "rounded"
+  },
+  backgroundOptions: {
+    color: "#ffffff"
+  },
+  cornersSquareOptions: {
+    color: "#ff6b35",
+    type: "extra-rounded"
+  },
+  cornersDotOptions: {
+    color: "#ff6b35",
+    type: "dot"
+  },
+  imageOptions: {
+    crossOrigin: "anonymous",
+    margin: 5,
+    imageSize: 0.25,
+    hideBackgroundDots: true
+  }
+});
+
+qrCode.append(document.getElementById("qrPreview"));
+
+function generateQR() {
+
+  const text = document.getElementById("qrText").value.trim();
+
+  if (!text) {
+    alert("Please enter some text or URL!");
+    return;
+  }
+
+  const size = Number(document.getElementById("qrSize").value);
+  const color = document.getElementById("qrColor").value;
+  const bg = document.getElementById("bgColor").value;
+  const dots = document.getElementById("dotStyle").value;
+  const corner = document.getElementById("cornerStyle").value;
+  const logoSize = Number(document.getElementById("logoSize").value);
+
+  qrCode.update({
+
+    width: size,
+    height: size,
+
+    data: text,
+
+    image: logoData,
+
+    dotsOptions: {
+      color: color,
+      type: dots
+    },
+
+    backgroundOptions: {
+      color: bg
+    },
+
+    cornersSquareOptions: {
+      color: color,
+      type: corner
+    },
+
+    cornersDotOptions: {
+      color: color,
+      type: corner
+    },
+
+    imageOptions: {
+      crossOrigin: "anonymous",
+      margin: 5,
+      imageSize: logoSize / 100,
+      hideBackgroundDots: true
+    }
+
+  });
+
+  document.getElementById("sizeValue").textContent =
+    size + " × " + size + " px";
+}
+
+document.getElementById("logoInput").addEventListener("change", function(e) {
+
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("Please select a valid image!");
+    return;
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    alert("Logo must be under 2 MB!");
+    this.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+    logoData = event.target.result;
+    generateQR();
+  };
+
+  reader.readAsDataURL(file);
+
+});
+
+function downloadQR(format) {
+
+  const text = document.getElementById("qrText").value.trim();
+
+  if (!text) {
+    alert("Please enter text first!");
+    return;
+  }
+
+  generateQR();
+
+  setTimeout(() => {
+    qrCode.download({
+      name: "my-qr-code",
+      extension: format
+    });
+  }, 300);
+
+}
+
+document.querySelectorAll("input, select").forEach(element => {
+
+  element.addEventListener("input", generateQR);
+  element.addEventListener("change", generateQR);
+
+});
+
+generateQR();
+
+</script>
+
+</body>
+</html>
