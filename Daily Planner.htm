@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Planner</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f3f4f6;
+    color:#222;
+    padding:15px;
+}
+
+.container{
+    max-width:650px;
+    margin:20px auto;
+    background:white;
+    padding:22px;
+    border-radius:14px;
+    box-shadow:0 3px 15px #00000010;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.header h2{
+    font-size:25px;
+}
+
+#date{
+    color:#777;
+    font-size:14px;
+    margin-top:6px;
+}
+
+.today{
+    background:#fff0e9;
+    color:#ff6b35;
+    padding:10px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:#f8f8f8;
+    padding:15px 8px;
+    text-align:center;
+    border-radius:10px;
+}
+
+.stat h3{
+    font-size:23px;
+    margin-bottom:5px;
+}
+
+.stat p{
+    font-size:12px;
+    color:#777;
+}
+
+.progress-box{
+    margin-bottom:22px;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:9px;
+    font-size:14px;
+}
+
+.progress{
+    height:9px;
+    background:#eee;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#ff6b35;
+}
+
+h3.section{
+    margin-bottom:13px;
+    font-size:18px;
+}
+
+.form{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:7px;
+    font-size:15px;
+}
+
+.form-row{
+    display:flex;
+    gap:10px;
+}
+
+button{
+    border:none;
+    padding:12px 15px;
+    border-radius:7px;
+    cursor:pointer;
+    background:#ff6b35;
+    color:white;
+    font-size:14px;
+}
+
+.add-btn{
+    width:100%;
+}
+
+.filters{
+    display:flex;
+    gap:8px;
+    margin-bottom:15px;
+    flex-wrap:wrap;
+}
+
+.filters button{
+    background:#eee;
+    color:#444;
+    padding:9px 15px;
+}
+
+.filters button.active{
+    background:#ff6b35;
+    color:white;
+}
+
+.task{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px;
+    border:1px solid #eee;
+    border-radius:9px;
+    margin-bottom:9px;
+}
+
+.task input[type=checkbox]{
+    width:19px;
+    height:19px;
+    accent-color:#ff6b35;
+    flex-shrink:0;
+}
+
+.task-info{
+    flex:1;
+    min-width:0;
+}
+
+.task-title{
+    font-size:15px;
+    overflow-wrap:anywhere;
+}
+
+.task-time{
+    color:#888;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.completed .task-title{
+    text-decoration:line-through;
+    color:#999;
+}
+
+.delete-btn{
+    background:#ffe9e9;
+    color:#e53935;
+    padding:8px 10px;
+}
+
+.empty{
+    text-align:center;
+    padding:25px;
+    color:#999;
+    background:#fafafa;
+    border-radius:8px;
+}
+
+.clear-btn{
+    background:#333;
+    margin-top:15px;
+    width:100%;
+}
+
+@media(max-width:400px){
+    .container{padding:15px;}
+    .header h2{font-size:21px;}
+    .stat h3{font-size:20px;}
+    .form-row{flex-direction:column;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h2>My Daily Planner</h2>
+            <p id="date"></p>
+        </div>
+
+        <div class="today">TODAY</div>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <h3 id="total">0</h3>
+            <p>Total Tasks</p>
+        </div>
+
+        <div class="stat">
+            <h3 id="done">0</h3>
+            <p>Completed</p>
+        </div>
+
+        <div class="stat">
+            <h3 id="pending">0</h3>
+            <p>Pending</p>
+        </div>
+
+    </div>
+
+    <div class="progress-box">
+        <div class="progress-info">
+            <b>Daily Progress</b>
+            <b id="percent">0%</b>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <h3 class="section">Add New Task</h3>
+
+    <div class="form">
+
+        <input type="text" id="taskInput"
+        placeholder="What do you want to do?">
+
+        <div class="form-row">
+            <input type="time" id="taskTime">
+            <button class="add-btn" onclick="addTask()">+ Add Task</button>
+        </div>
+
+    </div>
+
+    <h3 class="section">My Tasks</h3>
+
+    <div class="filters">
+        <button class="active" onclick="setFilter('all',this)">All</button>
+        <button onclick="setFilter('pending',this)">Pending</button>
+        <button onclick="setFilter('completed',this)">Completed</button>
+    </div>
+
+    <div id="taskList"></div>
+
+    <button class="clear-btn" onclick="clearCompleted()">
+        Clear Completed Tasks
+    </button>
+
+</div>
+
+<script>
+
+const today = new Date();
+
+const dateKey =
+today.getFullYear()+"-"+ 
+String(today.getMonth()+1).padStart(2,"0")+"-"+
+String(today.getDate()).padStart(2,"0");
+
+document.getElementById("date").innerText =
+today.toLocaleDateString("en-US",{
+    weekday:"long",
+    day:"numeric",
+    month:"long",
+    year:"numeric"
+});
+
+let tasks = JSON.parse(
+localStorage.getItem("dailyPlanner_"+dateKey) || "[]"
+);
+
+let filter = "all";
+
+function save(){
+    localStorage.setItem(
+        "dailyPlanner_"+dateKey,
+        JSON.stringify(tasks)
+    );
+}
+
+function addTask(){
+
+    let input = document.getElementById("taskInput");
+    let time = document.getElementById("taskTime");
+
+    let title = input.value.trim();
+
+    if(!title){
+        alert("Please enter a task!");
+        return;
+    }
+
+    tasks.push({
+        id:Date.now()+"-"+Math.random(),
+        title:title,
+        time:time.value,
+        completed:false
+    });
+
+    save();
+
+    input.value="";
+    time.value="";
+
+    render();
+}
+
+function toggleTask(id){
+
+    let task = tasks.find(t=>t.id===id);
+
+    if(task){
+        task.completed = !task.completed;
+    }
+
+    save();
+    render();
+}
+
+function deleteTask(id){
+
+    tasks = tasks.filter(t=>t.id!==id);
+
+    save();
+    render();
+}
+
+function setFilter(value,button){
+
+    filter=value;
+
+    document.querySelectorAll(".filters button")
+    .forEach(btn=>btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    render();
+}
+
+function clearCompleted(){
+
+    if(!tasks.some(t=>t.completed)){
+        alert("No completed tasks!");
+        return;
+    }
+
+    if(confirm("Delete all completed tasks?")){
+        tasks=tasks.filter(t=>!t.completed);
+        save();
+        render();
+    }
+}
+
+function render(){
+
+    let total=tasks.length;
+
+    let done=tasks.filter(t=>t.completed).length;
+
+    let pending=total-done;
+
+    let percent=total===0?0:Math.round(done/total*100);
+
+    document.getElementById("total").innerText=total;
+    document.getElementById("done").innerText=done;
+    document.getElementById("pending").innerText=pending;
+    document.getElementById("percent").innerText=percent+"%";
+
+    document.getElementById("progressBar").style.width=percent+"%";
+
+    let list=document.getElementById("taskList");
+
+    list.innerHTML="";
+
+    let filtered=tasks.filter(task=>{
+
+        if(filter==="pending") return !task.completed;
+
+        if(filter==="completed") return task.completed;
+
+        return true;
+
+    });
+
+    filtered.sort((a,b)=>(a.time||"").localeCompare(b.time||""));
+
+    if(filtered.length===0){
+
+        list.innerHTML="<div class='empty'>No tasks found.</div>";
+
+        return;
+    }
+
+    filtered.forEach(task=>{
+
+        let div=document.createElement("div");
+
+        div.className="task"+(task.completed?" completed":"");
+
+        let checkbox=document.createElement("input");
+        checkbox.type="checkbox";
+        checkbox.checked=task.completed;
+        checkbox.onchange=()=>toggleTask(task.id);
+
+        let info=document.createElement("div");
+        info.className="task-info";
+
+        let title=document.createElement("div");
+        title.className="task-title";
+        title.textContent=task.title;
+
+        let time=document.createElement("div");
+        time.className="task-time";
+        time.textContent=task.time
+            ? "Time: "+task.time
+            : "No time set";
+
+        info.append(title,time);
+
+        let del=document.createElement("button");
+        del.className="delete-btn";
+        del.textContent="Delete";
+        del.onclick=()=>deleteTask(task.id);
+
+        div.append(checkbox,info,del);
+
+        list.appendChild(div);
+
+    });
+
+}
+
+document.getElementById("taskInput")
+.addEventListener("keydown",function(e){
+    if(e.key==="Enter") addTask();
+});
+
+render();
+
+</script>
+
+</body>
+</html>
