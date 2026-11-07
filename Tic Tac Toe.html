@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic Tac Toe Auto Erase</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI}
+body{background:radial-gradient(circle at top,#1e293b,#020617);min-height:100vh;display:flex;justify-content:center;align-items:center;color:white;padding:15px}
+.card{background:#ffffff0d;border:1px solid #ffffff1a;border-radius:24px;padding:22px;width:100%;max-width:380px;backdrop-filter:blur(20px);box-shadow:0 20px 60px #0008;text-align:center}
+h1{font-size:24px;margin-bottom:6px}
+.sub{opacity:0.6;font-size:13px;margin-bottom:16px}
+.modes{display:flex;gap:8px;margin-bottom:14px}
+.modes button{flex:1;padding:10px;border-radius:12px;border:1px solid #ffffff1a;background:#ffffff0f;color:white;cursor:pointer}
+.modes button.active{background:#a855f7;border-color:#a855f7;font-weight:700}
+.status{font-size:18px;font-weight:800;margin:12px 0;padding:10px;background:#0005;border-radius:12px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.board{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.cell{aspect-ratio:1/1;width:100%;background:#ffffff0f;border:1px solid #ffffff1a;border-radius:16px;display:flex;justify-content:center;align-items:center;font-size:42px;font-weight:800;cursor:pointer;transition:0.15s;line-height:1;user-select:none}
+.cell.x{color:#60a5fa}
+.cell.o{color:#f472b6}
+.cell.win{background:#a855f7!important;color:white!important}
+.cell.erase{animation:erase.5s forwards}
+@keyframes erase{to{transform:scale(0);opacity:0}}
+.scores{display:flex;justify-content:space-between;margin-top:10px;font-size:14px;opacity:0.8}
+.btn{width:100%;padding:14px;margin-top:12px;border-radius:14px;border:0;background:#a855f7;color:white;font-weight:800;cursor:pointer}
+.btn2{background:#ffffff14;border:1px solid #ffffff1a}
+.auto{margin-top:10px;font-size:12px;opacity:0.6;display:flex;align-items:center;justify-content:center;gap:6px}
+.auto input{accent-color:#a855f7}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Tic Tac Toe</h1>
+<p class="sub">SikhoKheloBanao.com</p>
+<div class="modes">
+<button id="m1" class="active" onclick="setMode('friend')">👥 Friend</button>
+<button id="m2" onclick="setMode('ai')">🤖 AI</button>
+</div>
+<div id="status" class="status">X's Turn</div>
+<div id="board" class="board"></div>
+<div class="scores">
+<span>X: <b id="sx">0</b></span>
+<span>Draw: <b id="sd">0</b></span>
+<span>O: <b id="so">0</b></span>
+</div>
+<label class="auto"><input type="checkbox" id="autoErase" checked> Auto-Erase (Full hote hi saaf)</label>
+<!--button class="btn" onclick="reset()">New Game</button>
+<button class="btn btn2" onclick="resetScore()">Reset Score</button-->
+</div>
+
+<script>
+const boardEl=document.getElementById('board'), statusEl=document.getElementById('status');
+let board=["","","","","","","","",""], turn="X", mode="friend", gameOver=false, score={x:0,o:0,d:0};
+const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+function render(){
+ boardEl.innerHTML="";
+ board.forEach((v,i)=>{
+  let c=document.createElement('div');
+  c.className=`cell ${v?v.toLowerCase():''}`;
+  c.innerText=v;
+  c.onclick=()=>move(i);
+  boardEl.appendChild(c);
+ });
+ if(!gameOver) statusEl.innerText=`${turn}'s Turn`;
+ document.getElementById('sx').innerText=score.x;
+ document.getElementById('so').innerText=score.o;
+ document.getElementById('sd').innerText=score.d;
+}
+
+function move(i){
+ if(board[i]!="" || gameOver) return;
+ board[i]=turn;
+ checkWin();
+ if(!gameOver){
+  turn=turn=="X"?"O":"X";
+  render();
+  if(mode=="ai" && turn=="O") setTimeout(aiMove, 400);
+ } else {
+  render();
+  autoEraseNow();
+ }
+}
+
+function aiMove(){
+ if(gameOver) return;
+ let best=findBest();
+ board[best]=turn;
+ checkWin();
+ if(!gameOver) turn="X";
+ render();
+ if(gameOver) autoEraseNow();
+}
+
+function findBest(){
+ for(let i=0;i<9;i++) if(board[i]==""){ board[i]="O"; if(isWinner("O")){board[i]=""; return i;} board[i]=""; }
+ for(let i=0;i<9;i++) if(board[i]==""){ board[i]="X"; if(isWinner("X")){board[i]=""; return i;} board[i]=""; }
+ if(board[4]=="") return 4;
+ let empty=board.map((v,i)=>v==""?i:null).filter(v=>v!==null);
+ return empty[Math.floor(Math.random()*empty.length)];
+}
+
+function isWinner(p){ return wins.some(w=>w.every(i=>board[i]==p)); }
+
+function checkWin(){
+ for(let w of wins){
+  if(board[w[0]] && board[w[0]]==board[w[1]] && board[w[0]]==board[w[2]]){
+   gameOver=true;
+   statusEl.innerText=`${board[w[0]]} Wins! 🎉`;
+   setTimeout(()=>{ w.forEach(i=>boardEl.children[i].classList.add('win')); },10);
+   if(board[w[0]]=="X") score.x++; else score.o++;
+   return;
+  }
+ }
+ if(!board.includes("")){
+  gameOver=true;
+  statusEl.innerText="Draw! - Auto Clearing...";
+  score.d++;
+ }
+}
+
+function autoEraseNow(){
+ if(!document.getElementById('autoErase').checked) return;
+ setTimeout(()=>{
+  // animation
+  [...boardEl.children].forEach(c=>c.classList.add('erase'));
+  setTimeout(()=>reset(), 500);
+ }, 1200); // 1.2 sec ruke ga phir saaf
+}
+
+function reset(){
+ board=["","","","","","","","",""];
+ turn="X"; gameOver=false;
+ statusEl.innerText="X's Turn";
+ render();
+}
+function resetScore(){score={x:0,o:0,d:0};reset();}
+function setMode(m){
+ mode=m;
+ document.getElementById('m1').classList.toggle('active', m=='friend');
+ document.getElementById('m2').classList.toggle('active', m=='ai');
+ reset();
+}
+render();
+</script>
+</body>
+</html>
