@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Formatter</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f4f5f9;
+  color: #222;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+header h1 {
+  color: #ff6b35;
+  font-size: 32px;
+}
+
+header p {
+  color: #777;
+  margin-top: 8px;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px #00000010;
+  margin-bottom: 20px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-size: 19px;
+}
+
+select {
+  padding: 9px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  background: white;
+}
+
+textarea {
+  width: 100%;
+  height: 250px;
+  padding: 15px;
+  background: #1e1e2e;
+  color: #e5e7eb;
+  border: none;
+  border-radius: 10px;
+  resize: vertical;
+  outline: none;
+  font-family: Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  tab-size: 2;
+}
+
+textarea::placeholder {
+  color: #999;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+button {
+  border: none;
+  padding: 12px 17px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #ff6b35;
+  color: white;
+}
+
+button:hover {
+  opacity: .85;
+}
+
+.secondary {
+  background: #333;
+}
+
+.light {
+  background: #eee;
+  color: #333;
+}
+
+.output {
+  margin-top: 10px;
+}
+
+.status {
+  color: #777;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+@media(max-width:600px) {
+  body { padding: 12px; }
+  .card { padding: 15px; }
+  header h1 { font-size: 27px; }
+  textarea { height: 220px; }
+  .buttons button { flex: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <h1>SQL Formatter</h1>
+  <p>Format, Beautify & Minify Your SQL Queries</p>
+</header>
+
+<div class="card">
+
+  <div class="topbar">
+    <h2>Input SQL</h2>
+    <select id="caseType">
+      <option value="upper">Keywords: UPPERCASE</option>
+      <option value="lower">Keywords: lowercase</option>
+      <option value="preserve">Preserve Case</option>
+    </select>
+  </div>
+
+  <textarea id="inputSQL" placeholder="Paste your SQL query here..."></textarea>
+
+  <div class="buttons">
+    <button onclick="formatSQL()">✨ Format SQL</button>
+    <button class="secondary" onclick="minifySQL()">Minify</button>
+    <button class="light" onclick="sampleSQL()">Sample</button>
+    <button class="light" onclick="clearAll()">Clear</button>
+  </div>
+
+</div>
+
+<div class="card">
+
+  <div class="topbar">
+    <h2>Formatted SQL</h2>
+    <select id="indent">
+      <option value="2">2 Spaces</option>
+      <option value="4">4 Spaces</option>
+      <option value="8">8 Spaces</option>
+    </select>
+  </div>
+
+  <textarea id="outputSQL" class="output" placeholder="Formatted SQL will appear here..." readonly></textarea>
+
+  <div class="buttons">
+    <button onclick="copySQL()">Copy SQL</button>
+    <button class="secondary" onclick="downloadSQL()">Download .SQL</button>
+  </div>
+
+  <p class="status" id="status">Ready to format SQL.</p>
+
+</div>
+
+</div>
+
+<script>
+
+const keywords = [
+"SELECT","FROM","WHERE","AND","OR","NOT","IN","IS","NULL",
+"LIKE","BETWEEN","ORDER BY","GROUP BY","HAVING","LIMIT",
+"OFFSET","INSERT INTO","VALUES","UPDATE","SET","DELETE FROM",
+"CREATE TABLE","ALTER TABLE","DROP TABLE","PRIMARY KEY",
+"FOREIGN KEY","REFERENCES","JOIN","INNER JOIN","LEFT JOIN",
+"RIGHT JOIN","FULL JOIN","CROSS JOIN","ON","AS","DISTINCT",
+"UNION ALL","UNION","CASE","WHEN","THEN","ELSE","END",
+"ASC","DESC","COUNT","SUM","AVG","MIN","MAX","EXISTS",
+"WITH","RECURSIVE","BEGIN","COMMIT","ROLLBACK","INDEX",
+"VIEW","DATABASE","TABLE","DEFAULT","UNIQUE","CHECK",
+"CONSTRAINT","PRIMARY","FOREIGN","KEY","TRUE","FALSE"
+];
+
+function tokenize(sql) {
+  return sql.match(
+    /'(?:''|\\.|[^'])*'|"(?:\"\"|\\.|[^"])*"|`[^`]*`|--[^\n]*|\/\*[\s\S]*?\*\/|[(),;]|[^\s(),;]+/g
+  ) || [];
+}
+
+function formatSQL() {
+
+  let sql = document.getElementById("inputSQL").value.trim();
+
+  if (!sql) {
+    alert("Please enter SQL query!");
+    return;
+  }
+
+  const indentSize = Number(document.getElementById("indent").value);
+  const caseType = document.getElementById("caseType").value;
+  const space = " ".repeat(indentSize);
+
+  const tokens = tokenize(sql);
+
+  let lines = [];
+  let current = "";
+  let level = 0;
+  let previous = "";
+
+  const major = [
+    "SELECT", "FROM", "WHERE", "GROUP BY",
+    "ORDER BY", "HAVING", "LIMIT", "OFFSET",
+    "INSERT INTO", "VALUES", "UPDATE",
+    "SET", "DELETE FROM", "CREATE TABLE",
+    "ALTER TABLE", "DROP TABLE", "UNION",
+    "UNION ALL", "WITH", "RETURNING"
+  ];
+
+  function pushLine() {
+    if (current.trim()) {
+      lines.push(space.repeat(level) + current.trim());
+      current = "";
+    }
+  }
+
+  function isQuoted(t) {
+    return /^['"`]/.test(t) ||
+      t.startsWith("--") || t.startsWith("/*");
+  }
+
+  function keyword(t) {
+    if (caseType === "upper") return t.toUpperCase();
+    if (caseType === "lower") return t.toLowerCase();
+    return t;
+  }
+
+  for (let i = 0; i < tokens.length; i++) {
+
+    let t = tokens[i];
+    let upper = t.toUpperCase();
+    let next = (tokens[i + 1] || "").toUpperCase();
+
+    if (isQuoted(t)) {
+      current += (current && !current.endsWith(" ") ? " " : "") + t;
+      previous = t;
+      continue;
+    }
+
+    let combined = upper + " " + next;
+    let pair = [
+      "ORDER BY", "GROUP BY", "INSERT INTO",
+      "DELETE FROM", "CREATE TABLE", "ALTER TABLE",
+      "DROP TABLE", "INNER JOIN", "LEFT JOIN",
+      "RIGHT JOIN", "FULL JOIN", "CROSS JOIN",
+      "UNION ALL"
+    ];
+
+    let word = pair.includes(combined) ? combined : upper;
+
+    if (pair.includes(word)) i++;
+
+    if (major.includes(word)) {
+
+      pushLine();
+
+      if (word === "UNION" || word === "UNION ALL") {
+        level = 0;
+      }
+
+      current = keyword(word);
+      previous = word;
+      continue;
+    }
+
+    if (word === "JOIN" || word.endsWith("JOIN")) {
+      pushLine();
+      current = space + keyword(word);
+      previous = word;
+      continue;
+    }
+
+    if (upper === "ON" || upper === "AND" || upper === "OR") {
+      pushLine();
+      current = space.repeat(level) + keyword(t);
+      previous = upper;
+      continue;
+    }
+
+    if (t === "(") {
+      current += " (";
+      pushLine();
+      level++;
+      previous = "(";
+      continue;
+    }
+
+    if (t === ")") {
+      pushLine();
+      level = Math.max(0, level - 1);
+      current = ")";
+      previous = ")";
+      continue;
+    }
+
+    if (t === ",") {
+      current += ",";
+      pushLine();
+      previous = ",";
+      continue;
+    }
+
+    if (t === ";") {
+      current += ";";
+      pushLine();
+      lines.push("");
+      previous = ";";
+      continue;
+    }
+
+    const formatted = keywords.includes(upper)
+      ? keyword(t)
+      : t;
+
+    if (current && !current.endsWith(" ") &&
+        previous !== "(") {
+      current += " ";
+    }
+
+    current += formatted;
+    previous = upper;
+  }
+
+  pushLine();
+
+  const result = lines.join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  document.getElementById("outputSQL").value = result;
+  document.getElementById("status").textContent =
+    "SQL formatted successfully!";
+}
+
+function minifySQL() {
+
+  let sql = document.getElementById("inputSQL").value.trim();
+
+  if (!sql) {
+    alert("Please enter SQL query!");
+    return;
+  }
+
+  // Preserve quoted text and comments while removing extra whitespace.
+  const tokens = sql.match(
+    /'(?:''|\\.|[^'])*'|"(?:\"\"|\\.|[^"])*"|`[^`]*`|--[^\n]*|\/\*[\s\S]*?\*\/|\s+|./g
+  ) || [];
+
+  let result = "";
+  let pendingSpace = false;
+
+  for (const token of tokens) {
+    if (/^\s+$/.test(token)) {
+      pendingSpace = true;
+      continue;
+    }
+
+    if (pendingSpace && result &&
+        !/[,(.]$/.test(result) &&
+        !/^[),.;]$/.test(token)) {
+      result += " ";
+    }
+
+    result += token;
+    pendingSpace = false;
+  }
+
+  document.getElementById("outputSQL").value = result.trim();
+
+  document.getElementById("status").textContent =
+    "SQL minified successfully!";
+}
+
+async function copySQL() {
+
+  const output = document.getElementById("outputSQL").value;
+
+  if (!output) {
+    alert("Nothing to copy!");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(output);
+    document.getElementById("status").textContent =
+      "SQL copied successfully!";
+  } catch {
+    document.getElementById("outputSQL").select();
+    document.execCommand("copy");
+    document.getElementById("status").textContent =
+      "SQL copied!";
+  }
+}
+
+function downloadSQL() {
+
+  const output = document.getElementById("outputSQL").value;
+
+  if (!output) {
+    alert("Nothing to download!");
+    return;
+  }
+
+  const blob = new Blob([output], {
+    type: "text/sql;charset=utf-8"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "formatted-query.sql";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function clearAll() {
+  document.getElementById("inputSQL").value = "";
+  document.getElementById("outputSQL").value = "";
+  document.getElementById("status").textContent = "Editor cleared.";
+}
+
+function sampleSQL() {
+
+  document.getElementById("inputSQL").value =
+`select u.name, u.email, count(o.id) as total_orders
+from users u
+left join orders o on u.id = o.user_id
+where u.status = 'active'
+group by u.name, u.email
+having count(o.id) > 2
+order by total_orders desc;`;
+
+  formatSQL();
+}
+
+</script>
+
+</body>
+</html>
