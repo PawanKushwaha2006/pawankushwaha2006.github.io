@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Number Generator</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f6fa;
+    color: #222;
+    padding: 20px;
+}
+
+.container {
+    max-width: 480px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin: 17px 0 8px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #ff6b35;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.checkbox-row input {
+    width: 17px;
+    height: 17px;
+    accent-color: #ff6b35;
+}
+
+button {
+    border: none;
+    background: #ff6b35;
+    color: white;
+    padding: 13px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e85a27;
+}
+
+.generate-btn {
+    width: 100%;
+    margin-top: 22px;
+}
+
+.result-box {
+    margin-top: 25px;
+    background: #fff4ed;
+    padding: 17px;
+    border-radius: 10px;
+}
+
+.result-title {
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.results {
+    font-size: 25px;
+    font-weight: bold;
+    color: #ff6b35;
+    word-break: break-word;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.copy-btn {
+    width: 100%;
+    margin-top: 15px;
+    background: #333;
+}
+
+.message {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 12px;
+    color: #d33;
+    min-height: 18px;
+}
+
+.info {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f5f6fa;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎲 Random Number Generator</h1>
+    <p class="subtitle">Generate random numbers instantly</p>
+
+    <label for="min">Minimum Number</label>
+    <input type="number" id="min" value="1" step="1">
+
+    <label for="max">Maximum Number</label>
+    <input type="number" id="max" value="100" step="1">
+
+    <label for="quantity">How Many Numbers?</label>
+    <input type="number" id="quantity" value="1" min="1" max="1000" step="1">
+
+    <div class="checkbox-row">
+        <input type="checkbox" id="unique">
+        <label for="unique" style="margin:0;">
+            Don't allow duplicate numbers
+        </label>
+    </div>
+
+    <button class="generate-btn" onclick="generateNumbers()">
+        Generate Random Numbers
+    </button>
+
+    <div class="result-box">
+        <div class="result-title">Generated Numbers</div>
+        <div class="results" id="results">Your numbers will appear here</div>
+        <button class="copy-btn" onclick="copyNumbers()">Copy Numbers</button>
+    </div>
+
+    <div class="message" id="message"></div>
+
+    <div class="info">
+        <strong>How to use:</strong>
+        <br>1. Enter the minimum number.
+        <br>2. Enter the maximum number.
+        <br>3. Choose how many numbers you need.
+        <br>4. Enable the duplicate option if needed.
+        <br>5. Click Generate.
+        <br>6. Copy your generated numbers.
+        <br><br>
+        <strong>Example:</strong>
+        Minimum = 1, Maximum = 100, Quantity = 5.
+        <br>
+        Result: Five random numbers between 1 and 100.
+    </div>
+
+</div>
+
+<script>
+
+let generatedNumbers = [];
+
+function randomBigIntBelow(limit) {
+    const range = 9007199254740992n; // 2^53
+    const limitAllowed = (range / limit) * limit;
+
+    const array = new Uint32Array(2);
+    let value;
+
+    do {
+        crypto.getRandomValues(array);
+        value = (BigInt(array[0]) << 21n) |
+                (BigInt(array[1]) & 2097151n);
+    } while (value >= limitAllowed);
+
+    return value % limit;
+}
+
+function randomInteger(min, max) {
+    const range = BigInt(max) - BigInt(min) + 1n;
+    return Number(BigInt(min) + randomBigIntBelow(range));
+}
+
+function generateNumbers() {
+
+    const min = Number(document.getElementById("min").value);
+    const max = Number(document.getElementById("max").value);
+    const quantity = Number(document.getElementById("quantity").value);
+    const unique = document.getElementById("unique").checked;
+
+    const results = document.getElementById("results");
+    const message = document.getElementById("message");
+
+    message.textContent = "";
+    generatedNumbers = [];
+
+    if (
+        !Number.isSafeInteger(min) ||
+        !Number.isSafeInteger(max) ||
+        !Number.isSafeInteger(quantity)
+    ) {
+        message.textContent = "Please enter valid whole numbers.";
+        results.textContent = "No numbers generated";
+        return;
+    }
+
+    if (min > max) {
+        message.textContent = "Minimum cannot be greater than maximum.";
+        results.textContent = "No numbers generated";
+        return;
+    }
+
+    const range = BigInt(max) - BigInt(min) + 1n;
+
+    if (range > 9007199254740992n) {
+        message.textContent = "Number range is too large.";
+        results.textContent = "No numbers generated";
+        return;
+    }
+
+    if (quantity < 1 || quantity > 1000) {
+        message.textContent = "Quantity must be between 1 and 1000.";
+        results.textContent = "No numbers generated";
+        return;
+    }
+
+    if (unique && BigInt(quantity) > range) {
+        message.textContent = "Not enough numbers available for unique results.";
+        results.textContent = "No numbers generated";
+        return;
+    }
+
+    if (unique) {
+        const numberSet = new Set();
+
+        while (numberSet.size < quantity) {
+            numberSet.add(randomInteger(min, max));
+        }
+
+        generatedNumbers = Array.from(numberSet);
+
+    } else {
+        for (let i = 0; i < quantity; i++) {
+            generatedNumbers.push(randomInteger(min, max));
+        }
+    }
+
+    results.textContent = generatedNumbers.join(", ");
+}
+
+async function copyNumbers() {
+
+    const message = document.getElementById("message");
+
+    if (generatedNumbers.length === 0) {
+        message.textContent = "Generate numbers first!";
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(
+            generatedNumbers.join(", ")
+        );
+
+        message.style.color = "green";
+        message.textContent = "Numbers copied successfully!";
+
+    } catch (error) {
+        message.style.color = "red";
+        message.textContent = "Copy failed. Please copy manually.";
+    }
+}
+
+</script>
+
+</body>
+</html>
