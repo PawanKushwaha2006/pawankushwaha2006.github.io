@@ -1,0 +1,631 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chess Game</title>
+
+<!-- Chess Rules Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #202124;
+    color: white;
+    min-height: 100vh;
+    padding: 25px 15px;
+}
+
+.container {
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    color: #ffb74d;
+    font-size: clamp(28px, 6vw, 42px);
+    margin-bottom: 22px;
+}
+
+.status {
+    background: #333;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* CHESSBOARD */
+
+.board {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    display: grid;
+
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-rows: repeat(8, minmax(0, 1fr));
+
+    border: 6px solid #554333;
+    border-radius: 7px;
+    overflow: hidden;
+
+    background: #554333;
+    gap: 0;
+}
+
+.square {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    font-family: "DejaVu Sans", "Segoe UI Symbol", serif;
+    font-size: clamp(22px, 8vw, 55px);
+
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.light {
+    background: #f0d9b5;
+}
+
+.dark {
+    background: #b58863;
+}
+
+.square.selected {
+    background: #baca44 !important;
+}
+
+.square.last-move {
+    background: #cdd26a;
+}
+
+.square.possible::after {
+    content: "";
+    position: absolute;
+    width: 26%;
+    height: 26%;
+    background: #347b3caa;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.square.capture::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border: 5px solid #347b3caa;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* PIECES */
+
+.piece {
+    z-index: 2;
+    position: relative;
+    pointer-events: none;
+}
+
+.white-piece {
+    color: #fff;
+    text-shadow:
+        -1px -1px 1px #333,
+        1px 1px 2px #333,
+        0 2px 2px #777;
+}
+
+.black-piece {
+    color: #242424;
+    text-shadow: 0 1px 1px #777;
+}
+
+/* BUTTONS */
+
+.controls {
+    display: flex;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+button {
+    flex: 1;
+    padding: 16px 10px;
+    border: none;
+    border-radius: 10px;
+    background: #ff8c42;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(.97);
+}
+
+button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.history {
+    background: #333;
+    padding: 18px;
+    margin-top: 22px;
+    border-radius: 10px;
+}
+
+.history h3 {
+    margin-bottom: 12px;
+}
+
+#moveHistory {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    max-height: 160px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.move-item {
+    background: #444;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.promotion {
+    display: none;
+    background: #333;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.promotion .controls {
+    margin-top: 12px;
+}
+
+.promotion button {
+    font-size: 25px;
+    padding: 10px 5px;
+}
+
+@media (max-width: 400px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    .board {
+        border-width: 4px;
+    }
+
+    .square {
+        font-size: 8vw;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 13px 5px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>♟ Chess Game</h1>
+
+    <div class="status" id="status">
+        White's Turn
+    </div>
+
+    <!-- Chess Board -->
+    <div class="board" id="board"></div>
+
+    <!-- Promotion -->
+    <div class="promotion" id="promotion">
+
+        <h3>Choose Promotion Piece</h3>
+
+        <div class="controls">
+            <button onclick="promote('q')">♕</button>
+            <button onclick="promote('r')">♖</button>
+            <button onclick="promote('b')">♗</button>
+            <button onclick="promote('n')">♘</button>
+        </div>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+
+        <button onclick="undoMove()">
+            ↶ Undo
+        </button>
+
+        <button onclick="restartGame()">
+            ↻ Restart
+        </button>
+
+    </div>
+
+    <!-- History -->
+    <div class="history">
+
+        <h3>Move History:</h3>
+
+        <div id="moveHistory">
+            No moves yet
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+// CHECK LIBRARY
+
+if (typeof Chess === "undefined") {
+    document.getElementById("status").innerText =
+        "Please connect to the internet to load Chess Rules.";
+    throw new Error("Chess.js library not loaded");
+}
+
+// GAME VARIABLES
+
+const game = new Chess();
+
+const boardElement = document.getElementById("board");
+const statusElement = document.getElementById("status");
+const historyElement = document.getElementById("moveHistory");
+const promotionElement = document.getElementById("promotion");
+
+let selectedSquare = null;
+let possibleMoves = [];
+let pendingMove = null;
+let lastMove = null;
+
+const pieces = {
+    wk: "♔",
+    wq: "♕",
+    wr: "♖",
+    wb: "♗",
+    wn: "♘",
+    wp: "♙",
+
+    bk: "♚",
+    bq: "♛",
+    br: "♜",
+    bb: "♝",
+    bn: "♞",
+    bp: "♟"
+};
+
+// RENDER BOARD
+
+function renderBoard() {
+
+    boardElement.innerHTML = "";
+
+    const position = game.board();
+
+    for (let r = 0; r < 8; r++) {
+
+        for (let c = 0; c < 8; c++) {
+
+            const square = document.createElement("div");
+
+            const file = "abcdefgh"[c];
+            const rank = 8 - r;
+
+            const squareName = file + rank;
+
+            const piece = position[r][c];
+
+            square.className =
+                "square " + ((r + c) % 2 === 0 ? "light" : "dark");
+
+            square.dataset.square = squareName;
+
+            // Selected square
+
+            if (selectedSquare === squareName) {
+                square.classList.add("selected");
+            }
+
+            // Last move
+
+            if (lastMove &&
+                (lastMove.from === squareName ||
+                 lastMove.to === squareName)) {
+
+                square.classList.add("last-move");
+            }
+
+            // Possible moves
+
+            const targetMove = possibleMoves.find(
+                m => m.to === squareName
+            );
+
+            if (targetMove) {
+
+                if (piece) {
+                    square.classList.add("capture");
+                } else {
+                    square.classList.add("possible");
+                }
+            }
+
+            // Chess piece
+
+            if (piece) {
+
+                const span = document.createElement("span");
+
+                const key = piece.color + piece.type;
+
+                span.textContent = pieces[key];
+
+                span.className = "piece " +
+                    (piece.color === "w" ? "white-piece" : "black-piece");
+
+                square.appendChild(span);
+            }
+
+            square.addEventListener("click", () => {
+                handleSquareClick(squareName);
+            });
+
+            boardElement.appendChild(square);
+        }
+    }
+
+    updateHistory();
+    updateStatus();
+}
+
+// HANDLE CLICK
+
+function handleSquareClick(square) {
+
+    if (game.game_over() || pendingMove) return;
+
+    // Select destination
+
+    if (selectedSquare) {
+
+        const move = possibleMoves.find(
+            m => m.to === square
+        );
+
+        if (move) {
+
+            // Pawn promotion
+
+            const piece = game.get(selectedSquare);
+
+            if (piece &&
+                piece.type === "p" &&
+                (square.endsWith("8") || square.endsWith("1"))) {
+
+                pendingMove = {
+                    from: selectedSquare,
+                    to: square
+                };
+
+                promotionElement.style.display = "block";
+                return;
+            }
+
+            makeMove(square);
+            return;
+        }
+    }
+
+    // Select piece
+
+    const piece = game.get(square);
+
+    if (piece && piece.color === game.turn()) {
+
+        selectedSquare = square;
+
+        possibleMoves = game.moves({
+            square: square,
+            verbose: true
+        });
+
+    } else {
+
+        selectedSquare = null;
+        possibleMoves = [];
+    }
+
+    renderBoard();
+}
+
+// MAKE MOVE
+
+function makeMove(destination, promotion = "q") {
+
+    if (!selectedSquare) return;
+
+    try {
+
+        const move = game.move({
+            from: selectedSquare,
+            to: destination,
+            promotion: promotion
+        });
+
+        if (move) {
+
+            lastMove = {
+                from: move.from,
+                to: move.to
+            };
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+    selectedSquare = null;
+    possibleMoves = [];
+    pendingMove = null;
+
+    promotionElement.style.display = "none";
+
+    renderBoard();
+}
+
+// PROMOTION
+
+function promote(piece) {
+
+    if (!pendingMove) return;
+
+    const destination = pendingMove.to;
+
+    makeMove(destination, piece);
+}
+
+// UNDO
+
+function undoMove() {
+
+    const move = game.undo();
+
+    if (!move) return;
+
+    selectedSquare = null;
+    possibleMoves = [];
+    pendingMove = null;
+
+    lastMove = null;
+
+    promotionElement.style.display = "none";
+
+    renderBoard();
+}
+
+// RESTART
+
+function restartGame() {
+
+    game.reset();
+
+    selectedSquare = null;
+    possibleMoves = [];
+    pendingMove = null;
+    lastMove = null;
+
+    promotionElement.style.display = "none";
+
+    renderBoard();
+}
+
+// UPDATE STATUS
+
+function updateStatus() {
+
+    let message = "";
+
+    if (game.in_checkmate()) {
+
+        message =
+            "Checkmate! " +
+            (game.turn() === "w" ? "Black" : "White") +
+            " Wins!";
+
+    } else if (game.in_stalemate()) {
+
+        message = "Draw! Stalemate";
+
+    } else if (game.in_draw()) {
+
+        message = "Game Draw!";
+
+    } else if (game.in_check()) {
+
+        message =
+            (game.turn() === "w" ? "White" : "Black") +
+            "'s Turn - CHECK!";
+
+    } else {
+
+        message =
+            (game.turn() === "w" ? "White" : "Black") +
+            "'s Turn";
+    }
+
+    statusElement.textContent = message;
+}
+
+// MOVE HISTORY
+
+function updateHistory() {
+
+    const history = game.history();
+
+    if (history.length === 0) {
+        historyElement.textContent = "No moves yet";
+        return;
+    }
+
+    historyElement.innerHTML = "";
+
+    for (let i = 0; i < history.length; i += 2) {
+
+        const item = document.createElement("div");
+
+        item.className = "move-item";
+
+        item.textContent =
+            (Math.floor(i / 2) + 1) + ". " +
+            history[i] +
+            (history[i + 1] ? "   " + history[i + 1] : "");
+
+        historyElement.appendChild(item);
+    }
+}
+
+// START GAME
+
+renderBoard();
+
+</script>
+
+</body>
+  </html>
+  
