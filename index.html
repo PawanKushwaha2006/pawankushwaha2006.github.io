@@ -1,55 +1,1022 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101713">
+<title>My Website - All In One Tools</title>
+<meta name="description" content="Calculators, mechanical and electrical engineering tools, computer utilities, games and productivity tools in one place.">
+
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000;
-    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:#101713;
+  --surface:#18221c;
+  --card:#1c2921;
+  --card-hover:#26382b;
+  --text:#f5faf5;
+  --muted:#9ba99e;
+  --border:#2d4033;
+  --accent:#ff793f;
+  --green:#69c58a;
+  --nav:rgba(16,23,19,.94);
+  --shadow:0 12px 35px rgba(0,0,0,.18);
+}
+
+body.light {
+  --bg:#f3f8f3;
+  --surface:#ffffff;
+  --card:#ffffff;
+  --card-hover:#edf7ed;
+  --text:#1d2c21;
+  --muted:#718074;
+  --border:#dce9de;
+  --nav:rgba(255,255,255,.94);
+  --shadow:0 10px 30px rgba(40,80,45,.07);
+}
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  scroll-behavior:smooth;
+}
+
+
+
+.tagline {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tagline:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  transition: 0.3s;
+}
+
+
+
+
+
+body {
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .25s,color .25s;
+}
+
+button,input {
+  font:inherit;
+}
+
+a {
+  text-decoration:none;
+  color:inherit;
+}
+
+button {
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* NAVBAR */
+
+.navbar {
+  position:sticky;
+  top:0;
+  z-index:100;
+  height:72px;
+  padding:0 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--nav);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+
+.logo {
+  font-family:Outfit,sans-serif;
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.logo span {
+  color:var(--accent);
+}
+
+.nav-right {
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.nav-right a {
+  color:var(--muted);
+  font-size:12px;
+  font-weight:600;
+}
+
+.nav-right a:hover {
+  color:var(--green);
+}
+
+.nav-actions {
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.icon-btn {
+  width:42px;
+  height:42px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+  font-size:19px;
+}
+
+.icon-btn:hover {
+  border-color:var(--accent);
+}
+
+.menu-btn {
+  display:none;
+}
+
+/* HERO */
+
+.hero {
+  text-align:center;
+  padding:85px 18px 55px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero:before {
+  content:"";
+  position:absolute;
+  width:440px;
+  height:300px;
+  left:50%;
+  top:-180px;
+  transform:translateX(-50%);
+  background:rgba(105,197,138,.15);
+  filter:blur(100px);
+  border-radius:50%;
+  pointer-events:none;
+}
+
+.hero-content {
+  position:relative;
+  z-index:1;
+}
+
+.tagline {
+  display:inline-block;
+  border:1px solid rgba(105,197,138,.35);
+  background:rgba(105,197,138,.09);
+  color:var(--green);
+  padding:9px 16px;
+  border-radius:30px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+}
+
+.hero h1 {
+  font-family:Outfit,sans-serif;
+  font-size:clamp(45px,8vw,78px);
+  line-height:1.12;
+  letter-spacing:-3px;
+  margin-top:23px;
+  font-weight:800;
+}
+
+.hero h1 span {
+  background:linear-gradient(90deg,var(--accent),#ffb36d);
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero-description {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+  margin-top:14px;
+}
+
+.search-area {
+  max-width:620px;
+  margin:32px auto 0;
+}
+
+.search-box {
+  display:flex;
+  align-items:center;
+  padding:6px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:15px;
+  box-shadow:var(--shadow);
+}
+
+.search-box:focus-within {
+  border-color:var(--green);
+}
+
+.search-icon {
+  padding:0 13px;
+  font-size:20px;
+}
+
+.search-box input {
+  flex:1;
+  min-width:0;
+  background:transparent;
+  border:0;
+  outline:0;
+  color:var(--text);
+  font-size:13px;
+}
+
+.search-box button {
+  padding:13px 22px;
+  border:0;
+  border-radius:11px;
+  color:white;
+  background:var(--accent);
+  cursor:pointer;
+  font-weight:700;
+  font-size:12px;
+}
+
+.stats {
+  display:flex;
+  justify-content:center;
+  gap:48px;
+  margin-top:35px;
+}
+
+.stat h3 {
+  font-family:Outfit,sans-serif;
+  font-size:26px;
+  color:var(--accent);
+}
+
+.stat p {
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+}
+
+/* MAIN */
+
+.container {
+  max-width:1250px;
+  padding:0 25px;
+  margin:auto;
+}
+
+.category-nav {
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  padding:10px 0 28px;
+}
+
+.category-nav a {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:var(--card);
+  border:1px solid var(--border);
+  color:var(--muted);
+  border-radius:10px;
+  padding:10px 13px;
+  font-size:11px;
+  font-weight:600;
+  transition:.2s;
+}
+
+.category-nav a:hover {
+  border-color:var(--green);
+  color:var(--green);
+  transform:translateY(-2px);
+}
+
+/* SECTION */
+
+.section {
+  padding:25px 0 35px;
+  scroll-margin-top:85px;
+}
+
+.section-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+  gap:10px;
+}
+
+.heading-left {
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.heading-icon {
+  height:48px;
+  width:48px;
+  display:grid;
+  place-items:center;
+  font-size:23px;
+  background:rgba(105,197,138,.11);
+  border:1px solid rgba(105,197,138,.22);
+  border-radius:14px;
+}
+
+.section-heading h2 {
+  font-family:Outfit,sans-serif;
+  font-size:21px;
+}
+
+.section-heading p {
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.section-count {
+  color:var(--green);
+  background:rgba(105,197,138,.11);
+  border-radius:30px;
+  padding:8px 13px;
+  font-size:11px;
+  font-weight:700;
+}
+
+/* TOOL GRID */
+
+.tools-grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+}
+
+.tool-card {
+  display:block;
+  position:relative;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  min-width:0;
+  transition:.23s;
+  overflow:hidden;
+}
+
+.tool-card:hover {
+  background:var(--card-hover);
+  border-color:var(--green);
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
+}
+
+.tool-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:17px;
+}
+
+.tool-icon {
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  background:rgba(255,121,63,.11);
+  border-radius:13px;
+  font-size:22px;
+}
+
+.tool-card h3 {
+  font-size:13px;
+  font-weight:700;
+  padding-right:12px;
+  line-height:1.5;
+}
+
+.tool-card p {
+  font-size:10px;
+  color:var(--muted);
+  line-height:1.5;
+  margin-top:6px;
+}
+
+.fav-btn {
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-size:23px;
+  cursor:pointer;
+  padding:3px 5px;
+  line-height:1;
+}
+
+.fav-btn.active {
+  color:var(--accent);
+}
+
+.tool-arrow {
+  position:absolute;
+  right:17px;
+  bottom:16px;
+  color:var(--muted);
+  font-size:15px;
+}
+
+.tool-card:hover .tool-arrow {
+  color:var(--green);
+}
+
+/* QUICK ACCESS */
+
+.quick-section {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:19px;
+  padding:22px;
+  margin:10px 0 30px;
+  box-shadow:var(--shadow);
+}
+
+.quick-section .tool-card {
+  background:var(--bg);
+}
+
+.quick-empty {
+  padding:18px 5px 8px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.quick-section .tools-grid:empty {
+  display:none;
+}
+
+/* EMPTY SEARCH */
+
+.empty {
+  display:none;
+  text-align:center;
+  padding:55px 10px;
+  color:var(--muted);
+}
+
+.empty .empty-icon {
+  font-size:42px;
+}
+
+.empty h3 {
+  margin:12px 0 6px;
+  color:var(--text);
+}
+
+.empty p {
+  font-size:12px;
+}
+
+/* FOOTER */
+
+footer {
+  margin-top:40px;
+  padding:45px 20px 25px;
+  text-align:center;
+  border-top:1px solid var(--border);
+  background:var(--surface);
+}
+
+.footer-logo {
+  font-family:Outfit,sans-serif;
+  font-size:27px;
+  font-weight:800;
+}
+
+.footer-logo span {
+  color:var(--accent);
+}
+
+footer p {
+  color:var(--muted);
+  font-size:12px;
+  margin-top:12px;
+  line-height:1.7;
+}
+
+.footer-links {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:20px;
+  margin:23px 0;
+}
+
+.footer-links a {
+  color:var(--muted);
+  font-size:11px;
+}
+
+.footer-links a:hover {
+  color:var(--green);
+}
+
+.copyright {
+  border-top:1px solid var(--border);
+  padding-top:20px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* MOBILE */
+
+@media(max-width:950px) {
+  .tools-grid {
+    grid-template-columns:repeat(3,minmax(0,1fr));
   }
 
-  #naughtyAiBtn {
-    position: relative;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    padding: 16px 32px;
-    border-radius: 40px;
-    font-size: 19px;
-    font-weight: 900;
-    cursor: pointer;
-    text-decoration: none;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), inset 0 0 10px rgba(255,255,255,0.2);
+  .nav-right {
+    gap:11px;
+  }
+}
+
+@media(max-width:650px) {
+  .navbar {
+    height:67px;
+    padding:0 16px;
   }
 
-  #naughtyAiBtn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.8), transparent);
-    animation: shine 2.5s infinite;
+  .logo {
+    font-size:21px;
   }
 
-  @keyframes shine {
-    0% { left: -100%; }
-    100% { left: 100%; }
+  .menu-btn {
+    display:block;
   }
+
+  .nav-right {
+    display:none;
+    position:absolute;
+    top:73px;
+    right:15px;
+    left:auto;
+    width:225px;
+    padding:12px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:15px;
+    box-shadow:var(--shadow);
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+  }
+
+  .nav-right.show {
+    display:flex;
+  }
+
+  .nav-right a {
+    padding:12px;
+    border-radius:9px;
+    font-size:12px;
+  }
+
+  .nav-right a:hover {
+    background:var(--card-hover);
+  }
+
+  .hero {
+    padding:60px 15px 40px;
+  }
+
+  .hero h1 {
+    letter-spacing:-2px;
+  }
+
+  .hero-description {
+    font-size:12px;
+  }
+
+  .stats {
+    gap:27px;
+  }
+
+  .stat h3 {
+    font-size:22px;
+  }
+
+  .stat p {
+    font-size:10px;
+  }
+
+  .container {
+    padding:0 15px;
+  }
+
+  .category-nav {
+    gap:7px;
+    padding-bottom:20px;
+  }
+
+  .category-nav a {
+    padding:9px 10px;
+    font-size:10px;
+  }
+
+  .tools-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  .tool-card {
+    padding:14px;
+    border-radius:14px;
+  }
+
+  .tool-icon {
+    width:40px;
+    height:40px;
+    font-size:20px;
+  }
+
+  .tool-card h3 {
+    font-size:12px;
+  }
+
+  .tool-card p {
+    font-size:10px;
+  }
+
+  .section-heading h2 {
+    font-size:17px;
+  }
+
+  .section-heading p {
+    font-size:10px;
+  }
+
+  .heading-icon {
+    width:42px;
+    height:42px;
+  }
+
+  .section {
+    padding:22px 0 27px;
+  }
+
+  .quick-section {
+    padding:14px;
+    border-radius:15px;
+  }
+
+  .search-box input {
+    font-size:11px;
+  }
+
+  .search-box button {
+    padding:12px 13px;
+    font-size:11px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
+}
 </style>
 </head>
+
 <body>
 
-<a id="naughtyAiBtn" href="Naughty AI.html"> Open Naughty Ai 🤖</a>
+<!-- NAVBAR -->
 
-</body>
-</html>
+<nav class="navbar">
+
+  <a href="#" class="logo">MY<span>WEBSITE.</span></a>
+
+  <div class="nav-right" id="navMenu">
+    <a href="#">🏠 Home</a>
+    <a href="#favoritesSection">❤️ Favourites</a>
+    <a href="#recentSection">🕘 Recently Used</a>
+    <a href="#calculators">🧮 Calculators</a>
+    <a href="#mechanical">⚙️ Engineering</a>
+    <a href="#computer">💻 Computer</a>
+    <a href="#games">🎮 Games</a>
+    <a href="#others">🛠️ Other Tools</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="icon-btn" id="themeBtn"
+      onclick="toggleTheme()" aria-label="Change theme">☀️</button>
+
+    <button class="icon-btn menu-btn"
+      onclick="toggleMenu()" aria-label="Open menu">☰</button>
+  </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<header class="hero">
+
+  <div class="hero-content">
+
+    <a href="pawan.html" class="tagline">
+  🌿 YOUR DIGITAL TOOLBOX
+</a>
+
+    <h1>MY <span>WEBSITE</span></h1>
+
+    <p class="hero-description">
+      Everything you need, all in one place.<br>
+      Calculators • Engineering • Coding • Games • Online Tools
+    </p>
+
+    <div class="search-area">
+      <div class="search-box">
+        <span class="search-icon">⌕</span>
+
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Search any tool, calculator or game..."
+          autocomplete="off"
+        >
+
+        <button onclick="searchTools()">Search</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <h3 id="toolCount">0+</h3>
+        <p>Useful Tools</p>
+      </div>
+
+      <div class="stat">
+        <h3>09</h3>
+        <p>Categories</p>
+      </div>
+
+      <div class="stat">
+        <h3>24/7</h3>
+        <p>Available</p>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+
+<main class="container">
+
+  <!-- CATEGORY NAVIGATION -->
+
+  <div class="category-nav">
+    <a href="#calculators">🧮 Calculators</a>
+    <a href="#others">🛠️ Online Tools</a>
+    <a href="#mechanical">⚙️ Mechanical</a>
+    <a href="#electrical">⚡ Electrical</a>
+    <a href="#computer">💻 BCA & CS</a>
+    <a href="#games">🎮 Games</a>
+    <a href="#education">🎓 Education</a>
+    <a href="#design">🎨 Design</a>
+    <a href="#productivity">🚀 Productivity</a>
+  </div>
+
+
+  <!-- FAVOURITES -->
+
+  <section class="quick-section section" id="favoritesSection">
+
+    <div class="section-heading">
+      <div class="heading-left">
+        <div class="heading-icon">❤️</div>
+        <div>
+          <h2>My Favourites</h2>
+          <p>Your favourite tools in one place</p>
+        </div>
+      </div>
+      <span class="section-count" id="favCount">0</span>
+    </div>
+
+    <div class="tools-grid" id="favoritesGrid"></div>
+
+    <p class="quick-empty" id="favEmpty">
+      ❤️ Like any tool to save it here.
+    </p>
+
+  </section>
+
+
+  <!-- RECENTLY USED -->
+
+  <section class="quick-section section" id="recentSection">
+
+    <div class="section-heading">
+      <div class="heading-left">
+        <div class="heading-icon">🕘</div>
+        <div>
+          <h2>Recently Used</h2>
+          <p>Your last 8 opened tools</p>
+        </div>
+      </div>
+      <span class="section-count" id="recentCount">0</span>
+    </div>
+
+    <div class="tools-grid" id="recentGrid"></div>
+
+    <p class="quick-empty" id="recentEmpty">
+      🕘 Your recently opened tools will appear here.
+    </p>
+
+  </section>
+
+
+  <!-- ALL CATEGORIES GENERATED HERE -->
+
+  <div id="allSections"></div>
+
+  <div class="empty" id="empty">
+    <div class="empty-icon">🔍</div>
+    <h3>No tools found!</h3>
+    <p>Try searching with another keyword.</p>
+  </div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="footer-logo">MY<span>WEBSITE.</span></div>
+
+  <p>
+    Your one-stop destination for calculators, engineering,
+    programming, games and useful online tools.
+  </p>
+
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="#favoritesSection">Favourites</a>
+    <a href="#calculators">Calculators</a>
+    <a href="#mechanical">Engineering</a>
+    <a href="#computer">Computer Tools</a>
+    <a href="#games">Games</a>
+    <a href="#others">Other Tools</a>
+  </div>
+
+  <div class="copyright">
+    © 2026 MY WEBSITE. All Rights Reserved.
+    Made with care 🌿
+  </div>
+
+</footer>
+
+
+<script>
+
+/* =====================================
+   1. ALL 9 CATEGORIES AND THEIR TOOLS
+===================================== */
+
+const categories = [
+
+{
+ id:"calculators",
+ name:"Calculators",
+ icon:"🧮",
+ description:"Smart calculations made easy",
+ tools:[
+  ["Basic Calculator","🧮","Simple mathematical calculations"],
+  ["Love Calculator","❤️","Fun compatibility calculator"],
+  ["BMI Calculator","⚖️","Calculate body mass index"],
+  ["Age Calculator","🎂","Calculate your exact age"],
+  ["Percentage Calculator","💯","Calculate percentages"],
+  ["Discount Calculator","🏷️","Calculate shopping discounts"],
+  ["GST Calculator","💰","Calculate GST amount"],
+  ["EMI Calculator","🏦","Calculate monthly EMI"],
+  ["Scientific Calculator","📐","Advanced mathematical calculations"],
+  ["BMR Calculator","🔥","Calculate basal metabolic rate"],
+  ["Date Calculator","📅","Calculate date differences"],
+  ["Unit Converter","🔄","Convert different measurement units"],
+  ["Ratio Calculator","➗","Calculate ratios"],
+  ["Fraction Calculator","½","Fraction operations"],
+  ["Average Calculator","📊","Find average values"],
+  ["Simple Interest Calculator","💵","Calculate simple interest"],
+  ["Compound Interest Calculator","📈","Calculate compound interest"],
+  ["Profit Loss Calculator","💹","Calculate profit and loss"],
+  ["Square Root Calculator","√","Calculate square roots"],
+  ["Area Calculator","📏","Calculate geometric areas"]
+ ]
+},
+
+{
+ id:"others",
+ name:"Online Tools",
+ icon:"🛠️",
+ description:"Useful tools for everyday tasks",
+ tools:[
+  ["Base64 Encoder","🔐","Encode and decode Base64"],
+  ["QR Generator","📱","Create QR codes"],
+  ["Password Generator","🔑","Generate secure passwords"],
+  ["Password Strength Checker","🛡️","Check password strength"],
+  ["Word Counter","📝","Count words and characters"],
+  ["Case Converter","🔠","Convert text case"],
+  ["Text Encryptor","🔒","Encrypt and decrypt text"],
+  ["JSON Formatter","📋","Format JSON data"],
+  ["URL Encoder","🌐","Encode and decode URLs"],
+  ["Color Picker","🎨","Choose color codes"],
+  ["Image Resizer","🖼️","Resize images"],
+  ["Image Converter","📸","Convert image formats"],
+  ["Image Compressor","📦","Compress image files"],
+  ["Image Cropper","✂️","Crop your images"],
+  ["Stopwatch","⏱️","Track elapsed time"],
+  ["Online Timer","⏰","Countdown timer"],
+  ["Text To Speech","🔊","Convert text into voice"],
+  ["Speech To Text","🎤","Convert voice into text"],
+  ["QR Scanner","📷","Scan QR codes"],
+  ["Random Number Generator","🎲","Generate random numbers"],
+  ["URL Shortener","🔗","Create short links"],
+  ["Morse Code Converter","📡","Convert Morse code"],
+  ["Markdown Previewer","📄","Preview Markdown text"],
+  ["HTML Formatter","🌍","Format HTML code"]
+ ]
+},
+
+{
+ id:"mechanical",
+ name:"Mechanical Engineering",
+ icon:"⚙️",
+ description:"Engineering and machine calculations",
+ tools:[
+  ["RPM Calculator","🔄","Calculate rotational speed"],
+  ["Torque Calculator","🔩","Calculate torque"],
+  ["Gear Ratio Calculator","⚙️","Calculate gear ratio"],
+  ["Cutting Speed Calculator","✂️","Machining cutting speed"],
+  ["Feed Rate Calculator","📏","Calculate feed rate"],
+  ["Lathe Calculator","🔧","Lathe machining calculations"],
+  ["Drilling Calculator","🛠️","Drilling parameters"],
+  ["Welding Calculator","🔥","Welding estimates"],
+  ["Pressure Calculator","🌡️","Calculate pressure"],
+  ["Force Calculator","💪","Calculate force"],
+  ["Mechanical Power Calculator","⚡","Calculate mechanical power"],
+  ["Stress Strain Calculator","📐","Material stress and strain"],
+  ["Density Calculator","🧱","Calculate density"],
+  ["Heat Calculator","🌡️","Calculate heat energy"],
+  ["Work Calculator","🏗️","Mechanical work calculations"],
+  ["Velocity Calculator","🏎️","Calculate velocity"],
+  ["Acceleration Calculator","🚀","Calculate acceleration"],
+  ["Kinetic Energy Calculator","⚙️","Calculate kinetic energy"],
+  ["Potential Energy Calculator","🔋","Calculate potential energy"],
+  ["Beam Calculator","🏗️","Basic beam calculations"],
+  ["Spring Calculator","🌀","Spring calculations"],
+  ["Bearing Life Calculator","⚙️","Estimate bearing life"]
+ ]
+},
+
+{
+ id:"electrical",
+ name:"Electrical Engineering",
+ icon:"⚡",
+ description:"Electrical and electronics tools",
+ tools:[
+  ["Ohm's Law Calculator","⚡","Voltage, current and resistance"],
+  ["Voltage Calculator","🔋","Calculate voltage"],
+  ["Current Calculator","🔌","Calculate current"],
+  ["Resistance Calculator","〰️","Calculate resistance"],
+  ["Electrical Power Calculator","💡","Calculate electrical power"],
+  ["Energy Calculator","🔋","Electrical energy calculations"],
+  ["Resistor Color Code","🎨","Identify resistor values"],
+  ["Series Parallel Calculator","🔗","Resistance combinations"],
+  ["Transformer Calculator","🔌","Transformer calculations"],
+  ["Wire Size Calculator","🧵","Wire sizing estimates"],
+  ["Three Phase Calculator","⚙️","Three phase power"],
+  ["Electricity Bill Calculator","🧾","Estimate electricity costs"],
+  ["Capacitance Calculator","🔋","Calculate capacitance"],
+  ["Inductance Calculator","🌀","Calculate inductance"],
+  ["Power Factor Calculator","📊","Calculate power factor"],
+  ["Frequency Calculator","〰️","Calculate frequency"],
+  ["LED Resistor Calculator","💡","LED resistor values"],
+  ["Battery Life Calculator","🔋","Estimate battery li
