@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Calculator - SikhoKheloBanao</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI}
+body{background:radial-gradient(circle at top,#3f0a3a,#020617);min-height:100vh;display:flex;justify-content:center;align-items:center;color:white;padding:15px}
+.card{width:100%;max-width:420px;background:#ffffff0d;border:1px solid #ffffff1a;border-radius:28px;padding:26px;backdrop-filter:blur(20px);box-shadow:0 20px 60px #0008;text-align:center;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,#ff4d8a22,transparent 60%);pointer-events:none}
+h1{font-size:28px}
+.sub{opacity:0.6;font-size:13px;margin:6px 0 18px}
+.inputs{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.inputBox{position:relative}
+.inputBox span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px}
+.inputBox input{width:100%;padding:14px 14px 14px 42px;border-radius:14px;border:1px solid #ffffff1a;background:#0005;color:white;font-size:15px;outline:none}
+.inputBox input:focus{border-color:#ff4d8a}
+.btn{width:100%;padding:15px;border-radius:14px;border:0;background:linear-gradient(90deg,#ff4d8a,#a855f7);color:white;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 10px 20px #ff4d8a44}
+.resultBox{margin-top:20px;padding:20px;background:#0006;border-radius:18px;display:none}
+.circle{width:110px;height:110px;border-radius:50%;margin:10px auto;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;background:conic-gradient(#ff4d8a var(--p),#ffffff1a var(--p));position:relative}
+.circle::before{content:'';position:absolute;inset:8px;background:#0f0f1a;border-radius:50%}
+.circle b{position:relative;z-index:2}
+.msg{margin-top:10px;font-size:14px;line-height:1.5}
+.share{display:flex;gap:8px;margin-top:14px}
+.share button{flex:1;padding:10px;border-radius:12px;border:1px solid #ffffff1a;background:#ffffff0f;color:white;cursor:pointer}
+.hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.heart{position:absolute;animation:float 3s linear infinite;font-size:20px}
+@keyframes float{0%{transform:translateY(100%) scale(0);opacity:1}100%{transform:translateY(-100vh) scale(1.5);opacity:0}}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="hearts" id="hearts"></div>
+<h1>❤️ Love Calculator</h1>
+<p class="sub">kodmasti.in - 100% True Love Test</p>
+
+<div class="inputs">
+<div class="inputBox"><span>👦</span><input id="name1" placeholder="Your Name"></div>
+<div class="inputBox"><span>👧</span><input id="name2" placeholder="Crush Name"></div>
+</div>
+<button class="btn" onclick="calculate()">💖 Calculate Love</button>
+
+<div class="resultBox" id="resultBox">
+<div class="circle" id="circle"><b id="percent">0%</b></div>
+<div id="names" style="font-weight:700;margin-top:6px"></div>
+<div id="message" class="msg"></div>
+<div class="share">
+<button onclick="shareWA()">WhatsApp</button>
+<button onclick="location.reload()">Again</button>
+</div>
+</div>
+</div>
+
+<script>
+function calculate(){
+ let n1=document.getElementById('name1').value.trim();
+ let n2=document.getElementById('name2').value.trim();
+ if(!n1||!n2){alert("Dono naam likho yaar!");return;}
+
+ // deterministic love % - same naam pe same result ayega (bug free)
+ let combined = (n1+n2).toLowerCase().replace(/\s/g,'');
+ let sum=0;
+ for(let c of combined) sum+=c.charCodeAt(0);
+ let percent = (sum % 61) + 35; // 35% se 95% ke beech hi ayega, 0% kabhi nahi
+ if((n1.toLowerCase()==n2.toLowerCase())) percent=99;
+
+ document.getElementById('resultBox').style.display='block';
+ document.getElementById('names').innerText=`${n1} ❤️ ${n2}`;
+ document.getElementById('circle').style.setProperty('--p', percent+'%');
+ animateNumber(percent);
+
+ let msg="";
+ if(percent>90) msg="🔥 Soulmates! Shaadi pakki samjho, tum dono ek dusre ke liye bane ho!";
+ else if(percent>75) msg="💕 Strong Connection! Thora aur effort karo, pyar gehra hai.";
+ else if(percent>60) msg="😊 Good Match! Dosti se pyar ban sakta hai.";
+ else if(percent>45) msg="🤔 Average Love! Koshish karni padegi, abhi 50-50 hai.";
+ else msg="💔 Thoda mushkil hai, par true love me sab possible hai!";
+
+ document.getElementById('message').innerText=msg;
+ createHearts(percent);
+}
+
+function animateNumber(target){
+ let el=document.getElementById('percent');
+ let c=0;
+ let int=setInterval(()=>{
+  c+=2;
+  if(c>=target){c=target; clearInterval(int);}
+  el.innerText=c+"%";
+ },20);
+}
+
+function createHearts(n){
+ let container=document.getElementById('hearts');
+ container.innerHTML="";
+ for(let i=0;i<12;i++){
+  let h=document.createElement('div');
+  h.className='heart';
+  h.innerText=['❤️','💖','💕','💗'][Math.floor(Math.random()*4)];
+  h.style.left=Math.random()*100+'%';
+  h.style.animationDelay=Math.random()*2+'s';
+  container.appendChild(h);
+ }
+}
+
+function shareWA(){
+ let n1=document.getElementById('name1').value, n2=document.getElementById('name2').value, p=document.getElementById('percent').innerText;
+ let text=`${n1} ❤️ ${n2} = ${p} Love! Mera Love Calculator check karo - SikhoKheloBanao.com`;
+ window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+}
+</script>
+</div>
+</body>
+  </html>
