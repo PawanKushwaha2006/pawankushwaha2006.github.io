@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2048 Game</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #faf8ef;
+    color: #776e65;
+    display: flex;
+    justify-content: center;
+    padding: 25px 12px;
+    min-height: 100vh;
+}
+
+.game {
+    width: 100%;
+    max-width: 430px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 55px;
+    color: #776e65;
+}
+
+.scores {
+    display: flex;
+    gap: 6px;
+}
+
+.score-box {
+    background: #bbada0;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-align: center;
+    min-width: 75px;
+}
+
+.score-box small {
+    display: block;
+    font-size: 11px;
+}
+
+.score-box span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.controls p {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+button {
+    background: #8f7a66;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.buttons {
+    display: flex;
+    gap: 6px;
+}
+
+#board {
+    background: #bbada0;
+    padding: 10px;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    touch-action: none;
+}
+
+.cell {
+    aspect-ratio: 1;
+    border-radius: 5px;
+    background: rgba(238, 228, 218, 0.35);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(23px, 7vw, 38px);
+    font-weight: bold;
+    transition: background .1s;
+}
+
+.v2 {background:#eee4da;color:#776e65}
+.v4 {background:#ede0c8;color:#776e65}
+.v8 {background:#f2b179;color:white}
+.v16 {background:#f59563;color:white}
+.v32 {background:#f67c5f;color:white}
+.v64 {background:#f65e3b;color:white}
+.v128 {background:#edcf72;color:white;font-size:30px}
+.v256 {background:#edcc61;color:white;font-size:30px}
+.v512 {background:#edc850;color:white;font-size:30px}
+.v1024 {background:#edc53f;color:white;font-size:25px}
+.v2048 {background:#edc22e;color:white;font-size:25px}
+.vlarge {background:#3c3a32;color:white;font-size:23px}
+
+.instructions {
+    margin-top: 22px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0008;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.popup {
+    background: #faf8ef;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 300px;
+}
+
+.popup h2 {
+    margin-bottom: 15px;
+}
+
+.popup button {
+    margin-top: 15px;
+}
+
+@media(max-width:350px) {
+    #board {gap:6px;padding:7px}
+    .cell {font-size:21px}
+    h1 {font-size:43px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+    <div class="header">
+        <h1>2048</h1>
+
+        <div class="scores">
+            <div class="score-box">
+                <small>SCORE</small>
+                <span id="score">0</span>
+            </div>
+
+            <div class="score-box">
+                <small>BEST</small>
+                <span id="best">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <p>Join the numbers and reach <b>2048!</b></p>
+
+        <div class="buttons">
+            <button onclick="undo()">↶</button>
+            <button onclick="newGame()">New Game</button>
+        </div>
+    </div>
+
+    <div id="board"></div>
+
+    <div class="instructions">
+        <b>How to play:</b><br>
+        Use your keyboard arrow keys or swipe on your mobile screen.
+        Matching numbers merge into one!
+    </div>
+
+</div>
+
+<div class="overlay" id="overlay">
+    <div class="popup">
+        <h2 id="popupTitle">Game Over!</h2>
+        <p id="popupText">Try again!</p>
+        <button onclick="newGame()">Play Again</button>
+    </div>
+</div>
+
+<script>
+const boardElement = document.getElementById("board");
+
+let board = [];
+let score = 0;
+let best = Number(localStorage.getItem("2048-best")) || 0;
+let previous = null;
+let gameOver = false;
+let won = false;
+
+document.getElementById("best").innerText = best;
+
+function newGame() {
+    board = Array(16).fill(0);
+    score = 0;
+    previous = null;
+    gameOver = false;
+    won = false;
+
+    document.getElementById("overlay").style.display = "none";
+
+    addTile();
+    addTile();
+    render();
+}
+
+function addTile() {
+    const empty = [];
+
+    board.forEach((v, i) => {
+        if (v === 0) empty.push(i);
+    });
+
+    if (!empty.length) return;
+
+    const index = empty[Math.floor(Math.random() * empty.length)];
+    board[index] = Math.random() < 0.9 ? 2 : 4;
+}
+
+function render() {
+    boardElement.innerHTML = "";
+
+    board.forEach(value => {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+
+        if (value) {
+            cell.innerText = value;
+            cell.classList.add(
+                value <= 2048 ? "v" + value : "vlarge"
+            );
+        }
+
+        boardElement.appendChild(cell);
+    });
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("best").innerText = best;
+}
+
+function saveUndo() {
+    previous = {
+        board: [...board],
+        score: score
+    };
+}
+
+function undo() {
+    if (!previous || gameOver) return;
+
+    board = [...previous.board];
+    score = previous.score;
+    previous = null;
+    render();
+}
+
+function move(direction) {
+    if (gameOver) return;
+
+    const oldBoard = [...board];
+    let gained = 0;
+
+    function mergeLine(line) {
+        let arr = line.filter(v => v !== 0);
+
+        for (let i = 0; i < arr.length - 1; i++) {
+            if (arr[i] === arr[i + 1]) {
+                arr[i] *= 2;
+                gained += arr[i];
+                arr.splice(i + 1, 1);
+            }
+        }
+
+        while (arr.length < 4) arr.push(0);
+        return arr;
+    }
+
+    let newBoard = Array(16).fill(0);
+
+    for (let i = 0; i < 4; i++) {
+        let line = [];
+
+        for (let j = 0; j < 4; j++) {
+            let index = direction === "left" ? i * 4 + j :
+                        direction === "right" ? i * 4 + (3-j) :
+                        direction === "up" ? j * 4 + i :
+                        (3-j) * 4 + i;
+
+            line.push(board[index]);
+        }
+
+        let merged = mergeLine(line);
+
+        for (let j = 0; j < 4; j++) {
+            let index = direction === "left" ? i * 4 + j :
+                        direction === "right" ? i * 4 + (3-j) :
+                        direction === "up" ? j * 4 + i :
+                        (3-j) * 4 + i;
+
+            newBoard[index] = merged[j];
+        }
+    }
+
+    if (newBoard.every((v, i) => v === oldBoard[i])) return;
+
+    saveUndo();
+    board = newBoard;
+    score += gained;
+
+    if (score > best) {
+        best = score;
+        localStorage.setItem("2048-best", best);
+    }
+
+    addTile();
+    render();
+
+    if (!won && board.includes(2048)) {
+        won = true;
+        showPopup("You Win!", "Congratulations! You reached 2048!");
+    } else if (isGameOver()) {
+        gameOver = true;
+        showPopup("Game Over!", "No more moves available!");
+    }
+}
+
+function isGameOver() {
+    if (board.includes(0)) return false;
+
+    for (let i = 0; i < 16; i++) {
+        if (i % 4 !== 3 && board[i] === board[i+1]) return false;
+        if (i < 12 && board[i] === board[i+4]) return false;
+    }
+
+    return true;
+}
+
+function showPopup(title, message) {
+    document.getElementById("popupTitle").innerText = title;
+    document.getElementById("popupText").innerText = message;
+    document.getElementById("overlay").style.display = "flex";
+}
+
+document.addEventListener("keydown", e => {
+    const keys = {
+        ArrowLeft: "left",
+        ArrowRight: "right",
+        ArrowUp: "up",
+        ArrowDown: "down"
+    };
+
+    if (keys[e.key]) {
+        e.preventDefault();
+        move(keys[e.key]);
+    }
+});
+
+let startX = 0;
+let startY = 0;
+
+boardElement.addEventListener("touchstart", e => {
+    const touch = e.changedTouches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+}, {passive: true});
+
+boardElement.addEventListener("touchend", e => {
+    const touch = e.changedTouches[0];
+
+    const dx = touch.clientX - startX;
+    const dy = touch.clientY - startY;
+
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 25) return;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+        move(dx > 0 ? "right" : "left");
+    } else {
+        move(dy > 0 ? "down" : "up");
+    }
+}, {passive: true});
+
+newGame();
+</script>
+
+</body>
+  </html>
+  
