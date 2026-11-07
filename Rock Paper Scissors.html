@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Paper Scissors</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f6fa;
+    color: #222;
+    padding: 20px;
+}
+
+.container {
+    max-width: 450px;
+    margin: 20px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+h1 {
+    font-size: 26px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-around;
+    background: #fff4ed;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.score-box h3 {
+    font-size: 14px;
+    color: #666;
+}
+
+.score {
+    font-size: 30px;
+    font-weight: bold;
+    color: #ff6b35;
+    margin-top: 5px;
+}
+
+.battle {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.player-side, .computer-side {
+    width: 40%;
+}
+
+.player-side h3, .computer-side h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.choice-display {
+    font-size: 55px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 15px 5px;
+}
+
+.vs {
+    font-weight: bold;
+    color: #ff6b35;
+}
+
+.result {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0;
+    min-height: 25px;
+}
+
+.choices {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.choice-btn {
+    border: 2px solid #ff6b35;
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 30px;
+    cursor: pointer;
+    width: 85px;
+}
+
+.choice-btn:hover {
+    background: #fff0e9;
+}
+
+.choice-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.choice-name {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.reset-btn {
+    margin-top: 25px;
+    padding: 12px 25px;
+    background: #ff6b35;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.history {
+    margin-top: 25px;
+    text-align: left;
+}
+
+.history h3 {
+    margin-bottom: 12px;
+}
+
+.history-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+}
+
+.empty {
+    color: #999;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>✊ Rock Paper Scissors</h1>
+    <p class="subtitle">Choose your move and play!</p>
+
+    <div class="scoreboard">
+        <div class="score-box">
+            <h3>You</h3>
+            <div class="score" id="playerScore">0</div>
+        </div>
+
+        <div class="score-box">
+            <h3>Computer</h3>
+            <div class="score" id="computerScore">0</div>
+        </div>
+    </div>
+
+    <div class="battle">
+        <div class="player-side">
+            <h3>You</h3>
+            <div class="choice-display" id="playerChoice">❔</div>
+        </div>
+
+        <div class="vs">VS</div>
+
+        <div class="computer-side">
+            <h3>Computer</h3>
+            <div class="choice-display" id="computerChoice">❔</div>
+        </div>
+    </div>
+
+    <div class="result" id="result">Choose your move!</div>
+
+    <p>Select your choice:</p>
+
+    <div class="choices">
+        <button class="choice-btn" onclick="play('rock')">
+            ✊
+            <div class="choice-name">Rock</div>
+        </button>
+
+        <button class="choice-btn" onclick="play('paper')">
+            ✋
+            <div class="choice-name">Paper</div>
+        </button>
+
+        <button class="choice-btn" onclick="play('scissors')">
+            ✌️
+            <div class="choice-name">Scissors</div>
+        </button>
+    </div>
+
+    <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+
+    <div class="history">
+        <h3>📜 Game History</h3>
+        <div id="historyList">
+            <p class="empty">No games played yet.</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+let playerScore = 0;
+let computerScore = 0;
+let history = [];
+
+const emojis = {
+    rock: "✊",
+    paper: "✋",
+    scissors: "✌️"
+};
+
+function play(player) {
+
+    const options = ["rock", "paper", "scissors"];
+
+    // Computer chooses immediately
+    const computer = options[Math.floor(Math.random() * 3)];
+
+    document.getElementById("playerChoice").textContent = emojis[player];
+    document.getElementById("computerChoice").textContent = emojis[computer];
+
+    let message = "";
+
+    if (player === computer) {
+        message = "🤝 It's a Draw!";
+    }
+    else if (
+        (player === "rock" && computer === "scissors") ||
+        (player === "paper" && computer === "rock") ||
+        (player === "scissors" && computer === "paper")
+    ) {
+        playerScore++;
+        message = "🎉 You Win!";
+    }
+    else {
+        computerScore++;
+        message = "😔 Computer Wins!";
+    }
+
+    document.getElementById("result").textContent = message;
+
+    document.getElementById("playerScore").textContent = playerScore;
+    document.getElementById("computerScore").textContent = computerScore;
+
+    addHistory(player, computer, message);
+}
+
+function addHistory(player, computer, message) {
+
+    history.unshift({
+        player: player,
+        computer: computer,
+        result: message
+    });
+
+    // Keep only last 10 games
+    history = history.slice(0, 10);
+
+    const historyList = document.getElementById("historyList");
+
+    historyList.innerHTML = history.map((game, index) => `
+        <div class="history-item">
+            <strong>Game ${history.length - index}:</strong>
+            ${emojis[game.player]} You vs
+            ${emojis[game.computer]} Computer
+            <br>
+            ${game.result}
+        </div>
+    `).join("");
+}
+
+function resetGame() {
+
+    playerScore = 0;
+    computerScore = 0;
+    history = [];
+
+    document.getElementById("playerScore").textContent = 0;
+    document.getElementById("computerScore").textContent = 0;
+
+    document.getElementById("playerChoice").textContent = "❔";
+    document.getElementById("computerChoice").textContent = "❔";
+
+    document.getElementById("result").textContent = "Choose your move!";
+
+    document.getElementById("historyList").innerHTML =
+        '<p class="empty">No games played yet.</p>';
+}
+</script>
+
+</body>
+</html>
