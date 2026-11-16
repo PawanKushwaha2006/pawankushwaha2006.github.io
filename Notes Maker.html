@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notes Maker</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#f3f7f1;
+  --card:#ffffff;
+  --text:#26382d;
+  --muted:#7b897e;
+  --green:#347653;
+  --light:#e5eee5;
+  --border:#dce6dc;
+  --input:#f8faf7;
+  --shadow:0 4px 18px rgba(35,65,45,.06);
+}
+
+body.dark{
+  --bg:#14221a;
+  --card:#203329;
+  --text:#edf5ed;
+  --muted:#a4b5a8;
+  --green:#8ac49a;
+  --light:#30483a;
+  --border:#3c5544;
+  --input:#18291f;
+  --shadow:none;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  padding:20px;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:10px 0 30px;
+  gap:12px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:bold;
+  color:var(--green);
+}
+
+.header-actions{
+  display:flex;
+  gap:10px;
+}
+
+button{
+  cursor:pointer;
+  font-family:inherit;
+}
+
+.header-btn{
+  padding:10px 14px;
+  background:var(--card);
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:9px;
+  font-size:14px;
+}
+
+.welcome{
+  margin-bottom:25px;
+}
+
+.welcome h1{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.welcome p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.topbar{
+  display:flex;
+  gap:12px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+
+.search{
+  flex:1;
+  min-width:180px;
+  padding:14px 16px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--card);
+  color:var(--text);
+  outline:none;
+  font-size:14px;
+}
+
+.search:focus,
+input:focus,
+textarea:focus{
+  border-color:var(--green);
+}
+
+.add-btn{
+  background:var(--green);
+  color:white;
+  border:none;
+  padding:14px 22px;
+  border-radius:10px;
+  font-weight:bold;
+  font-size:14px;
+}
+
+.stats{
+  display:flex;
+  gap:12px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:14px 20px;
+  border-radius:10px;
+  min-width:120px;
+  box-shadow:var(--shadow);
+}
+
+.stat strong{
+  display:block;
+  font-size:22px;
+  color:var(--green);
+  margin-bottom:5px;
+}
+
+.stat span{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.section-title{
+  font-size:17px;
+  margin-bottom:15px;
+}
+
+.notes-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+
+.note{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:18px;
+  min-height:170px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:var(--shadow);
+  border-top:4px solid var(--note-color,#8bbf9a);
+}
+
+.note.pinned{
+  border-top-color:#d5a743;
+}
+
+.note-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.note h3{
+  font-size:17px;
+  overflow-wrap:anywhere;
+  line-height:1.4;
+}
+
+.note-content{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  flex:1;
+  margin-bottom:16px;
+  max-height:120px;
+  overflow:hidden;
+}
+
+.note-date{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.note-actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+  border-top:1px solid var(--border);
+  padding-top:12px;
+}
+
+.action-btn{
+  background:var(--light);
+  border:none;
+  color:var(--text);
+  border-radius:7px;
+  padding:8px 10px;
+  font-size:12px;
+}
+
+.action-btn.delete{
+  color:#d94d4d;
+}
+
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  padding:65px 15px;
+  background:var(--card);
+  border:1px dashed var(--border);
+  border-radius:13px;
+}
+
+.empty h3{
+  margin-bottom:8px;
+}
+
+.empty p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:10;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-width:520px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:23px;
+  max-height:90vh;
+  overflow-y:auto;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-header h2{
+  font-size:21px;
+}
+
+.close{
+  border:none;
+  background:var(--light);
+  color:var(--text);
+  width:32px;
+  height:32px;
+  border-radius:8px;
+  font-size:18px;
+}
+
+.form-group{
+  margin-bottom:17px;
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.form-group input,
+.form-group textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:var(--input);
+  color:var(--text);
+  outline:none;
+  font-size:14px;
+  font-family:inherit;
+}
+
+.form-group textarea{
+  min-height:180px;
+  resize:vertical;
+  line-height:1.6;
+}
+
+.colors{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.color-option{
+  width:27px;
+  height:27px;
+  border-radius:50%;
+  border:2px solid transparent;
+  outline:1px solid var(--border);
+  cursor:pointer;
+}
+
+.color-option.selected{
+  outline:2px solid var(--green);
+  border:3px solid var(--card);
+}
+
+.pin-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  margin:15px 0;
+}
+
+.save-btn{
+  width:100%;
+  background:var(--green);
+  color:white;
+  border:none;
+  padding:14px;
+  border-radius:9px;
+  font-weight:bold;
+  font-size:15px;
+}
+
+@media(max-width:800px){
+  .notes-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:550px){
+  body{padding:13px}
+  .welcome h1{font-size:25px}
+  .notes-grid{grid-template-columns:1fr}
+  .header-btn{padding:9px 10px}
+  .logo{font-size:21px}
+  .stat{flex:1}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <div class="logo">✎ Notes Maker</div>
+
+  <div class="header-actions">
+    <button class="header-btn" onclick="toggleTheme()" id="themeBtn">
+      🌙 Theme
+    </button>
+  </div>
+</header>
+
+<section class="welcome">
+  <h1>Your Notes</h1>
+  <p>Write your ideas, save important information and stay organized.</p>
+</section>
+
+<div class="topbar">
+  <input
+    type="search"
+    class="search"
+    id="search"
+    placeholder="🔍 Search your notes..."
+    oninput="renderNotes()"
+  >
+
+  <button class="add-btn" onclick="openModal()">+ New Note</button>
+</div>
+
+<div class="stats">
+  <div class="stat">
+    <strong id="totalNotes">0</strong>
+    <span>Total Notes</span>
+  </div>
+
+  <div class="stat">
+    <strong id="pinnedNotes">0</strong>
+    <span>Pinned Notes</span>
+  </div>
+</div>
+
+<h2 class="section-title">All Notes</h2>
+
+<div class="notes-grid" id="notesGrid"></div>
+
+</div>
+
+<!-- Note Editor -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2 id="modalTitle">Create New Note</h2>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+
+    <div class="form-group">
+      <label>Note Title</label>
+      <input type="text" id="noteTitle" placeholder="Enter note title">
+    </div>
+
+    <div class="form-group">
+      <label>Note Content</label>
+      <textarea id="noteContent" placeholder="Write your note here..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Choose Note Colour</label>
+      <div class="colors" id="colors">
+        <button class="color-option selected" type="button"
+          style="background:#8bbf9a" data-color="#8bbf9a"></button>
+        <button class="color-option" type="button"
+          style="background:#e9bd72" data-color="#e9bd72"></button>
+        <button class="color-option" type="button"
+          style="background:#8baee0" data-color="#8baee0"></button>
+        <button class="color-option" type="button"
+          style="background:#d99ac0" data-color="#d99ac0"></button>
+        <button class="color-option" type="button"
+          style="background:#a99bdb" data-color="#a99bdb"></button>
+        <button class="color-option" type="button"
+          style="background:#d9a18b" data-color="#d9a18b"></button>
+      </div>
+    </div>
+
+    <label class="pin-row">
+      <input type="checkbox" id="notePin">
+      📌 Pin this note
+    </label>
+
+    <button class="save-btn" onclick="saveNote()" id="saveBtn">
+      Save Note
+    </button>
+
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = "ecoNotesMaker";
+
+let notes = [];
+let editingId = null;
+let selectedColor = "#8bbf9a";
+
+try{
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  notes = Array.isArray(saved) ? saved.filter(note =>
+    note && typeof note === "object" &&
+    typeof note.id === "string" &&
+    typeof note.title === "string" &&
+    typeof note.content === "string"
+  ) : [];
+}catch(error){
+  notes = [];
+}
+
+function saveToStorage(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(notes));
+  }catch(error){
+    alert("Unable to save notes. Your browser storage may be full.");
+  }
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,char=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
+}
+
+function renderNotes(){
+  const grid = document.getElementById("notesGrid");
+  const query = document.getElementById("search").value.toLowerCase().trim();
+
+  let filtered = notes.filter(note =>
+    note.title.toLowerCase().includes(query) ||
+    note.content.toLowerCase().includes(query)
+  );
+
+  filtered.sort((a,b)=>{
+    if(a.pinned !== b.pinned) return Number(b.pinned)-Number(a.pinned);
+    return b.updatedAt-a.updatedAt;
+  });
+
+  document.getElementById("totalNotes").textContent = notes.length;
+  document.getElementById("pinnedNotes").textContent =
+    notes.filter(n=>n.pinned).length;
+
+  if(filtered.length === 0){
+    grid.innerHTML = `
+      <div class="empty">
+        <h3>${query ? "No notes found" : "No notes yet"}</h3>
+        <p>${query ? "Try another search." : "Create your first note to get started."}</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(note=>`
+    <div class="note ${note.pinned ? "pinned" : ""}"
+      style="--note-color:${escapeHTML(note.color)}">
+
+      <div class="note-top">
+        <h3>${escapeHTML(note.title)}</h3>
+        ${note.pinned ? "<span title='Pinned'>📌</span>" : ""}
+      </div>
+
+      <div class="note-content">${escapeHTML(note.content)}</div>
+
+      <div class="note-date">
+        ${escapeHTML(formatDate(note.updatedAt))}
+      </div>
+
+      <div class="note-actions">
+        <button class="action-btn" onclick="editNote('${note.id}')">✏ Edit</button>
+        <button class="action-btn" onclick="togglePin('${note.id}')">
+          ${note.pinned ? "Unpin" : "📌 Pin"}
+        </button>
+        <button class="action-btn" onclick="downloadNote('${note.id}')">⬇ TXT</button>
+        <button class="action-btn delete" onclick="deleteNote('${note.id}')">Delete</button>
+      </div>
+
+    </div>
+  `).join("");
+}
+
+function formatDate(timestamp){
+  return new Date(timestamp).toLocaleString();
+}
+
+function openModal(){
+  editingId = null;
+  selectedColor = "#8bbf9a";
+
+  document.getElementById("modalTitle").textContent = "Create New Note";
+  document.getElementById("saveBtn").textContent = "Save Note";
+  document.getElementById("noteTitle").value = "";
+  document.getElementById("noteContent").value = "";
+  document.getElementById("notePin").checked = false;
+
+  selectColor(selectedColor);
+  document.getElementById("modal").classList.add("show");
+  document.getElementById("noteTitle").focus();
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("show");
+}
+
+function saveNote(){
+  const title = document.getElementById("noteTitle").value.trim();
+  const content = document.getElementById("noteContent").value.trim();
+  const pinned = document.getElementById("notePin").checked;
+
+  if(!title){
+    alert("Please enter a note title.");
+    document.getElementById("noteTitle").focus();
+    return;
+  }
+
+  if(!content){
+    alert("Please enter some note content.");
+    document.getElementById("noteContent").focus();
+    return;
+  }
+
+  if(editingId){
+    const note = notes.find(n=>n.id===editingId);
+    if(note){
+      note.title = title;
+      note.content = content;
+      note.color = selectedColor;
+      note.pinned = pinned;
+      note.updatedAt = Date.now();
+    }
+  }else{
+    notes.push({
+      id:Date.now().toString(36)+Math.random().toString(36).slice(2),
+      title,
+      content,
+      color:selectedColor,
+      pinned,
+      updatedAt:Date.now()
+    });
+  }
+
+  saveToStorage();
+  renderNotes();
+  closeModal();
+}
+
+function editNote(id){
+  const note = notes.find(n=>n.id===id);
+  if(!note) return;
+
+  editingId = id;
+
+  document.getElementById("modalTitle").textContent = "Edit Note";
+  document.getElementById("saveBtn").textContent = "Update Note";
+  document.getElementById("noteTitle").value = note.title;
+  document.getElementById("noteContent").value = note.content;
+  document.getElementById("notePin").checked = note.pinned;
+
+  selectColor(note.color);
+  document.getElementById("modal").classList.add("show");
+}
+
+function deleteNote(id){
+  if(!confirm("Are you sure you want to delete this note?")) return;
+
+  notes = notes.filter(note=>note.id!==id);
+  saveToStorage();
+  renderNotes();
+}
+
+function togglePin(id){
+  const note = notes.find(n=>n.id===id);
+  if(!note) return;
+
+  note.pinned = !note.pinned;
+  note.updatedAt = Date.now();
+
+  saveToStorage();
+  renderNotes();
+}
+
+function selectColor(color){
+  selectedColor = color;
+
+  document.querySelectorAll(".color-option").forEach(btn=>{
+    btn.classList.toggle("selected",btn.dataset.color===color);
+  });
+}
+
+document.querySelectorAll(".color-option").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    selectColor(btn.dataset.color);
+  });
+});
+
+function downloadNote(id){
+  const note = notes.find(n=>n.id===id);
+  if(!note) return;
+
+  const content =
+    note.title + "\n" +
+    "Date: " + formatDate(note.updatedAt) + "\n\n" +
+    note.content;
+
+  const blob = new Blob([content],{type:"text/plain;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = note.title.replace(/[\\/:*?"<>|]/g,"_") + ".txt";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("dark");
+
+  const dark = document.body.classList.contains("dark");
+  document.getElementById("themeBtn").textContent =
+    dark ? "☀️ Theme" : "🌙 Theme";
+
+  localStorage.setItem("ecoNotesDark",dark ? "yes" : "no");
+}
+
+if(localStorage.getItem("ecoNotesDark")==="yes"){
+  document.body.classList.add("dark");
+  document.getElementById("themeBtn").textContent="☀️ Theme";
+}
+
+document.getElementById("modal").addEventListener("click",event=>{
+  if(event.target.id==="modal") closeModal();
+});
+
+renderNotes();
+</script>
+
+</body>
+</html>
