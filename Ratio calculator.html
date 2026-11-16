@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ratio Calculator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#f4f7f5;
+    --card:#ffffff;
+    --text:#172b24;
+    --muted:#718078;
+    --primary:#16845d;
+    --soft:#e7f5ed;
+    --border:#e4ebe6;
+    --input:#f8faf9;
+}
+
+body.dark{
+    --bg:#101a16;
+    --card:#1a2821;
+    --text:#eff8f2;
+    --muted:#a0b2a7;
+    --primary:#48c58d;
+    --soft:#243b30;
+    --border:#304238;
+    --input:#24352c;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    padding:20px;
+    transition:none;
+}
+
+.container{
+    max-width:850px;
+    margin:auto;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:28px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:21px;
+    font-weight:bold;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    background:var(--soft);
+    color:var(--primary);
+    border-radius:12px;
+    font-size:23px;
+}
+
+.theme-btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    padding:11px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.hero{
+    text-align:center;
+    margin:35px 0 28px;
+}
+
+.hero h1{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.6;
+}
+
+.main-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:24px;
+}
+
+.tabs{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+    margin-bottom:25px;
+}
+
+.tab{
+    padding:13px 5px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    border-radius:10px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.tab.active{
+    background:var(--soft);
+    color:var(--primary);
+    border-color:var(--primary);
+    font-weight:bold;
+}
+
+.section-title{
+    font-size:19px;
+    margin-bottom:8px;
+}
+
+.description{
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:22px;
+    line-height:1.5;
+}
+
+.input-row{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:12px;
+    align-items:end;
+}
+
+.input-group label{
+    display:block;
+    font-size:13px;
+    margin-bottom:9px;
+    color:var(--muted);
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    border-radius:10px;
+    outline:none;
+    font-size:17px;
+}
+
+input:focus{
+    border-color:var(--primary);
+}
+
+.colon{
+    font-size:24px;
+    font-weight:bold;
+    padding-bottom:12px;
+    color:var(--primary);
+}
+
+.extra-input{
+    margin-top:18px;
+}
+
+.calculate-btn{
+    width:100%;
+    border:none;
+    background:var(--primary);
+    color:white;
+    padding:15px;
+    border-radius:11px;
+    font-size:15px;
+    font-weight:bold;
+    margin-top:24px;
+    cursor:pointer;
+}
+
+.calculate-btn:hover{
+    opacity:.9;
+}
+
+.result{
+    display:none;
+    margin-top:22px;
+    padding:20px;
+    border:1px solid var(--border);
+    background:var(--soft);
+    border-radius:13px;
+}
+
+.result-label{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:9px;
+}
+
+.result-value{
+    font-size:30px;
+    color:var(--primary);
+    font-weight:bold;
+    overflow-wrap:anywhere;
+}
+
+.result-info{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:10px;
+    line-height:1.6;
+}
+
+.copy-btn{
+    margin-top:15px;
+    padding:10px 18px;
+    border:1px solid var(--primary);
+    color:var(--primary);
+    background:var(--card);
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.error{
+    color:#e05252;
+    font-size:13px;
+    margin-top:12px;
+}
+
+.info-card{
+    margin-top:20px;
+    padding:20px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+}
+
+.info-card h3{
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+.info-card p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.8;
+}
+
+footer{
+    text-align:center;
+    padding:30px 10px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+@media(max-width:550px){
+    body{padding:14px;}
+    .hero h1{font-size:27px;}
+    .main-card{padding:17px;}
+    .tabs{grid-template-columns:repeat(2,1fr);}
+    .input-row{gap:7px;}
+    input{padding:12px 9px;font-size:16px;}
+    .result-value{font-size:25px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <div class="logo">
+        <div class="logo-icon">÷</div>
+        Ratio Calculator
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 Theme</button>
+</header>
+
+<div class="hero">
+    <h1>Ratio Calculator</h1>
+    <p>Calculate, simplify and compare ratios easily.</p>
+</div>
+
+<div class="main-card">
+
+    <div class="tabs">
+        <button class="tab active" onclick="changeMode('simplify',this)">Simplify Ratio</button>
+        <button class="tab" onclick="changeMode('missing',this)">Missing Value</button>
+        <button class="tab" onclick="changeMode('percentage',this)">To Percentage</button>
+        <button class="tab" onclick="changeMode('compare',this)">Compare Ratio</button>
+        <button class="tab" onclick="changeMode('three',this)">Three Numbers</button>
+        <button class="tab" onclick="changeMode('percentRatio',this)">Percent to Ratio</button>
+    </div>
+
+    <h2 class="section-title" id="modeTitle">Simplify Ratio</h2>
+    <p class="description" id="modeDesc">Enter two numbers to get their simplest ratio.</p>
+
+    <div id="inputArea"></div>
+
+    <button class="calculate-btn" onclick="calculate()">Calculate Result →</button>
+
+    <div class="error" id="error"></div>
+
+    <div class="result" id="result">
+        <div class="result-label">YOUR RESULT</div>
+        <div class="result-value" id="resultValue"></div>
+        <div class="result-info" id="resultInfo"></div>
+        <button class="copy-btn" onclick="copyResult()">Copy Result</button>
+    </div>
+
+</div>
+
+<div class="info-card">
+    <h3>What is a Ratio?</h3>
+    <p>
+        A ratio is a way to compare two or more quantities.
+        For example, 10:20 can be simplified to 1:2.
+        This calculator helps you solve different ratio problems quickly.
+    </p>
+</div>
+
+<footer>
+    Ratio Calculator · Simple · Fast · Free
+</footer>
+
+</div>
+
+<script>
+
+let currentMode = "simplify";
+let finalResult = "";
+
+const modes = {
+    simplify:{
+        title:"Simplify Ratio",
+        desc:"Enter two numbers to get their simplest ratio.",
+        fields:["First Number","Second Number"]
+    },
+    missing:{
+        title:"Missing Value Calculator",
+        desc:"Solve A : B = C : ? by finding the missing value.",
+        fields:["First Number (A)","Second Number (B)","Third Number (C)"]
+    },
+    percentage:{
+        title:"Ratio to Percentage",
+        desc:"Convert two ratio parts into percentages.",
+        fields:["First Number","Second Number"]
+    },
+    compare:{
+        title:"Compare Ratios",
+        desc:"Compare two ratios to find whether they are equal.",
+        fields:["First Ratio A","First Ratio B","Second Ratio A","Second Ratio B"]
+    },
+    three:{
+        title:"Three Number Ratio",
+        desc:"Simplify a ratio containing three numbers.",
+        fields:["First Number","Second Number","Third Number"]
+    },
+    percentRatio:{
+        title:"Percentage to Ratio",
+        desc:"Convert a percentage into a simplified ratio.",
+        fields:["Percentage"]
+    }
+};
+
+function changeMode(mode,button){
+    currentMode = mode;
+
+    document.querySelectorAll(".tab").forEach(t=>{
+        t.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    document.getElementById("modeTitle").textContent = modes[mode].title;
+    document.getElementById("modeDesc").textContent = modes[mode].desc;
+
+    document.getElementById("result").style.display="none";
+    document.getElementById("error").textContent="";
+
+    renderInputs();
+}
+
+function renderInputs(){
+
+    const fields = modes[currentMode].fields;
+    const area = document.getElementById("inputArea");
+
+    let html = "";
+
+    if(currentMode==="simplify" || currentMode==="percentage"){
+        html = `
+        <div class="input-row">
+            ${makeInput("v0",fields[0])}
+            <div class="colon">:</div>
+            ${makeInput("v1",fields[1])}
+        </div>`;
+    }
+
+    else if(currentMode==="missing"){
+        html = `
+        <div class="input-row">
+            ${makeInput("v0",fields[0])}
+            <div class="colon">:</div>
+            ${makeInput("v1",fields[1])}
+        </div>
+        <div class="extra-input">
+            ${makeInput("v2",fields[2])}
+        </div>
+        <p class="description" style="margin-top:12px;margin-bottom:0">Find: A : B = C : ?</p>`;
+    }
+
+    else if(currentMode==="compare"){
+        html = `
+        <div class="input-row">
+            ${makeInput("v0",fields[0])}
+            <div class="colon">:</div>
+            ${makeInput("v1",fields[1])}
+        </div>
+        <div class="input-row extra-input">
+            ${makeInput("v2",fields[2])}
+            <div class="colon">:</div>
+            ${makeInput("v3",fields[3])}
+        </div>`;
+    }
+
+    else if(currentMode==="three"){
+        html = `
+        <div class="input-row">
+            ${makeInput("v0",fields[0])}
+            <div class="colon">:</div>
+            ${makeInput("v1",fields[1])}
+        </div>
+        <div class="extra-input">
+            ${makeInput("v2",fields[2])}
+        </div>`;
+    }
+
+    else{
+        html = makeInput("v0",fields[0]);
+    }
+
+    area.innerHTML = html;
+}
+
+function makeInput(id,label){
+    return `
+    <div class="input-group">
+        <label for="${id}">${label}</label>
+        <input type="number" id="${id}" placeholder="Enter value" step="any">
+    </div>`;
+}
+
+function getValue(id){
+    const el = document.getElementById(id);
+    if(!el || el.value.trim()==="") return null;
+
+    const value = Number(el.value);
+
+    if(!Number.isFinite(value)) return null;
+
+    return value;
+}
+
+function gcd(a,b){
+    a = Math.abs(Math.round(a));
+    b = Math.abs(Math.round(b));
+
+    while(b){
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+
+function showResult(value,info=""){
+    finalResult = value;
+
+    document.getElementById("resultValue").textContent=value;
+    document.getElementById("resultInfo").textContent=info;
+    document.getElementById("result").style.display="block";
+    document.getElementById("error").textContent="";
+}
+
+function calculate(){
+
+    document.getElementById("result").style.display="none";
+    document.getElementById("error").textContent="";
+
+    let a,b,c,d;
+    let result,info;
+
+    if(currentMode==="simplify"){
+
+        a=getValue("v0");
+        b=getValue("v1");
+
+        if(a===null || b===null || !Number.isInteger(a) || !Number.isInteger(b))
+            return error("Please enter valid whole numbers.");
+
+        if(a===0 && b===0) return error("Both numbers cannot be zero.");
+
+        let g=gcd(a,b);
+
+        showResult(`${a/g}:${b/g}`,"Simplified ratio");
+    }
+
+    else if(currentMode==="missing"){
+
+        a=getValue("v0");
+        b=getValue("v1");
+        c=getValue("v2");
+
+        if(a===null || b===null || c===null)
+            return error("Please fill all three values.");
+
+        if(a===0) return error("First number cannot be zero.");
+
+        let answer=(b*c)/a;
+
+        showResult(String(Number(answer.toFixed(8))),
+        `${a} : ${b} = ${c} : ${answer}`);
+    }
+
+    else if(currentMode==="percentage"){
+
+        a=getValue("v0");
+        b=getValue("v1");
+
+        if(a===null || b===null)
+            return error("Please enter both numbers.");
+
+        if(a<0 || b<0 || a+b===0)
+            return error("Enter non-negative numbers with a non-zero total.");
+
+        let total=a+b;
+
+        let p1=(a/total)*100;
+        let p2=(b/total)*100;
+
+        showResult(
+            `${p1.toFixed(2)}% : ${p2.toFixed(2)}%`,
+            `First part: ${p1.toFixed(2)}% | Second part: ${p2.toFixed(2)}%`
+        );
+    }
+
+    else if(currentMode==="compare"){
+
+        a=getValue("v0");
+        b=getValue("v1");
+        c=getValue("v2");
+        d=getValue("v3");
+
+        if([a,b,c,d].some(x=>x===null))
+            return error("Please fill all four values.");
+
+        if(b===0 || d===0)
+            return error("Second number of each ratio cannot be zero.");
+
+        let equal=(a*d)===(b*c);
+
+        showResult(
+            equal?"Ratios are EQUAL":"Ratios are NOT EQUAL",
+            `${a}:${b} ${equal?"=":"≠"} ${c}:${d}`
+        );
+    }
+
+    else if(currentMode==="three"){
+
+        a=getValue("v0");
+        b=getValue("v1");
+        c=getValue("v2");
+
+        if([a,b,c].some(x=>x===null))
+            return error("Please enter all three numbers.");
+
+        if(![a,b,c].every(Number.isInteger))
+            return error("Please use whole numbers.");
+
+        if(a===0 && b===0 && c===0)
+            return error("All three numbers cannot be zero.");
+
+        let g=gcd(gcd(a,b),c);
+
+        showResult(`${a/g}:${b/g}:${c/g}`,"Simplified three-number ratio");
+    }
+
+    else if(currentMode==="percentRatio"){
+
+        a=getValue("v0");
+
+        if(a===null)
+            return error("Please enter a percentage.");
+
+        if(a<0 || a>100)
+            return error("Percentage must be between 0 and 100.");
+
+        let g=gcd(a,100);
+
+        showResult(`${a/g}:${(100-a)/g}`,
+        `${a}% : ${100-a}%`);
+    }
+}
+
+function error(message){
+    document.getElementById("error").textContent=message;
+}
+
+function copyResult(){
+    if(!finalResult) return;
+
+    if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(finalResult)
+        .then(()=>alert("Result copied!"))
+        .catch(()=>fallbackCopy());
+    }else{
+        fallbackCopy();
+    }
+}
+
+function fallbackCopy(){
+    const el=document.createElement("textarea");
+    el.value=finalResult;
+    document.body.appendChild(el);
+    el.select();
+
+    try{
+        document.execCommand("copy");
+        alert("Result copied!");
+    }catch(e){
+        alert("Unable to copy result.");
+    }
+
+    el.remove();
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+
+    const dark=document.body.classList.contains("dark");
+
+    document.getElementById("themeBtn").textContent=
+        dark?"☀️ Theme":"🌙 Theme";
+}
+
+renderInputs();
+
+</script>
+
+</body>
+</html>
