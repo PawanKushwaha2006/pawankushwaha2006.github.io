@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Area Calculator</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f7f5;
+    color: #1e293b;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: .3s;
+}
+
+.container {
+    width: 100%;
+    max-width: 460px;
+    background: white;
+    padding: 26px;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.08);
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.top h2 {
+    font-size: 23px;
+}
+
+.theme {
+    border: none;
+    padding: 10px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+select, input {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #dbe2e8;
+    border-radius: 12px;
+    background: transparent;
+    color: inherit;
+    outline: none;
+}
+
+select:focus, input:focus {
+    border-color: #ff6b35;
+}
+
+select option {
+    color: #111827;
+}
+
+.input-box {
+    margin-bottom: 18px;
+}
+
+.fields {
+    display: none;
+}
+
+.fields.active {
+    display: block;
+}
+
+.calculate {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #ff6b35;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.result {
+    background: #fff3eb;
+    margin-top: 20px;
+    padding: 22px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.result small {
+    color: #64748b;
+}
+
+.result h1 {
+    color: #ff6b35;
+    font-size: 32px;
+    margin-top: 10px;
+    overflow-wrap: anywhere;
+}
+
+.info {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.action {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.copy {
+    background: #16a34a;
+    color: white;
+}
+
+.reset {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+body.dark {
+    background: #111827;
+    color: #f1f5f9;
+}
+
+body.dark .container {
+    background: #1f2937;
+}
+
+body.dark input, body.dark select {
+    border-color: #475569;
+}
+
+body.dark .theme {
+    background: #334155;
+    color: white;
+}
+
+body.dark .result {
+    background: #3a2b24;
+}
+
+body.dark .info {
+    background: #334155;
+}
+
+body.dark .reset {
+    background: #334155;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top">
+        <h2>Area Calculator</h2>
+        <button class="theme" onclick="toggleTheme()">🌙</button>
+    </div>
+
+    <div class="input-box">
+        <label>Select Shape</label>
+        <select id="shape" onchange="showFields()">
+            <option value="rectangle">Rectangle</option>
+            <option value="square">Square</option>
+            <option value="circle">Circle</option>
+            <option value="triangle">Triangle</option>
+            <option value="parallelogram">Parallelogram</option>
+            <option value="trapezoid">Trapezoid</option>
+        </select>
+    </div>
+
+    <!-- Rectangle -->
+    <div class="fields active" id="rectangle">
+        <div class="input-box">
+            <label>Length</label>
+            <input type="number" id="length" placeholder="Enter length" step="any">
+        </div>
+        <div class="input-box">
+            <label>Width</label>
+            <input type="number" id="width" placeholder="Enter width" step="any">
+        </div>
+    </div>
+
+    <!-- Square -->
+    <div class="fields" id="square">
+        <div class="input-box">
+            <label>Side</label>
+            <input type="number" id="side" placeholder="Enter side" step="any">
+        </div>
+    </div>
+
+    <!-- Circle -->
+    <div class="fields" id="circle">
+        <div class="input-box">
+            <label>Radius</label>
+            <input type="number" id="radius" placeholder="Enter radius" step="any">
+        </div>
+    </div>
+
+    <!-- Triangle -->
+    <div class="fields" id="triangle">
+        <div class="input-box">
+            <label>Base</label>
+            <input type="number" id="base" placeholder="Enter base" step="any">
+        </div>
+        <div class="input-box">
+            <label>Height</label>
+            <input type="number" id="height" placeholder="Enter height" step="any">
+        </div>
+    </div>
+
+    <!-- Parallelogram -->
+    <div class="fields" id="parallelogram">
+        <div class="input-box">
+            <label>Base</label>
+            <input type="number" id="paraBase" placeholder="Enter base" step="any">
+        </div>
+        <div class="input-box">
+            <label>Height</label>
+            <input type="number" id="paraHeight" placeholder="Enter height" step="any">
+        </div>
+    </div>
+
+    <!-- Trapezoid -->
+    <div class="fields" id="trapezoid">
+        <div class="input-box">
+            <label>First Parallel Side (a)</label>
+            <input type="number" id="a" placeholder="Enter side a" step="any">
+        </div>
+        <div class="input-box">
+            <label>Second Parallel Side (b)</label>
+            <input type="number" id="b" placeholder="Enter side b" step="any">
+        </div>
+        <div class="input-box">
+            <label>Height</label>
+            <input type="number" id="trapHeight" placeholder="Enter height" step="any">
+        </div>
+    </div>
+
+    <button class="calculate" onclick="calculate()">Calculate Area</button>
+
+    <div class="result">
+        <small>Calculated Area</small>
+        <h1 id="result">0</h1>
+    </div>
+
+    <div class="info">
+        <div><strong>Shape:</strong> <span id="shapeName">Rectangle</span></div>
+        <div><strong>Formula:</strong> <span id="formula">Length × Width</span></div>
+        <div><strong>Area:</strong> <span id="areaInfo">0</span></div>
+    </div>
+
+    <div class="buttons">
+        <button class="action copy" onclick="copyResult()">📋 Copy Result</button>
+        <button class="action reset" onclick="resetAll()">Reset</button>
+    </div>
+
+    <div class="footer">
+        Area Calculator · Calculate shapes easily
+    </div>
+
+</div>
+
+<script>
+let calculatedResult = "";
+
+function showFields() {
+    let shape = document.getElementById("shape").value;
+
+    document.querySelectorAll(".fields").forEach(el => {
+        el.classList.remove("active");
+    });
+
+    document.getElementById(shape).classList.add("active");
+
+    resetResult();
+}
+
+function resetResult() {
+    document.getElementById("result").innerText = "0";
+    document.getElementById("areaInfo").innerText = "0";
+    calculatedResult = "";
+}
+
+function calculate() {
+    let shape = document.getElementById("shape").value;
+    let area = 0;
+    let formula = "";
+    let shapeName = "";
+
+    function getValue(id) {
+        return parseFloat(document.getElementById(id).value);
+    }
+
+    let values = [];
+
+    if (shape === "rectangle") {
+        values = [getValue("length"), getValue("width")];
+        formula = "Length × Width";
+        shapeName = "Rectangle";
+        if (values.some(v => !Number.isFinite(v) || v < 0)) {
+            alert("Enter valid length and width.");
+            return;
+        }
+        area = values[0] * values[1];
+    }
+
+    else if (shape === "square") {
+        values = [getValue("side")];
+        formula = "Side × Side";
+        shapeName = "Square";
+        if (values.some(v => !Number.isFinite(v) || v < 0)) {
+            alert("Enter a valid side.");
+            return;
+        }
+        area = values[0] * values[0];
+    }
+
+    else if (shape === "circle") {
+        values = [getValue("radius")];
+        formula = "π × Radius²";
+        shapeName = "Circle";
+        if (values.some(v => !Number.isFinite(v) || v < 0)) {
+            alert("Enter a valid radius.");
+            return;
+        }
+        area = Math.PI * values[0] * values[0];
+    }
+
+    else if (shape === "triangle") {
+        values = [getValue("base"), getValue("height")];
+        formula = "(Base × Height) ÷ 2";
+        shapeName = "Triangle";
+        if (values.some(v => !Number.isFinite(v) || v < 0)) {
+            alert("Enter valid base and height.");
+            return;
+        }
+        area = (values[0] * values[1]) / 2;
+    }
+
+    else if (shape === "parallelogram") {
+        values = [getValue("paraBase"), getValue("paraHeight")];
+        formula = "Base × Height";
+        shapeName = "Parallelogram";
+        if (values.some(v => !Number.isFinite(v) || v < 0)) {
+            alert("Enter valid base and height.");
+            return;
+        }
+        area = values[0] * values[1];
+    }
+
+    else if (shape === "trapezoid") {
+        values = [getValue("a"), getValue("b"), getValue("trapHeight")];
+        formula = "((a + b) × Height) ÷ 2";
+        shapeName = "Trapezoid";
+        if (values.some(v => !Number.isFinite(v) || v < 0)) {
+            alert("Enter valid sides and height.");
+            return;
+        }
+        area = ((values[0] + values[1]) * values[2]) / 2;
+    }
+
+    if (!Number.isFinite(area)) {
+        alert("Result is too large to calculate.");
+        return;
+    }
+
+    let formatted = Number(area.toPrecision(12)).toString();
+
+    document.getElementById("result").innerText = formatted;
+    document.getElementById("shapeName").innerText = shapeName;
+    document.getElementById("formula").innerText = formula;
+    document.getElementById("areaInfo").innerText = formatted;
+
+    calculatedResult =
+        "Area Calculator\n" +
+        "Shape: " + shapeName + "\n" +
+        "Formula: " + formula + "\n" +
+        "Area: " + formatted;
+}
+
+function resetAll() {
+    document.querySelectorAll("input").forEach(input => {
+        input.value = "";
+    });
+
+    document.getElementById("shape").value = "rectangle";
+    showFields();
+
+    document.getElementById("shapeName").innerText = "Rectangle";
+    document.getElementById("formula").innerText = "Length × Width";
+
+    resetResult();
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+
+    document.querySelector(".theme").innerText =
+        document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+
+function copyResult() {
+    if (!calculatedResult) {
+        alert("Please calculate first.");
+        return;
+    }
+
+    navigator.clipboard.writeText(calculatedResult)
+        .then(() => alert("Result copied successfully!"))
+        .catch(() => alert("Unable to copy result."));
+}
+</script>
+
+</body>
+  </html>
+              
