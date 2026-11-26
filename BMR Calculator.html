@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMR Calculator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#f4f7f5;
+    --card:#ffffff;
+    --text:#182a21;
+    --muted:#75847b;
+    --border:#e2eae4;
+    --accent:#16845d;
+    --soft:#e7f4ec;
+    --input:#f8faf9;
+}
+
+body.dark{
+    --bg:#111a15;
+    --card:#1c2822;
+    --text:#eff7f2;
+    --muted:#a1b1a7;
+    --border:#304238;
+    --accent:#46c58c;
+    --soft:#263b30;
+    --input:#24342b;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:18px;
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+}
+
+header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:var(--soft);
+    display:grid;
+    place-items:center;
+    color:var(--accent);
+    font-size:22px;
+}
+
+.theme{
+    padding:11px 15px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.hero{
+    text-align:center;
+    margin:35px 0 28px;
+}
+
+.hero h1{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.6;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:24px;
+}
+
+.field{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:9px;
+}
+
+input,select{
+    width:100%;
+    padding:14px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    border-radius:10px;
+    font-size:16px;
+    outline:none;
+}
+
+input:focus,select:focus{
+    border-color:var(--accent);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.unit-tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.unit-btn{
+    flex:1;
+    padding:12px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.unit-btn.active{
+    background:var(--soft);
+    border-color:var(--accent);
+    color:var(--accent);
+    font-weight:bold;
+}
+
+.calculate{
+    width:100%;
+    padding:15px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:11px;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.calculate:hover{
+    opacity:.9;
+}
+
+.result{
+    display:none;
+    margin-top:25px;
+}
+
+.result-main{
+    padding:24px;
+    background:var(--soft);
+    border:1px solid var(--border);
+    border-radius:15px;
+    text-align:center;
+}
+
+.result-main small{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.result-value{
+    font-size:38px;
+    font-weight:bold;
+    color:var(--accent);
+    margin-top:12px;
+}
+
+.result-unit{
+    font-size:14px;
+    color:var(--muted);
+    margin-top:8px;
+}
+
+.result-item{
+    padding:18px;
+    margin-top:15px;
+    background:var(--input);
+    border:1px solid var(--border);
+    border-radius:12px;
+}
+
+.result-item p{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.7;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.btn{
+    padding:12px 18px;
+    border-radius:9px;
+    cursor:pointer;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+}
+
+.btn.copy{
+    background:var(--accent);
+    color:white;
+    border-color:var(--accent);
+}
+
+.error{
+    color:#e04c4c;
+    font-size:13px;
+    margin-top:12px;
+}
+
+.info{
+    margin-top:20px;
+    padding:20px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+}
+
+.info h3{
+    margin-bottom:10px;
+    font-size:16px;
+}
+
+.info p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.8;
+}
+
+footer{
+    text-align:center;
+    padding:30px 10px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+@media(max-width:550px){
+    body{padding:12px;}
+    .hero h1{font-size:27px;}
+    .card{padding:17px;}
+    .result-value{font-size:32px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <div class="logo">
+        <div class="logo-icon">🔥</div>
+        BMR Calculator
+    </div>
+
+    <button class="theme" onclick="toggleTheme()" id="themeBtn">
+        🌙 Theme
+    </button>
+</header>
+
+<div class="hero">
+    <h1>BMR Calculator</h1>
+    <p>Estimate your Basal Metabolic Rate using a standard formula.</p>
+</div>
+
+<div class="card">
+
+    <div class="unit-tabs">
+        <button class="unit-btn active" id="metricBtn" onclick="setUnit('metric')">
+            Metric
+        </button>
+
+        <button class="unit-btn" id="imperialBtn" onclick="setUnit('imperial')">
+            Imperial
+        </button>
+    </div>
+
+    <div class="grid">
+
+        <div class="field">
+            <label>Age (Years)</label>
+            <input type="number" id="age" placeholder="Age" min="1">
+        </div>
+
+        <div class="field">
+            <label>Formula Sex Constant</label>
+            <select id="sex">
+                <option value="male">Male constant</option>
+                <option value="female">Female constant</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div id="metricInputs">
+
+        <div class="grid">
+
+            <div class="field">
+                <label>Weight (kg)</label>
+                <input type="number" id="weightKg" placeholder="Weight" min="1">
+            </div>
+
+            <div class="field">
+                <label>Height (cm)</label>
+                <input type="number" id="heightCm" placeholder="Height" min="1">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="imperialInputs" style="display:none">
+
+        <div class="grid">
+
+            <div class="field">
+                <label>Weight (lbs)</label>
+                <input type="number" id="weightLb" placeholder="Weight" min="1">
+            </div>
+
+            <div class="field">
+                <label>Height (feet)</label>
+                <input type="number" id="feet" placeholder="Feet" min="0">
+            </div>
+
+        </div>
+
+        <div class="field">
+            <label>Height (inches)</label>
+            <input type="number" id="inches" placeholder="Inches" min="0" max="11.99">
+        </div>
+
+    </div>
+
+    <button class="calculate" onclick="calculate()">Calculate BMR →</button>
+
+    <div class="error" id="error"></div>
+
+    <div class="result" id="result">
+
+        <div class="result-main">
+            <small>ESTIMATED BMR</small>
+            <div class="result-value" id="bmrValue"></div>
+            <div class="result-unit">kcal/day (estimated)</div>
+        </div>
+
+        <div class="result-item">
+            <p id="resultInfo"></p>
+        </div>
+
+        <div class="buttons">
+            <button class="btn copy" onclick="copyResult()">Copy Result</button>
+            <button class="btn" onclick="resetAll()">Reset</button>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="info">
+    <h3>What is BMR?</h3>
+    <p>
+        Basal Metabolic Rate (BMR) is an estimate of the energy
+        your body uses at rest to maintain basic functions.
+        It is not a measure of fitness, health or body worth,
+        and it should not be used alone to decide how much to eat.
+    </p>
+</div>
+
+<footer>
+    BMR Calculator · Simple · Fast · Free
+</footer>
+
+</div>
+
+<script>
+
+let unit="metric";
+let report="";
+
+function setUnit(type){
+
+    unit=type;
+
+    document.getElementById("metricInputs").style.display=
+        type==="metric"?"block":"none";
+
+    document.getElementById("imperialInputs").style.display=
+        type==="imperial"?"block":"none";
+
+    document.getElementById("metricBtn").classList.toggle("active",type==="metric");
+    document.getElementById("imperialBtn").classList.toggle("active",type==="imperial");
+
+    document.getElementById("result").style.display="none";
+    document.getElementById("error").textContent="";
+}
+
+function calculate(){
+
+    const age=Number(document.getElementById("age").value);
+    const sex=document.getElementById("sex").value;
+
+    let weight,height;
+
+    if(document.getElementById("age").value===""){
+        error("Please enter age.");
+        return;
+    }
+
+    if(age<=0 || age>120){
+        error("Please enter a valid age.");
+        return;
+    }
+
+    if(unit==="metric"){
+
+        weight=Number(document.getElementById("weightKg").value);
+        height=Number(document.getElementById("heightCm").value);
+
+        if(document.getElementById("weightKg").value==="" ||
+           document.getElementById("heightCm").value===""){
+            error("Please enter weight and height.");
+            return;
+        }
+
+    }else{
+
+        const lb=Number(document.getElementById("weightLb").value);
+        const feet=Number(document.getElementById("feet").value);
+        const inches=Number(document.getElementById("inches").value||0);
+
+        if(document.getElementById("weightLb").value==="" ||
+           document.getElementById("feet").value===""){
+            error("Please enter weight and height.");
+            return;
+        }
+
+        if(feet<0||inches<0||inches>=12){
+            error("Please enter valid height.");
+            return;
+        }
+
+        weight=lb*0.45359237;
+        height=(feet*12+inches)*2.54;
+    }
+
+    if(weight<=0||height<=0){
+        error("Please enter valid weight and height.");
+        return;
+    }
+
+    if(!Number.isFinite(weight)||!Number.isFinite(height)){
+        error("Please enter valid numbers.");
+        return;
+    }
+
+    // Mifflin-St Jeor equation
+    let bmr;
+
+    if(sex==="male"){
+        bmr=10*weight+6.25*height-5*age+5;
+    }else{
+        bmr=10*weight+6.25*height-5*age-161;
+    }
+
+    document.getElementById("error").textContent="";
+
+    document.getElementById("bmrValue").textContent=
+        Math.round(bmr).toLocaleString("en-IN");
+
+    document.getElementById("resultInfo").textContent=
+        "This is a mathematical estimate of energy used at rest, calculated using the Mifflin–St Jeor equation. Actual energy needs vary between individuals.";
+
+    document.getElementById("result").style.display="block";
+
+    report=
+    `BMR Calculator\nEstimated BMR: ${Math.round(bmr)} kcal/day\nFormula: Mifflin-St Jeor`;
+}
+
+function error(message){
+    document.getElementById("error").textContent=message;
+    document.getElementById("result").style.display="none";
+}
+
+function resetAll(){
+
+    document.getElementById("age").value="";
+    document.getElementById("weightKg").value="";
+    document.getElementById("heightCm").value="";
+    document.getElementById("weightLb").value="";
+    document.getElementById("feet").value="";
+    document.getElementById("inches").value="";
+
+    document.getElementById("error").textContent="";
+    document.getElementById("result").style.display="none";
+
+    report="";
+}
+
+function copyResult(){
+
+    if(!report)return;
+
+    if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(report)
+        .then(()=>alert("Result copied!"))
+        .catch(()=>fallbackCopy(report));
+    }else{
+        fallbackCopy(report);
+    }
+}
+
+function fallbackCopy(text){
+
+    let area=document.createElement("textarea");
+    area.value=text;
+    document.body.appendChild(area);
+    area.select();
+
+    try{
+        document.execCommand("copy");
+        alert("Result copied!");
+    }catch(e){
+        alert("Copy failed.");
+    }
+
+    area.remove();
+}
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    let dark=document.body.classList.contains("dark");
+
+    document.getElementById("themeBtn").textContent=
+        dark?"☀️ Theme":"🌙 Theme";
+}
+
+</script>
+
+</body>
+  </html>
+      
