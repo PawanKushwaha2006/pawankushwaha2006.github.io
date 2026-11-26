@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Square Root Calculator</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #f4f7f5;
+    color: #1e293b;
+    transition: .3s;
+}
+
+.container {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 28px;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.08);
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.top h2 {
+    font-size: 23px;
+}
+
+.theme {
+    border: none;
+    background: #f1f5f9;
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.input-box {
+    margin-bottom: 18px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    font-size: 17px;
+    border: 1px solid #dbe2e8;
+    border-radius: 12px;
+    outline: none;
+    background: transparent;
+    color: inherit;
+}
+
+input:focus {
+    border-color: #ff6b35;
+}
+
+.calculate {
+    width: 100%;
+    padding: 15px;
+    background: #ff6b35;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 22px;
+    border-radius: 16px;
+    background: #fff3eb;
+    text-align: center;
+}
+
+.result small {
+    color: #64748b;
+}
+
+.result h1 {
+    margin-top: 10px;
+    color: #ff6b35;
+    font-size: 32px;
+    overflow-wrap: anywhere;
+}
+
+.info {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.action {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.copy {
+    background: #16a34a;
+    color: white;
+}
+
+.reset {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* Dark mode */
+body.dark {
+    background: #111827;
+    color: #f1f5f9;
+}
+
+body.dark .container {
+    background: #1f2937;
+}
+
+body.dark input {
+    border-color: #475569;
+}
+
+body.dark .theme {
+    background: #334155;
+    color: white;
+}
+
+body.dark .result {
+    background: #3a2b24;
+}
+
+body.dark .info {
+    background: #334155;
+}
+
+body.dark .reset {
+    background: #334155;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top">
+        <h2>Square Root</h2>
+        <button class="theme" onclick="toggleTheme()">🌙</button>
+    </div>
+
+    <div class="input-box">
+        <label>Enter Number</label>
+        <input type="number" id="number" placeholder="e.g. 144" step="any">
+    </div>
+
+    <button class="calculate" onclick="calculate()">Calculate Square Root</button>
+
+    <div class="result">
+        <small>Square Root Result</small>
+        <h1 id="result">√0 = 0</h1>
+    </div>
+
+    <div class="info">
+        <div><strong>Input Number:</strong> <span id="inputValue">0</span></div>
+        <div><strong>Square Root:</strong> <span id="rootValue">0</span></div>
+        <div><strong>Squared Check:</strong> <span id="checkValue">0</span></div>
+    </div>
+
+    <div class="buttons">
+        <button class="action copy" onclick="copyResult()">📋 Copy Result</button>
+        <button class="action reset" onclick="resetAll()">Reset</button>
+    </div>
+
+    <div class="footer">
+        Square Root Calculator
+    </div>
+
+</div>
+
+<script>
+let calculatedResult = "";
+
+function calculate() {
+    let num = parseFloat(document.getElementById("number").value);
+
+    if (isNaN(num)) {
+        alert("Please enter a number.");
+        return;
+    }
+
+    if (num < 0) {
+        alert("Negative numbers are not supported.");
+        return;
+    }
+
+    let root = Math.sqrt(num);
+
+    let formattedRoot = Number(root.toPrecision(12)).toString();
+    let formattedNum = Number(num.toPrecision(12)).toString();
+
+    document.getElementById("result").innerText =
+        "√" + formattedNum + " = " + formattedRoot;
+
+    document.getElementById("inputValue").innerText = formattedNum;
+    document.getElementById("rootValue").innerText = formattedRoot;
+    document.getElementById("checkValue").innerText =
+        Number((root * root).toPrecision(12)).toString();
+
+    calculatedResult =
+        "Square Root Calculator\n" +
+        "Input: " + formattedNum + "\n" +
+        "Square Root: " + formattedRoot + "\n" +
+        "Squared Check: " +
+        Number((root * root).toPrecision(12)).toString();
+}
+
+function resetAll() {
+    document.getElementById("number").value = "";
+    document.getElementById("result").innerText = "√0 = 0";
+    document.getElementById("inputValue").innerText = "0";
+    document.getElementById("rootValue").innerText = "0";
+    document.getElementById("checkValue").innerText = "0";
+    calculatedResult = "";
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+
+    document.querySelector(".theme").innerText =
+        document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+
+function copyResult() {
+    if (!calculatedResult) {
+        alert("Please calculate first.");
+        return;
+    }
+
+    navigator.clipboard.writeText(calculatedResult)
+        .then(() => alert("Result copied successfully!"))
+        .catch(() => alert("Unable to copy result."));
+}
+</script>
+
+</body>
+  </html>
+  
