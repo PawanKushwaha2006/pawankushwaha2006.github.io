@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Formatter</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#f4f7f5;
+    --card:#ffffff;
+    --text:#182a21;
+    --muted:#75847b;
+    --border:#e2eae4;
+    --accent:#16845d;
+    --soft:#e7f4ec;
+    --input:#f8faf9;
+}
+
+body.dark{
+    --bg:#111a15;
+    --card:#1c2822;
+    --text:#eff7f2;
+    --muted:#a1b1a7;
+    --border:#304238;
+    --accent:#46c58c;
+    --soft:#263b30;
+    --input:#24342b;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:16px;
+}
+
+.container{
+    max-width:1150px;
+    margin:auto;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:28px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:var(--soft);
+    display:grid;
+    place-items:center;
+    color:var(--accent);
+    font-size:22px;
+}
+
+.theme{
+    padding:11px 15px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.hero{
+    text-align:center;
+    margin:35px 0 25px;
+}
+
+.hero h1{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.6;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:20px;
+}
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+button{
+    font-family:inherit;
+}
+
+.btn{
+    padding:12px 16px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    font-size:13px;
+    cursor:pointer;
+}
+
+.btn.primary{
+    background:var(--accent);
+    color:white;
+    border-color:var(--accent);
+}
+
+.btn:hover{
+    opacity:.85;
+}
+
+.editors{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.editor-box{
+    border:1px solid var(--border);
+    border-radius:13px;
+    overflow:hidden;
+    min-width:0;
+}
+
+.editor-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px;
+    background:var(--input);
+    border-bottom:1px solid var(--border);
+}
+
+.editor-header h3{
+    font-size:14px;
+}
+
+.editor-header span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+textarea{
+    width:100%;
+    height:430px;
+    resize:vertical;
+    border:none;
+    outline:none;
+    padding:16px;
+    background:var(--card);
+    color:var(--text);
+    font-family:monospace;
+    font-size:13px;
+    line-height:1.7;
+    tab-size:2;
+}
+
+.stats{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:12px 15px;
+    background:var(--input);
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    font-size:12px;
+}
+
+.info{
+    margin-top:20px;
+    padding:20px;
+    border:1px solid var(--border);
+    background:var(--card);
+    border-radius:15px;
+}
+
+.info h3{
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+.info p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.8;
+}
+
+footer{
+    text-align:center;
+    padding:30px 10px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+@media(max-width:800px){
+    .editors{
+        grid-template-columns:1fr;
+    }
+
+    textarea{
+        height:350px;
+    }
+}
+
+@media(max-width:500px){
+    body{
+        padding:12px;
+    }
+
+    .hero h1{
+        font-size:27px;
+    }
+
+    .card{
+        padding:14px;
+    }
+
+    .toolbar .btn{
+        flex:1;
+    }
+
+    textarea{
+        height:300px;
+        font-size:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <div class="logo">
+        <div class="logo-icon">&lt;/&gt;</div>
+        HTML Formatter
+    </div>
+
+    <button class="theme" onclick="toggleTheme()" id="themeBtn">
+        🌙 Theme
+    </button>
+</header>
+
+<div class="hero">
+    <h1>HTML Formatter</h1>
+    <p>Format, beautify and minify HTML code instantly.</p>
+</div>
+
+<div class="card">
+
+<div class="toolbar">
+    <button class="btn primary" onclick="formatHTML()">✦ Format</button>
+    <button class="btn" onclick="minifyHTML()">Minify</button>
+    <button class="btn" onclick="copyOutput()">Copy Code</button>
+    <button class="btn" onclick="downloadHTML()">Download</button>
+    <button class="btn" onclick="clearAll()">Clear</button>
+</div>
+
+<div class="editors">
+
+    <div class="editor-box">
+
+        <div class="editor-header">
+            <h3>Input HTML</h3>
+            <span id="inputStats">0 lines</span>
+        </div>
+
+        <textarea
+            id="inputCode"
+            placeholder="Paste your HTML code here..."
+            spellcheck="false"
+            oninput="updateStats()"
+        ></textarea>
+
+        <div class="stats">
+            <span id="inputLines">Lines: 0</span>
+            <span id="inputChars">Characters: 0</span>
+        </div>
+
+    </div>
+
+    <div class="editor-box">
+
+        <div class="editor-header">
+            <h3>Output HTML</h3>
+            <span id="outputStats">0 lines</span>
+        </div>
+
+        <textarea
+            id="outputCode"
+            placeholder="Formatted code will appear here..."
+            spellcheck="false"
+        ></textarea>
+
+        <div class="stats">
+            <span id="outputLines">Lines: 0</span>
+            <span id="outputChars">Characters: 0</span>
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+<div class="info">
+    <h3>What is HTML Formatter?</h3>
+    <p>
+        HTML Formatter automatically organizes HTML code with proper
+        indentation and spacing, making it easier to read, edit and maintain.
+        Minify mode removes unnecessary whitespace to reduce code size.
+    </p>
+</div>
+
+<footer>
+    HTML Formatter · Free · Simple · Fast
+</footer>
+
+</div>
+
+<script>
+
+const input=document.getElementById("inputCode");
+const output=document.getElementById("outputCode");
+
+function updateStats(){
+
+    let a=input.value;
+    let b=output.value;
+
+    let aLines=a.length?a.split("\n").length:0;
+    let bLines=b.length?b.split("\n").length:0;
+
+    document.getElementById("inputLines").textContent="Lines: "+aLines;
+    document.getElementById("inputChars").textContent="Characters: "+a.length;
+    document.getElementById("inputStats").textContent=aLines+" lines";
+
+    document.getElementById("outputLines").textContent="Lines: "+bLines;
+    document.getElementById("outputChars").textContent="Characters: "+b.length;
+    document.getElementById("outputStats").textContent=bLines+" lines";
+}
+
+function tokenizeHTML(html){
+
+    // Protect script, style, textarea and pre contents
+    const protectedBlocks=[];
+
+    html=html.replace(
+        /<(script|style|pre|textarea)\b[^>]*>[\s\S]*?<\/\1\s*>/gi,
+        function(match){
+            let id=protectedBlocks.length;
+            protectedBlocks.push(match);
+            return "___PROTECTED_"+id+"___";
+        }
+    );
+
+    const tokens=html.match(/<!--[\s\S]*?-->|<![^>]*>|<[^>]+>|[^<]+/g)||[];
+
+    return {tokens,protectedBlocks};
+}
+
+const voidTags=new Set([
+    "area","base","br","col","embed","hr","img","input",
+    "link","meta","param","source","track","wbr"
+]);
+
+function formatEngine(html){
+
+    html=html.trim();
+
+    if(!html)return "";
+
+    const {tokens,protectedBlocks}=tokenizeHTML(html);
+
+    let result=[];
+    let indent=0;
+
+    const indentText=()=> "  ".repeat(Math.max(0,indent));
+
+    for(let token of tokens){
+
+        token=token.trim();
+
+        if(!token)continue;
+
+        // Restore protected content
+        const protectedMatch=token.match(/^___PROTECTED_(\d+)___$/);
+
+        if(protectedMatch){
+            let block=protectedBlocks[Number(protectedMatch[1])];
+            result.push(indentText()+block.trim());
+            continue;
+        }
+
+        // Comments
+        if(token.startsWith("<!--")){
+            result.push(indentText()+token);
+            continue;
+        }
+
+        // DOCTYPE or other declaration
+        if(token.startsWith("<!")){
+            result.push(indentText()+token);
+            continue;
+        }
+
+        // Closing tag
+        if(/^<\//.test(token)){
+
+            indent=Math.max(0,indent-1);
+            result.push(indentText()+token);
+            continue;
+        }
+
+        // Text node
+        if(!token.startsWith("<")){
+            result.push(indentText()+token);
+            continue;
+        }
+
+        // Opening tag
+        result.push(indentText()+token);
+
+        const match=token.match(/^<\s*([a-zA-Z0-9:-]+)/);
+
+        if(match){
+
+            const tag=match[1].toLowerCase();
+
+            const isSelfClosing=/\/\s*>$/.test(token);
+
+            if(!voidTags.has(tag)&&!isSelfClosing){
+                indent++;
+            }
+        }
+    }
+
+    let formatted=result.join("\n");
+
+    // Restore protected blocks if necessary
+    return formatted;
+}
+
+function formatHTML(){
+
+    if(!input.value.trim()){
+        alert("Please enter HTML code first.");
+        return;
+    }
+
+    output.value=formatEngine(input.value);
+    updateStats();
+}
+
+function minifyHTML(){
+
+    if(!input.value.trim()){
+        alert("Please enter HTML code first.");
+        return;
+    }
+
+    let html=input.value;
+
+    // Protect script, style, pre and textarea blocks
+    const protectedBlocks=[];
+
+    html=html.replace(
+        /<(script|style|pre|textarea)\b[^>]*>[\s\S]*?<\/\1\s*>/gi,
+        function(match){
+            let id=protectedBlocks.length;
+            protectedBlocks.push(match);
+            return "___MINIFY_BLOCK_"+id+"___";
+        }
+    );
+
+    html=html
+        .replace(/<!--[\s\S]*?-->/g,"")
+        .replace(/>\s+</g,"><")
+        .replace(/\s{2,}/g," ")
+        .trim();
+
+    // Restore protected blocks
+    html=html.replace(
+        /___MINIFY_BLOCK_(\d+)___/g,
+        function(match,id){
+            return protectedBlocks[Number(id)];
+        }
+    );
+
+    output.value=html;
+    updateStats();
+}
+
+function copyOutput(){
+
+    if(!output.value){
+        alert("No output code to copy.");
+        return;
+    }
+
+    if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(output.value)
+        .then(()=>alert("Code copied!"))
+        .catch(()=>fallbackCopy());
+    }else{
+        fallbackCopy();
+    }
+}
+
+function fallbackCopy(){
+
+    output.select();
+
+    try{
+        document.execCommand("copy");
+        alert("Code copied!");
+    }catch(e){
+        alert("Copy failed.");
+    }
+}
+
+function downloadHTML(){
+
+    if(!output.value){
+        alert("Please generate output first.");
+        return;
+    }
+
+    const blob=new Blob([output.value],{
+        type:"text/html;charset=utf-8"
+    });
+
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+
+    a.href=url;
+    a.download="formatted.html";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+function clearAll(){
+
+    input.value="";
+    output.value="";
+    updateStats();
+}
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    const dark=document.body.classList.contains("dark");
+
+    document.getElementById("themeBtn").textContent=
+        dark?"☀️ Theme":"🌙 Theme";
+}
+
+// Tab key indentation in editors
+[input,output].forEach(editor=>{
+
+    editor.addEventListener("keydown",function(e){
+
+        if(e.key==="Tab"){
+            e.preventDefault();
+
+            const start=this.selectionStart;
+            const end=this.selectionEnd;
+
+            this.value=this.value.substring(0,start)+"  "+
+                this.value.substring(end);
+
+            this.selectionStart=this.selectionEnd=start+2;
+
+            updateStats();
+        }
+    });
+});
+
+updateStats();
+
+</script>
+
+</body>
+</html>
