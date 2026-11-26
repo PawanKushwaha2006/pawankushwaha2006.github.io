@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit Converter</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f3f6fb;
+    color:#1e293b;
+    padding:20px;
+    transition:.3s;
+}
+
+body.dark{
+    background:#111827;
+    color:#f1f5f9;
+}
+
+.container{
+    max-width:500px;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:22px;
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
+}
+
+.dark .container{
+    background:#1f2937;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.header h2{
+    font-size:23px;
+}
+
+.theme{
+    border:none;
+    padding:10px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+label{
+    display:block;
+    margin:15px 0 7px;
+    font-weight:bold;
+}
+
+input,select{
+    width:100%;
+    padding:13px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+    font-size:16px;
+    outline:none;
+}
+
+.dark input,.dark select{
+    background:#374151;
+    color:white;
+    border-color:#4b5563;
+}
+
+button{
+    cursor:pointer;
+}
+
+.swap{
+    display:block;
+    width:50px;
+    height:50px;
+    margin:18px auto;
+    border:none;
+    border-radius:50%;
+    background:#ff6b35;
+    color:white;
+    font-size:22px;
+}
+
+.convert{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    background:#ff6b35;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-weight:bold;
+    font-size:16px;
+}
+
+.result{
+    margin-top:20px;
+    padding:20px;
+    border-radius:15px;
+    background:#fff7ed;
+    display:none;
+    word-break:break-word;
+}
+
+.dark .result{
+    background:#374151;
+}
+
+.result h3{
+    color:#ff6b35;
+    margin-bottom:10px;
+}
+
+.big{
+    font-size:27px;
+    font-weight:bold;
+    color:#ff6b35;
+}
+
+.copy{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    background:#1e293b;
+    color:white;
+    border:none;
+    border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h2>🔄 Unit Converter</h2>
+<button class="theme" onclick="toggleTheme()">🌙</button>
+</div>
+
+<label>Category</label>
+<select id="category" onchange="loadUnits()">
+<option value="length">Length</option>
+<option value="weight">Weight</option>
+<option value="temperature">Temperature</option>
+<option value="area">Area</option>
+<option value="volume">Volume</option>
+<option value="speed">Speed</option>
+<option value="time">Time</option>
+<option value="data">Digital Storage</option>
+</select>
+
+<label>Enter Value</label>
+<input type="number" id="value" placeholder="Enter value">
+
+<label>From</label>
+<select id="from"></select>
+
+<button class="swap" onclick="swapUnits()">⇅</button>
+
+<label>To</label>
+<select id="to"></select>
+
+<button class="convert" onclick="convert()">Convert</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+const units={
+
+length:{
+"Millimeter":0.001,
+"Centimeter":0.01,
+"Meter":1,
+"Kilometer":1000,
+"Inch":0.0254,
+"Foot":0.3048,
+"Yard":0.9144,
+"Mile":1609.344
+},
+
+weight:{
+"Milligram":0.000001,
+"Gram":0.001,
+"Kilogram":1,
+"Tonne":1000,
+"Pound":0.45359237,
+"Ounce":0.028349523125
+},
+
+temperature:[
+"Celsius","Fahrenheit","Kelvin"
+],
+
+area:{
+"Square Meter":1,
+"Square Kilometer":1000000,
+"Square Centimeter":0.0001,
+"Square Foot":0.09290304,
+"Square Inch":0.00064516,
+"Acre":4046.8564224,
+"Hectare":10000
+},
+
+volume:{
+"Milliliter":0.001,
+"Liter":1,
+"Cubic Meter":1000,
+"Cubic Centimeter":0.001,
+"Gallon (US)":3.785411784,
+"Cup (US)":0.2365882365
+},
+
+speed:{
+"Meter/Second":1,
+"Kilometer/Hour":0.2777777778,
+"Mile/Hour":0.44704,
+"Foot/Second":0.3048,
+"Knot":0.5144444444
+},
+
+time:{
+"Second":1,
+"Minute":60,
+"Hour":3600,
+"Day":86400,
+"Week":604800,
+"Month (30 days)":2592000,
+"Year (365 days)":31536000
+},
+
+data:{
+"Byte":1,
+"Kilobyte (KB)":1024,
+"Megabyte (MB)":1048576,
+"Gigabyte (GB)":1073741824,
+"Terabyte (TB)":1099511627776,
+"Bit":0.125
+}
+
+};
+
+function loadUnits(){
+
+    let category=document.getElementById("category").value;
+    let from=document.getElementById("from");
+    let to=document.getElementById("to");
+
+    let list=units[category];
+
+    if(category==="temperature"){
+        list=["Celsius","Fahrenheit","Kelvin"];
+    }else{
+        list=Object.keys(list);
+    }
+
+    from.innerHTML="";
+    to.innerHTML="";
+
+    list.forEach((unit,index)=>{
+
+        from.add(new Option(unit,unit));
+        to.add(new Option(unit,unit));
+
+    });
+
+    if(list.length>1){
+        to.selectedIndex=1;
+    }
+
+    document.getElementById("result").style.display="none";
+}
+
+function swapUnits(){
+
+    let from=document.getElementById("from");
+    let to=document.getElementById("to");
+
+    let temp=from.value;
+
+    from.value=to.value;
+    to.value=temp;
+
+    convert();
+}
+
+function convert(){
+
+    let category=document.getElementById("category").value;
+    let value=parseFloat(document.getElementById("value").value);
+    let from=document.getElementById("from").value;
+    let to=document.getElementById("to").value;
+    let result=document.getElementById("result");
+
+    if(isNaN(value)){
+        alert("Please enter a valid value.");
+        return;
+    }
+
+    let output;
+
+    if(category==="temperature"){
+        output=temperatureConvert(value,from,to);
+    }else{
+        let factor=units[category];
+        output=value*factor[from]/factor[to];
+    }
+
+    if(!Number.isFinite(output)){
+        alert("Unable to convert this value.");
+        return;
+    }
+
+    result.innerHTML=`
+        <h3>Conversion Result</h3>
+        <div>${value} ${from}</div>
+        <div class="big">${Number(output.toPrecision(12))} ${to}</div>
+        <button class="copy" onclick="copyResult()">
+        📋 Copy Result
+        </button>
+    `;
+
+    result.style.display="block";
+}
+
+function temperatureConvert(value,from,to){
+
+    let celsius;
+
+    if(from==="Celsius"){
+        celsius=value;
+    }
+    else if(from==="Fahrenheit"){
+        celsius=(value-32)*5/9;
+    }
+    else{
+        celsius=value-273.15;
+    }
+
+    if(to==="Celsius") return celsius;
+    if(to==="Fahrenheit") return (celsius*9/5)+32;
+    if(to==="Kelvin") return celsius+273.15;
+}
+
+function copyResult(){
+
+    navigator.clipboard.writeText(
+        document.getElementById("result").innerText
+    ).then(()=>alert("Result copied!"))
+    .catch(()=>alert("Unable to copy result."));
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+}
+
+loadUnits();
+
+</script>
+
+</body>
+</html>
