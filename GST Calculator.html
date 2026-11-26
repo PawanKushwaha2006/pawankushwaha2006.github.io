@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Calculator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f3f6fb;
+    color:#222;
+    padding:20px;
+    transition:.3s;
+}
+
+body.dark{
+    background:#111827;
+    color:#f1f5f9;
+}
+
+.container{
+    max-width:480px;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.dark .container{
+    background:#1f2937;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin:14px 0 6px;
+    font-weight:bold;
+}
+
+input,select{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:16px;
+    outline:none;
+}
+
+.dark input,.dark select{
+    background:#374151;
+    color:white;
+    border:1px solid #4b5563;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+
+button{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.calculate{
+    background:#ff6b35;
+    color:white;
+}
+
+.reset{
+    background:#e5e7eb;
+    color:#222;
+}
+
+.result{
+    margin-top:22px;
+    padding:18px;
+    background:#fff7ed;
+    border-radius:14px;
+    line-height:2;
+}
+
+.dark .result{
+    background:#374151;
+}
+
+.total{
+    font-size:22px;
+    font-weight:bold;
+    color:#ff6b35;
+}
+
+.theme{
+    display:block;
+    margin:0 auto 20px;
+    background:#111827;
+    color:white;
+    width:auto;
+    padding:10px 18px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<button class="theme" onclick="toggleTheme()">🌙 Dark Mode</button>
+
+<h2>🧮 GST Calculator</h2>
+
+<label>Amount (₹)</label>
+<input type="number" id="amount" placeholder="Enter amount">
+
+<label>GST Rate</label>
+<select id="rate">
+<option value="3">3%</option>
+<option value="5">5%</option>
+<option value="12">12%</option>
+<option value="18" selected>18%</option>
+<option value="28">28%</option>
+</select>
+
+<label>Calculation Type</label>
+<select id="type">
+<option value="add">Add GST (Exclusive)</option>
+<option value="remove">Remove GST (Inclusive)</option>
+</select>
+
+<label>Tax Type</label>
+<select id="taxType">
+<option value="intra">CGST + SGST</option>
+<option value="inter">IGST</option>
+</select>
+
+<div class="buttons">
+<button class="calculate" onclick="calculateGST()">Calculate</button>
+<button class="reset" onclick="resetCalc()">Reset</button>
+</div>
+
+<div class="result" id="result">
+Enter amount to calculate GST.
+</div>
+
+</div>
+
+<script>
+
+function calculateGST(){
+
+    let amount = parseFloat(document.getElementById("amount").value);
+    let rate = parseFloat(document.getElementById("rate").value);
+    let type = document.getElementById("type").value;
+    let taxType = document.getElementById("taxType").value;
+    let result = document.getElementById("result");
+
+    if(isNaN(amount) || amount < 0){
+        result.innerHTML = "Please enter a valid amount.";
+        return;
+    }
+
+    let base, gst, total;
+
+    if(type === "add"){
+        base = amount;
+        gst = base * rate / 100;
+        total = base + gst;
+    }else{
+        total = amount;
+        base = total / (1 + rate / 100);
+        gst = total - base;
+    }
+
+    let cgst = 0, sgst = 0, igst = 0;
+
+    if(taxType === "intra"){
+        cgst = gst / 2;
+        sgst = gst / 2;
+    }else{
+        igst = gst;
+    }
+
+    result.innerHTML = `
+        <div>Original Amount: ₹${base.toFixed(2)}</div>
+        <div>GST (${rate}%): ₹${gst.toFixed(2)}</div>
+        ${taxType === "intra" ?
+        `<div>CGST: ₹${cgst.toFixed(2)}</div>
+         <div>SGST: ₹${sgst.toFixed(2)}</div>` :
+        `<div>IGST: ₹${igst.toFixed(2)}</div>`}
+        <hr>
+        <div class="total">Total: ₹${total.toFixed(2)}</div>
+    `;
+}
+
+function resetCalc(){
+    document.getElementById("amount").value="";
+    document.getElementById("rate").value="18";
+    document.getElementById("type").value="add";
+    document.getElementById("taxType").value="intra";
+    document.getElementById("result").innerHTML=
+    "Enter amount to calculate GST.";
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+}
+
+</script>
+
+</body>
+</html>
