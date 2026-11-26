@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Calculator</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#eef2f7;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    color:#111827;
+    transition:.3s;
+}
+
+body.dark{
+    background:#111827;
+    color:#fff;
+}
+
+.calculator{
+    width:100%;
+    max-width:420px;
+    background:#ffffff;
+    padding:20px;
+    border-radius:22px;
+    box-shadow:0 15px 40px rgba(0,0,0,.12);
+}
+
+.dark .calculator{
+    background:#1f2937;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.top h2{
+    font-size:21px;
+}
+
+.top button{
+    border:none;
+    padding:10px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.display{
+    background:#f1f5f9;
+    padding:18px;
+    border-radius:14px;
+    margin-bottom:15px;
+    min-height:100px;
+    text-align:right;
+    overflow:hidden;
+}
+
+.dark .display{
+    background:#374151;
+}
+
+#expression{
+    font-size:16px;
+    min-height:25px;
+    color:#64748b;
+    word-wrap:break-word;
+}
+
+#output{
+    font-size:32px;
+    font-weight:bold;
+    word-wrap:break-word;
+}
+
+.dark #expression{
+    color:#cbd5e1;
+}
+
+.buttons{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+}
+
+button.key{
+    padding:15px 4px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#e5eaf1;
+    color:#111827;
+    transition:background .15s;
+}
+
+button.key:active{
+    background:#cbd5e1;
+}
+
+.dark button.key{
+    background:#374151;
+    color:white;
+}
+
+button.fn{
+    background:#dbeafe !important;
+    color:#1d4ed8 !important;
+}
+
+.dark button.fn{
+    background:#334155 !important;
+    color:#93c5fd !important;
+}
+
+button.op{
+    background:#ffedd5 !important;
+    color:#c2410c !important;
+}
+
+.dark button.op{
+    background:#7c2d12 !important;
+    color:#fed7aa !important;
+}
+
+button.clear{
+    background:#fee2e2 !important;
+    color:#dc2626 !important;
+}
+
+button.equal{
+    background:#ff6b35 !important;
+    color:white !important;
+}
+
+button.zero{
+    grid-column:span 2;
+}
+
+.mode{
+    font-size:12px;
+    background:#ff6b35;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+@media(max-width:360px){
+    button.key{
+        padding:13px 2px;
+        font-size:14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+
+    <div class="top">
+        <h2>Scientific Calculator</h2>
+        <button onclick="toggleTheme()">🌙</button>
+    </div>
+
+    <div style="margin-bottom:12px">
+        <button class="mode" onclick="toggleAngle()" id="angleBtn">
+            DEG
+        </button>
+    </div>
+
+    <div class="display">
+        <div id="expression"></div>
+        <div id="output">0</div>
+    </div>
+
+    <div class="buttons">
+
+        <button class="key fn" onclick="append('sin(')">sin</button>
+        <button class="key fn" onclick="append('cos(')">cos</button>
+        <button class="key fn" onclick="append('tan(')">tan</button>
+        <button class="key fn" onclick="append('log(')">log</button>
+        <button class="key fn" onclick="append('ln(')">ln</button>
+
+        <button class="key fn" onclick="append('sqrt(')">√</button>
+        <button class="key fn" onclick="append('^2')">x²</button>
+        <button class="key fn" onclick="append('^')">xʸ</button>
+        <button class="key fn" onclick="append('!')">x!</button>
+        <button class="key fn" onclick="append('1/(')">1/x</button>
+
+        <button class="key fn" onclick="append('(')">(</button>
+        <button class="key fn" onclick="append(')')">)</button>
+        <button class="key fn" onclick="append('π')">π</button>
+        <button class="key fn" onclick="append('e')">e</button>
+        <button class="key clear" onclick="backspace()">DEL</button>
+
+        <button class="key clear" onclick="clearAll()">AC</button>
+        <button class="key op" onclick="append('/')">÷</button>
+        <button class="key op" onclick="append('*')">×</button>
+        <button class="key op" onclick="append('-')">−</button>
+        <button class="key op" onclick="append('+')">+</button>
+
+        <button class="key" onclick="append('7')">7</button>
+        <button class="key" onclick="append('8')">8</button>
+        <button class="key" onclick="append('9')">9</button>
+        <button class="key fn" onclick="append('%')">%</button>
+        <button class="key fn" onclick="append('abs(')">|x|</button>
+
+        <button class="key" onclick="append('4')">4</button>
+        <button class="key" onclick="append('5')">5</button>
+        <button class="key" onclick="append('6')">6</button>
+        <button class="key fn" onclick="append('floor(')">⌊x⌋</button>
+        <button class="key fn" onclick="append('ceil(')">⌈x⌉</button>
+
+        <button class="key" onclick="append('1')">1</button>
+        <button class="key" onclick="append('2')">2</button>
+        <button class="key" onclick="append('3')">3</button>
+        <button class="key fn" onclick="append('round(')">round</button>
+        <button class="key fn" onclick="append('Ans')">Ans</button>
+
+        <button class="key zero" onclick="append('0')">0</button>
+        <button class="key" onclick="append('.')">.</button>
+        <button class="key equal" onclick="calculate()">=</button>
+
+    </div>
+</div>
+
+<script>
+let expression = "";
+let lastAnswer = 0;
+let degreeMode = true;
+
+const exprDisplay = document.getElementById("expression");
+const outputDisplay = document.getElementById("output");
+
+function append(value){
+    expression += value;
+    exprDisplay.textContent = expression;
+    outputDisplay.textContent = expression || "0";
+}
+
+function clearAll(){
+    expression = "";
+    exprDisplay.textContent = "";
+    outputDisplay.textContent = "0";
+}
+
+function backspace(){
+    expression = expression.slice(0,-1);
+    exprDisplay.textContent = expression;
+    outputDisplay.textContent = expression || "0";
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+}
+
+function toggleAngle(){
+    degreeMode = !degreeMode;
+    document.getElementById("angleBtn").textContent =
+        degreeMode ? "DEG" : "RAD";
+}
+
+function factorial(n){
+    if(!Number.isInteger(n) || n < 0 || n > 170)
+        throw new Error("Invalid factorial");
+
+    let result = 1;
+    for(let i=2;i<=n;i++) result *= i;
+    return result;
+}
+
+function calculate(){
+
+    if(!expression) return;
+
+    try{
+        let exp = expression;
+
+        exp = exp.replace(/π/g,"Math.PI");
+        exp = exp.replace(/\be\b/g,"Math.E");
+        exp = exp.replace(/\bAns\b/g,"lastAnswer");
+
+        exp = exp.replace(/sqrt\(/g,"Math.sqrt(");
+        exp = exp.replace(/log\(/g,"Math.log10(");
+        exp = exp.replace(/ln\(/g,"Math.log(");
+        exp = exp.replace(/abs\(/g,"Math.abs(");
+        exp = exp.replace(/floor\(/g,"Math.floor(");
+        exp = exp.replace(/ceil\(/g,"Math.ceil(");
+        exp = exp.replace(/round\(/g,"Math.round(");
+
+        if(degreeMode){
+            exp = exp.replace(/sin\(/g,"sinD(");
+            exp = exp.replace(/cos\(/g,"cosD(");
+            exp = exp.replace(/tan\(/g,"tanD(");
+        }else{
+            exp = exp.replace(/sin\(/g,"Math.sin(");
+            exp = exp.replace(/cos\(/g,"Math.cos(");
+            exp = exp.replace(/tan\(/g,"Math.tan(");
+        }
+
+        exp = exp.replace(/\^/g,"**");
+
+        exp = exp.replace(/sinD\(/g,"sinD(");
+        exp = exp.replace(/cosD\(/g,"cosD(");
+        exp = exp.replace(/tanD\(/g,"tanD(");
+
+        exp = exp.replace(/(\d+)!/g,"factorial($1)");
+
+        exp = exp.replace(/sinD\(/g,"Math.sin((Math.PI/180)*");
+        exp = exp.replace(/cosD\(/g,"Math.cos((Math.PI/180)*");
+        exp = exp.replace(/tanD\(/g,"Math.tan((Math.PI/180)*");
+
+        exp = exp.replace(/(\d+(?:\.\d+)?)%/g,"($1/100)");
+
+        let result = Function(
+            "factorial","lastAnswer",
+            '"use strict"; return (' + exp + ')'
+        )(factorial,lastAnswer);
+
+        if(!Number.isFinite(result))
+            throw new Error("Invalid result");
+
+        lastAnswer = result;
+
+        outputDisplay.textContent =
+            Number(result.toPrecision(12)).toString();
+
+    }catch(error){
+        outputDisplay.textContent = "Error";
+    }
+}
+
+document.addEventListener("keydown",function(e){
+
+    if(/[0-9.]/.test(e.key)){
+        append(e.key);
+    }
+    else if(e.key === "+"){
+        append("+");
+    }
+    else if(e.key === "-"){
+        append("-");
+    }
+    else if(e.key === "*"){
+        append("*");
+    }
+    else if(e.key === "/"){
+        append("/");
+    }
+    else if(e.key === "Enter"){
+        calculate();
+    }
+    else if(e.key === "Backspace"){
+        backspace();
+    }
+    else if(e.key === "Escape"){
+        clearAll();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
