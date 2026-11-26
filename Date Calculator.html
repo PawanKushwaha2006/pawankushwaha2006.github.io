@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Date Calculator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f3f6fb;
+    color:#1e293b;
+    padding:20px;
+    transition:.3s;
+}
+
+body.dark{
+    background:#111827;
+    color:#f1f5f9;
+}
+
+.container{
+    max-width:480px;
+    margin:25px auto;
+    background:white;
+    padding:24px;
+    border-radius:22px;
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
+}
+
+.dark .container{
+    background:#1f2937;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.header h2{
+    font-size:23px;
+}
+
+.theme{
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin:15px 0 7px;
+}
+
+input,select{
+    width:100%;
+    padding:13px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+    font-size:15px;
+    outline:none;
+}
+
+.dark input,.dark select{
+    background:#374151;
+    color:white;
+    border-color:#4b5563;
+}
+
+.tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.tab{
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    background:#e5e7eb;
+    font-weight:bold;
+}
+
+.tab.active{
+    background:#ff6b35;
+    color:white;
+}
+
+.dark .tab{
+    background:#374151;
+    color:white;
+}
+
+.dark .tab.active{
+    background:#ff6b35;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+button{
+    cursor:pointer;
+}
+
+.btn{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.calculate{
+    background:#ff6b35;
+    color:white;
+}
+
+.reset{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.result{
+    margin-top:20px;
+    padding:18px;
+    background:#fff7ed;
+    border-radius:15px;
+    line-height:1.8;
+    display:none;
+}
+
+.dark .result{
+    background:#374151;
+}
+
+.result h3{
+    color:#ff6b35;
+    margin-bottom:10px;
+}
+
+.big{
+    font-size:27px;
+    font-weight:bold;
+    color:#ff6b35;
+}
+
+.copy{
+    margin-top:12px;
+    width:100%;
+    padding:12px;
+    background:#1e293b;
+    color:white;
+    border:none;
+    border-radius:10px;
+}
+
+.dark .copy{
+    background:#111827;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h2>📅 Date Calculator</h2>
+<button class="theme" onclick="toggleTheme()">🌙</button>
+</div>
+
+<div class="tabs">
+<button class="tab active" id="diffTab" onclick="switchMode('diff')">
+Date Difference
+</button>
+
+<button class="tab" id="addTab" onclick="switchMode('add')">
+Add / Subtract
+</button>
+</div>
+
+<div id="differenceSection">
+
+<label>Start Date</label>
+<input type="date" id="startDate">
+
+<label>End Date</label>
+<input type="date" id="endDate">
+
+</div>
+
+<div id="addSection" style="display:none">
+
+<label>Start Date</label>
+<input type="date" id="baseDate">
+
+<label>Operation</label>
+<select id="operation">
+<option value="add">Add</option>
+<option value="subtract">Subtract</option>
+</select>
+
+<label>Number of Days</label>
+<input type="number" id="daysInput" placeholder="Enter number of days">
+
+</div>
+
+<div class="buttons">
+<button class="btn calculate" onclick="calculate()">Calculate</button>
+<button class="btn reset" onclick="resetAll()">Reset</button>
+</div>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+let mode = "diff";
+
+function switchMode(m){
+
+    mode = m;
+
+    document.getElementById("diffTab").classList.toggle("active",m==="diff");
+    document.getElementById("addTab").classList.toggle("active",m==="add");
+
+    document.getElementById("differenceSection").style.display =
+        m==="diff" ? "block":"none";
+
+    document.getElementById("addSection").style.display =
+        m==="add" ? "block":"none";
+
+    document.getElementById("result").style.display="none";
+}
+
+function calculate(){
+
+    let result = document.getElementById("result");
+
+    if(mode==="diff"){
+
+        let start = document.getElementById("startDate").value;
+        let end = document.getElementById("endDate").value;
+
+        if(!start || !end){
+            alert("Please select both dates.");
+            return;
+        }
+
+        let d1 = new Date(start+"T00:00:00");
+        let d2 = new Date(end+"T00:00:00");
+
+        let diff = Math.abs(d2-d1);
+        let days = Math.round(diff/86400000);
+
+        let weeks = Math.floor(days/7);
+        let remainingDays = days%7;
+
+        let months = 0, years = 0;
+
+        let earlier = d1<d2 ? d1:d2;
+        let later = d1<d2 ? d2:d1;
+
+        years = later.getFullYear()-earlier.getFullYear();
+        months = later.getMonth()-earlier.getMonth();
+
+        if(later.getDate()<earlier.getDate()) months--;
+
+        if(months<0){
+            years--;
+            months+=12;
+        }
+
+        let totalMonths = years*12+months;
+
+        result.innerHTML=`
+            <h3>📊 Date Difference</h3>
+            <div class="big">${days} Days</div>
+            <div>Weeks: ${weeks} weeks ${remainingDays} days</div>
+            <div>Approximate Months: ${(days/30.4375).toFixed(2)}</div>
+            <div>Calendar Difference: ${years} Years ${months} Months</div>
+            <div>Total Months: ${totalMonths}</div>
+            <button class="copy" onclick="copyResult()">
+            📋 Copy Result
+            </button>
+        `;
+
+    }else{
+
+        let date = document.getElementById("baseDate").value;
+        let days = parseInt(document.getElementById("daysInput").value);
+        let operation = document.getElementById("operation").value;
+
+        if(!date || isNaN(days)){
+            alert("Please enter date and days.");
+            return;
+        }
+
+        let d = new Date(date+"T00:00:00");
+
+        d.setDate(d.getDate() + (operation==="add" ? days : -days));
+
+        let formatted = d.toLocaleDateString("en-IN",{
+            day:"2-digit",
+            month:"long",
+            year:"numeric"
+        });
+
+        result.innerHTML=`
+            <h3>📅 New Date</h3>
+            <div class="big">${formatted}</div>
+            <div>${operation==="add" ? "Added":"Subtracted"} ${days} days</div>
+            <button class="copy" onclick="copyResult()">
+            📋 Copy Result
+            </button>
+        `;
+    }
+
+    result.style.display="block";
+}
+
+function copyResult(){
+    let text = document.getElementById("result").innerText;
+    navigator.clipboard.writeText(text)
+    .then(()=>alert("Result copied!"))
+    .catch(()=>alert("Copy failed. Please copy manually."));
+}
+
+function resetAll(){
+
+    document.getElementById("startDate").value="";
+    document.getElementById("endDate").value="";
+    document.getElementById("baseDate").value="";
+    document.getElementById("daysInput").value="";
+    document.getElementById("operation").value="add";
+    document.getElementById("result").style.display="none";
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+}
+
+</script>
+
+</body>
+  </html>
+  
