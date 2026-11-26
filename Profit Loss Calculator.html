@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profit & Loss Calculator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f3f6fb;
+    color:#1e293b;
+    padding:20px;
+    transition:.3s;
+}
+
+body.dark{
+    background:#111827;
+    color:#f1f5f9;
+}
+
+.container{
+    max-width:460px;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:22px;
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
+}
+
+.dark .container{
+    background:#1f2937;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.header h2{
+    font-size:22px;
+}
+
+.theme{
+    border:none;
+    padding:10px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+label{
+    display:block;
+    margin:15px 0 7px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+    font-size:16px;
+    outline:none;
+}
+
+.dark input{
+    background:#374151;
+    color:white;
+    border-color:#4b5563;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.btn{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.calculate{
+    background:#ff6b35;
+    color:white;
+}
+
+.reset{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.result{
+    display:none;
+    margin-top:22px;
+    padding:20px;
+    border-radius:16px;
+    background:#f0fdf4;
+    line-height:1.9;
+}
+
+.dark .result{
+    background:#374151;
+}
+
+.profit{
+    color:#16a34a;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.loss{
+    color:#dc2626;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.copy{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    background:#1e293b;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h2>📈 Profit & Loss</h2>
+<button class="theme" onclick="toggleTheme()">🌙</button>
+</div>
+
+<label>Cost Price (₹)</label>
+<input type="number" id="cp" placeholder="Enter buying price">
+
+<label>Selling Price (₹)</label>
+<input type="number" id="sp" placeholder="Enter selling price">
+
+<label>Quantity</label>
+<input type="number" id="qty" placeholder="Enter quantity" value="1">
+
+<div class="buttons">
+<button class="btn calculate" onclick="calculate()">Calculate</button>
+<button class="btn reset" onclick="resetAll()">Reset</button>
+</div>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+function calculate(){
+
+    let cp = parseFloat(document.getElementById("cp").value);
+    let sp = parseFloat(document.getElementById("sp").value);
+    let qty = parseFloat(document.getElementById("qty").value);
+
+    let result = document.getElementById("result");
+
+    if(isNaN(cp) || isNaN(sp) || isNaN(qty) ||
+       cp<0 || sp<0 || qty<=0){
+
+        alert("Please enter valid values.");
+        return;
+    }
+
+    let totalCP = cp*qty;
+    let totalSP = sp*qty;
+    let difference = totalSP-totalCP;
+    let percentage = totalCP===0 ? 0 :
+                     Math.abs(difference)/totalCP*100;
+
+    let status;
+    let className;
+
+    if(difference>0){
+        status="PROFIT";
+        className="profit";
+    }
+    else if(difference<0){
+        status="LOSS";
+        className="loss";
+    }
+    else{
+        status="NO PROFIT NO LOSS";
+        className="";
+    }
+
+    result.innerHTML=`
+        <h3>📊 Calculation Result</h3>
+
+        <div>Total Cost Price: ₹${totalCP.toFixed(2)}</div>
+        <div>Total Selling Price: ₹${totalSP.toFixed(2)}</div>
+
+        <div class="${className}">
+        ${status}: ₹${Math.abs(difference).toFixed(2)}
+        </div>
+
+        <div>${status==="NO PROFIT NO LOSS" ? "Percentage: 0%" : status+" Percentage: "+percentage.toFixed(2)+"%"}</div>
+
+        <button class="copy" onclick="copyResult()">
+        📋 Copy Result
+        </button>
+    `;
+
+    result.style.display="block";
+}
+
+function resetAll(){
+    document.getElementById("cp").value="";
+    document.getElementById("sp").value="";
+    document.getElementById("qty").value="1";
+    document.getElementById("result").style.display="none";
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+}
+
+function copyResult(){
+    navigator.clipboard.writeText(
+        document.getElementById("result").innerText
+    ).then(()=>alert("Result copied successfully!"))
+    .catch(()=>alert("Unable to copy result."));
+}
+
+</script>
+
+</body>
+  </html>
+  
