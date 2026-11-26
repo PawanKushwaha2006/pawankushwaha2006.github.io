@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Average Calculator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f3f6fb;
+    color:#1e293b;
+    padding:20px;
+    transition:.3s;
+}
+
+body.dark{
+    background:#111827;
+    color:#f1f5f9;
+}
+
+.container{
+    max-width:480px;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:22px;
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
+}
+
+.dark .container{
+    background:#1f2937;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.header h2{
+    font-size:22px;
+}
+
+.theme{
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin:15px 0 7px;
+}
+
+textarea{
+    width:100%;
+    min-height:150px;
+    padding:15px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+    font-size:16px;
+    resize:vertical;
+    outline:none;
+}
+
+.dark textarea{
+    background:#374151;
+    color:white;
+    border-color:#4b5563;
+}
+
+.hint{
+    font-size:13px;
+    color:#64748b;
+    margin-top:7px;
+}
+
+.dark .hint{
+    color:#cbd5e1;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.btn{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:12px;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.calculate{
+    background:#ff6b35;
+    color:white;
+}
+
+.reset{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.result{
+    margin-top:22px;
+    padding:20px;
+    background:#fff7ed;
+    border-radius:16px;
+    display:none;
+    line-height:1.9;
+}
+
+.dark .result{
+    background:#374151;
+}
+
+.result h3{
+    color:#ff6b35;
+    margin-bottom:10px;
+}
+
+.average{
+    font-size:30px;
+    font-weight:bold;
+    color:#ff6b35;
+}
+
+.copy{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    background:#1e293b;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h2>📊 Average Calculator</h2>
+<button class="theme" onclick="toggleTheme()">🌙</button>
+</div>
+
+<label>Enter Numbers</label>
+
+<textarea id="numbers" placeholder="Example:
+10
+20
+30
+40
+50"></textarea>
+
+<div class="hint">
+Enter numbers separated by commas, spaces or new lines.
+</div>
+
+<div class="buttons">
+<button class="btn calculate" onclick="calculate()">Calculate</button>
+<button class="btn reset" onclick="resetAll()">Reset</button>
+</div>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+function calculate(){
+
+    let input=document.getElementById("numbers").value.trim();
+    let result=document.getElementById("result");
+
+    if(!input){
+        alert("Please enter some numbers.");
+        return;
+    }
+
+    let numbers=input
+        .split(/[\s,]+/)
+        .filter(x=>x!=="")
+        .map(Number);
+
+    if(numbers.some(x=>!Number.isFinite(x))){
+        alert("Please enter valid numbers only.");
+        return;
+    }
+
+    let count=numbers.length;
+
+    let sum=numbers.reduce((a,b)=>a+b,0);
+
+    let average=sum/count;
+
+    let highest=Math.max(...numbers);
+    let lowest=Math.min(...numbers);
+
+    result.innerHTML=`
+        <h3>📈 Calculation Result</h3>
+
+        <div>Number Count: ${count}</div>
+
+        <div>Total Sum: ${sum}</div>
+
+        <div class="average">
+        Average: ${Number(average.toPrecision(12))}
+        </div>
+
+        <div>Highest Number: ${highest}</div>
+
+        <div>Lowest Number: ${lowest}</div>
+
+        <button class="copy" onclick="copyResult()">
+        📋 Copy Result
+        </button>
+    `;
+
+    result.style.display="block";
+}
+
+function resetAll(){
+
+    document.getElementById("numbers").value="";
+    document.getElementById("result").style.display="none";
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+}
+
+function copyResult(){
+
+    navigator.clipboard.writeText(
+        document.getElementById("result").innerText
+    )
+    .then(()=>alert("Result copied successfully!"))
+    .catch(()=>alert("Unable to copy result."));
+}
+
+</script>
+
+</body>
+  </html>
+  
