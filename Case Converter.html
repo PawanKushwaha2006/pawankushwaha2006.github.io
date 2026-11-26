@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Converter</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f7f5;
+    color: #1e293b;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: .3s;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    padding: 26px;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.08);
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.top h2 {
+    font-size: 24px;
+}
+
+.theme {
+    border: none;
+    padding: 10px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 16px;
+    border: 1px solid #dbe2e8;
+    border-radius: 14px;
+    font-size: 16px;
+    resize: vertical;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    line-height: 1.6;
+}
+
+textarea:focus {
+    border-color: #ff6b35;
+}
+
+.buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.action {
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.action:hover {
+    opacity: .9;
+}
+
+.orange {
+    background: #ff6b35;
+    color: white;
+}
+
+.gray {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.green {
+    background: #16a34a;
+    color: white;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.stat {
+    padding: 15px 8px;
+    text-align: center;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.stat span {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.stat h3 {
+    margin-top: 8px;
+    font-size: 20px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+body.dark {
+    background: #111827;
+    color: #f1f5f9;
+}
+
+body.dark .container {
+    background: #1f2937;
+}
+
+body.dark textarea {
+    border-color: #475569;
+}
+
+body.dark .theme {
+    background: #334155;
+    color: white;
+}
+
+body.dark .stat {
+    background: #334155;
+}
+
+body.dark .gray {
+    background: #334155;
+    color: white;
+}
+
+@media(max-width:400px) {
+    .buttons-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top">
+        <h2>Case Converter</h2>
+        <button class="theme" onclick="toggleTheme()">🌙</button>
+    </div>
+
+    <textarea id="text" placeholder="Enter or paste your text here..."></textarea>
+
+    <div class="buttons-grid">
+        <button class="action orange" onclick="convert('upper')">UPPERCASE</button>
+        <button class="action orange" onclick="convert('lower')">lowercase</button>
+        <button class="action orange" onclick="convert('title')">Title Case</button>
+        <button class="action orange" onclick="convert('sentence')">Sentence case</button>
+        <button class="action orange" onclick="convert('capitalized')">Capitalized Case</button>
+        <button class="action orange" onclick="convert('alternating')">aLtErNaTiNg cAsE</button>
+        <button class="action gray" onclick="convert('inverse')">iNVERSE cASE</button>
+        <button class="action gray" onclick="removeExtraSpaces()">Remove Extra Spaces</button>
+        <button class="action green" onclick="copyText()">📋 Copy Text</button>
+        <button class="action gray" onclick="clearText()">🗑 Clear Text</button>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <span>Characters</span>
+            <h3 id="characters">0</h3>
+        </div>
+        <div class="stat">
+            <span>Words</span>
+            <h3 id="words">0</h3>
+        </div>
+        <div class="stat">
+            <span>Lines</span>
+            <h3 id="lines">0</h3>
+        </div>
+    </div>
+
+    <div class="footer">
+        Case Converter · Convert text instantly
+    </div>
+
+</div>
+
+<script>
+const textArea = document.getElementById("text");
+
+textArea.addEventListener("input", updateStats);
+
+function convert(type) {
+    let text = textArea.value;
+
+    if (!text.trim()) {
+        alert("Please enter some text first.");
+        return;
+    }
+
+    switch(type) {
+
+        case "upper":
+            text = text.toUpperCase();
+            break;
+
+        case "lower":
+            text = text.toLowerCase();
+            break;
+
+        case "title":
+            text = text.toLowerCase().replace(/\b([a-z])/g, function(match) {
+                return match.toUpperCase();
+            });
+            break;
+
+        case "sentence":
+            text = text.toLowerCase().replace(/(^\s*|[.!?]\s+)([a-z])/g,
+                function(match, prefix, letter) {
+                    return prefix + letter.toUpperCase();
+                });
+            break;
+
+        case "capitalized":
+            text = text.toLowerCase().replace(/(^|\s)([a-z])/g,
+                function(match, space, letter) {
+                    return space + letter.toUpperCase();
+                });
+            break;
+
+        case "alternating":
+            let counter = 0;
+            text = text.toLowerCase().split("").map(char => {
+                if (/[a-z]/.test(char)) {
+                    counter++;
+                    return counter % 2 === 1 ?
+                        char.toLowerCase() : char.toUpperCase();
+                }
+                return char;
+            }).join("");
+            break;
+
+        case "inverse":
+            text = text.split("").map(char => {
+                if (char === char.toUpperCase() && char !== char.toLowerCase()) {
+                    return char.toLowerCase();
+                }
+                if (char === char.toLowerCase() && char !== char.toUpperCase()) {
+                    return char.toUpperCase();
+                }
+                return char;
+            }).join("");
+            break;
+    }
+
+    textArea.value = text;
+    updateStats();
+}
+
+function removeExtraSpaces() {
+    let text = textArea.value;
+
+    if (!text.trim()) {
+        alert("Please enter some text first.");
+        return;
+    }
+
+    textArea.value = text
+        .split("\n")
+        .map(line => line.trim().replace(/\s+/g, " "))
+        .join("\n")
+        .trim();
+
+    updateStats();
+}
+
+function updateStats() {
+    let text = textArea.value;
+
+    document.getElementById("characters").innerText = text.length;
+
+    let words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    document.getElementById("words").innerText = words;
+
+    let lines = text.length ? text.split("\n").length : 0;
+    document.getElementById("lines").innerText = lines;
+}
+
+function copyText() {
+    if (!textArea.value) {
+        alert("Nothing to copy.");
+        return;
+    }
+
+    navigator.clipboard.writeText(textArea.value)
+        .then(() => alert("Text copied successfully!"))
+        .catch(() => alert("Unable to copy text."));
+}
+
+function clearText() {
+    textArea.value = "";
+    updateStats();
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+
+    document.querySelector(".theme").innerText =
+        document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+</script>
+
+</body>
+          </html>
+          
