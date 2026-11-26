@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Compiler</title>
+
+<style>
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body {
+    font-family:Arial,sans-serif;
+    background:#f4f7f5;
+    color:#17251f;
+    min-height:100vh;
+}
+
+body.dark {
+    background:#111817;
+    color:#e7efeb;
+}
+
+header {
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #ddd;
+}
+
+.dark header {
+    border-color:#333;
+}
+
+.logo {
+    font-size:22px;
+    font-weight:bold;
+    color:#16845d;
+}
+
+.actions {
+    display:flex;
+    gap:8px;
+}
+
+button {
+    border:none;
+    padding:11px 16px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.run {
+    background:#16845d;
+    color:white;
+}
+
+.secondary {
+    background:#e3eee8;
+    color:#176447;
+}
+
+.dark .secondary {
+    background:#263b33;
+    color:#e0f4e9;
+}
+
+main {
+    max-width:1400px;
+    margin:auto;
+    padding:20px;
+}
+
+.layout {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.panel {
+    border:1px solid #dce5df;
+    border-radius:15px;
+    overflow:hidden;
+    background:white;
+}
+
+.dark .panel {
+    background:#1b2421;
+    border-color:#36423d;
+}
+
+.panel-head {
+    padding:14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-weight:bold;
+    border-bottom:1px solid #e1e7e3;
+}
+
+.dark .panel-head {
+    border-color:#35413c;
+}
+
+.tabs {
+    display:flex;
+    gap:5px;
+}
+
+.tab {
+    background:#edf3ef;
+    color:#52665c;
+    padding:9px 12px;
+}
+
+.dark .tab {
+    background:#26332e;
+    color:#b5c8be;
+}
+
+.tab.active {
+    background:#16845d;
+    color:white;
+}
+
+.editor {
+    display:none;
+}
+
+.editor.active {
+    display:block;
+}
+
+textarea {
+    width:100%;
+    height:280px;
+    resize:vertical;
+    border:none;
+    outline:none;
+    padding:18px;
+    background:#ffffff;
+    color:#24352d;
+    font-family:monospace;
+    font-size:14px;
+    line-height:1.6;
+    tab-size:2;
+}
+
+.dark textarea {
+    background:#1b2421;
+    color:#e4eee8;
+}
+
+.preview {
+    height:450px;
+    width:100%;
+    border:none;
+    background:white;
+}
+
+.console {
+    height:130px;
+    overflow:auto;
+    padding:12px;
+    background:#101915;
+    color:#d4e7db;
+    font-family:monospace;
+    font-size:13px;
+}
+
+.console-line {
+    padding:5px 0;
+    border-bottom:1px solid #26342d;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.error {
+    color:#ff8d8d;
+}
+
+.info {
+    color:#8bd9a8;
+}
+
+.toolbar {
+    padding:12px;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+footer {
+    text-align:center;
+    padding:20px;
+    color:#82958a;
+    font-size:13px;
+}
+
+@media(max-width:800px) {
+    .layout {
+        grid-template-columns:1fr;
+    }
+
+    main {
+        padding:12px;
+    }
+
+    .preview {
+        height:350px;
+    }
+
+    textarea {
+        height:240px;
+    }
+
+    header {
+        flex-wrap:wrap;
+        gap:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">⚡ Code Compiler</div>
+    <div class="actions">
+        <button class="secondary" onclick="toggleTheme()">☀ / 🌙</button>
+        <button class="run" onclick="runCode()">▶ Run Code</button>
+    </div>
+</header>
+
+<main>
+
+<div class="layout">
+
+<!-- CODE EDITOR -->
+<section class="panel">
+
+<div class="panel-head">
+    <span>Code Editor</span>
+
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('html',this)">HTML</button>
+        <button class="tab" onclick="switchTab('css',this)">CSS</button>
+        <button class="tab" onclick="switchTab('js',this)">JS</button>
+    </div>
+</div>
+
+<div class="editor active" id="htmlEditor">
+<textarea id="htmlCode" spellcheck="false"><h1>Hello World!</h1>
+<p>Welcome to Code Compiler.</p>
+<button onclick="hello()">Click Me</button></textarea>
+</div>
+
+<div class="editor" id="cssEditor">
+<textarea id="cssCode" spellcheck="false">body {
+  font-family: Arial;
+  text-align: center;
+  padding: 40px;
+  background: #f0f7f3;
+}
+
+h1 {
+  color: #16845d;
+}
+
+button {
+  background: #16845d;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}</textarea>
+</div>
+
+<div class="editor" id="jsEditor">
+<textarea id="jsCode" spellcheck="false">function hello() {
+  console.log("Button clicked!");
+  alert("Hello from JavaScript!");
+}
+
+console.log("Code is running!");</textarea>
+</div>
+
+<div class="toolbar">
+    <button class="secondary" onclick="clearCode()">Clear</button>
+    <button class="secondary" onclick="resetCode()">Reset</button>
+    <button class="secondary" onclick="downloadCode()">Download HTML</button>
+</div>
+
+</section>
+
+<!-- PREVIEW -->
+<section class="panel">
+
+<div class="panel-head">
+    <span>Live Preview</span>
+    <button class="secondary" onclick="runCode()">↻ Refresh</button>
+</div>
+
+<iframe
+    id="preview"
+    class="preview"
+    sandbox="allow-scripts"
+    title="Code preview">
+</iframe>
+
+<div class="panel-head">
+    <span>Console Output</span>
+    <button class="secondary" onclick="clearConsole()">Clear</button>
+</div>
+
+<div class="console" id="consoleOutput">
+    <div class="info">Ready to run code...</div>
+</div>
+
+</section>
+
+</div>
+</main>
+
+<footer>
+    Code Compiler · HTML · CSS · JavaScript
+</footer>
+
+<script>
+
+const defaults = {
+html: document.getElementById("htmlCode").value,
+css: document.getElementById("cssCode").value,
+js: document.getElementById("jsCode").value
+};
+
+function switchTab(type,btn) {
+
+    document.querySelectorAll(".editor")
+        .forEach(e => e.classList.remove("active"));
+
+    document.querySelectorAll(".tab")
+        .forEach(e => e.classList.remove("active"));
+
+    document.getElementById(type+"Editor")
+        .classList.add("active");
+
+    btn.classList.add("active");
+}
+
+function clearConsole() {
+    document.getElementById("consoleOutput").innerHTML = "";
+}
+
+function addConsole(message,type="info") {
+
+    const box = document.getElementById("consoleOutput");
+    const line = document.createElement("div");
+
+    line.className = "console-line " +
+        (type === "error" ? "error" : "info");
+
+    line.textContent = message;
+
+    box.appendChild(line);
+    box.scrollTop = box.scrollHeight;
+}
+
+window.addEventListener("message",function(event) {
+
+    if(event.source !== document.getElementById("preview").contentWindow)
+        return;
+
+    const data = event.data;
+
+    if(!data || data.compilerMessage !== true)
+        return;
+
+    addConsole(data.message,data.type);
+
+});
+
+function runCode() {
+
+    clearConsole();
+
+    const html = document.getElementById("htmlCode").value;
+    const css = document.getElementById("cssCode").value;
+    const js = document.getElementById("jsCode").value;
+
+    const frame = document.getElementById("preview");
+
+    const safeJS = js.replace(/<\/script/gi,"<\\/script");
+
+    const src = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>${css}</style>
+</head>
+<body>
+
+${html}
+
+<script>
+(function(){
+
+  function stringify(value) {
+    if(typeof value === "string") return value;
+    try {
+      return JSON.stringify(value);
+    } catch(e) {
+      return String(value);
+    }
+  }
+
+  const originalLog = console.log;
+
+  console.log = function(...args) {
+    parent.postMessage({
+      compilerMessage:true,
+      type:"info",
+      message:args.map(stringify).join(" ")
+    },"*");
+
+    originalLog.apply(console,args);
+  };
+
+  console.error = function(...args) {
+    parent.postMessage({
+      compilerMessage:true,
+      type:"error",
+      message:args.map(stringify).join(" ")
+    },"*");
+  };
+
+  console.warn = function(...args) {
+    parent.postMessage({
+      compilerMessage:true,
+      type:"info",
+      message:"Warning: "+args.map(stringify).join(" ")
+    },"*");
+  };
+
+  window.onerror = function(message) {
+    parent.postMessage({
+      compilerMessage:true,
+      type:"error",
+      message:String(message)
+    },"*");
+  };
+
+})();
+<\/script>
+
+<script>
+${safeJS}
+<\/script>
+
+</body>
+</html>`;
+
+    frame.srcdoc = src;
+
+    addConsole("Code executed.","info");
+}
+
+function clearCode() {
+
+    document.getElementById("htmlCode").value = "";
+    document.getElementById("cssCode").value = "";
+    document.getElementById("jsCode").value = "";
+
+    document.getElementById("preview").srcdoc = "";
+
+    clearConsole();
+    addConsole("Editor cleared.","info");
+}
+
+function resetCode() {
+
+    document.getElementById("htmlCode").value = defaults.html;
+    document.getElementById("cssCode").value = defaults.css;
+    document.getElementById("jsCode").value = defaults.js;
+
+    runCode();
+}
+
+function downloadCode() {
+
+    const html = document.getElementById("htmlCode").value;
+    const css = document.getElementById("cssCode").value;
+    const js = document.getElementById("jsCode").value;
+
+    const file = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>${css}</style>
+</head>
+<body>
+${html}
+<script>
+${js.replace(/<\/script/gi,"<\\/script")}
+<\/script>
+</body>
+</html>`;
+
+    const blob = new Blob([file], {
+        type:"text/html"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "my-code.html";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+}
+
+runCode();
+
+</script>
+
+</body>
+</html>
