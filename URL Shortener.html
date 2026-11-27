@@ -3,156 +3,237 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Photo Video Share</title>
+<title>Photo Video Share - 30 Files Tak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#eef1f8;--card:#fff;--ink:#1b2340;--muted:#6b7394;--accent:#3b4bdb;--accent2:#2f3cb5;--ok:#1e9e6a;--err:#d6455d;--line:#d5dbee}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;padding:16px;background:var(--bg);color:var(--ink);font-family:Poppins,system-ui,sans-serif}
-.box{width:100%;max-width:560px;height:fit-content;background:var(--card);border-radius:20px;padding:24px 18px;box-shadow:0 12px 40px #1b23401f}
-h1{font-size:1.3rem;margin:0 0 4px}.sub{margin:0 0 16px;color:var(--muted);font-size:.9rem}.hide{display:none!important}
-.drop{display:block;border:2px dashed var(--line);border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer}.drop:hover,.drop.over{border-color:var(--accent);background:#f5f6ff}
-.drop strong{display:block}.drop span{color:var(--muted);font-size:.82rem}.drop input{position:absolute;width:1px;height:1px;opacity:0}
-button{font:inherit;font-weight:600;width:100%;margin-top:10px;padding:12px;border:0;border-radius:12px;background:var(--accent);color:#fff;cursor:pointer}
-button:hover:not(:disabled){background:var(--accent2)}button:disabled{opacity:.5;cursor:not-allowed}button.ghost{background:#eaedfb;color:var(--accent2)}
-button:focus-visible,a:focus-visible{outline:3px solid #9aa4ff;outline-offset:2px}
-.head{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:.86rem;color:var(--muted)}.head a{color:var(--err);cursor:pointer;font-weight:600}
-#list{list-style:none;margin:6px 0 0;padding:0;max-height:300px;overflow:auto}#list li{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
-.th{flex:none;width:44px;height:44px;border-radius:10px;background:#dfe3f4 center/cover;display:flex;align-items:center;justify-content:center}
-.info{flex:1;min-width:0}.name{font-size:.84rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.st{font-size:.75rem;color:var(--muted)}.st.ok{color:var(--ok)}.st.err{color:var(--err)}
-.x{flex:none;width:30px;margin:0;padding:4px;background:none;color:var(--muted);font-size:1.1rem}
-.bar{height:8px;margin-top:14px;border-radius:99px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--accent)}
-#status,#vstatus{min-height:1.3em;margin:10px 0 0;font-size:.9rem;color:var(--muted)}.ok{color:var(--ok)}.err{color:var(--err)}
-#done{margin-top:14px;padding:14px;border-radius:14px;background:#eefaf4;border:1px solid #bfe8d3}#done b{display:block;margin-bottom:6px}
-#shareLink{word-break:break-all;color:var(--ok);font-size:.88rem}#warn{margin:8px 0 0;font-size:.78rem;color:var(--err)}
-.setup{margin-bottom:14px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#f7f8fd}.setup summary{cursor:pointer;font-weight:600;font-size:.9rem}
-.setup input{width:100%;margin-top:8px;padding:11px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:.9rem}
-.setup small{display:block;margin-top:8px;color:var(--muted);font-size:.76rem}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:14px}.tile{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#dfe3f4;cursor:pointer}
-.tile img{width:100%;height:100%;object-fit:cover;display:block}.tile.sel{outline:3px solid var(--accent);outline-offset:-3px}
-.chk{position:absolute;top:6px;right:6px;width:26px;height:26px;margin:0;padding:0;border-radius:50%;background:#ffffffd9;color:transparent;border:2px solid #fff;font-size:.9rem}
-.tile.sel .chk{background:var(--accent);color:#fff}.play{position:absolute;left:6px;bottom:6px;background:#0009;color:#fff;border-radius:8px;padding:1px 7px;font-size:.72rem}
-.bar2{position:sticky;bottom:0;background:var(--card);padding-top:6px}.btns{display:flex;gap:8px}.btns button{margin-top:8px}
-#lb{position:fixed;inset:0;background:#0a0e1eed;display:none;align-items:center;justify-content:center;z-index:9}#lb.on{display:flex}
-#lb img,#lb video{max-width:96vw;max-height:84vh;border-radius:8px}#lb button{position:absolute;width:auto;margin:0;padding:10px 16px;background:#ffffff2e;font-size:1.2rem}
-#lbX{top:14px;right:14px}#lbP{left:10px;top:50%}#lbN{right:10px;top:50%}#lbD{bottom:16px;left:50%;transform:translateX(-50%)}#lbBody{max-width:100%;max-height:100%}
+  :root{--bg:#eef1f8;--card:#fff;--ink:#1b2340;--muted:#6b7394;--accent:#3b4bdb;--accent-d:#2f3cb5;--ok:#1e9e6a;--err:#d6455d;--line:#d5dbee}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;justify-content:center;padding:20px;background:var(--bg);color:var(--ink);font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+  .box{width:100%;max-width:520px;height:fit-content;background:var(--card);border-radius:20px;padding:26px 20px;box-shadow:0 12px 40px rgba(27,35,64,.12)}
+  h1{font-size:1.35rem;margin:0 0 4px}
+  .sub{margin:0 0 18px;color:var(--muted);font-size:.9rem}
+  .drop{display:block;border:2px dashed var(--line);border-radius:16px;padding:26px 16px;text-align:center;cursor:pointer;transition:.2s}
+  .drop:hover,.drop.over,.drop:focus-within{border-color:var(--accent);background:#f5f6ff}
+  .drop strong{display:block;font-weight:600}
+  .drop span{color:var(--muted);font-size:.83rem}
+  .drop input{position:absolute;width:1px;height:1px;opacity:0}
+  button{font:inherit;font-weight:600;width:100%;margin-top:10px;padding:12px 16px;border:0;border-radius:12px;background:var(--accent);color:#fff;cursor:pointer;transition:background .2s,transform .1s}
+  button:hover:not(:disabled){background:var(--accent-d)}
+  button:active:not(:disabled){transform:scale(.98)}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  button.ghost{background:#eaedfb;color:var(--accent-d)}
+  button.ghost:hover:not(:disabled){background:#dde2f8}
+  button:focus-visible,a:focus-visible{outline:3px solid #9aa4ff;outline-offset:2px}
+  .head{display:none;justify-content:space-between;align-items:center;margin-top:16px;font-size:.88rem;color:var(--muted)}
+  .head a{color:var(--err);cursor:pointer;font-weight:600}
+  #list{list-style:none;margin:8px 0 0;padding:0;max-height:340px;overflow-y:auto}
+  #list li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .th{flex:none;width:46px;height:46px;border-radius:10px;background:#dfe3f4 center/cover;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+  .info{flex:1;min-width:0}
+  .name{font-size:.85rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .st{font-size:.76rem;color:var(--muted)}
+  .st.ok{color:var(--ok)} .st.err{color:var(--err)}
+  .st a{color:var(--ok);word-break:break-all}
+  .x{flex:none;width:30px;margin:0;padding:4px;background:none;color:var(--muted);font-size:1.1rem}
+  .bar{display:none;height:8px;margin-top:14px;border-radius:99px;background:var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+  #status{min-height:1.3em;margin:10px 0 0;font-size:.9rem;color:var(--muted)}
+  #status.ok{color:var(--ok)} #status.err{color:var(--err)}
+  #done{display:none;margin-top:14px;padding:14px;border-radius:14px;background:#eefaf4;border:1px solid #bfe8d3}
+  #done b{display:block}
+  #note{margin:8px 0 0;font-size:.78rem;color:var(--muted)}
 </style>
 </head>
 <body>
 <main class="box">
-<section id="up">
-<h1>📸 Photo / Video Share Karo</h1><p class="sub">30 tak files chuno, ek gallery link pao.</p>
-<details class="setup" id="setupBox"><summary>⚙️ Cloudinary settings</summary>
-<input id="inCloud" placeholder="Cloud name" autocomplete="off" autocapitalize="off">
-<input id="inPreset" placeholder="Unsigned upload preset" autocomplete="off">
-<button id="saveCfg">Settings save karo</button>
-<small>Cloud name aur unsigned preset Cloudinary dashboard se milega. Ye browser mein save hoga.</small></details>
-<label class="drop" id="drop"><input type="file" id="fileInput" accept="image/*,video/*" multiple><strong>Tap karke files chuno</strong><span>Max 30 photos/videos</span></label>
-<div class="head hide" id="head"><span id="count"></span><a id="clear">Sab hatao</a></div><ul id="list"></ul>
-<button id="uploadBtn" disabled>Ek link banao</button><div class="bar hide" id="bar"><i id="barFill"></i></div><p id="status" role="status"></p>
-<section id="done" class="hide"><b>Gallery link ban gaya 👇</b><a id="shareLink" href="#" target="_blank" rel="noopener"></a>
-<button id="copyBtn">🔗 Link copy karo</button><button id="shareBtn" class="ghost hide">📤 Share karo</button><p id="warn" class="hide"></p></section>
-</section>
-<section id="gal" class="hide"><h1>🖼️ Photos / Videos</h1><p class="sub">Files select karke download karo.</p>
-<div class="head"><span id="gcount"></span><a id="all" style="color:var(--accent)">Sab chuno</a></div><div class="grid" id="grid"></div><p id="vstatus">Loading…</p>
-<div class="bar2"><div class="btns"><button id="dlBtn" disabled>⬇️ Download selected</button><button id="refBtn" class="ghost" style="width:auto">↻ Refresh</button></div></div></section>
+  <h1>📸 Photo / Video Share Karo</h1>
+  <p class="sub">Ek saath 30 tak photos ya videos chuno aur sabka link pao.</p>
+
+  <label class="drop" id="drop">
+    <input type="file" id="fileInput" accept="image/*,video/*" multiple>
+    <strong>Yahan tap karo ya files kheench ke daalo</strong>
+    <span>Max 30 files, har file max 100 MB</span>
+  </label>
+
+  <div class="head" id="head"><span id="count"></span><a id="clear" role="button" tabindex="0">Sab hatao</a></div>
+  <ul id="list"></ul>
+
+  <button id="uploadBtn" disabled>Upload karke links banao</button>
+  <button id="directBtn" class="ghost" style="display:none">📤 Seedha share karo (bina upload)</button>
+  <div class="bar" id="bar"><i id="barFill"></i></div>
+  <p id="status" role="status" aria-live="polite"></p>
+
+  <section id="done">
+    <b>Links ready hain 👇</b>
+    <button id="copyAll">🔗 Sab links copy karo</button>
+    <button id="shareAll" class="ghost" style="display:none">📤 Sab links share karo</button>
+    <p id="note"></p>
+  </section>
 </main>
-<div id="lb"><button id="lbX">✕</button><button id="lbP">‹</button><button id="lbN">›</button><button id="lbD">⬇️ Download</button><div id="lbBody"></div></div>
+
 <script>
-const SITE_URL=""; // Optional: set your hosted URL here if needed
-const MAX_FILES=30,$=id=>document.getElementById(id),Q=new URLSearchParams(location.search),G=Q.get("g");
-const validG=G&&/^[a-z0-9]{6,24}$/i.test(G);
-const store={get(k){try{return localStorage.getItem(k)||""}catch{return""}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
-const safeCloud=s=>/^[a-z0-9_-]+$/i.test(s||"")?s:"";
-let CLOUD_NAME=safeCloud((Q.get("c")||store.get("cs_cloud")||"").trim()),UPLOAD_PRESET=store.get("cs_preset").trim();
-const configured=()=>!!(CLOUD_NAME&&UPLOAD_PRESET);
-if(validG)startGallery();else startUpload();
+const MAX_FILES = 30, MAX_MB = 100;
+const $ = id => document.getElementById(id);
+let items = [];      // {id, file, link, state}
+let busy = false, uid = 0;
 
-function startUpload(){
-let items=[],busy=false,id=0,finalLink="";
-const setStatus=(m,c="")=>{$("status").textContent=m;$("status").className=c};
-const size=n=>(n/1048576).toFixed(1)+" MB";
-$("inCloud").value=CLOUD_NAME;$("inPreset").value=UPLOAD_PRESET;$("setupBox").open=!configured();
-$("saveCfg").onclick=()=>{let c=safeCloud($("inCloud").value.trim()),p=$("inPreset").value.trim();
-if(!c||!p){setStatus("Cloud name aur preset sahi bharo.","err");return}
-CLOUD_NAME=c;UPLOAD_PRESET=p;store.set("cs_cloud",c);store.set("cs_preset",p);$("setupBox").open=false;setStatus("Settings saved ✅","ok");render()};
-function addFiles(fl){if(busy)return;let rejected=0;
-for(const f of fl){if(!/^(image|video)\//.test(f.type)){rejected++;continue}
-if(items.some(x=>x.file.name===f.name&&x.file.size===f.size&&x.file.lastModified===f.lastModified))continue;
-if(items.length>=MAX_FILES){rejected++;continue}items.push({id:++id,file:f,state:"wait"})}
-if(rejected)setStatus(`${rejected} files add nahi hui (type/limit check karein).`,"err");else setStatus("");$("done").classList.add("hide");render()}
-function render(){const l=$("list");l.innerHTML="";
-items.forEach(it=>{const li=document.createElement("li"),th=document.createElement("div");th.className="th";
-if(it.file.type.startsWith("image")){it.preview=it.preview||URL.createObjectURL(it.file);th.style.backgroundImage=`url("${it.preview}")`}else th.textContent="🎬";
-const info=document.createElement("div");info.className="info";const nm=document.createElement("div");nm.className="name";nm.textContent=it.file.name;
-const st=document.createElement("div");st.className="st";st.id="st"+it.id;info.append(nm,st);li.append(th,info);
-if(!busy){const x=document.createElement("button");x.className="x";x.textContent="✕";x.onclick=()=>{items=items.filter(v=>v!==it);render()};li.append(x)}
-l.append(li);paint(it)});
-$("head").classList.toggle("hide",!items.length);$("count").textContent=`${items.length} / ${MAX_FILES} files`;
-$("uploadBtn").disabled=busy||!items.length||!configured()}
-function paint(it){const s=$("st"+it.id);if(!s)return;s.className="st";
-if(it.state==="wait")s.textContent=size(it.file.size);else if(it.state==="up")s.textContent=(it.pct||0)+"% upload…";
-else if(it.state==="ok"){s.className="st ok";s.textContent="Uploaded ✓"}else{s.className="st err";s.textContent="Failed: "+(it.err||"error")}}
-$("fileInput").onchange=e=>{addFiles(e.target.files);e.target.value=""};
-$("clear").onclick=()=>{if(!busy){items.forEach(i=>i.preview&&URL.revokeObjectURL(i.preview));items=[];$("done").classList.add("hide");setStatus("");render()}};
-const drop=$("drop");["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over")}));
-["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over")}));
-drop.addEventListener("drop",e=>addFiles(e.dataTransfer.files));
-function send(it,tag){return new Promise(resolve=>{const fd=new FormData();fd.append("file",it.file);fd.append("upload_preset",UPLOAD_PRESET);fd.append("tags",tag);
-const x=new XMLHttpRequest();x.open("POST",`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`);
-x.upload.onprogress=e=>{if(e.lengthComputable){it.pct=Math.round(e.loaded/e.total*100);paint(it)}};
-x.onload=()=>{let d={};try{d=JSON.parse(x.responseText)}catch{}
-if(x.status>=200&&x.status<300){it.state="ok"}else{it.state="err";it.err=d.error?.message||`HTTP ${x.status}`}paint(it);resolve()};
-x.onerror=()=>{it.state="err";it.err="Network error";paint(it);resolve()};
-x.onabort=()=>{it.state="err";it.err="Upload aborted";paint(it);resolve()};x.send(fd)})}
-$("uploadBtn").onclick=async()=>{if(!configured()||!items.length)return;busy=true;render();
-const gid=(crypto.randomUUID?crypto.randomUUID().replace(/-/g,""):Math.random().toString(36).slice(2)+Date.now().toString(36)).slice(0,12),tag="g_"+gid;
-$("bar").classList.remove("hide");$("done").classList.add("hide");const queue=items.filter(i=>i.state!=="ok");let done=items.filter(i=>i.state==="ok").length;
-const tick=()=>{$("barFill").style.width=Math.round(done/items.length*100)+"%";setStatus(`${done} / ${items.length} uploaded…`)};
-tick();const worker=async()=>{while(queue.length){const it=queue.shift();it.state="up";it.pct=0;paint(it);await send(it,tag);done++;tick()}};
-await Promise.all([worker(),worker(),worker()]);busy=false;render();
-const success=items.filter(i=>i.state==="ok").length,failed=items.length-success;
-setStatus(failed?`${success} uploaded, ${failed} failed. Button dabakar failed retry kar sakte ho.`:"Upload complete! ✅",failed?"err":"ok");
-if(success){const base=SITE_URL||location.origin+location.pathname;finalLink=base+"?c="+encodeURIComponent(CLOUD_NAME)+"&g="+gid;
-$("shareLink").href=finalLink;$("shareLink").textContent=finalLink;$("shareBtn").classList.toggle("hide",!navigator.share);
-if(location.protocol==="file:"&&!SITE_URL){$("warn").textContent="Hosting par page publish karne ke baad link share karein.";$("warn").classList.remove("hide")}else $("warn").classList.add("hide");$("done").classList.remove("hide")}};
-$("copyBtn").onclick=async()=>{try{await navigator.clipboard.writeText(finalLink);setStatus("Link copied 👍","ok")}catch{setStatus("Copy fail. Link manually copy karein.","err")}};
-$("shareBtn").onclick=()=>navigator.share({title:"Photo / Video gallery",url:finalLink}).catch(()=>{});render();
+const setStatus = (m, t = "") => { $("status").textContent = m; $("status").className = t; };
+
+// ---------- File chuna ----------
+function addFiles(fileList){
+  if(busy) return;
+  let skipped = 0, tooBig = 0, full = 0;
+  for(const f of fileList){
+    if(!/^(image|video)\//.test(f.type)){ skipped++; continue; }
+    if(f.size > MAX_MB * 1048576){ tooBig++; continue; }
+    if(items.some(i => i.file.name === f.name && i.file.size === f.size && i.file.lastModified === f.lastModified)) continue;
+    if(items.length >= MAX_FILES){ full++; continue; }
+    items.push({ id: ++uid, file: f, link: "", state: "wait" });
+  }
+  const msgs = [];
+  if(full) msgs.push(`${full} file chhod di (max ${MAX_FILES})`);
+  if(tooBig) msgs.push(`${tooBig} file ${MAX_MB} MB se badi`);
+  if(skipped) msgs.push(`${skipped} file photo/video nahi`);
+  setStatus(msgs.join(", "), msgs.length ? "err" : "");
+  $("done").style.display = "none";
+  render();
 }
 
-function startGallery(){
-$("up").classList.add("hide");$("gal").classList.remove("hide");
-let files=[],sel=new Set(),cur=0;
-const base=`https://res.cloudinary.com/${CLOUD_NAME}`;
-const url=(f,trans="")=>`${base}/${f.type}/upload/${trans?trans+"/":""}v${f.version}/${f.public_id}.${f.format}`;
-const thumb=f=>f.type==="video"?`${base}/video/upload/so_0,w_400,h_400,c_fill/v${f.version}/${f.public_id}.jpg`:url(f,"w_400,h_400,c_fill,q_auto");
-const view=f=>f.type==="video"?url(f):url(f,"q_auto");
-const downloadUrl=f=>url(f,"fl_attachment");
-async function load(){ $("vstatus").textContent="Loading gallery…";$("vstatus").className="";
-if(!CLOUD_NAME){$("vstatus").textContent="Link mein Cloud name missing. Sender se naya link lein.";$("vstatus").className="err";return}
-const out=[];let errors=0;
-for(const type of ["image","video"]){try{const r=await fetch(`${base}/${type}/list/g_${encodeURIComponent(G)}.json`);
-if(r.ok){const d=await r.json();(d.resources||[]).forEach(x=>out.push({...x,type}))}else if(r.status!==404)errors++}catch{errors++}}
-out.sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));files=out;sel.clear();draw();
-$("vstatus").textContent=files.length?"":errors?"Gallery access blocked. Cloudinary resource-list settings/CORS check karein.":"Files abhi list mein nahi hain. Kuch minute baad refresh karein; Cloudinary listing cache ho sakti hai.";
-if(!files.length&&errors)$("vstatus").className="err"}
-function draw(){const g=$("grid");g.innerHTML="";
-files.forEach((f,i)=>{const t=document.createElement("div");t.className="tile"+(sel.has(i)?" sel":"");const im=document.createElement("img");im.src=thumb(f);im.loading="lazy";im.alt="";im.onerror=()=>{im.alt="Preview unavailable"};
-const c=document.createElement("button");c.className="chk";c.textContent="✓";c.setAttribute("aria-label","Select file");c.onclick=e=>{e.stopPropagation();sel.has(i)?sel.delete(i):sel.add(i);draw()};
-t.onclick=()=>open(i);t.append(im,c);if(f.type==="video"){const p=document.createElement("span");p.className="play";p.textContent="▶ video";t.append(p)}g.append(t)});
-$("gcount").textContent=`${files.length} files · ${sel.size} selected`; $("dlBtn").disabled=!sel.size;$("dlBtn").textContent=sel.size?`⬇️ ${sel.size} download`:"⬇️ Download selected";
-$("all").textContent=sel.size===files.length&&files.length?"Unselect all":"Select all"}
-$("all").onclick=()=>{if(sel.size===files.length)sel.clear();else files.forEach((_,i)=>sel.add(i));draw()};
-$("refBtn").onclick=load;
-function download(f){const a=document.createElement("a");a.href=downloadUrl(f);a.download="";a.rel="noopener";document.body.appendChild(a);a.click();a.remove()}
-$("dlBtn").onclick=()=>[...sel].forEach((i,n)=>setTimeout(()=>download(files[i]),n*700));
-function open(i){cur=i;const b=$("lbBody");b.innerHTML="";const el=document.createElement(files[i].type==="video"?"video":"img");el.src=view(files[i]);
-if(el.tagName==="VIDEO"){el.controls=true;el.autoplay=true;el.playsInline=true}el.style.maxWidth="96vw";el.style.maxHeight="84vh";b.append(el);$("lb").classList.add("on")}
-const close=()=>{$("lb").classList.remove("on");$("lbBody").innerHTML=""};
-$("lbX").onclick=close;$("lbP").onclick=()=>{if(files.length)open((cur-1+files.length)%files.length)};$("lbN").onclick=()=>{if(files.length)open((cur+1)%files.length)};
-$("lbD").onclick=()=>files[cur]&&download(files[cur]);
-document.addEventListener("keydown",e=>{if(!$("lb").classList.contains("on"))return;if(e.key==="Escape")close();if(e.key==="ArrowLeft")$("lbP").click();if(e.key==="ArrowRight")$("lbN").click()});
-load();
+function render(){
+  const list = $("list"); list.innerHTML = "";
+  items.forEach(it => {
+    const li = document.createElement("li");
+    const th = document.createElement("div"); th.className = "th";
+    if(it.file.type.startsWith("image")){
+      it.url = it.url || URL.createObjectURL(it.file);
+      th.style.backgroundImage = `url("${it.url}")`;
+    } else th.textContent = "🎬";
+    const info = document.createElement("div"); info.className = "info";
+    const nm = document.createElement("div"); nm.className = "name"; nm.textContent = it.file.name;
+    const st = document.createElement("div"); st.className = "st"; st.id = "st" + it.id;
+    info.append(nm, st);
+    li.append(th, info);
+    if(!busy){
+      const x = document.createElement("button"); x.className = "x"; x.textContent = "✕"; x.title = "Hatao";
+      x.onclick = () => { items = items.filter(i => i !== it); render(); };
+      li.append(x);
+    }
+    list.append(li);
+    paintState(it);
+  });
+  const n = items.length;
+  $("head").style.display = n ? "flex" : "none";
+  $("count").textContent = `${n} / ${MAX_FILES} files chuni`;
+  $("uploadBtn").disabled = busy || !n;
+  $("directBtn").style.display = (n && navigator.canShare) ? "block" : "none";
 }
+
+function paintState(it){
+  const st = $("st" + it.id); if(!st) return;
+  const mb = (it.file.size / 1048576).toFixed(1) + " MB";
+  st.className = "st";
+  if(it.state === "wait") st.textContent = mb;
+  else if(it.state === "up"){ st.textContent = (it.pct || 0) + "% upload ho raha hai…"; }
+  else if(it.state === "ok"){
+    st.className = "st ok"; st.textContent = "";
+    const a = document.createElement("a"); a.href = it.link; a.target = "_blank"; a.rel = "noopener"; a.textContent = "✅ " + it.link;
+    st.append(a);
+  } else { st.className = "st err"; st.textContent = "❌ Fail hua"; }
+}
+
+$("fileInput").addEventListener("change", e => { addFiles(e.target.files); e.target.value = ""; });
+$("clear").onclick = () => { if(!busy){ items = []; $("done").style.display = "none"; setStatus(""); render(); } };
+const drop = $("drop");
+["dragenter","dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave","drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => addFiles(e.dataTransfer.files));
+
+// ---------- Upload ----------
+function xhrUpload(url, f, onProgress){
+  return new Promise((resolve, reject) => {
+    const fd = new FormData(); fd.append("file", f);
+    const x = new XMLHttpRequest();
+    x.open("POST", url);
+    x.upload.onprogress = e => e.lengthComputable && onProgress(e.loaded / e.total);
+    x.onload = () => { try{ resolve(JSON.parse(x.responseText)); }catch{ reject(new Error("bad")); } };
+    x.onerror = () => reject(new Error("net"));
+    x.send(fd);
+  });
+}
+const providers = [
+  { name: "tmpfiles", note: "Links kuch der (~1 ghanta) tak chalenge, jaldi bhej do.",
+    async run(f, p){
+      const d = await xhrUpload("https://tmpfiles.org/api/v1/upload", f, p);
+      if(d.status !== "success") throw 0;
+      return d.data.url.replace("tmpfiles.org/", "tmpfiles.org/dl/").replace("http://", "https://");
+    } },
+  { name: "file.io", note: "file.io ke link ek hi baar download hote hain.",
+    async run(f, p){
+      const d = await xhrUpload("https://file.io/?expires=1w", f, p);
+      if(!d.success) throw 0;
+      return d.link;
+    } }
+];
+const usedNotes = new Set();
+
+async function uploadOne(it){
+  it.state = "up"; it.pct = 0; paintState(it);
+  for(const p of providers){
+    try{
+      it.link = await p.run(it.file, r => { it.pct = Math.round(r * 100); paintState(it); });
+      it.state = "ok"; usedNotes.add(p.note); paintState(it); return;
+    }catch(e){}
+  }
+  it.state = "err"; paintState(it);
+}
+
+$("uploadBtn").onclick = async () => {
+  busy = true; usedNotes.clear();
+  items.forEach(i => { if(i.state !== "ok") i.state = "wait"; });
+  render();
+  $("uploadBtn").disabled = true;
+  $("bar").style.display = "block"; $("done").style.display = "none";
+  const queue = items.filter(i => i.state !== "ok");
+  let finished = items.length - queue.length;
+  const tick = () => { $("barFill").style.width = Math.round(finished / items.length * 100) + "%";
+                       setStatus(`${finished} / ${items.length} upload ho gayi… ⏳`); };
+  tick();
+  // 3 files ek saath upload hoti hain
+  const worker = async () => { while(queue.length){ const it = queue.shift(); await uploadOne(it); finished++; tick(); } };
+  await Promise.all([worker(), worker(), worker()]);
+
+  busy = false; render();
+  const ok = items.filter(i => i.state === "ok"), bad = items.length - ok.length;
+  setStatus(bad ? `${ok.length} ho gayi, ${bad} fail. Dobara dabao, sirf fail wali retry hongi.` : "Sab ho gaya! ✅", bad ? "err" : "ok");
+  if(ok.length){
+    $("note").textContent = [...usedNotes].join(" ");
+    $("shareAll").style.display = navigator.share ? "block" : "none";
+    $("done").style.display = "block";
+  }
+  $("uploadBtn").textContent = bad ? "Fail wali dobara try karo" : "Upload karke links banao";
+};
+
+// ---------- Links copy / share ----------
+const allLinks = () => items.filter(i => i.state === "ok").map(i => i.link).join("\n");
+$("copyAll").onclick = async () => {
+  try{ await navigator.clipboard.writeText(allLinks()); setStatus("Sab links copy ho gaye! Ab WhatsApp pe paste karo 👍", "ok"); }
+  catch{ setStatus("Copy nahi hua.", "err"); }
+};
+$("shareAll").onclick = () => navigator.share({ text: allLinks() }).catch(() => {});
+
+// ---------- Seedha share (bina upload, phone par) ----------
+$("directBtn").onclick = async () => {
+  const files = items.map(i => i.file);
+  try{
+    if(!navigator.canShare({ files })) throw 0;
+    await navigator.share({ files });
+  }catch(e){
+    if(e && e.name === "AbortError") return;
+    setStatus("Is device par seedha share nahi ho paya. Upload wala option use karo.", "err");
+  }
+};
+render();
 </script>
 </body>
 </html>
