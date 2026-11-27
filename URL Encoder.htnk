@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photo Video Share - Apna Link Banao</title>
+<style>
+  body{font-family:Arial;background:#f2f2f2;text-align:center;padding:20px}
+  .box{background:#fff;padding:20px;border-radius:15px;max-width:500px;margin:auto;box-shadow:0 0 15px #ccc}
+  button{background:#ff713b;color:#fff;border:none;padding:12px 20px;border-radius:10px;font-size:16px;cursor:pointer;width:100%;margin-top:10px}
+  input{width:100%;padding:10px;margin-top:10px}
+  #linkBox{display:none;margin-top:15px;background:#e8ffe8;padding:10px;border-radius:10px;word-break:break-all}
+  img,video{max-width:100%;border-radius:10px;margin-top:15px}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h2>📸 Photo / Video Share Karo</h2>
+  <p>Upload karo, Link pao, Kisi ko bhi bhejo</p>
+
+  <input type="file" id="fileInput" accept="image/*,video/*">
+  <button onclick="uploadFile()">Upload Karke Link Banao</button>
+  <p id="status"></p>
+
+  <div id="linkBox">
+    <b>Tera Link Ban Gaya 👇</b><br>
+    <a id="shareLink" href="#" target="_blank"></a><br><br>
+    <button onclick="copyLink()">🔗 Link Copy Karo</button>
+    <button onclick="downloadFile()" style="background:#008000">⬇️ Download Karo</button>
+  </div>
+
+  <div id="preview"></div>
+</div>
+
+<script>
+let finalLink = "";
+
+async function uploadFile(){
+  let file = document.getElementById("fileInput").files[0];
+  if(!file){ alert("Pehle photo ya video select karo!"); return; }
+
+  document.getElementById("status").innerText = "Upload ho raha hai... Ruk ja thoda ⏳";
+
+  // Free Server - file.io pe upload ho raha hai
+  let formData = new FormData();
+  formData.append("file", file);
+
+  try{
+    let res = await fetch("https://file.io", { method: "POST", body: formData });
+    let data = await res.json();
+    
+    if(data.success){
+      finalLink = data.link;
+      document.getElementById("status").innerText = "Ho Gaya! ✅";
+      document.getElementById("linkBox").style.display = "block";
+      let a = document.getElementById("shareLink");
+      a.href = finalLink;
+      a.innerText = finalLink;
+
+      // Preview dikhao
+      let preview = document.getElementById("preview");
+      let url = URL.createObjectURL(file);
+      if(file.type.startsWith("image")) preview.innerHTML = `<img src="${url}">`;
+      else preview.innerHTML = `<video src="${url}" controls></video>`;
+    } else {
+      document.getElementById("status").innerText = "Error aa gaya, dobara try karo";
+    }
+  } catch(e){
+    document.getElementById("status").innerText = "Internet check karo, upload fail hua";
+  }
+}
+
+function copyLink(){
+  navigator.clipboard.writeText(finalLink);
+  alert("Link Copy Ho Gaya! Ab WhatsApp pe bhej de");
+}
+function downloadFile(){
+  window.open(finalLink, "_blank");
+}
+</script>
+</body>
+</html>
