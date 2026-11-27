@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Photo Video Share - 30 Files Tak</title>
+<title>Photo Video Share - Ek Link</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
   :root{--bg:#eef1f8;--card:#fff;--ink:#1b2340;--muted:#6b7394;--accent:#3b4bdb;--accent-d:#2f3cb5;--ok:#1e9e6a;--err:#d6455d;--line:#d5dbee}
   *{box-sizing:border-box}
@@ -27,75 +28,74 @@
   button:focus-visible,a:focus-visible{outline:3px solid #9aa4ff;outline-offset:2px}
   .head{display:none;justify-content:space-between;align-items:center;margin-top:16px;font-size:.88rem;color:var(--muted)}
   .head a{color:var(--err);cursor:pointer;font-weight:600}
-  #list{list-style:none;margin:8px 0 0;padding:0;max-height:340px;overflow-y:auto}
+  #list{list-style:none;margin:8px 0 0;padding:0;max-height:300px;overflow-y:auto}
   #list li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
   .th{flex:none;width:46px;height:46px;border-radius:10px;background:#dfe3f4 center/cover;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
   .info{flex:1;min-width:0}
   .name{font-size:.85rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .st{font-size:.76rem;color:var(--muted)}
-  .st.ok{color:var(--ok)} .st.err{color:var(--err)}
-  .st a{color:var(--ok);word-break:break-all}
+  .sz{font-size:.76rem;color:var(--muted)}
   .x{flex:none;width:30px;margin:0;padding:4px;background:none;color:var(--muted);font-size:1.1rem}
   .bar{display:none;height:8px;margin-top:14px;border-radius:99px;background:var(--line);overflow:hidden}
   .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
   #status{min-height:1.3em;margin:10px 0 0;font-size:.9rem;color:var(--muted)}
   #status.ok{color:var(--ok)} #status.err{color:var(--err)}
   #done{display:none;margin-top:14px;padding:14px;border-radius:14px;background:#eefaf4;border:1px solid #bfe8d3}
-  #done b{display:block}
+  #done b{display:block;margin-bottom:6px}
+  #shareLink{word-break:break-all;color:var(--ok);font-size:.9rem}
   #note{margin:8px 0 0;font-size:.78rem;color:var(--muted)}
 </style>
 </head>
 <body>
 <main class="box">
   <h1>📸 Photo / Video Share Karo</h1>
-  <p class="sub">Ek saath 30 tak photos ya videos chuno aur sabka link pao.</p>
+  <p class="sub">30 tak files chuno, sabka ek hi link pao.</p>
 
   <label class="drop" id="drop">
     <input type="file" id="fileInput" accept="image/*,video/*" multiple>
     <strong>Yahan tap karo ya files kheench ke daalo</strong>
-    <span>Max 30 files, har file max 100 MB</span>
+    <span>Max 30 files, sab milake max 100 MB</span>
   </label>
 
   <div class="head" id="head"><span id="count"></span><a id="clear" role="button" tabindex="0">Sab hatao</a></div>
   <ul id="list"></ul>
 
-  <button id="uploadBtn" disabled>Upload karke links banao</button>
-  <button id="directBtn" class="ghost" style="display:none">📤 Seedha share karo (bina upload)</button>
+  <button id="uploadBtn" disabled>Ek link banao</button>
   <div class="bar" id="bar"><i id="barFill"></i></div>
   <p id="status" role="status" aria-live="polite"></p>
 
   <section id="done">
-    <b>Links ready hain 👇</b>
-    <button id="copyAll">🔗 Sab links copy karo</button>
-    <button id="shareAll" class="ghost" style="display:none">📤 Sab links share karo</button>
+    <b>Tera ek link ban gaya 👇</b>
+    <a id="shareLink" href="#" target="_blank" rel="noopener"></a>
+    <button id="copyBtn">🔗 Link copy karo</button>
+    <button id="shareBtn" class="ghost" style="display:none">📤 Link share karo</button>
     <p id="note"></p>
   </section>
 </main>
 
 <script>
-const MAX_FILES = 30, MAX_MB = 100;
+const MAX_FILES = 30, MAX_TOTAL_MB = 100;
 const $ = id => document.getElementById(id);
-let items = [];      // {id, file, link, state}
-let busy = false, uid = 0;
+let items = [], busy = false, uid = 0, finalLink = "";
 
 const setStatus = (m, t = "") => { $("status").textContent = m; $("status").className = t; };
+const mb = n => (n / 1048576).toFixed(1) + " MB";
+const total = () => items.reduce((s, i) => s + i.file.size, 0);
 
-// ---------- File chuna ----------
 function addFiles(fileList){
   if(busy) return;
-  let skipped = 0, tooBig = 0, full = 0;
+  let bad = 0, full = 0, big = 0;
   for(const f of fileList){
-    if(!/^(image|video)\//.test(f.type)){ skipped++; continue; }
-    if(f.size > MAX_MB * 1048576){ tooBig++; continue; }
+    if(!/^(image|video)\//.test(f.type)){ bad++; continue; }
     if(items.some(i => i.file.name === f.name && i.file.size === f.size && i.file.lastModified === f.lastModified)) continue;
     if(items.length >= MAX_FILES){ full++; continue; }
-    items.push({ id: ++uid, file: f, link: "", state: "wait" });
+    if(total() + f.size > MAX_TOTAL_MB * 1048576){ big++; continue; }
+    items.push({ id: ++uid, file: f });
   }
-  const msgs = [];
-  if(full) msgs.push(`${full} file chhod di (max ${MAX_FILES})`);
-  if(tooBig) msgs.push(`${tooBig} file ${MAX_MB} MB se badi`);
-  if(skipped) msgs.push(`${skipped} file photo/video nahi`);
-  setStatus(msgs.join(", "), msgs.length ? "err" : "");
+  const m = [];
+  if(full) m.push(`${full} file chhod di (max ${MAX_FILES})`);
+  if(big) m.push(`${big} file chhod di (total ${MAX_TOTAL_MB} MB se zyada)`);
+  if(bad) m.push(`${bad} file photo/video nahi`);
+  setStatus(m.join(", "), m.length ? "err" : "");
   $("done").style.display = "none";
   render();
 }
@@ -111,35 +111,19 @@ function render(){
     } else th.textContent = "🎬";
     const info = document.createElement("div"); info.className = "info";
     const nm = document.createElement("div"); nm.className = "name"; nm.textContent = it.file.name;
-    const st = document.createElement("div"); st.className = "st"; st.id = "st" + it.id;
-    info.append(nm, st);
-    li.append(th, info);
+    const sz = document.createElement("div"); sz.className = "sz"; sz.textContent = mb(it.file.size);
+    info.append(nm, sz); li.append(th, info);
     if(!busy){
       const x = document.createElement("button"); x.className = "x"; x.textContent = "✕"; x.title = "Hatao";
       x.onclick = () => { items = items.filter(i => i !== it); render(); };
       li.append(x);
     }
     list.append(li);
-    paintState(it);
   });
   const n = items.length;
   $("head").style.display = n ? "flex" : "none";
-  $("count").textContent = `${n} / ${MAX_FILES} files chuni`;
+  $("count").textContent = `${n} / ${MAX_FILES} files · ${mb(total())} / ${MAX_TOTAL_MB} MB`;
   $("uploadBtn").disabled = busy || !n;
-  $("directBtn").style.display = (n && navigator.canShare) ? "block" : "none";
-}
-
-function paintState(it){
-  const st = $("st" + it.id); if(!st) return;
-  const mb = (it.file.size / 1048576).toFixed(1) + " MB";
-  st.className = "st";
-  if(it.state === "wait") st.textContent = mb;
-  else if(it.state === "up"){ st.textContent = (it.pct || 0) + "% upload ho raha hai…"; }
-  else if(it.state === "ok"){
-    st.className = "st ok"; st.textContent = "";
-    const a = document.createElement("a"); a.href = it.link; a.target = "_blank"; a.rel = "noopener"; a.textContent = "✅ " + it.link;
-    st.append(a);
-  } else { st.className = "st err"; st.textContent = "❌ Fail hua"; }
 }
 
 $("fileInput").addEventListener("change", e => { addFiles(e.target.files); e.target.value = ""; });
@@ -149,10 +133,10 @@ const drop = $("drop");
 ["dragleave","drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
 drop.addEventListener("drop", e => addFiles(e.dataTransfer.files));
 
-// ---------- Upload ----------
-function xhrUpload(url, f, onProgress){
+// ---- Upload (ek hi zip file) ----
+function xhrUpload(url, blob, name, onProgress){
   return new Promise((resolve, reject) => {
-    const fd = new FormData(); fd.append("file", f);
+    const fd = new FormData(); fd.append("file", blob, name);
     const x = new XMLHttpRequest();
     x.open("POST", url);
     x.upload.onprogress = e => e.lengthComputable && onProgress(e.loaded / e.total);
@@ -162,78 +146,68 @@ function xhrUpload(url, f, onProgress){
   });
 }
 const providers = [
-  { name: "tmpfiles", note: "Links kuch der (~1 ghanta) tak chalenge, jaldi bhej do.",
-    async run(f, p){
-      const d = await xhrUpload("https://tmpfiles.org/api/v1/upload", f, p);
+  { note: "Ye link lagbhag 1 ghante tak chalega. Kholne par ek ZIP download hogi jisme saari photos/videos hongi.",
+    async run(b, n, p){
+      const d = await xhrUpload("https://tmpfiles.org/api/v1/upload", b, n, p);
       if(d.status !== "success") throw 0;
       return d.data.url.replace("tmpfiles.org/", "tmpfiles.org/dl/").replace("http://", "https://");
     } },
-  { name: "file.io", note: "file.io ke link ek hi baar download hote hain.",
-    async run(f, p){
-      const d = await xhrUpload("https://file.io/?expires=1w", f, p);
+  { note: "Ye link ek hi baar download hota hai (file.io). Kholne par ZIP download hogi.",
+    async run(b, n, p){
+      const d = await xhrUpload("https://file.io/?expires=1w", b, n, p);
       if(!d.success) throw 0;
       return d.link;
     } }
 ];
-const usedNotes = new Set();
-
-async function uploadOne(it){
-  it.state = "up"; it.pct = 0; paintState(it);
-  for(const p of providers){
-    try{
-      it.link = await p.run(it.file, r => { it.pct = Math.round(r * 100); paintState(it); });
-      it.state = "ok"; usedNotes.add(p.note); paintState(it); return;
-    }catch(e){}
-  }
-  it.state = "err"; paintState(it);
-}
 
 $("uploadBtn").onclick = async () => {
-  busy = true; usedNotes.clear();
-  items.forEach(i => { if(i.state !== "ok") i.state = "wait"; });
-  render();
-  $("uploadBtn").disabled = true;
-  $("bar").style.display = "block"; $("done").style.display = "none";
-  const queue = items.filter(i => i.state !== "ok");
-  let finished = items.length - queue.length;
-  const tick = () => { $("barFill").style.width = Math.round(finished / items.length * 100) + "%";
-                       setStatus(`${finished} / ${items.length} upload ho gayi… ⏳`); };
-  tick();
-  // 3 files ek saath upload hoti hain
-  const worker = async () => { while(queue.length){ const it = queue.shift(); await uploadOne(it); finished++; tick(); } };
-  await Promise.all([worker(), worker(), worker()]);
-
-  busy = false; render();
-  const ok = items.filter(i => i.state === "ok"), bad = items.length - ok.length;
-  setStatus(bad ? `${ok.length} ho gayi, ${bad} fail. Dobara dabao, sirf fail wali retry hongi.` : "Sab ho gaya! ✅", bad ? "err" : "ok");
-  if(ok.length){
-    $("note").textContent = [...usedNotes].join(" ");
-    $("shareAll").style.display = navigator.share ? "block" : "none";
-    $("done").style.display = "block";
-  }
-  $("uploadBtn").textContent = bad ? "Fail wali dobara try karo" : "Upload karke links banao";
-};
-
-// ---------- Links copy / share ----------
-const allLinks = () => items.filter(i => i.state === "ok").map(i => i.link).join("\n");
-$("copyAll").onclick = async () => {
-  try{ await navigator.clipboard.writeText(allLinks()); setStatus("Sab links copy ho gaye! Ab WhatsApp pe paste karo 👍", "ok"); }
-  catch{ setStatus("Copy nahi hua.", "err"); }
-};
-$("shareAll").onclick = () => navigator.share({ text: allLinks() }).catch(() => {});
-
-// ---------- Seedha share (bina upload, phone par) ----------
-$("directBtn").onclick = async () => {
-  const files = items.map(i => i.file);
+  if(!items.length) return;
+  if(typeof JSZip === "undefined"){ setStatus("ZIP library load nahi hui. Internet check karke page refresh karo.", "err"); return; }
+  busy = true; render();
+  $("done").style.display = "none"; $("bar").style.display = "block"; $("barFill").style.width = "0";
   try{
-    if(!navigator.canShare({ files })) throw 0;
-    await navigator.share({ files });
+    // Step 1: sab files ko ek ZIP mein daalo (compress nahi, jaldi banta hai)
+    setStatus("Files ek saath pack ho rahi hain… 📦");
+    const zip = new JSZip(), used = new Set();
+    items.forEach((it, i) => {
+      let n = it.file.name; if(used.has(n)) n = `${i + 1}_${n}`; used.add(n);
+      zip.file(n, it.file);
+    });
+    const blob = await zip.generateAsync({ type: "blob", compression: "STORE" },
+      m => { $("barFill").style.width = Math.round(m.percent * 0.3) + "%"; });
+
+    // Step 2: ek hi file upload
+    let ok = false;
+    for(const p of providers){
+      try{
+        setStatus("Upload ho raha hai… ⏳");
+        finalLink = await p.run(blob, "photos-videos.zip", r => {
+          $("barFill").style.width = Math.round(30 + r * 70) + "%";
+          setStatus(`Upload ho raha hai… ${Math.round(r * 100)}% ⏳`);
+        });
+        $("note").textContent = p.note; ok = true; break;
+      }catch(e){}
+    }
+    if(!ok) throw new Error("upload");
+    $("barFill").style.width = "100%";
+    $("shareLink").href = finalLink; $("shareLink").textContent = finalLink;
+    $("shareBtn").style.display = navigator.share ? "block" : "none";
+    $("done").style.display = "block";
+    setStatus("Ho gaya! ✅", "ok");
   }catch(e){
-    if(e && e.name === "AbortError") return;
-    setStatus("Is device par seedha share nahi ho paya. Upload wala option use karo.", "err");
+    $("bar").style.display = "none";
+    setStatus("Fail hua. Internet check karo, files kam karo aur dobara try karo.", "err");
   }
+  busy = false; render();
 };
+
+$("copyBtn").onclick = async () => {
+  try{ await navigator.clipboard.writeText(finalLink); setStatus("Link copy ho gaya! Ab WhatsApp pe bhej do 👍", "ok"); }
+  catch{ setStatus("Copy nahi hua, link dabake copy karo.", "err"); }
+};
+$("shareBtn").onclick = () => navigator.share({ title: "Meri photos aur videos", url: finalLink }).catch(() => {});
 render();
 </script>
 </body>
-</html>
+  </html>
+  
