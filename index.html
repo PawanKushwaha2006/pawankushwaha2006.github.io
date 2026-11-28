@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -708,7 +709,12 @@ footer p {
 <body>
 
 <!-- NAVBAR -->
-""
+
+
+
+
+
+
 <nav class="navbar">
 
   <a href="#" class="logo">MY<span>WEBSITE.</span></a>
@@ -795,8 +801,8 @@ footer p {
         <h3>24/7</h3>
         <p>Available</p>
       </div>
-  </div>
-  
+    </div>
+
   </div>
 </header>
 
@@ -1559,4 +1565,130 @@ function searchTools() {
 
   sections.forEach(section => {
 
-    const cards = section.querySelectorAll(".tool-
+    const cards = section.querySelectorAll(".tool-card");
+
+    let visible = 0;
+
+    cards.forEach(card => {
+
+      const match = !query ||
+        card.dataset.search.includes(query);
+
+      card.style.display = match ? "block" : "none";
+
+      if(match) {
+        found++;
+        visible++;
+      }
+
+    });
+
+    section.style.display = visible ? "block" : "none";
+
+  });
+
+  document.getElementById("empty").style.display =
+    found ? "none" : "block";
+
+  // Hide quick access while searching.
+  document.getElementById("favoritesSection").style.display =
+    query ? "none" : "block";
+
+  document.getElementById("recentSection").style.display =
+    query ? "none" : "block";
+
+}
+
+document.getElementById("searchInput")
+  .addEventListener("input",searchTools);
+
+
+/* =====================================
+   10. TOOL COUNT
+===================================== */
+
+let totalTools = categories.reduce(
+  (total,category) => total + category.tools.length,
+  0
+);
+
+document.getElementById("toolCount").textContent =
+  totalTools + "+";
+
+
+/* =====================================
+   11. INITIALIZE
+===================================== */
+
+renderFavourites();
+
+renderRecent();
+
+updateAllHearts();
+
+</script>
+<!-- LOGIN POPUP -->
+<div id="loginPopup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:999;place-items:center;">
+  <div style="background:#18221c;border:1px solid #2d4033;border-radius:18px;padding:24px;width:92%;max-width:360px;text-align:center;position:relative;">
+    <button onclick="closeLogin()" style="position:absolute;right:12px;top:10px;background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
+    <h2 style="font-family:Outfit;">Welcome! 👋</h2>
+    <p style="color:#9ba99e;font-size:12px;margin:8px 0 18px;line-height:1.6;">Apne Gmail se login karo<br>taaki Favourites aur Recently Used save rahe</p>
+    
+    <div id="g_id_onload"
+         data-client_id="361501080894-vt06gebvjic4glfuk2g574fksiee39ou.apps.googleusercontent.com"
+         data-callback="handleGoogleLogin"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="filled_black" data-text="sign_in_with" data-shape="pill" data-logo_alignment="left" style="display:flex;justify-content:center;"></div>
+    
+    <p style="font-size:10px;color:#666;margin-top:14px;">Password kabhi nahi manga jayega.<br>Sirf Naam + Email + Photo milega.</p>
+  </div>
+</div>
+
+<script>
+/* ===== GOOGLE LOGIN ===== */
+function openLogin(){
+  document.getElementById("loginPopup").style.display="grid";
+}
+function closeLogin(){
+  document.getElementById("loginPopup").style.display="none";
+}
+function handleGoogleLogin(response){
+  let data = JSON.parse(atob(response.credential.split('.')[1]));
+  let user = {name:data.name, email:data.email, pic:data.picture};
+  localStorage.setItem("mywebsite_user", JSON.stringify(user));
+  closeLogin();
+  showUserUI();
+  alert("Welcome " + user.name + "! Login ho gaya ✅");
+}
+function showUserUI(){
+  let saved = localStorage.getItem("mywebsite_user");
+  if(saved){
+    let u = JSON.parse(saved);
+    document.getElementById("loginBtnArea").style.display="none";
+    document.getElementById("userArea").style.display="flex";
+    document.getElementById("userPic").src = u.pic;
+  } else {
+    document.getElementById("loginBtnArea").style.display="block";
+    document.getElementById("userArea").style.display="none";
+  }
+}
+function logoutUser(){
+  localStorage.removeItem("mywebsite_user");
+  showUserUI();
+  alert("Logout ho gaya!");
+}
+function openProfile(){
+  let u = JSON.parse(localStorage.getItem("mywebsite_user"));
+  alert("👤 " + u.name + "\n📧 " + u.email + "\n\nTumhara account login hai!");
+}
+showUserUI();
+</script>
+</body>
+</html>
+  
+
+
+
+
+   
