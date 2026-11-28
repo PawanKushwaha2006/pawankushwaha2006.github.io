@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#101713">
 <title>My Website - All In One Tools</title>
@@ -708,7 +708,7 @@ footer p {
 <body>
 
 <!-- NAVBAR -->
-
+""
 <nav class="navbar">
 
   <a href="#" class="logo">MY<span>WEBSITE.</span></a>
@@ -724,13 +724,26 @@ footer p {
     <a href="#others">🛠️ Other Tools</a>
   </div>
 
-  <div class="nav-actions">
-    <button class="icon-btn" id="themeBtn"
+  <!--div class="nav-actions"-->
+    <div class="nav-actions">
+  <!-- LOGIN BUTTON -->
+  <div id="loginBtnArea">
+    <button class="icon-btn" id="loginBtn" onclick="openLogin()" style="width:auto;padding:0 14px;font-size:12px;font-weight:700;background:#ff793f;color:#fff;border-color:#ff793f;">🔑 Login</button>
+  </div>
+  <div id="userArea" style="display:none;align-items:center;gap:8px;">
+    <img id="userPic" src="" style="width:38px;height:38px;border-radius:50%;border:2px solid #69c58a;cursor:pointer" onclick="openProfile()">
+    <button class="icon-btn" onclick="logoutUser()" style="width:auto;padding:0 12px;font-size:11px;">Logout</button>
+  </div>
+
+  <button class="icon-btn" id="themeBtn" onclick="toggleTheme()">☀️</button>
+  <button class="icon-btn menu-btn" onclick="toggleMenu()">☰</button>
+</div>
+    <!--button class="icon-btn" id="themeBtn"
       onclick="toggleTheme()" aria-label="Change theme">☀️</button>
 
     <button class="icon-btn menu-btn"
       onclick="toggleMenu()" aria-label="Open menu">☰</button>
-  </div>
+  </div-->
 
 </nav>
 
@@ -782,8 +795,8 @@ footer p {
         <h3>24/7</h3>
         <p>Available</p>
       </div>
-    </div>
-
+  </div>
+  
   </div>
 </header>
 
@@ -1546,69 +1559,4 @@ function searchTools() {
 
   sections.forEach(section => {
 
-    const cards = section.querySelectorAll(".tool-card");
-
-    let visible = 0;
-
-    cards.forEach(card => {
-
-      const match = !query ||
-        card.dataset.search.includes(query);
-
-      card.style.display = match ? "block" : "none";
-
-      if(match) {
-        found++;
-        visible++;
-      }
-
-    });
-
-    section.style.display = visible ? "block" : "none";
-
-  });
-
-  document.getElementById("empty").style.display =
-    found ? "none" : "block";
-
-  // Hide quick access while searching.
-  document.getElementById("favoritesSection").style.display =
-    query ? "none" : "block";
-
-  document.getElementById("recentSection").style.display =
-    query ? "none" : "block";
-
-}
-
-document.getElementById("searchInput")
-  .addEventListener("input",searchTools);
-
-
-/* =====================================
-   10. TOOL COUNT
-===================================== */
-
-let totalTools = categories.reduce(
-  (total,category) => total + category.tools.length,
-  0
-);
-
-document.getElementById("toolCount").textContent =
-  totalTools + "+";
-
-
-/* =====================================
-   11. INITIALIZE
-===================================== */
-
-renderFavourites();
-
-renderRecent();
-
-updateAllHearts();
-
-</script>
-
-</body>
-</html>
-  
+    const cards = section.querySelectorAll(".tool-
